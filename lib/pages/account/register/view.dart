@@ -1,8 +1,15 @@
+import 'dart:typed_data';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/register/logic.dart';
 import 'package:kkguoji/pages/account/register/segment_contrl_view.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/custom_input_field.dart';
+import 'package:kkguoji/widget/show_toast.dart';
+
+import '../../../routes/routes.dart';
 
 
 class KKRegisterPage extends StatefulWidget {
@@ -68,7 +75,9 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                           }, controller.isAccount.value);
                         }),
                         const SizedBox(height: 30,),
-                        CustomInputField("assets/images/account_icon.png", "请输入用户名",),
+                        CustomInputField("assets/images/account_icon.png", "请输入用户名", valueChanged: (value){
+                          controller.inputAccountValue(value);
+                        },),
                         const SizedBox(height: 20,),
                         Obx(() {
                          return CustomInputField("assets/images/password_icon.png", "请输入密码",
@@ -78,7 +87,9 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                               onTap: () {
                                 controller.showPassword();
                               },
-                            ),);
+                            ), valueChanged: (value){
+                             controller.inputPasswordValue(value);
+                           },);
                         }),
                         const SizedBox(height: 20,),
                         Obx(() {
@@ -92,10 +103,38 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                               },
 
 
-                            ),);
+                            ), valueChanged: (value){
+                              controller.inputVerPasswordValue(value);
+                            },);
                         }),
                         const SizedBox(height: 20,),
-                        CustomInputField("assets/images/invite_icon.png", "请输入邀请码（选填）",),
+                        CustomInputField("assets/images/invite_icon.png", "请输入邀请码（选填）", valueChanged: (value){
+                          controller.inputInviteCodeValue(value);
+                        },),
+                        const SizedBox(height: 20,),
+                        Obx(() {
+                         return CustomInputField("assets/images/ver_code.png", "请输入验证码", valueChanged: (value){
+                            controller.inputVerCodeValue(value);
+                          }, rightWidget: controller.isAccount.value ? GestureDetector(
+                           child: SizedBox(
+                               width: 80,
+                               child: Center(
+                                 child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
+                               )
+                           ), onTap: () {
+                           controller.getVerCode();
+                         },
+                         ):GestureDetector(
+                           child: const SizedBox(
+                               width: 110,
+                               child: Center(
+                                 child: Text("发送验证码", style: TextStyle(color: Colors.white, fontSize: 15),),
+                               )
+                           ), onTap: () {
+                           controller.sendCodeToEmail();
+                         },
+                         ));
+                        }),
                         const SizedBox(height: 25,),
                         Obx(() {
                           return GestureDetector(
@@ -106,23 +145,29 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                 "assets/images/privacy_btn_normal.png",
                                   width: 14, height: 14,),
                                 const SizedBox(width: 5,),
-                                RichText(text: const TextSpan(
+                                RichText(text: TextSpan(
                                     children: [
-                                      TextSpan(
+                                      const TextSpan(
                                         text: "我已阅读并同意",
                                         style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
                                       ),
                                       TextSpan(
                                         text: "相关条款",
-                                        style: TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
+                                        style: const TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
+                                        recognizer: TapGestureRecognizer()..onTap = (){
+
+                                        }
                                       ),
-                                      TextSpan(
+                                      const TextSpan(
                                         text: "和",
                                         style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
                                       ),
                                       TextSpan(
                                         text: "隐私政策",
-                                        style: TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
+                                        style: const TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
+                                          recognizer: TapGestureRecognizer()..onTap = (){
+
+                                          }
                                       )
                                     ],
                                   )) ,
@@ -148,7 +193,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                   minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50))
                               ),
                               onPressed: (){
-
+                                 controller.clickRegisterBtn();
                               }, child: Text("立即注册", style: TextStyle(fontSize: 14,
                                 color: controller.isCanRegister.value ? Colors.white
                                     :const Color(0xFFB2B3BD))),),
@@ -183,7 +228,23 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                             TextButton(onPressed: (){}, child:Image.asset("assets/images/telegram.png", width: 40, height: 40,) )
 
                           ],
-                        )
+                        ),
+                        const SizedBox(height: 35,),
+                        RichText(text: TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: "已有账号？",
+                              style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
+                            ),
+                            TextSpan(
+                                text: "去登录",
+                                style: const TextStyle(color: Colors.white, fontSize: 14.0),
+                                recognizer: TapGestureRecognizer()..onTap = (){
+                                  RouteUtil.pushToView(Routes.loginPage, offLast: true);
+                                }
+                            ),
+                          ],
+                        ))
                       ],
                     ),
                   )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
 import 'package:kkguoji/pages/activity_page.dart';
 import 'package:kkguoji/pages/games_page.dart';
@@ -8,12 +9,16 @@ import 'package:kkguoji/pages/home_page.dart';
 import 'package:kkguoji/pages/mine_page.dart';
 import 'package:kkguoji/pages/rechange_page.dart';
 import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/utils/sqlite_util.dart';
 
 import 'generated/l10n.dart';
+import '../utils/app_util.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,6 +26,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    APPUtil();
+    SqliteUtil.perInit();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       locale: const Locale('zh', 'CN'),
@@ -42,7 +49,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       getPages: Routes.routePage,
-      home: KKRegisterPage(),
+      home: const KKRegisterPage(),
     );
   }
 }

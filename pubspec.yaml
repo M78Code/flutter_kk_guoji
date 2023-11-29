@@ -33,6 +33,10 @@ dependencies:
 
   get:
   dio: ^4.0.0
+  device_info_plus: ^9.1.1
+  fluttertoast: ^8.2.4
+  package_info_plus: ^4.2.0
+  shared_preferences: ^2.2.2
   flutter_localizations:
     sdk: flutter
 

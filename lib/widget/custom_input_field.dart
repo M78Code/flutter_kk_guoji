@@ -26,8 +26,12 @@ class CustomInputField extends StatelessWidget {
            ),
            Expanded(child: TextField(
              decoration: InputDecoration(
+               contentPadding: const EdgeInsets.all(0),
                hintText: hintText,
-               border: InputBorder.none,
+               border: const OutlineInputBorder(
+                 borderSide: BorderSide.none
+               ),
+                 // borderSide: BorderSide.none
                hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
              ),
              textAlign: TextAlign.start,
