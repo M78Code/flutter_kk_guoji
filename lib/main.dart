@@ -5,7 +5,7 @@ import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
 import 'package:kkguoji/pages/activity_page.dart';
 import 'package:kkguoji/pages/games_page.dart';
-import 'package:kkguoji/pages/home_page.dart';
+import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/mine_page.dart';
 import 'package:kkguoji/pages/rechange_page.dart';
 import 'package:kkguoji/routes/routes.dart';
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       getPages: Routes.routePage,
-      home: const KKRegisterPage(),
+      home: const KKHomePage(),
     );
   }
 }
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     BottomNavigationBarItem( label:"我的",icon: Image.asset("assets/images/tabbar_mine_normal.png",width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_mine_selected.png",width: 35, height: 35))
   ];
 
-  final List _pages = [const HomePage(), const GamesPage(), const RechangePage(),const ActivityPage(),const MinePage()];
+  final List _pages = [const KKHomePage(), const GamesPage(), const RechangePage(),const ActivityPage(),const MinePage()];
 
   @override
   Widget build(BuildContext context) {
