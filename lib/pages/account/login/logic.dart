@@ -15,5 +15,4 @@ class LoginLogic extends GetxController {
   clickSavePasswordBtn() {
     savePassword.value = !savePassword.value;
   }
-
 }

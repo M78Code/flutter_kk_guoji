@@ -34,6 +34,7 @@ dependencies:
   get:
   dio: ^4.0.0
   device_info_plus: ^9.1.1
+  flutter_screenutil: ^5.9.0
   fluttertoast: ^8.2.4
   package_info_plus: ^4.2.0
   shared_preferences: ^2.2.2
@@ -72,7 +73,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-
+    - assets/images/games/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

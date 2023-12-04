@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
 import 'package:kkguoji/pages/activity_page.dart';
-import 'package:kkguoji/pages/games_page.dart';
+import 'package:kkguoji/pages/games/games_page.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/mine_page.dart';
 import 'package:kkguoji/pages/rechange_page.dart';
@@ -28,29 +29,33 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     APPUtil();
     SqliteUtil.perInit();
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      locale: const Locale('zh', 'CN'),
-      fallbackLocale: Get.deviceLocale,
-      theme: ThemeData(
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(color:  Color(0xFF171A26), titleTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFF161D26)),
-        scaffoldBackgroundColor: const Color(0xFF171A26),
-        canvasColor: const Color(0xFF171A26),
-        primaryColor: const Color(0xFF171A26)
-      ),
-      defaultTransition: Transition.cupertino,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        S.delegate
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      getPages: Routes.routePage,
-      home: const KKHomePage(),
-    );
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, child) {
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        locale: const Locale('zh', 'CN'),
+        fallbackLocale: Get.deviceLocale,
+        theme: ThemeData(
+            useMaterial3: true,
+            appBarTheme: const AppBarTheme(color:  Color(0xFF171A26), titleTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFF161D26)),
+            scaffoldBackgroundColor: const Color(0xFF171A26),
+            canvasColor: const Color(0xFF171A26),
+            primaryColor: const Color(0xFF171A26)
+        ),
+        defaultTransition: Transition.cupertino,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          S.delegate
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        getPages: Routes.routePage,
+        home: const MyHomePage(title: ''),
+      );
+    });
   }
 }
 
@@ -77,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     BottomNavigationBarItem( label:"我的",icon: Image.asset("assets/images/tabbar_mine_normal.png",width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_mine_selected.png",width: 35, height: 35))
   ];
 
-  final List _pages = [const KKHomePage(), const GamesPage(), const RechangePage(),const ActivityPage(),const MinePage()];
+  final List _pages = [const KKHomePage(), const KKGamesPage(), const RechangePage(),const ActivityPage(),const MinePage()];
 
   @override
   Widget build(BuildContext context) {
