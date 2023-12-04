@@ -1,8 +1,9 @@
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
-class KKHomeRealWidget extends StatelessWidget {
-  const KKHomeRealWidget({super.key});
+class KKHomeSportsWidget extends StatelessWidget {
+  const KKHomeSportsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +17,8 @@ class KKHomeRealWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("KK真人", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 13),),
-                Text("热门视讯台桌", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
+                Text("KK体育", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 13),),
+                Text("热门赛事推荐", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
               ],
             ),
             Row(
@@ -38,11 +39,11 @@ class KKHomeRealWidget extends StatelessWidget {
             itemCount: 5, itemBuilder: (BuildContext context, int index) {
             return Column(
               children: [
-                _buildItem("assets/images/home_jingdianbaijiale.png", "经典百家乐", "120人在玩"),
+                _buildItem("assets/images/home_football.png", "足球", "120人在玩"),
                 const SizedBox(height: 10,),
-                _buildItem("assets/images/home_jingdianbaijiale.png", "经典百家乐", "120人在玩"),
+                _buildItem("assets/images/home_football.png", "篮球", "120人在玩"),
                 const SizedBox(height: 10,),
-                _buildItem("assets/images/home_jingdianbaijiale.png", "经典百家乐", "120人在玩"),
+                _buildItem("assets/images/home_football.png", "网球", "120人在玩"),
               ],
             );
           },
@@ -53,7 +54,6 @@ class KKHomeRealWidget extends StatelessWidget {
       ],
     );
   }
-
 
   Widget _buildItem(String imageStr, String nameTime,  String peropleCount) {
     return Container(
@@ -75,5 +75,4 @@ class KKHomeRealWidget extends StatelessWidget {
       ),
     );
   }
-
 }

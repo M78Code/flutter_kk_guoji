@@ -1,17 +1,22 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kkguoji/pages/home/logic/logic.dart';
 import 'package:kkguoji/pages/home/view/home_balance_widget.dart';
 import 'package:kkguoji/pages/home/view/home_games_widget.dart';
 import 'package:kkguoji/pages/home/view/home_marquee_widget.dart';
 import 'package:kkguoji/pages/home/view/home_real_widget.dart';
+import 'package:kkguoji/pages/home/view/home_sports_widget.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/home_top_widget.dart';
 
-class KKHomePage extends StatelessWidget {
-  const KKHomePage({super.key});
+class KKHomePage extends GetView<HomeLogic> {
+
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HomeLogic>();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -20,30 +25,39 @@ class KKHomePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 280,
-                    width: double.infinity,
-                    child: Swiper(
-                      autoplayDisableOnInteraction:false,
-                      autoplay: true,
-                      itemCount: 5, itemBuilder: (BuildContext context, int index) {
-                      return Image.network("https://up.enterdesk.com/edpic_source/ca/73/ea/ca73ea60818bd7104fc916dc1a6b7bb8.jpg", fit: BoxFit.fill,);
-                    },
-                      pagination: const SwiperPagination(), ),
-                  ),
+                  Obx(() {
+                    return SizedBox(
+                      height: 280,
+                      width: double.infinity,
+                      child: Swiper(
+                        autoplayDisableOnInteraction:false,
+                        autoplay: true,
+                        itemCount: controller.bannerList.length, itemBuilder: (BuildContext context, int index) {
+                        Map bannerInfo = controller.bannerList.value[index];
+                        if(bannerInfo.isNotEmpty) {
+                          return Image.network(bannerInfo["image"], fit: BoxFit.cover,);
+                        }else {
+                          return Container();
+                        }
+                      },
+                        pagination: const SwiperPagination(), ),
+                    );
+                  }),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: const Column(
+                    child:  Column(
                       children: [
-                        KKHomeMarqueeWidget(),
+                        Obx(() => KKHomeMarqueeWidget(controller.marqueeStr.value),),
                         //余额 存款 取款
                         KKHomeBalanceWidget(),
 
                         KKHomeGamesWidget(),
 
-                        KKHomeTicketWidget(),
+                        Obx(() => KKHomeTicketWidget(controller.ticketList.value)),
 
                         KKHomeRealWidget(),
+
+                        KKHomeSportsWidget(),
                         // Container(
                         //   height: 83,
                         //   width: double.infinity,

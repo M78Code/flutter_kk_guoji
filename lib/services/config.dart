@@ -6,6 +6,10 @@ class HttpConfig {
   static const registerByAccount = "/api/public/register_account";
   static const sendCodeToEmail = "/api/public/sendEmailCode";
   static const registerByEmail = "/api/public/register_email";
+  static const getMarqueeNotice = "/api/public/getMarqueeNotice";
+  static const getJCPGameList = "/api/game/getJCPGameList";
+  static const getBannerList = "/api/page/getBanner";
+
 
 
 }
