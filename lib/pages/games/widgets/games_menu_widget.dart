@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/extension/index.dart';
+import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/pages/games/games_logic.dart';
 
 import '../../../generated/assets.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/extension/index.dart';
+import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/games/games_logic.dart';
 import './widgets/index.dart';
@@ -36,6 +36,19 @@ class _GamesPageGetX extends GetView<GamesLogic> {
 
   @override
   Widget build(BuildContext context) {
+    LayoutBuilder(
+      builder: (context, constraints) {
+        return FittedBox(
+          child: ConstrainedBox(
+            constraints: constraints.copyWith(
+              //让 maxWidth 使用屏幕宽度
+                maxWidth: constraints.maxWidth
+            ),
+            child: card(),
+          ),
+        );
+      },
+    );
     return SafeArea(
       child: Scaffold(
         body:Stack(
