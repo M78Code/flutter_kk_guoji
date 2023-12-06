@@ -4,12 +4,14 @@ import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_request.dart';
 import 'dart:core';
 
+import 'package:kkguoji/utils/websocket_util.dart';
+
 class HomeLogic extends GetxController {
 
   final RxString marqueeStr = "".obs;
   final RxList bannerList = [].obs;
   final RxList ticketList = [].obs;
-  final RxMap imageMap = {
+  Map imageMap = {
     "XGLHC":{"bg_icon":"assets/images/home_xianggangliuhecai.png", "logo_icon":"assets/images/home_liuhecai_icon.png"},
     "PCNN":{"bg_icon":"assets/images/home_pcniuniu.png", "logo_icon":"assets/images/home_pcniuniu_icon.png"},
     "PCBJL":{"bg_icon":"assets/images/home_pcbaijiale.png", "logo_icon":"assets/images/home_pcbaijiale_icon.png"},
@@ -18,9 +20,14 @@ class HomeLogic extends GetxController {
     "JNDWP":{"bg_icon":"assets/images/home_jianadawangpan.png", "logo_icon":"assets/images/home_jianadawangpan_icon.png"},
     "JNDEB":{"bg_icon":"assets/images/home_jianada28.png", "logo_icon":"assets/images/home_jianada28_icon.png"},
     "JNDSSC":{"bg_icon":"assets/images/home_jianadashishicai.png", "logo_icon":"assets/images/home_jianadashishicai_icon.png"},
+    "JNDLHC":{"bg_icon":"assets/images/home_xianggangliuhecai.png", "logo_icon":"assets/images/home_liuhecai_icon.png"},
 
 
-  }.obs;
+
+  };
+  Map statesMap = {"0":"未开奖", "2":"已开奖", "4":"封盘中", "9":"未开盘"};
+  final RxMap ticketInfo = {}.obs;
+  final RxMap haveTimeMap = {}.obs;
 
   @override
   void onInit() async{
@@ -43,7 +50,7 @@ class HomeLogic extends GetxController {
       if(data.isNotEmpty) {
        List newData = data.where((element) {
           String lotteryCode = element["lotteryCode"];
-          return lotteryCode != "HXEB"  && lotteryCode != "QXC";
+          return lotteryCode != "HXEB"  && lotteryCode != "QXC" && lotteryCode != "JNDLHC" && lotteryCode != "PLS";
         }).toList();
        List ticketList = constructList(2, newData);
        this.ticketList.value = ticketList;
@@ -62,6 +69,15 @@ class HomeLogic extends GetxController {
     if(bannerResult["code"] == 200) {
       bannerList.value = bannerResult["data"];
     }
+  }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+    WebSocketUtil().listenTicketMessage((msg) {
+      ticketInfo.value = msg;
+    });
   }
 
   List constructList(int len, List list) {

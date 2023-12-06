@@ -14,12 +14,16 @@ import 'package:kkguoji/pages/mine_page.dart';
 import 'package:kkguoji/pages/rechange_page.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
+import 'package:kkguoji/utils/websocket_util.dart';
 
 import 'generated/l10n.dart';
 import '../utils/app_util.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  APPUtil();
+  SqliteUtil.perInit();
+  WebSocketUtil().connetSocket();
   runApp(const MyApp());
 }
 
@@ -30,8 +34,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    APPUtil();
-    SqliteUtil.perInit();
 
     return ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -41,12 +43,14 @@ class MyApp extends StatelessWidget {
             locale: const Locale('zh', 'CN'),
             fallbackLocale: Get.deviceLocale,
             theme: ThemeData(
-                useMaterial3: true,
-                appBarTheme: const AppBarTheme(color:  Color(0xFF171A26), titleTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
-                bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFF161D26)),
-                scaffoldBackgroundColor: const Color(0xFF171A26),
-                canvasColor: const Color(0xFF171A26),
-                primaryColor: const Color(0xFF171A26)
+              useMaterial3: true,
+              appBarTheme: const AppBarTheme(color:  Color(0xFF171A26), titleTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+              // bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFF161D26)),
+              scaffoldBackgroundColor: const Color(0xFF171A26),
+              canvasColor: const Color(0xFF171A26),
+              primaryColor: const Color(0xFF171A26),
+              highlightColor: const Color.fromRGBO(0, 0, 0, 0),
+              splashColor: const Color.fromRGBO(0, 0, 0, 0),
             ),
             defaultTransition: Transition.cupertino,
             localizationsDelegates: const [
@@ -61,5 +65,6 @@ class MyApp extends StatelessWidget {
             home: KKMainPage(),
           );
         });
+
   }
 }
