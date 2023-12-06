@@ -9,6 +9,7 @@ class HttpConfig {
   static const getMarqueeNotice = "/api/public/getMarqueeNotice";
   static const getJCPGameList = "/api/game/getJCPGameList";
   static const getBannerList = "/api/page/getBanner";
+  static const login = "/api/public/login";
 
 
 

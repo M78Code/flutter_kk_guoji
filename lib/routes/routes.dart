@@ -13,8 +13,8 @@ abstract class Routes {
 
   static final List<GetPage> routePage = [
 
-    GetPage(name: loginPage, page: ()=> const KKLoginPage()),
-    GetPage(name: registerPage, page: ()=> const KKRegisterPage()),
+    GetPage(name: loginPage, page: ()=> const KKLoginPage(),transition: Transition.downToUp),
+    GetPage(name: registerPage, page: ()=> const KKRegisterPage(), transition: Transition.downToUp),
     GetPage(name: homePage, page: ()=> KKHomePage(), binding: HomeBinding())
   ];
 }

@@ -1,4 +1,6 @@
 
+import 'dart:typed_data';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,7 +55,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
                       width: 50,
                       height: 50,
                       child: TextButton(onPressed: (){
-
+                       RouteUtil.popView();
                       }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
                     )
                   ],
@@ -64,7 +66,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
                     children: [
                       Image.asset("assets/images/regist_top_logo.png", width: 163, height: 45,),
                       const SizedBox(height: 60,),
-                      CustomInputField("assets/images/account_icon.png", "请输入用户名",),
+                      CustomInputField("assets/images/account_icon.png", "请输入用户名", valueChanged: (value) => controller.inputAccountValue(value)),
                       const SizedBox(height: 20,),
                       Obx(() {
                         return CustomInputField("assets/images/password_icon.png", "请输入密码",
@@ -74,10 +76,24 @@ class _KKLoginPageState extends State<KKLoginPage> {
                             onTap: () {
                               controller.showPassword();
                             },
-                          ),);
+                          ),
+                            valueChanged: (value) => controller.inputPasswordValue(value));
                       }),
                       const SizedBox(height: 20,),
-                      CustomInputField("assets/images/ver_code.png", "请输入验证码（选填）",),
+                      Obx(() {
+                        return CustomInputField("assets/images/ver_code.png", "请输入验证码", valueChanged: (value){
+                          controller.inputVerCodeValue(value);
+                        }, rightWidget: GestureDetector(
+                          child: SizedBox(
+                              width: 80,
+                              child: Center(
+                                child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
+                              )
+                          ), onTap: () {
+                          controller.getVerCode();
+                           },
+                        ));
+                      }),
                       const SizedBox(height: 15,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,7 +154,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                 minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50))
                             ),
                             onPressed: (){
-
+                                controller.clickLoginBtn();
                             }, child: Text("立即登录", style: TextStyle(fontSize: 14,
                               color: controller.canLogin.value ? Colors.white
                                   :const Color(0xFFB2B3BD))),),
