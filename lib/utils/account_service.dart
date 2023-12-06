@@ -1,7 +1,9 @@
 
 import 'package:kkguoji/utils/sqlite_util.dart';
 
+import '../base/logic/gloabal_state_controller.dart';
 import '../services/cache_key.dart';
+import 'package:get/get.dart';
 
 class AccountService {
   // 如果一个函数的构造方法并不总是返回一个新的对象的时候，可以使用factory，
@@ -16,6 +18,9 @@ class AccountService {
   // 静态变量_instance，存储唯一对象
   static AccountService? _instance;
   bool? _isLogin;
+
+  final globalController = Get.find<GlobalStateController>();
+
 
 
   // 私有的命名式构造方法，通过它可以实现一个类可以有多个构造函数，
@@ -32,7 +37,6 @@ class AccountService {
   }
 
   bool get isLogin {
-
       if(SqliteUtil().getString(CacheKey.apiToken) != null) {
          _isLogin = true;
       }else {

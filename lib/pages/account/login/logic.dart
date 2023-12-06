@@ -1,5 +1,6 @@
 
 import 'package:get/get.dart';
+import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'dart:math';
 
 import 'package:kkguoji/services/cache_key.dart';
@@ -14,6 +15,8 @@ class LoginLogic extends GetxController {
   final RxBool psdObscure = true.obs;
   final RxBool savePassword = false.obs;
   final RxBool canLogin  = false.obs;
+
+  final globalController = Get.find<GlobalStateController>();
 
 
   final RxList<int> verCodeImageBytes = RxList<int>();
@@ -92,6 +95,7 @@ class LoginLogic extends GetxController {
         HttpConfig.login, method: "post", params: params);
     if (result["code"] == 200) {
       ShowToast.showToast("登录成功");
+      globalController.isLogin.value = true;
       SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
       SqliteUtil().setString(CacheKey.accountKey, accountText);
       if(savePassword.value) {

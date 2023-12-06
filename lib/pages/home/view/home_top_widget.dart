@@ -2,13 +2,16 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'package:kkguoji/utils/account_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
 import '../../../routes/routes.dart';
 
 class KKHomeTopWidget extends StatelessWidget {
-  const KKHomeTopWidget({super.key});
+  bool isLogin;
+  KKHomeTopWidget(this.isLogin, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class KKHomeTopWidget extends StatelessWidget {
             Row(
               mainAxisAlignment:MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: AccountService().isLogin ? [
+              children: isLogin ? [
                 SizedBox(
                     width: 33,
                     height: 33,
