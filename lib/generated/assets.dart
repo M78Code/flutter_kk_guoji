@@ -32,6 +32,7 @@ class Assets {
   static const String gamesRealWheelBaijiale = 'assets/images/games/real_wheel_baijiale.png';
   static const String gamesSupport = 'assets/images/games/support.png';
   static const String imagesAccountIcon = 'assets/images/account_icon.png';
+  static const String imagesActivity = 'assets/images/activity.png';
   static const String imagesBackNormal = 'assets/images/back_normal.png';
   static const String imagesCodeIcon = 'assets/images/code_icon.png';
   static const String imagesFacebook = 'assets/images/facebook.png';

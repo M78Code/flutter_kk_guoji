@@ -23,27 +23,6 @@ class GamesItemsWidget extends StatelessWidget {
     return _buildView();
   }
 
-  Widget _buildItem(String imageStr, String nameTime,  String peropleCount) {
-    return Container(
-      width: double.infinity,
-      height: 123,
-      decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage(imageStr), fit: BoxFit.cover),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      padding: const EdgeInsets.only(left: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(nameTime, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900),),
-          Text(peropleCount, style: const TextStyle(color: Colors.white, fontSize: 12),),
-
-        ],
-      ),
-    );
-  }
-
   Widget _buildView() {
     return Column(
       children: [

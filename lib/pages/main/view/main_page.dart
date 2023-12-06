@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kkguoji/pages/games/games_page.dart';
 
-import '../../activity_page.dart';
+import '../../activity/activity_page.dart';
 import '../../home/view/home_page.dart';
 import '../../mine_page.dart';
 import '../../rechange_page.dart';

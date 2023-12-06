@@ -36,19 +36,6 @@ class _GamesPageGetX extends GetView<GamesLogic> {
 
   @override
   Widget build(BuildContext context) {
-    LayoutBuilder(
-      builder: (context, constraints) {
-        return FittedBox(
-          child: ConstrainedBox(
-            constraints: constraints.copyWith(
-              //让 maxWidth 使用屏幕宽度
-                maxWidth: constraints.maxWidth
-            ),
-            child: card(),
-          ),
-        );
-      },
-    );
     return SafeArea(
       child: Scaffold(
         body:Stack(
@@ -72,19 +59,6 @@ class _GamesPageGetX extends GetView<GamesLogic> {
         ),
       ),
     );
-  }
-
-  Container _buildFloatingButton() {
-    return Container(
-        width: 46.0,
-        height: 46.0,
-        child: FloatingActionButton(
-            onPressed: () {
-
-            },
-            child: Image.asset(Assets.gamesSupport)
-        ),
-      );
   }
 
   Widget _buildView() {
