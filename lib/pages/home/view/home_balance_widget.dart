@@ -43,7 +43,6 @@ class KKHomeBalanceWidget extends StatelessWidget {
                       child: Image.asset("assets/images/home_refresh_icon.png",width: 18, height: 18,fit: BoxFit.fitWidth,),
                     ),
                   )
-
                 ],
               )
             ],
