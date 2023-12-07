@@ -35,7 +35,7 @@ class _SetinagePageState extends State<SetinagePage> {
                         color: Color.fromRGBO(255, 255, 255, 0.06),
                         width: 1))),
           ),
-          backgroundColor: const Color.fromRGBO(42, 43, 54, 1),
+          // backgroundColor: const Color.fromRGBO(42, 43, 54, 1),
           leading: IconButton(
               padding: const EdgeInsets.all(16.0),
               iconSize: 20,
@@ -44,7 +44,7 @@ class _SetinagePageState extends State<SetinagePage> {
               },
               icon: Image.asset('assets/images/back_normal.png')),
         ),
-        body: MySeting());
+        body: const MySeting());
   }
 }
 
@@ -77,7 +77,7 @@ class _MySetingState extends State<MySeting> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromRGBO(42, 43, 54, 1), // 背景颜色黑色
+      // color: const Color.fromRGBO(42, 43, 54, 1), // 背景颜色黑色
       child: Column(
         children: [
           const SizedBox(height: 42), // 顶部间距

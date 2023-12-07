@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
+import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
 
 class MinePage extends StatefulWidget {
@@ -61,6 +60,10 @@ class MyHeader extends StatelessWidget {
                     //信息
                     onPressed: () {
                       //进入消息界面
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MessageCenterPage()));
                     },
                     icon: Image.asset(
                       'assets/images/icon_inform.png',
