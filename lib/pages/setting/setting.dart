@@ -131,7 +131,7 @@ class _MySetingState extends State<MySeting> {
           ),
           const SizedBox(height: 20), // 消息通知和黑色背景view的间距
           Container(
-            height: 10,
+            height: 8,
             color: Colors.black, // 黑色背景view
           ),
           const SizedBox(height: 25), // 黑色背景view和语言设置的间距

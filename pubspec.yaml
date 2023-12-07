@@ -40,12 +40,10 @@ dependencies:
   shared_preferences: ^2.2.2
   card_swiper: ^2.0.4
   marquee: ^2.2.3
-<<<<<<< HEAD
   package_info: ^2.0.2
-=======
   web_socket_channel: ^2.4.0
   date_format: ^2.0.7
->>>>>>> bb57d72192ae8367ce5a3f57fbb7916c11c376b7
+
   flutter_localizations:
     sdk: flutter
 
