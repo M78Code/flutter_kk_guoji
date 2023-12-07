@@ -13,21 +13,39 @@ class MinePage extends StatefulWidget {
 class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return   const Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            MyHeader(), //top
-            Mypurse(),
-            SizedBox(height: 20),
-            SafeBoxWaitGridView(), //保险箱等
-            SizedBox(height: 0),
-            MyAccountInfo(), //账号信息等
-            BlackInterval(), //黑色间隔线
-            WelfareReward(), //福利奖励等
-            SizedBox(height: 20),
-            logOutBtn(), //退出登录
-            SizedBox(height: 20),
+            SizedBox(
+              height: 300,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  MyHeader(),
+                  Positioned(
+                    top: 160,
+                    left: 10,
+                    right: 10,
+                    child: Mypurse(),
+                  )
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                SizedBox(height: 20),
+                SafeBoxWaitGridView(), //保险箱等
+                SizedBox(height: 0),
+                MyAccountInfo(), //账号信息等
+                BlackInterval(), //黑色间隔线
+                WelfareReward(), //福利奖励等
+                SizedBox(height: 20),
+                logOutBtn(), //退出登录
+                SizedBox(height: 20),
+              ],
+            )
+
           ],
         ),
       ),
@@ -44,117 +62,127 @@ class MyHeader extends StatelessWidget {
       children: [
         Container(
           //背景图
-          height: 217,
+          height: 180,
           decoration: const BoxDecoration(
               image: DecorationImage(
             image: AssetImage('assets/images/icon_top_bg.png'),
             fit: BoxFit.cover,
           )),
-        ),
-        Positioned(
-            //设置、消息
-            top: 40,
-            right: 12,
-            child: Row(
-              children: [
-                IconButton(
+          child: Column(
+            children: [
+              const SizedBox(height: 40,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
                     //信息
-                    onPressed: () {
-                      //进入消息界面
-                    },
-                    icon: Image.asset(
-                      'assets/images/icon_inform.png',
-                      width: 30,
-                      height: 30,
-                    )),
-                IconButton(
+                      onPressed: () {
+                        //进入消息界面
+                      },
+                      icon: Image.asset(
+                        'assets/images/icon_inform.png',
+                        width: 30,
+                        height: 30,
+                      )),
+                  IconButton(
                     //设置
-                    onPressed: () {
-                      //进入安全设置界面
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SetinagePage()));
-                    },
-                    icon: Image.asset(
-                      'assets/images/icon_setting.png',
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.cover,
-                    )),
-              ],
-            )),
-        Positioned(
-            //头像
-            left: 16,
-            bottom: 50,
-            child: Row(
-              children: [
-                const AvatarWithVip(),
-                const SizedBox(
-                  width: 10,
-                  height: 5,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'gogo',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/icon_id.png',
-                          width: 10,
-                          height: 10,
-                        ),
-                        const SizedBox(width: 3),
-                        const Text(
-                          '123456',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                const SizedBox(width: 22),
-                GestureDetector(
-                  child: //编辑
-                      Container(
-                    width: 67,
-                    height: 25,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image:
-                                AssetImage('assets/images/icon_edit_bg.png'))),
-                    child: const Center(
-                      //文字居中
-                      child: Text(
-                        '编辑',
+                      onPressed: () {
+                        //进入安全设置界面
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SetinagePage()));
+                      },
+                      icon: Image.asset(
+                        'assets/images/icon_setting.png',
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.cover,
+                      )),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Container(padding: const EdgeInsets.only(left: 20), child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const AvatarWithVip(),
+                  const SizedBox(
+                    width: 10,
+                    height: 5,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'gogo',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 13,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600),
                         textAlign: TextAlign.center,
                       ),
-                    ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/icon_id.png',
+                            width: 10,
+                            height: 10,
+                          ),
+                          const SizedBox(width: 3),
+                          const Text(
+                            '123456',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                  onTap: () {
-                    //编辑
-                  },
-                ),
-              ],
-            )),
+                  const SizedBox(width: 22),
+                  GestureDetector(
+                    child: //编辑
+                    Container(
+                      width: 67,
+                      height: 25,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image:
+                              AssetImage('assets/images/icon_edit_bg.png'))),
+                      child: const Center(
+                        //文字居中
+                        child: Text(
+                          '编辑',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      //编辑
+                    },
+                  ),
+                ],
+              ),)
+            ],
+          ),
+        ),
+        // Positioned(
+        //     //设置、消息
+        //     top: 40,
+        //     right: 12,
+        //     child: ),
+        // Positioned(
+        //     //头像
+        //     left: 16,
+        //     bottom: 50,
+        //     child: ),
       ],
     );
   }
@@ -227,107 +255,103 @@ class Mypurse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: 12, top: 10, right: 12),
-          height: 180,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/icon_mypurse_bg.png'),
-                  fit: BoxFit.fill)),
-        ),
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 25, top: 25),
-                  child: Text(
-                    '我的钱包',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
+    return Container(
+      height: 180,
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/icon_mypurse_bg.png'),
+              fit: BoxFit.fill)
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 25, top: 25),
+                child: Text(
+                  '我的钱包',
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              ),
+              GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20, top: 25),
+                  child: Row(
+                    children: [
+                      const Text(
+                        '进入钱包',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Image.asset(
+                        'assets/images/icon_arrows_enter.png',
+                        width: 16,
+                        height: 16,
+                      ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 20, top: 25),
-                    child: Row(
-                      children: [
-                        const Text(
-                          '进入钱包',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        Image.asset(
-                          'assets/images/icon_arrows_enter.png',
-                          width: 16,
-                          height: 16,
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    print('进入钱包');
-                  },
+                onTap: () {
+                  print('进入钱包');
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            margin: const EdgeInsets.only(left: 25, right: 25),
+            child: Image.asset(
+              'assets/images/icon_dotted_line.png',
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Padding(
+            padding: EdgeInsets.only(left: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  '钱包余额',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            Container(
-              margin: const EdgeInsets.only(left: 25, right: 25),
-              child: Image.asset(
-                'assets/images/icon_dotted_line.png',
-                height: 1.5,
-              ),
+          ),
+          const SizedBox(height: 0),
+          Padding(
+            padding: const EdgeInsets.only(left: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Text(
+                  '¥88,686.00',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700),
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: Image.asset(
+                      'assets/images/icon_eye_close.png',
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ))
+              ],
             ),
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.only(left: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    '钱包余额',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 0),
-            Padding(
-              padding: const EdgeInsets.only(left: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Text(
-                    '¥88,686.00',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        'assets/images/icon_eye_close.png',
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.cover,
-                      ))
-                ],
-              ),
-            ),
-            const SizedBox(height: 0),
-            TopUpWithdrawBackwater(),
-          ],
-        ),
-      ],
+          ),
+          const SizedBox(height: 0),
+          TopUpWithdrawBackwater(),
+        ],
+      ),
     );
   }
 }
@@ -435,7 +459,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
         Container(
           margin: const EdgeInsets.only(left: 12, right: 12),
@@ -444,105 +468,106 @@ class SafeBoxWaitGridView extends StatelessWidget {
               image: DecorationImage(
                   image: AssetImage('assets/images/icon_safebox_bg.png'),
                   fit: BoxFit.cover)),
-        ),
-        GridView.count(
-          physics: const NeverScrollableScrollPhysics(), //禁止滚动
-          crossAxisCount: 4,
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(10),
-          children: [
-            // 保险箱
-            GestureDetector(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/icon_safe_box.png',
-                    width: 48,
-                    height: 48,
-                  ),
-                  const Text(
-                    '保险箱',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
+          child: GridView.count(
+            physics: const NeverScrollableScrollPhysics(), //禁止滚动
+            crossAxisCount: 4,
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(10),
+            children: [
+              // 保险箱
+              GestureDetector(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/icon_safe_box.png',
+                      width: 48,
+                      height: 48,
+                    ),
+                    const Text(
+                      '保险箱',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  print('保险箱');
+                },
               ),
-              onTap: () {
-                print('保险箱');
-              },
-            ),
 
-            // VIP
-            GestureDetector(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/icon_vip_image.png',
-                    width: 48,
-                    height: 48,
-                  ),
-                  const Text(
-                    'VIP',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
+              // VIP
+              GestureDetector(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/icon_vip_image.png',
+                      width: 48,
+                      height: 48,
+                    ),
+                    const Text(
+                      'VIP',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  print('VIP');
+                },
               ),
-              onTap: () {
-                print('VIP');
-              },
-            ),
 
-            // 返水
-            GestureDetector(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/icon_back_water.png',
-                    width: 48,
-                    height: 48,
-                  ),
-                  const Text(
-                    '返水',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
+              // 返水
+              GestureDetector(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/icon_back_water.png',
+                      width: 48,
+                      height: 48,
+                    ),
+                    const Text(
+                      '返水',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  print('返水');
+                },
               ),
-              onTap: () {
-                print('返水');
-              },
-            ),
-            // 推广赚钱
-            GestureDetector(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/icon_paid_promote.png',
-                    width: 48,
-                    height: 48,
-                  ),
-                  const Text(
-                    '推广赚钱',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-              onTap: () {
-                print('推广赚钱');
-              },
-            )
-          ],
+              // 推广赚钱
+              GestureDetector(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/icon_paid_promote.png',
+                      width: 48,
+                      height: 48,
+                    ),
+                    const Text(
+                      '推广赚钱',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  print('推广赚钱');
+                },
+              )
+            ],
+          ),
         ),
+
       ],
     );
   }
