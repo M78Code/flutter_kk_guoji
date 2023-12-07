@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/utils/app_util.dart';
+import 'package:kkguoji/utils/sqlite_util.dart';
+
+import 'cache_key.dart';
 
 class HttpRequest {
   static final BaseOptions baseOptions = BaseOptions(
@@ -24,6 +27,9 @@ class HttpRequest {
       options.queryParameters["source"] = "APP";
       if(APPUtil().getAppVersion() != null) {
         options.queryParameters["app_version"] = APPUtil().getAppVersion()!;
+      }
+      if(SqliteUtil().getString(CacheKey.apiToken) != null) {
+        options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
       }
       print(options.queryParameters);
 
