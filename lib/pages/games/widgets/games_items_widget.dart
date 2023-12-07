@@ -9,9 +9,7 @@ import 'package:kkguoji/common//extension/index.dart';
 import '../../../generated/assets.dart';
 import '../games_logic.dart';
 
-class GamesItemsWidget extends StatelessWidget {
-
-  late GamesLogic controller = Get.find<GamesLogic>();
+class GamesItemsWidget extends GetView<GamesLogic> {
 
   GamesItemsWidget({
     Key? key,
@@ -75,13 +73,13 @@ class GamesItemsWidget extends StatelessWidget {
                 [Color(0xFF279CF0), Color(0xFF3D4AF7)],
                 [Color(0xFFB027F0), Color(0xFF7C1DDA)],
                 [Color(0xFF17A62E), Color(0xFF17A62E)],
-              ][controller.currentIndex.value],
+              ][controller.currentIndex],
               stops: [0.0, 1.0],
             ),
           ),
         ),
         Text(
-            controller.menuList[controller.currentIndex.value][3],
+            controller.menuList[controller.currentIndex][3],
             style: TextStyle(color: Colors.white,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400))

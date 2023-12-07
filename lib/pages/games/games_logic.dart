@@ -1,14 +1,16 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/api/account_api.dart';
+import 'package:kkguoji/common/api/games_api.dart';
+import '../../common/models/user_money_model.dart';
 import '../../generated/assets.dart';
 
 class GamesLogic extends GetxController {
 
-  var currentIndex  = 0.obs;
+  var currentIndex  = 0;
   late PageController pageController = PageController(initialPage: 0);
-
-  late List<List<String>> dataList;
+  UserMoneyModel? userMoneyModel;
 
   final List<List<String>> menuList = [
     [Assets.gamesGamesHot, Assets.gamesGamesHotArrow,"热门","热门游戏"],
@@ -40,21 +42,41 @@ class GamesLogic extends GetxController {
     [Assets.gamesRealOmBaijiale, Assets.gamesGamesSportsArrow, ""],
   ];
 
-  switchIndex(int index) {
-    currentIndex.value = index;
-    dataList = index == 0 ? lotteryList : realList;
+  menuOntap(int index) {
+    currentIndex = index;
+    update(["menu"]);
     pageController.animateToPage(
       index,
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
-    // update(["games"]);
   }
+
+  switchIndex(int index) {
+    currentIndex = index;
+    update(["menu"]);
+  }
+  initUserMoney() async {
+    // var result = GamesApi.games();
+    UserMoneyModel? userMoney = await AccountApi.getUserMoney();
+    if (userMoney != null) {
+      userMoneyModel = userMoney;
+    }
+  }
+  initGames() async {
+    // var result = GamesApi.games();
+    // UserMoneyModel? userMoney = await GamesApi.games();
+    // if (userMoney != null) {
+    //   userMoneyModel = userMoney;
+    // }
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
 
-    dataList = lotteryList;
+
   }
+
 }

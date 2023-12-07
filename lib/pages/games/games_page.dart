@@ -10,39 +10,42 @@ class KKGamesPage extends StatefulWidget {
   const KKGamesPage({Key? key}) : super(key: key);
 
   @override
-  State<KKGamesPage> createState() => _GamesPageState();
+  State<KKGamesPage> createState() => _KKGamesPageState();
 }
 
-class _GamesPageState extends State<KKGamesPage>
+class _KKGamesPageState extends State<KKGamesPage>
     with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+
+  final GamesLogic controller = Get.find<GamesLogic>();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Get.lazyPut(() => GamesLogic());
-  }
+  bool get wantKeepAlive => true;
+  final _KKGamesPageGetX pageGetx = _KKGamesPageGetX();
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return const _GamesPageGetX();
+    return pageGetx;
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+      print("didChangeDependencies");
+      controller.initUserMoney();
   }
 }
 
-class _GamesPageGetX extends GetView<GamesLogic> {
-  const _GamesPageGetX({Key? key}) : super(key: key);
+class _KKGamesPageGetX extends GetView<GamesLogic> {
 
   @override
   Widget build(BuildContext context) {
+    // Get.put(GamesLogic());
     return SafeArea(
       child: Scaffold(
         body:Stack(
           children: [
-            Obx((){
-              return _buildView();
-            }),
+            _buildView(),
             Positioned(
               bottom: 16.w,
               right: 20.w,
