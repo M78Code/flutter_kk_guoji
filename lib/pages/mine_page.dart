@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
 
@@ -17,6 +18,7 @@ class _MinePageState extends State<MinePage> {
         child: Column(
           children: [
             MyHeader(), //top
+            Mypurse(),
             SizedBox(height: 20),
             SafeBoxWaitGridView(), //保险箱等
             SizedBox(height: 0),
@@ -225,20 +227,205 @@ class Mypurse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Positioned(
-            left: 12,
-            right: 12,
-            bottom: -30,
-            child: Container(
-              height: 111,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/icon_mypurse_bg.png'))),
-            ))
+        Container(
+          margin: const EdgeInsets.only(left: 12, top: 10, right: 12),
+          height: 180,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/icon_mypurse_bg.png'),
+                  fit: BoxFit.fill)),
+        ),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 25, top: 25),
+                  child: Text(
+                    '我的钱包',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ),
+                GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20, top: 25),
+                    child: Row(
+                      children: [
+                        const Text(
+                          '进入钱包',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        Image.asset(
+                          'assets/images/icon_arrows_enter.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    print('进入钱包');
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Container(
+              margin: const EdgeInsets.only(left: 25, right: 25),
+              child: Image.asset(
+                'assets/images/icon_dotted_line.png',
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.only(left: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    '钱包余额',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 0),
+            Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text(
+                    '¥88,686.00',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Image.asset(
+                        'assets/images/icon_eye_close.png',
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.cover,
+                      ))
+                ],
+              ),
+            ),
+            const SizedBox(height: 0),
+            TopUpWithdrawBackwater(),
+          ],
+        ),
       ],
     );
+  }
+}
+
+//充值、提现、返水
+class TopUpWithdrawBackwater extends StatelessWidget {
+  const TopUpWithdrawBackwater({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Text(
+        'www',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+    /*Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          height: 40,
+          decoration: ShapeDecoration(
+            color: const Color(0xFF2D374E),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/images/icon_top_up.png',
+                width: 25,
+                height: 25,
+              ),
+              const Text(
+                '充值',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10),
+        Container(
+          height: 40,
+          decoration: ShapeDecoration(
+            color: const Color(0xFF2D374E),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/images/icon_top_up.png',
+                width: 25,
+                height: 25,
+              ),
+              const Text(
+                '充值',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 40,
+          decoration: ShapeDecoration(
+            color: const Color(0xFF2D374E),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/images/icon_top_up.png',
+                width: 25,
+                height: 25,
+              ),
+              const Text(
+                '充值',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );*/
   }
 }
 
@@ -368,7 +555,7 @@ class MyAccountInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 22, right: 22),
+      margin: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
           ListTile(
@@ -477,7 +664,7 @@ class WelfareReward extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 22, right: 22),
+      margin: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
           ListTile(
@@ -581,9 +768,7 @@ class logOutBtn extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
       child: TextButton(
         child: Row(
-          // mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset('assets/images/icon_log_out.png',
                 width: 18, height: 18),
