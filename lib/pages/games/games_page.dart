@@ -6,33 +6,10 @@ import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/games/games_logic.dart';
 import './widgets/index.dart';
 
-class KKGamesPage extends StatefulWidget {
+
+
+class KKGamesPage extends GetView<GamesLogic> {
   const KKGamesPage({Key? key}) : super(key: key);
-
-  @override
-  State<KKGamesPage> createState() => _GamesPageState();
-}
-
-class _GamesPageState extends State<KKGamesPage>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Get.lazyPut(() => GamesLogic());
-  }
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return const _GamesPageGetX();
-  }
-}
-
-class _GamesPageGetX extends GetView<GamesLogic> {
-  const _GamesPageGetX({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +17,12 @@ class _GamesPageGetX extends GetView<GamesLogic> {
       child: Scaffold(
         body:Stack(
           children: [
-            Obx((){
-              return _buildView();
-            }),
+            GetBuilder(
+              init: GamesLogic(),
+              builder: (_) {
+                return _buildView();
+              },
+            ),
             Positioned(
               bottom: 16.w,
               right: 20.w,

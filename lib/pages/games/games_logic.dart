@@ -5,10 +5,10 @@ import '../../generated/assets.dart';
 
 class GamesLogic extends GetxController {
 
-  var currentIndex  = 0.obs;
+  var currentIndex  = 0;
   late PageController pageController = PageController(initialPage: 0);
 
-  late List<List<String>> dataList;
+  // late List<List<String>> dataList;
 
   final List<List<String>> menuList = [
     [Assets.gamesGamesHot, Assets.gamesGamesHotArrow,"热门","热门游戏"],
@@ -40,21 +40,26 @@ class GamesLogic extends GetxController {
     [Assets.gamesRealOmBaijiale, Assets.gamesGamesSportsArrow, ""],
   ];
 
-  switchIndex(int index) {
-    currentIndex.value = index;
-    dataList = index == 0 ? lotteryList : realList;
+  menuOntap(int index) {
+    currentIndex = index;
+    update(["menu"]);
     pageController.animateToPage(
       index,
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
-    // update(["games"]);
   }
+  
+  switchIndex(int index) {
+    currentIndex = index;
+    update(["menu"]);
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
 
-    dataList = lotteryList;
+    // dataList = lotteryList;
   }
 }
