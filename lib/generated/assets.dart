@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String activityActivity = 'assets/images/activity/activity.png';
+  static const String activityActivityDetail = 'assets/images/activity/activity_detail.png';
   static const String fontsDINPro = 'assets/fonts/DIN-Pro.otf';
   static const String fontsDINProBold = 'assets/fonts/DINPro-Bold.otf';
   static const String fontsDINProMedium = 'assets/fonts/DINPro-Medium.otf';
@@ -32,7 +34,6 @@ class Assets {
   static const String gamesRealWheelBaijiale = 'assets/images/games/real_wheel_baijiale.png';
   static const String gamesSupport = 'assets/images/games/support.png';
   static const String imagesAccountIcon = 'assets/images/account_icon.png';
-  static const String imagesActivity = 'assets/images/activity.png';
   static const String imagesBackNormal = 'assets/images/back_normal.png';
   static const String imagesCodeIcon = 'assets/images/code_icon.png';
   static const String imagesFacebook = 'assets/images/facebook.png';
@@ -93,5 +94,7 @@ class Assets {
   static const String imagesTelegram = 'assets/images/telegram.png';
   static const String imagesVerCode = 'assets/images/ver_code.png';
   static const String imagesWhatapp = 'assets/images/whatapp.png';
+  static const String systemIconBack = 'assets/images/system/icon_back.png';
+  static const String systemIconShare = 'assets/images/system/icon_share.png';
 
 }
