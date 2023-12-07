@@ -20,27 +20,8 @@ class HttpRequest {
     final Dio dio = Dio(baseOptions);
     final options = Options(method: method, contentType: "application/x-www-form-urlencoded");
 
-    Interceptor dInter = InterceptorsWrapper(onRequest: (options, handler) {
-      if(url == HttpConfig.getCode) {
-        options.responseType = ResponseType.bytes;
-      }
-      options.queryParameters["source"] = "APP";
-      if(APPUtil().getAppVersion() != null) {
-        options.queryParameters["app_version"] = APPUtil().getAppVersion()!;
-      }
-      if(SqliteUtil().getString(CacheKey.apiToken) != null) {
-        options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
-      }
-      print(options.queryParameters);
 
-      return handler.next(options);
-    }, onResponse: (res, handler) {
-      return handler.next(res);
-    }, onError: (err, handler) {
-      return handler.next(err);
-    });
-
-    List<Interceptor> inters = [dInter];
+    List<Interceptor> inters = [RequestInterceptors()];
 
     if (inter != null) {
       inters.add(inter);
@@ -55,5 +36,36 @@ class HttpRequest {
       return Future.error(e);
     }
   }
+}
 
+class RequestInterceptors extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    if(options.path == HttpConfig.getCode) {
+      options.responseType = ResponseType.bytes;
+    }
+    options.queryParameters["source"] = "APP";
+    if(APPUtil().getAppVersion() != null) {
+      options.queryParameters["app_version"] = APPUtil().getAppVersion()!;
+    }
+    if(SqliteUtil().getString(CacheKey.apiToken) != null) {
+      options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
+    }
+    print(options.queryParameters);
+
+    return handler.next(options);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    return handler.next(response);
+  }
+
+  @override
+  void onError(
+      DioError err,
+      ErrorInterceptorHandler handler,
+      ) {
+    return handler.next(err);
+  }
 }

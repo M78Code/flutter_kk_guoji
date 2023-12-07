@@ -18,9 +18,6 @@ class KKHomePage extends GetView<HomeLogic> {
   final globalController = Get.find<GlobalStateController>();
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       body: Stack(
         children: [

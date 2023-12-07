@@ -1,8 +1,11 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kkguoji/pages/home/logic/logic.dart';
 
 class KKHomeRealWidget extends StatelessWidget {
-  const KKHomeRealWidget({super.key});
+  KKHomeRealWidget({super.key});
+  final controller = Get.find<HomeLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,23 +59,28 @@ class KKHomeRealWidget extends StatelessWidget {
 
 
   Widget _buildItem(String imageStr, String nameTime,  String peropleCount) {
-    return Container(
-      width: double.infinity,
-      height: 123,
-      decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage(imageStr), fit: BoxFit.cover),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      padding: const EdgeInsets.only(left: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(nameTime, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900),),
-          Text(peropleCount, style: const TextStyle(color: Colors.white, fontSize: 12),),
+    return GestureDetector(
+      child: Container(
+        width: double.infinity,
+        height: 123,
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(imageStr), fit: BoxFit.cover),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        padding: const EdgeInsets.only(left: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(nameTime, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900),),
+            Text(peropleCount, style: const TextStyle(color: Colors.white, fontSize: 12),),
 
-        ],
+          ],
+        ),
       ),
+      onTap: (){
+        controller.openGame();
+      },
     );
   }
 

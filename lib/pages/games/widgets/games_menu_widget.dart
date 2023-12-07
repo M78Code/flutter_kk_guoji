@@ -6,29 +6,33 @@ import 'package:kkguoji/pages/games/games_logic.dart';
 
 import '../../../generated/assets.dart';
 
-class KKGamesMenuWidget extends StatelessWidget {
+class KKGamesMenuWidget extends GetView<GamesLogic> {
 
-  late int currentIndex;
-  late GamesLogic controller = Get.find<GamesLogic>();
-
-  KKGamesMenuWidget({
+  const KKGamesMenuWidget({
     Key? key,
-  }) : super(key: key) {
-    currentIndex = controller.currentIndex.value;
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        for (var i = 0; i < controller.menuList.length; i++)
-          buildItem(controller.menuList[i], i == currentIndex ? 1 : 0.6, () {
-            controller.switchIndex(i);
-          },i == currentIndex).marginOnly(left: i == 0 ? 0 : 20.w),
-      ],
-    ).marginOnly(top: 18.w,left: 32.w);;
+    return _buildView();
+  }
+
+  Widget _buildView() {
+    return GetBuilder<GamesLogic>(
+      id: "menu",
+      builder: (controller) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            for (var i = 0; i < controller.menuList.length; i++)
+              buildItem(controller.menuList[i], i == controller.currentIndex ? 1 : 0.6, () {
+                controller.menuOntap(i);
+              },i == controller.currentIndex).marginOnly(left: i == 0 ? 0 : 20.w),
+          ],
+        ).marginOnly(top: 18.w,left: 32.w);
+      },
+    );
   }
 
   GestureDetector buildItem(List<String> item, double opacity, GestureTapCallback tap, bool arrowVisible) {

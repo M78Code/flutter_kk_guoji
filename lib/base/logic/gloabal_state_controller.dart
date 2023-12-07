@@ -11,10 +11,17 @@ class GlobalStateController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    if(SqliteUtil().getString(CacheKey.apiToken) != null) {
-      isLogin.value = true;
-    }else {
-      isLogin.value = false;
-    }
+
+    // if(SqliteUtil().getString(CacheKey.apiToken) != null) {
+    //   isLogin.value = true;
+    // }else {
+    //   isLogin.value = false;
+    // }
+  }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
   }
 }
