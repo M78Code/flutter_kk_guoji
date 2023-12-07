@@ -58,7 +58,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                         width: 50,
                         height: 50,
                         child: TextButton(onPressed: (){
-
+                           RouteUtil.popView();
                         }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
                       )
                     ],
@@ -214,7 +214,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                             Container(
                               height: 1.0,
                               width: 50,
-                              color: Color.fromRGBO(255, 255, 255, 0.15),
+                              color: const Color.fromRGBO(255, 255, 255, 0.15),
                             ),
                           ],
                         ),
