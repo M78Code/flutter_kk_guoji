@@ -10,7 +10,8 @@ class HttpConfig {
   static const getJCPGameList = "/api/game/getJCPGameList";
   static const getBannerList = "/api/page/getBanner";
   static const login = "/api/public/login";
-
-
-
+  // 用户
+  static const getUserMoney = "/api/user/getUserMoney";   // 用户余额
+  // 游戏
+  static const getGroupGameList = "/api/game/getGroupGameList";   // 所有游戏分组数据
 }

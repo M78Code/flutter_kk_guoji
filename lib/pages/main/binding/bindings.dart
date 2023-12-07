@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
+import 'package:kkguoji/pages/games/games_logic.dart';
 import 'package:kkguoji/pages/home/logic/logic.dart';
 import 'package:kkguoji/pages/main/logic/main_logic.dart';
 
@@ -10,5 +11,6 @@ class mainBinding extends Bindings {
     Get.lazyPut(() => GlobalStateController());
     Get.lazyPut(()=> MainPageLogic());
     Get.lazyPut(() => HomeLogic());
+    Get.lazyPut(() => GamesLogic());
   }
 }
