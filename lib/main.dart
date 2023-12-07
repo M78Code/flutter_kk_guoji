@@ -22,7 +22,7 @@ import '../utils/app_util.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   APPUtil();
-  SqliteUtil.perInit();
+  SqliteUtil();
   WebSocketUtil().connetSocket();
   runApp(const MyApp());
 }

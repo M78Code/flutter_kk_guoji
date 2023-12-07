@@ -10,6 +10,9 @@ class HttpConfig {
   static const getJCPGameList = "/api/game/getJCPGameList";
   static const getBannerList = "/api/page/getBanner";
   static const login = "/api/public/login";
+  static const getGameByCompanyCode = "/api/game/getGameByCompanyCode";
+  static const loginGame = "/api/game/login";
+  static const gameLoginCallback  = "/api/game/loginCallback";
 
 
 

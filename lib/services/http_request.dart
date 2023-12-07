@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/utils/account_service.dart';
 import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 
@@ -28,7 +29,8 @@ class HttpRequest {
       if(APPUtil().getAppVersion() != null) {
         options.queryParameters["app_version"] = APPUtil().getAppVersion()!;
       }
-      if(SqliteUtil().getString(CacheKey.apiToken) != null) {
+      if(AccountService.sharedInstance.isLogin) {
+
         options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
       }
       print(options.queryParameters);
