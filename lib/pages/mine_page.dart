@@ -18,7 +18,7 @@ class _MinePageState extends State<MinePage> {
         child: Column(
           children: [
             SizedBox(
-              height: 300,
+              height: 350,
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
@@ -34,7 +34,6 @@ class _MinePageState extends State<MinePage> {
             ),
             Column(
               children: [
-                SizedBox(height: 20),
                 SafeBoxWaitGridView(), //保险箱等
                 SizedBox(height: 0),
                 MyAccountInfo(), //账号信息等
@@ -256,11 +255,13 @@ class Mypurse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
+      height: 167,
+      decoration: BoxDecoration(
+          image: const DecorationImage(
               image: AssetImage('assets/images/icon_mypurse_bg.png'),
-              fit: BoxFit.fill)
+              fit: BoxFit.cover),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(width: 1.0, color: Colors.white)
       ),
       child: Column(
         children: [
