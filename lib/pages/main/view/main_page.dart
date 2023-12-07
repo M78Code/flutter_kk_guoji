@@ -3,7 +3,7 @@ import 'package:kkguoji/pages/games/games_page.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/main/logic/main_logic.dart';
 
-import '../../activity/activity_page.dart';
+import '../../activity/list/activity_page.dart';
 import '../../home/view/home_page.dart';
 import '../../mine_page.dart';
 import '../../rechange_page.dart';

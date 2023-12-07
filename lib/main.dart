@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
-import 'package:kkguoji/pages/activity/activity_page.dart';
 
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';

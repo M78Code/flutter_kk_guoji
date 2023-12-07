@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/common/extension/index.dart';
-
+import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
 import 'activity_logic.dart';
-import 'activity_model.dart';
-import 'widgets/item_widget.dart';
 
 class ActivityPage extends GetView<ActivityLogic> {
 
@@ -76,7 +73,12 @@ class ActivityPage extends GetView<ActivityLogic> {
                 itemCount: controller.activities.length,
                 itemBuilder: (context, index) {
                   return FittedBox(
-                    child: ActivityItem(activity: controller.activities[index]),
+                    child: ActivityItem(
+                        activity: controller.activities[index],
+                      onTap:  (activityId) {
+                        controller.onActivityTap(activityId);
+                      },
+                    ),
                   );
                 }
             ),

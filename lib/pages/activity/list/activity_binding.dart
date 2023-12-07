@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:kkguoji/pages/activity/activity_logic.dart';
+import 'package:kkguoji/pages/activity/list/activity_logic.dart';
 
 class ActivityBinding extends Bindings {
   @override
