@@ -99,5 +99,28 @@ class HomeLogic extends GetxController {
     return result;
   }
 
+  void openGame() async{
+     Map<String, dynamic> map= {"company_code":"COG"};
+     var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode, params: map);
+     if(result["code"] == 200) {
+       loginGame(result["data"]);
+       // gameLoginCallBack();
+     }
+  }
+
+  // void gameLoginCallBack() async {
+  //   var result = await HttpRequest.request(HttpConfig.gameLoginCallback, method: "post");
+  //   if(result["code"] == 200) {
+  //     loginGame(result["data"]);
+  //   }
+  // }
+
+  void loginGame(Map gameMap) async {
+    Map gameInfo = gameMap.values.first;
+    Map<String, dynamic> params = {"game_id":gameInfo["id"] };
+    var result = await HttpRequest.request(HttpConfig.loginGame, method: "post", params: params);
+    print(result);
+  }
+
 
 }

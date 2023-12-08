@@ -42,6 +42,7 @@ class AccountService {
       }else {
         _isLogin = false;
       }
+      globalController.isLogin.value = _isLogin!;
       return _isLogin!;
   }
 
