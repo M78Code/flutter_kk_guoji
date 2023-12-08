@@ -16,6 +16,9 @@ class UserService extends GetxService {
   Rx<UserMoneyModel?> _userMoneyModel = Rx<UserMoneyModel?>(null);
   UserMoneyModel? get userMoneyModel => this._userMoneyModel.value;
 
+  //用户信息
+   final RxMap userInfo = {}.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -25,6 +28,15 @@ class UserService extends GetxService {
   fetchUserMoney() async {
     UserMoneyModel? userMoney = await AccountApi.getUserMoney();
     _userMoneyModel.value = userMoney;
+  }
+
+  fetchUserInfo() async {
+     Map? userInfo = await AccountApi.getUserInfo();
+     if(userInfo != null) {
+       this.userInfo.value = userInfo!;
+     }else {
+       this.userInfo.value = {}.obs;
+     }
   }
 
 }

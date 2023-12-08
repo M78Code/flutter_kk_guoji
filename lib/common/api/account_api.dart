@@ -12,4 +12,13 @@ class AccountApi {
     }
     return null;
   }
+
+  static Future<Map?> getUserInfo() async {
+    var result = await HttpRequest.request(HttpConfig.getUserInfo);
+    if(result["code"] == 200) {
+      return result["data"];
+    }
+    return null;
+
+  }
 }

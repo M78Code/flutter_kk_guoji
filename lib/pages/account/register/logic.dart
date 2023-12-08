@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
+import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
@@ -159,7 +160,8 @@ class RegisterLogic extends GetxController {
           HttpConfig.registerByEmail, method: "post", params: params);
       if (result["code"] == 200) {
         ShowToast.showToast("注册成功");
-        SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
+        Get.find<SqliteService>().setString(CacheKey.apiToken, result["data"]["token"]);
+        // SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
       } else {
         ShowToast.showToast(result["message"]);
       }
