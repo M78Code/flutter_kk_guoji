@@ -12,7 +12,7 @@ class MinePage extends StatefulWidget {
 class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
-    return   const Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -43,7 +43,6 @@ class _MinePageState extends State<MinePage> {
                 SizedBox(height: 20),
               ],
             )
-
           ],
         ),
       ),
@@ -68,29 +67,21 @@ class MyHeader extends StatelessWidget {
           )),
           child: Column(
             children: [
-              const SizedBox(height: 40,),
+              const SizedBox(
+                height: 40,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    //信息
-<<<<<<< HEAD
-                    onPressed: () {
-                      //进入消息界面
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MessageCenterPage()));
-                    },
-                    icon: Image.asset(
-                      'assets/images/icon_inform.png',
-                      width: 30,
-                      height: 30,
-                    )),
-                IconButton(
-=======
+                      //信息
                       onPressed: () {
                         //进入消息界面
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const MessageCenterPage()));
                       },
                       icon: Image.asset(
                         'assets/images/icon_inform.png',
@@ -98,8 +89,7 @@ class MyHeader extends StatelessWidget {
                         height: 30,
                       )),
                   IconButton(
->>>>>>> 67ddc1b2dc10245ea199a84642224d7c298e5a24
-                    //设置
+                      //设置
                       onPressed: () {
                         //进入安全设置界面
                         Navigator.push(
@@ -115,75 +105,80 @@ class MyHeader extends StatelessWidget {
                       )),
                 ],
               ),
-              SizedBox(height: 10,),
-              Container(padding: const EdgeInsets.only(left: 20), child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const AvatarWithVip(),
-                  const SizedBox(
-                    width: 10,
-                    height: 5,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'gogo',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/icon_id.png',
-                            width: 10,
-                            height: 10,
-                          ),
-                          const SizedBox(width: 3),
-                          const Text(
-                            '123456',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(width: 22),
-                  GestureDetector(
-                    child: //编辑
-                    Container(
-                      width: 67,
-                      height: 25,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image:
-                              AssetImage('assets/images/icon_edit_bg.png'))),
-                      child: const Center(
-                        //文字居中
-                        child: Text(
-                          '编辑',
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const AvatarWithVip(),
+                    const SizedBox(
+                      width: 10,
+                      height: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'gogo',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13,
+                              fontSize: 16,
                               fontWeight: FontWeight.w600),
                           textAlign: TextAlign.center,
                         ),
-                      ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/icon_id.png',
+                              width: 10,
+                              height: 10,
+                            ),
+                            const SizedBox(width: 3),
+                            const Text(
+                              '123456',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400),
+                            )
+                          ],
+                        )
+                      ],
                     ),
-                    onTap: () {
-                      //编辑
-                    },
-                  ),
-                ],
-              ),)
+                    const SizedBox(width: 22),
+                    GestureDetector(
+                      child: //编辑
+                          Container(
+                        width: 67,
+                        height: 25,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/icon_edit_bg.png'))),
+                        child: const Center(
+                          //文字居中
+                          child: Text(
+                            '编辑',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        //编辑
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -275,9 +270,8 @@ class Mypurse extends StatelessWidget {
           image: const DecorationImage(
               image: AssetImage('assets/images/icon_mypurse_bg.png'),
               fit: BoxFit.cover),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(width: 1.0, color: Colors.white)
-      ),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(width: 1.0, color: Colors.white)),
       child: Column(
         children: [
           Row(
@@ -583,7 +577,6 @@ class SafeBoxWaitGridView extends StatelessWidget {
             ],
           ),
         ),
-
       ],
     );
   }
