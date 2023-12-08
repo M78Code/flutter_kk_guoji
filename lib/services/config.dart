@@ -13,7 +13,6 @@ class HttpConfig {
   static const getGameByCompanyCode = "/api/game/getGameByCompanyCode";
   static const loginGame = "/api/game/login";
   static const gameLoginCallback  = "/api/game/loginCallback";
-
   // 用户
   static const getUserMoney = "/api/user/getUserMoney";   // 用户余额
   // 游戏

@@ -110,6 +110,14 @@ class HomeLogic extends GetxController {
      }
   }
 
+  void openTickGame() async {
+    Map<String, dynamic> map= {"company_code":"JCP"};
+    var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode, params: map);
+    if(result["code"] == 200) {
+      loginGame(result["data"]);
+    }
+}
+
   void openSportGame() async{
     Map<String, dynamic> map= {"company_code":"FbSports"};
     var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode, params: map);

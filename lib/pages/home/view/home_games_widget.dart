@@ -1,8 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../logic/logic.dart';
 
 class KKHomeGamesWidget extends StatelessWidget {
-  const KKHomeGamesWidget({super.key});
+  KKHomeGamesWidget({super.key});
+  final controller = Get.find<HomeLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +43,14 @@ class KKHomeGamesWidget extends StatelessWidget {
               itemCount: 8,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: 108/78.0, crossAxisSpacing: 10, mainAxisSpacing: 24), itemBuilder: (context, index) {
-            return Container(
-              height: 108,
-              color: Colors.red,
+            return GestureDetector(
+              child: Container(
+                height: 108,
+                color: Colors.red,
+              ),
+              onTap: () {
+                controller.openTickGame();
+              },
             );
           }),
         ),
