@@ -8,9 +8,7 @@ class AccountApi {
     var result = await HttpRequest.request(HttpConfig.getUserMoney,params: {"is_mobile":"1"});
     if (result["code"] == 200) {
       UserMoneyModel? model = UserMoneyModel.fromJson(result['data']);
-      if (model != null) {
-        return model;
-      };
+      return model;
     }
     return null;
   }

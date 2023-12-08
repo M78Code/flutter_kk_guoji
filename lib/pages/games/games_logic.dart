@@ -34,7 +34,6 @@ class GamesLogic extends GetxController {
     [Assets.gamesBaijialeVideo, "主播百家乐"],
     [Assets.gamesBaijialeQuick, "极速百家乐"],
     [Assets.gamesBaijialeOm, "欧美百家乐"],
-
   ];
 
   final List<List<String>> realList = [
@@ -68,8 +67,7 @@ class GamesLogic extends GetxController {
     GroupGameListModel? groupGameListModel = await GamesApi.games();
     if (groupGameListModel?.data != null) {
       gameModels = groupGameListModel!.data!;
-      print(gameModels);
-
+      update(["menu"]);
     }
   }
 
