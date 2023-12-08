@@ -265,19 +265,18 @@ class Mypurse extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 25, top: 25),
-                child: Text(
+          const SizedBox(height: 10,),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
                   '我的钱包',
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
-              ),
-              GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 20, top: 25),
+                GestureDetector(
                   child: Row(
                     children: [
                       const Text(
@@ -294,12 +293,12 @@ class Mypurse extends StatelessWidget {
                       ),
                     ],
                   ),
+                  onTap: () {
+                    print('进入钱包');
+                  },
                 ),
-                onTap: () {
-                  print('进入钱包');
-                },
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(height: 12),
           Container(
@@ -309,7 +308,7 @@ class Mypurse extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           const Padding(
             padding: EdgeInsets.only(left: 25),
             child: Row(
@@ -363,31 +362,25 @@ class TopUpWithdrawBackwater extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
-      child: Text(
-        'www',
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-    /*Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return  Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           height: 40,
-          decoration: ShapeDecoration(
+          width: 100,
+          decoration: BoxDecoration(
             color: const Color(0xFF2D374E),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            borderRadius: BorderRadius.circular(4),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/icon_top_up.png',
                 width: 25,
                 height: 25,
               ),
+              const SizedBox(width: 5,),
               const Text(
                 '充值',
                 style: TextStyle(
@@ -398,24 +391,25 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 25),
         Container(
           height: 40,
-          decoration: ShapeDecoration(
+          width: 100,
+          decoration: BoxDecoration(
             color: const Color(0xFF2D374E),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            borderRadius: BorderRadius.circular(4),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/icon_top_up.png',
                 width: 25,
                 height: 25,
               ),
+              const SizedBox(width: 5,),
               const Text(
-                '充值',
+                '体现',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -424,23 +418,25 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(width: 25),
         Container(
           height: 40,
-          decoration: ShapeDecoration(
+          width: 100,
+          decoration: BoxDecoration(
             color: const Color(0xFF2D374E),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            borderRadius: BorderRadius.circular(4),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/icon_top_up.png',
                 width: 25,
                 height: 25,
               ),
+              const SizedBox(width: 5,),
               const Text(
-                '充值',
+                '返水',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -450,7 +446,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
           ),
         ),
       ],
-    );*/
+    );
   }
 }
 
