@@ -1,7 +1,9 @@
 
 import 'package:get/get.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_request.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import 'dart:core';
 
 import 'package:kkguoji/utils/websocket_util.dart';
@@ -108,6 +110,15 @@ class HomeLogic extends GetxController {
      }
   }
 
+  void openSportGame() async{
+    Map<String, dynamic> map= {"company_code":"FbSports"};
+    var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode, params: map);
+    if(result["code"] == 200) {
+      loginGame(result["data"]);
+      // gameLoginCallBack();
+    }
+  }
+
   // void gameLoginCallBack() async {
   //   var result = await HttpRequest.request(HttpConfig.gameLoginCallback, method: "post");
   //   if(result["code"] == 200) {
@@ -119,7 +130,9 @@ class HomeLogic extends GetxController {
     Map gameInfo = gameMap.values.first;
     Map<String, dynamic> params = {"game_id":gameInfo["id"] };
     var result = await HttpRequest.request(HttpConfig.loginGame, method: "post", params: params);
-    print(result);
+    if(result["code"] == 200) {
+      RouteUtil.pushToView(Routes.webView, arguments: result["data"]["url"]);
+    }
   }
 
 
