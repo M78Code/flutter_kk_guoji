@@ -1,28 +1,31 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:get/get_core/src/get_main.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 
 import 'cache_key.dart';
 
-class HttpRequest {
+class HttpService extends GetxService {
 
-  static HttpRequest? _instance;
-
-  HttpRequest._internal();
-
-  static HttpRequest get instance {
-    _instance ??= HttpRequest._internal();
-    return _instance!;
-  }
-
+  static HttpService get to => Get.find();
+  late final Dio _dio;
   final BaseOptions _baseOptions = BaseOptions(
     baseUrl:HttpConfig.baseURL,
     connectTimeout: HttpConfig.timeout
   );
-  late final Dio _dio = Dio(_baseOptions);
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    _dio = Dio(_baseOptions);
+
+    // 拦截器
+    _dio.interceptors.add(RequestInterceptors());
+  }
 
   Future<T> fetch<T>(String url, {
     String method = "get",
@@ -30,13 +33,10 @@ class HttpRequest {
     Interceptor? inter}) async {
     final options = Options(method: method, contentType: "application/x-www-form-urlencoded");
 
-    List<Interceptor> inters = [RequestInterceptors()];
-
     if (inter != null) {
-      inters.add(inter);
+      _dio.interceptors.add(inter);
     }
 
-    _dio.interceptors.addAll(inters);
     // 2.发送网络请求
     try {
       Response response = await _dio.request(url, queryParameters: params, options: options);
@@ -50,7 +50,7 @@ class HttpRequest {
     String method = "get",
     Map<String, dynamic>? params,
     Interceptor? inter}) async {
-    return HttpRequest.instance.fetch(url,method: method,params: params,inter: inter);
+    return HttpService.to.fetch(url,method: method,params: params,inter: inter);
   }
 }
 
@@ -83,5 +83,15 @@ class RequestInterceptors extends Interceptor {
       ErrorInterceptorHandler handler,
       ) {
     return handler.next(err);
+  }
+}
+
+
+class HttpRequest {
+  static Future<T> request<T>(String url, {
+    String method = "get",
+    Map<String, dynamic>? params,
+    Interceptor? inter}) async {
+    return HttpService.to.fetch(url,method: method,params: params,inter: inter);
   }
 }

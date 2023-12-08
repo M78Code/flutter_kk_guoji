@@ -1,6 +1,6 @@
 import 'package:kkguoji/common/models/user_money_model.dart';
 import 'package:kkguoji/services/config.dart';
-import 'package:kkguoji/services/http_request.dart';
+import 'package:kkguoji/services/http_service.dart';
 
 class AccountApi {
   /// 分类列表

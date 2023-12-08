@@ -1,6 +1,6 @@
 import 'package:kkguoji/common/models/group_game_list_model.dart';
 import 'package:kkguoji/services/config.dart';
-import 'package:kkguoji/services/http_request.dart';
+import 'package:kkguoji/services/http_service.dart';
 
 class GamesApi {
   /// 分类列表
