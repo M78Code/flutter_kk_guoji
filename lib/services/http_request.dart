@@ -8,16 +8,26 @@ import 'package:kkguoji/utils/sqlite_util.dart';
 import 'cache_key.dart';
 
 class HttpRequest {
-  static final BaseOptions baseOptions = BaseOptions(
+
+  static HttpRequest? _instance;
+
+  HttpRequest._internal();
+
+  static HttpRequest get instance {
+    _instance ??= HttpRequest._internal();
+    return _instance!;
+  }
+
+  final BaseOptions _baseOptions = BaseOptions(
     baseUrl:HttpConfig.baseURL,
     connectTimeout: HttpConfig.timeout
   );
+  late final Dio _dio = Dio(_baseOptions);
 
-  static Future<T> request<T>(String url, {
+  Future<T> fetch<T>(String url, {
     String method = "get",
     Map<String, dynamic>? params,
     Interceptor? inter}) async {
-    final Dio dio = Dio(baseOptions);
     final options = Options(method: method, contentType: "application/x-www-form-urlencoded");
 
     List<Interceptor> inters = [RequestInterceptors()];
@@ -25,15 +35,22 @@ class HttpRequest {
     if (inter != null) {
       inters.add(inter);
     }
-    
-    dio.interceptors.addAll(inters);
+
+    _dio.interceptors.addAll(inters);
     // 2.发送网络请求
     try {
-      Response response = await dio.request(url, queryParameters: params, options: options);
+      Response response = await _dio.request(url, queryParameters: params, options: options);
       return response.data;
     } on DioError catch(e) {
       return Future.error(e);
     }
+  }
+
+  static Future<T> request<T>(String url, {
+    String method = "get",
+    Map<String, dynamic>? params,
+    Interceptor? inter}) async {
+    return HttpRequest.instance.fetch(url,method: method,params: params,inter: inter);
   }
 }
 
