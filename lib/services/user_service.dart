@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
 
 import '../common/api/account_api.dart';
 import '../common/models/user_money_model.dart';
@@ -17,8 +18,7 @@ class UserService extends GetxService {
   UserMoneyModel? get userMoneyModel => this._userMoneyModel.value;
 
   //用户信息
-   final RxMap userInfo = {}.obs;
-
+  Rx<UserInfoModel?> userInfoModel = Rx<UserInfoModel?>(null);
   @override
   void onInit() {
     super.onInit();
@@ -31,12 +31,8 @@ class UserService extends GetxService {
   }
 
   fetchUserInfo() async {
-     Map? userInfo = await AccountApi.getUserInfo();
-     if(userInfo != null) {
-       this.userInfo.value = userInfo!;
-     }else {
-       this.userInfo.value = {}.obs;
-     }
+     UserInfoModel? userInfo = await AccountApi.getUserInfo();
+     userInfoModel.value = userInfo;
   }
 
 }

@@ -31,7 +31,7 @@ class KKHomeBalanceWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Obx(() {
-                return Text(userService.userInfo.isEmpty? "请登录":userService.userInfo["user_nick"], style: TextStyle(color: Colors.white, fontSize: 14),);
+                return Text(userService.userInfoModel.value == null? "请登录":userService.userInfoModel.value!.userNick!, style: TextStyle(color: Colors.white, fontSize: 14),);
               }),
 
               const SizedBox(height: 5,),
