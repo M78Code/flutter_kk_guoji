@@ -27,7 +27,7 @@ class KKHomeTicketGroupItem extends StatelessWidget {
         }else {
           info = null;
         }
-        return KKHomeTicketItem(bgInfo["bg_icon"], bgInfo["logo_icon"], playList, ticketInfo, socketMap: info,);
+        return Container();
       }).toList(),
     );
   }

@@ -47,7 +47,8 @@ class WebSocketUtil {
      if(msgInfo["event"] == "update_lottery_draw_time") {
        if(_ticketMsgCallback != null) {
          Map value = msgInfo["data"] as Map;
-         _ticketMsgCallback!(value.values.first);
+         _ticketMsgCallback!(value);
+         // _ticketMsgCallback!(value.values.first);
        }
      }
 

@@ -54,7 +54,7 @@ class KKHomePage extends GetView<HomeLogic> {
 
                         KKHomeGamesWidget(),
 
-                        Obx(() =>  KKHomeTicketWidget(controller.ticketList.value)),
+                        KKHomeTicketWidget(),
 
                         KKHomeRealWidget(),
 
