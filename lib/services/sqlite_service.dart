@@ -24,8 +24,9 @@ class SqliteService extends GetxService {
   Future<void> getPreferences() async{
     _preferences = await SharedPreferences.getInstance();
     if(getString(CacheKey.apiToken) != null) {
-      // Get.find<UserService>().isLogin = true;
       Get.find<GlobalStateController>().isLogin.value = true;
+      Get.find<UserService>().fetchUserInfo();
+      Get.find<UserService>().fetchUserMoney();
     }else {
       Get.find<GlobalStateController>().isLogin.value = false;
     }

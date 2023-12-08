@@ -17,4 +17,7 @@ class HttpConfig {
   static const getUserMoney = "/api/user/getUserMoney";   // 用户余额
   // 游戏
   static const getGroupGameList = "/api/game/getGroupGameList";   // 所有游戏分组数据
+
+  //获取用户信息
+  static const getUserInfo = "/api/user/getInfo";
 }
