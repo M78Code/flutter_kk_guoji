@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../utils/route_util.dart';
+
 class KKWebViewPage extends StatelessWidget {
   const KKWebViewPage( {super.key});
 
@@ -9,6 +11,15 @@ class KKWebViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     WebViewController controller = WebViewController()..loadRequest(Uri.parse(Get.arguments));
     return Scaffold(
+      appBar: AppBar(
+        leading: SizedBox(
+          width: 50,
+          height: 50,
+          child: TextButton(onPressed: (){
+            RouteUtil.popView();
+          }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
+        ),
+      ),
       body: WebViewWidget(controller: controller,),
     );
   }
