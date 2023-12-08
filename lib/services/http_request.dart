@@ -20,7 +20,6 @@ class HttpRequest {
     final Dio dio = Dio(baseOptions);
     final options = Options(method: method, contentType: "application/x-www-form-urlencoded");
 
-
     List<Interceptor> inters = [RequestInterceptors()];
 
     if (inter != null) {
