@@ -1,6 +1,6 @@
 import 'package:kkguoji/common/models/user_money_model.dart';
 import 'package:kkguoji/services/config.dart';
-import 'package:kkguoji/services/http_request.dart';
+import 'package:kkguoji/services/http_service.dart';
 
 class AccountApi {
   /// 分类列表
@@ -8,9 +8,7 @@ class AccountApi {
     var result = await HttpRequest.request(HttpConfig.getUserMoney,params: {"is_mobile":"1"});
     if (result["code"] == 200) {
       UserMoneyModel? model = UserMoneyModel.fromJson(result['data']);
-      if (model != null) {
-        return model;
-      };
+      return model;
     }
     return null;
   }

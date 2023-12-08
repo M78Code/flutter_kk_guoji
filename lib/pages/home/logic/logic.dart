@@ -2,8 +2,8 @@
 import 'package:get/get.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
-import 'package:kkguoji/services/http_request.dart';
 import 'package:kkguoji/utils/route_util.dart';
+import 'package:kkguoji/services/http_service.dart';
 import 'dart:core';
 
 import 'package:kkguoji/utils/websocket_util.dart';

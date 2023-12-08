@@ -17,12 +17,14 @@ import 'package:kkguoji/utils/websocket_util.dart';
 
 import 'generated/l10n.dart';
 import '../utils/app_util.dart';
+import 'global.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   APPUtil();
   SqliteUtil();
   WebSocketUtil().connetSocket();
+  await Global.init();
   runApp(const MyApp());
 }
 

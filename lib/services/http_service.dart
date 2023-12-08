@@ -1,40 +1,56 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:get/get_core/src/get_main.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 
 import 'cache_key.dart';
 
-class HttpRequest {
-  static final BaseOptions baseOptions = BaseOptions(
+class HttpService extends GetxService {
+
+  static HttpService get to => Get.find();
+  late final Dio _dio;
+  final BaseOptions _baseOptions = BaseOptions(
     baseUrl:HttpConfig.baseURL,
     connectTimeout: HttpConfig.timeout
   );
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    _dio = Dio(_baseOptions);
+
+    // 拦截器
+    _dio.interceptors.add(RequestInterceptors());
+  }
+
+  Future<T> fetch<T>(String url, {
+    String method = "get",
+    Map<String, dynamic>? params,
+    Interceptor? inter}) async {
+    final options = Options(method: method, contentType: "application/x-www-form-urlencoded");
+
+    if (inter != null) {
+      _dio.interceptors.add(inter);
+    }
+
+    // 2.发送网络请求
+    try {
+      Response response = await _dio.request(url, queryParameters: params, options: options);
+      return response.data;
+    } on DioError catch(e) {
+      return Future.error(e);
+    }
+  }
 
   static Future<T> request<T>(String url, {
     String method = "get",
     Map<String, dynamic>? params,
     Interceptor? inter}) async {
-    final Dio dio = Dio(baseOptions);
-    final options = Options(method: method, contentType: "application/x-www-form-urlencoded");
-
-
-    List<Interceptor> inters = [RequestInterceptors()];
-
-    if (inter != null) {
-      inters.add(inter);
-    }
-    
-    dio.interceptors.addAll(inters);
-    // 2.发送网络请求
-    try {
-      Response response = await dio.request(url, queryParameters: params, options: options);
-      return response.data;
-    } on DioError catch(e) {
-      return Future.error(e);
-    }
+    return HttpService.to.fetch(url,method: method,params: params,inter: inter);
   }
 }
 
@@ -67,5 +83,15 @@ class RequestInterceptors extends Interceptor {
       ErrorInterceptorHandler handler,
       ) {
     return handler.next(err);
+  }
+}
+
+
+class HttpRequest {
+  static Future<T> request<T>(String url, {
+    String method = "get",
+    Map<String, dynamic>? params,
+    Interceptor? inter}) async {
+    return HttpService.to.fetch(url,method: method,params: params,inter: inter);
   }
 }

@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
-import 'package:kkguoji/services/http_request.dart';
+import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
