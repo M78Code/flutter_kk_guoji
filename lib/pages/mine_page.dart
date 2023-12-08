@@ -105,7 +105,7 @@ class MyHeader extends StatelessWidget {
                       )),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -182,16 +182,6 @@ class MyHeader extends StatelessWidget {
             ],
           ),
         ),
-        // Positioned(
-        //     //设置、消息
-        //     top: 40,
-        //     right: 12,
-        //     child: ),
-        // Positioned(
-        //     //头像
-        //     left: 16,
-        //     bottom: 50,
-        //     child: ),
       ],
     );
   }
@@ -278,7 +268,7 @@ class Mypurse extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Padding(
-                padding: EdgeInsets.only(left: 25, top: 25),
+                padding: EdgeInsets.only(left: 25, top: 20),
                 child: Text(
                   '我的钱包',
                   style: TextStyle(color: Colors.white, fontSize: 14),
@@ -286,7 +276,7 @@ class Mypurse extends StatelessWidget {
               ),
               GestureDetector(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 20, top: 25),
+                  padding: const EdgeInsets.only(right: 20, top: 20),
                   child: Row(
                     children: [
                       const Text(

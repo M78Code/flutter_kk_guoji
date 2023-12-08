@@ -2,10 +2,7 @@ class CategoryModel {
   int index;
   String name;
 
-  CategoryModel({
-    required this.index,
-    required this.name
-  });
+  CategoryModel({required this.index, required this.name});
 }
 
 class ActivityModel {
