@@ -39,6 +39,9 @@ class KKGamesMenuWidget extends GetView<GamesLogic> {
             case "热门" :
               viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"热门");
               break;
+            case "电子" :
+              viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"电子");
+              break;
             case "彩票" :
               viewModel = GamesMenuViewModel(image: Assets.gamesGamesLottery, arrow: Assets.gamesGamesLotteryArrow,title :"彩票");
               break;
@@ -72,8 +75,8 @@ class KKGamesMenuWidget extends GetView<GamesLogic> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (model.image != null) Image.asset(model.image!, width: 44.w, height: 63.w,),
-          if (model.title != null) Text(model.title ?? "",style: TextStyle(color: Colors.white),).height(63.w),
+          if (model.image != null) Image.asset(model.image!, width: 49.w, height: 49.w,),
+          if (model.title != null) Text(model.title ?? "",style: TextStyle(color: Colors.white)),
           if (model.title != null) Image.asset(model.arrow!, width: 8.w, height: 4.w,)
                 .marginOnly(top: 10.w)
                 .opacity(arrowVisible ? 1 : 0),

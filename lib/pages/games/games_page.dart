@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/games/games_logic.dart';
+import 'package:kkguoji/services/user_service.dart';
 import './widgets/index.dart';
 
 class KKGamesPage extends StatefulWidget {
@@ -30,9 +31,7 @@ class _KKGamesPageState extends State<KKGamesPage>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-      print("didChangeDependencies");
-      controller.initUserMoney();
+      UserService.to.fetchUserMoney();
   }
 }
 
@@ -40,7 +39,7 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
 
   @override
   Widget build(BuildContext context) {
-    // Get.put(GamesLogic());
+
     return SafeArea(
       child: Scaffold(
         body:Stack(
