@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/common/models/user_money_model.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
@@ -13,10 +16,11 @@ class AccountApi {
     return null;
   }
 
-  static Future<Map?> getUserInfo() async {
+  static Future<UserInfoModel?> getUserInfo() async {
     var result = await HttpRequest.request(HttpConfig.getUserInfo);
     if(result["code"] == 200) {
-      return result["data"];
+      UserInfoModel? model = UserInfoModel.fromJson(result["data"]);
+      return model;
     }
     return null;
 
