@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
 
+import '../routes/routes.dart';
+import '../utils/route_util.dart';
+
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
 
@@ -295,7 +298,7 @@ class Mypurse extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    print('进入钱包');
+                    RouteUtil.pushToView(Routes.walletPage);
                   },
                 ),
               ],
