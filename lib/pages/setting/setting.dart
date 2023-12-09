@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/utils/app_util.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 import 'package:package_info/package_info.dart'; // 用于获取应用版本信息的包
 // ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart'; //清除缓存
@@ -351,6 +352,7 @@ class _MySetingState extends State<MySeting> {
                             onPressed: () {
                               clearCache();
                               Navigator.of(context).pop();
+                              ShowToast.showToast('清除成功');
                             },
                             child: const Text(
                               '确定',
