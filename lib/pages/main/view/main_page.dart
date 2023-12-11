@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:kkguoji/pages/games/games_page.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/main/logic/main_logic.dart';
+import 'package:kkguoji/pages/recharge/recharge_page.dart';
 
 import '../../activity/list/activity_page.dart';
 import '../../home/view/home_page.dart';
 import '../../mine_page.dart';
-import '../../rechange_page.dart';
 
 
 class KKMainPage extends StatefulWidget {
   // const MyHomePage({super.key, required this.title});
-
-
 
   // final String title;
 
@@ -34,7 +32,7 @@ class _KKMainPageState extends State<KKMainPage> {
   ];
   final controller = Get.find<MainPageLogic>();
 
-  final List _pages = [KKHomePage(), const KKGamesPage(), const RechangePage(),  ActivityPage(), const MinePage()];
+  final List _pages = [KKHomePage(), const KKGamesPage(), const RechargePage(),  const ActivityPage(), const MinePage()];
 
   @override
   Widget build(BuildContext context) {

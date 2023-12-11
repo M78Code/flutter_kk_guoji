@@ -137,5 +137,9 @@ class Assets {
   static const String imagesWhatapp = 'assets/images/whatapp.png';
   static const String systemIconBack = 'assets/images/system/icon_back.png';
   static const String systemIconShare = 'assets/images/system/icon_share.png';
+  static const imgRechargeSelectedPng = "assets/images/recharge/img_recharge_selected.png";
+  static const imgRechargeDefaultPng = "assets/images/recharge/img_recharge_default.png";
+  static const iconTipPng = "assets/images/recharge/icon_tip.png";
+  static const iconCCPng = "assets/images/withdraw/icon_cc.png";
 
 }

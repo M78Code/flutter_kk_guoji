@@ -33,6 +33,7 @@ dependencies:
 
   get:
   dio: ^4.0.0
+  dio_log: ^2.0.4
   device_info_plus: ^9.1.1
   flutter_screenutil: ^5.9.0
   fluttertoast: ^8.2.4
@@ -83,6 +84,7 @@ flutter:
     - assets/images/activity/
     - assets/images/system/
     - assets/images/home/
+    - assets/images/recharge/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
