@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
+import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/utils/route_util.dart';
@@ -15,7 +14,7 @@ class MinePage extends StatefulWidget {
 class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
-    return   const Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -46,7 +45,6 @@ class _MinePageState extends State<MinePage> {
                 SizedBox(height: 20),
               ],
             )
-
           ],
         ),
       ),
@@ -71,14 +69,21 @@ class MyHeader extends StatelessWidget {
           )),
           child: Column(
             children: [
-              const SizedBox(height: 40,),
+              const SizedBox(
+                height: 40,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    //信息
+                      //信息
                       onPressed: () {
                         //进入消息界面
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const MessageCenterPage()));
                       },
                       icon: Image.asset(
                         'assets/images/icon_inform.png',
@@ -86,7 +91,7 @@ class MyHeader extends StatelessWidget {
                         height: 30,
                       )),
                   IconButton(
-                    //设置
+                      //设置
                       onPressed: () {
                         //进入安全设置界面
                         Navigator.push(
@@ -102,88 +107,83 @@ class MyHeader extends StatelessWidget {
                       )),
                 ],
               ),
-              SizedBox(height: 10,),
-              Container(padding: const EdgeInsets.only(left: 20), child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const AvatarWithVip(),
-                  const SizedBox(
-                    width: 10,
-                    height: 5,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'gogo',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/icon_id.png',
-                            width: 10,
-                            height: 10,
-                          ),
-                          const SizedBox(width: 3),
-                          const Text(
-                            '123456',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(width: 22),
-                  GestureDetector(
-                    child: //编辑
-                    Container(
-                      width: 67,
-                      height: 25,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image:
-                              AssetImage('assets/images/icon_edit_bg.png'))),
-                      child: const Center(
-                        //文字居中
-                        child: Text(
-                          '编辑',
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const AvatarWithVip(),
+                    const SizedBox(
+                      width: 10,
+                      height: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'gogo',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13,
+                              fontSize: 16,
                               fontWeight: FontWeight.w600),
                           textAlign: TextAlign.center,
                         ),
-                      ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/icon_id.png',
+                              width: 10,
+                              height: 10,
+                            ),
+                            const SizedBox(width: 3),
+                            const Text(
+                              '123456',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400),
+                            )
+                          ],
+                        )
+                      ],
                     ),
-                    onTap: () {
-                      //编辑
-                    },
-                  ),
-                ],
-              ),)
+                    const SizedBox(width: 22),
+                    GestureDetector(
+                      child: //编辑
+                          Container(
+                        width: 67,
+                        height: 25,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/icon_edit_bg.png'))),
+                        child: const Center(
+                          //文字居中
+                          child: Text(
+                            '编辑',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        //编辑
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
-        // Positioned(
-        //     //设置、消息
-        //     top: 40,
-        //     right: 12,
-        //     child: ),
-        // Positioned(
-        //     //头像
-        //     left: 16,
-        //     bottom: 50,
-        //     child: ),
       ],
     );
   }
@@ -262,12 +262,13 @@ class Mypurse extends StatelessWidget {
           image: const DecorationImage(
               image: AssetImage('assets/images/icon_mypurse_bg.png'),
               fit: BoxFit.cover),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(width: 1.0, color: Colors.white)
-      ),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(width: 1.0, color: Colors.white)),
       child: Column(
         children: [
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
@@ -364,7 +365,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
@@ -382,7 +383,9 @@ class TopUpWithdrawBackwater extends StatelessWidget {
                 width: 25,
                 height: 25,
               ),
-              const SizedBox(width: 5,),
+              const SizedBox(
+                width: 5,
+              ),
               const Text(
                 '充值',
                 style: TextStyle(
@@ -405,13 +408,15 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/icon_top_up.png',
+                'assets/images/icon_withdraw.png',
                 width: 25,
                 height: 25,
               ),
-              const SizedBox(width: 5,),
+              const SizedBox(
+                width: 5,
+              ),
               const Text(
-                '体现',
+                '提现',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -421,31 +426,38 @@ class TopUpWithdrawBackwater extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 25),
-        Container(
-          height: 40,
-          width: 100,
-          decoration: BoxDecoration(
-            color: const Color(0xFF2D374E),
-            borderRadius: BorderRadius.circular(4),
+        GestureDetector(
+          child: Container(
+            height: 40,
+            width: 100,
+            decoration: BoxDecoration(
+              color: const Color(0xFF2D374E),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/icon_fanshui.png',
+                  width: 25,
+                  height: 25,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                const Text(
+                  '返水',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/icon_top_up.png',
-                width: 25,
-                height: 25,
-              ),
-              const SizedBox(width: 5,),
-              const Text(
-                '返水',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
+          onTap: () {
+            print('返水');
+          },
         ),
       ],
     );
@@ -566,7 +578,6 @@ class SafeBoxWaitGridView extends StatelessWidget {
             ],
           ),
         ),
-
       ],
     );
   }

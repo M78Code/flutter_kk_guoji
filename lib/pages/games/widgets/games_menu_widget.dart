@@ -25,8 +25,33 @@ class KKGamesMenuWidget extends GetView<GamesLogic> {
 
     return _buildView();
   }
-
   Widget _buildView() {
+    return GetBuilder<GamesLogic>(
+      id: "menu",
+      builder: (controller) {
+
+        List<GamesMenuViewModel> viewModels = [];
+        for (var i = 0; i < controller.menuList.length; i++) {
+          GamesMenuViewModel? viewModel;
+          viewModel = GamesMenuViewModel(image: controller.menuList[i][0], arrow: controller.menuList[i][1],title : controller.menuList[i][2]);
+          if (viewModel != null) viewModels.add(viewModel);
+        }
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            for (var i = 0; i < viewModels.length; i++)
+              _buildItem(
+                  viewModels[i],
+                  i == controller.currentIndex ? 1 : 0.6,
+                      () {  controller.menuOntap(i); },
+                  i == controller.currentIndex).marginOnly(left: i == 0 ? 0 : 20.w),
+          ],
+        ).marginOnly(top: 18.w,left: 32.w);
+      },
+    );
+  }
+  Widget _buildViewFormApi() {
     return GetBuilder<GamesLogic>(
       id: "menu",
       builder: (controller) {
@@ -38,6 +63,9 @@ class KKGamesMenuWidget extends GetView<GamesLogic> {
           switch (game.name ?? "") {
             case "热门" :
               viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"热门");
+              break;
+            case "电子" :
+              viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"电子");
               break;
             case "彩票" :
               viewModel = GamesMenuViewModel(image: Assets.gamesGamesLottery, arrow: Assets.gamesGamesLotteryArrow,title :"彩票");
@@ -72,8 +100,8 @@ class KKGamesMenuWidget extends GetView<GamesLogic> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (model.image != null) Image.asset(model.image!, width: 44.w, height: 63.w,),
-          if (model.title != null) Text(model.title ?? "",style: TextStyle(color: Colors.white),).height(63.w),
+          if (model.image != null) Image.asset(model.image!, width: 49.w, height: 49.w,),
+          if (model.title != null) Text(model.title ?? "",style: TextStyle(color: Colors.white)),
           if (model.title != null) Image.asset(model.arrow!, width: 8.w, height: 4.w,)
                 .marginOnly(top: 10.w)
                 .opacity(arrowVisible ? 1 : 0),

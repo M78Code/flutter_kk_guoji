@@ -36,17 +36,32 @@ class KKHomeGamesWidget extends StatelessWidget {
         const SizedBox(height: 15,),
         SizedBox(
           width: double.infinity,
-          height: 216,
+          height: 236,
           child: GridView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: 8,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 108/78.0, crossAxisSpacing: 10, mainAxisSpacing: 24), itemBuilder: (context, index) {
+                  crossAxisCount: 2, childAspectRatio: 108/78.0, crossAxisSpacing: 10, mainAxisSpacing: 15), itemBuilder: (context, index) {
             return GestureDetector(
               child: Container(
-                height: 108,
-                color: Colors.red,
+                height: 118,
+                decoration: ShapeDecoration(
+                  color: Color(0xFF24262F),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(controller.recommendGameList[index].gameIcon,height: 80,),
+                    Container(
+                      height: 30,
+                      alignment: Alignment.center,
+                        child: Text(controller.recommendGameList[index].gameName,style: TextStyle(color: Colors.white,fontSize: 12),))
+                  ],
+                ),
               ),
               onTap: () {
                 controller.openTickGame();

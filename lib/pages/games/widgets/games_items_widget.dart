@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common//extension/index.dart';
 
+import '../../../common/models/group_game_list_model.dart';
 import '../../../generated/assets.dart';
 import '../games_logic.dart';
 
@@ -22,38 +23,55 @@ class GamesItemsWidget extends GetView<GamesLogic> {
   }
 
   Widget _buildView() {
-    return Column(
-      children: [
-        _buildTitleView().marginOnly(top: 18.w, left: 19.w),
+    return GetBuilder<GamesLogic>(
+      id: "games",
+      builder: (controller) {
+        return Column(
+          children: [
+            _buildTitleView().marginOnly(top: 18.w, left: 19.w),
+            // Expanded(
+            //   child: PageView.builder(
+            //     itemCount: controller.gameModels.length,
+            //     controller: controller.pageController,
+            //     onPageChanged: (index) {
+            //       controller.switchIndex(index);
+            //     },
+            //     itemBuilder: (context, index) {
+            //       return SingleChildScrollView(child: _buildItemsGridView02(controller.gameModels[index]),);
+            //     },
+            //   ),
+            // )
 
-        Expanded(
-          child: PageView(
-            controller: controller.pageController,
-            onPageChanged: (index) {
-              controller.switchIndex(index);
-            },
-            children: [
-              SingleChildScrollView(child: _buildItemsGridView(),),
-              SingleChildScrollView(child: _buildItemListView(),),
-              SingleChildScrollView(child: _buildItemListView(),),
-              SingleChildScrollView(child: _buildItemListView(),),
-            ],
-          )
-        )
-      ],
-    ).decorated(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF262E47), // Replace with your color stops
-            Color(0xFF181E2F),
+            Expanded(
+              child: PageView(
+                controller: controller.pageController,
+                onPageChanged: (index) {
+                  controller.switchIndex(index);
+                },
+                children: [
+                  SingleChildScrollView(child: _buildItemsGridView(controller.hotList),),
+                  SingleChildScrollView(child: _buildItemsGridView(controller.lotteryList),),
+                  SingleChildScrollView(child: _buildItemListView(controller.realList),),
+                  SingleChildScrollView(child: _buildItemListView(controller.sportList),),
+                ],
+              )
+            )
           ],
-          stops: [0.0, 1.0],
-        ),
-        color: Color(0xFF262D47),
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(28.w), topRight: Radius.circular(28.w))
+        ).decorated(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF262E47), // Replace with your color stops
+                Color(0xFF181E2F),
+              ],
+              stops: [0.0, 1.0],
+            ),
+            color: Color(0xFF262D47),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(28.w), topRight: Radius.circular(28.w))
+        );
+      },
     );
   }
 
@@ -88,23 +106,21 @@ class GamesItemsWidget extends GetView<GamesLogic> {
     );
   }
 
-  Widget _buildItemsView() {
-    return controller.currentIndex == 0 ? _buildItemsGridView() : _buildItemListView();
-  }
-
-  Widget _buildItemListView() {
+  Widget _buildItemListView(List<List<String>> items) {
 
     List<Widget> widgets = [SizedBox(height: 12.w,),];
-    for (var index = 0; index < controller.realList.length; index++)
-      widgets.add(Image.asset(controller.realList[index].first, height: 123.w)
+    for (var index = 0; index < items.length; index++)
+      widgets.add(Image.asset(items[index].first, height: 123.w)
           .paddingOnly(bottom: 12.w)
-          .onTap(() { }));
+          .onTap(() {
+        controller.gamesOnTap(items[index]);
+      }));
     return Column(
       children: widgets,
     );
 
   }
-  GridView _buildItemsGridView() {
+  GridView _buildItemsGridView(List<List<String>> items) {
     return GridView.builder(
       padding: EdgeInsets.only(top: 14.w, left: 15.w, right: 15.w),
       shrinkWrap: true,
@@ -115,17 +131,17 @@ class GamesItemsWidget extends GetView<GamesLogic> {
           mainAxisSpacing: 12.w,
           childAspectRatio: 155 / 216
       ),
-      itemCount: controller.lotteryList.length,
+      itemCount: items.length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(controller.lotteryList[index].first, width: 78.w, height: 78.w),
+              Image.asset(items[index].first, width: 78.w, height: 78.w),
               FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  controller.lotteryList[index][1],
+                  items[index][1],
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 12.sp,
@@ -135,7 +151,49 @@ class GamesItemsWidget extends GetView<GamesLogic> {
               ).marginOnly(top: 8.w, bottom: 8.w)
             ],
           ),
-        ); // Passing index + 1 as item number
+        ).onTap(() {
+          controller.gamesOnTap(items[index]);
+        }); // Passing index + 1 as item number
+      },
+    );
+  }
+  GridView _buildItemsGridView02(GroupGameData groupGameData) {
+
+    List<GameModel>? games = (groupGameData.list ?? []);
+    return GridView.builder(
+      padding: EdgeInsets.only(top: 14.w, left: 15.w, right: 15.w),
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 12.w,
+          childAspectRatio: 155 / 216
+      ),
+      itemCount: games.length,
+      itemBuilder: (BuildContext context, int index) {
+        GameModel gameModel = games[index];
+        return Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(gameModel.image ?? "", width: 78.w, height: 78.w),
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  gameModel.name ?? "",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400
+                  ),
+                ),
+              ).marginOnly(top: 8.w, bottom: 8.w)
+            ],
+          ),
+        ).onTap(() {
+          controller.gamesOnTapFormApi(gameModel);
+        }); // Passing index + 1 as item number
       },
     );
   }
