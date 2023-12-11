@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
+import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/utils/route_util.dart';
 
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
@@ -558,7 +560,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
                   ],
                 ),
                 onTap: () {
-                  print('推广赚钱');
+                  RouteUtil.pushToView(Routes.promotion);
                 },
               )
             ],

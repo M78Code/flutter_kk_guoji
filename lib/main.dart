@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             locale: const Locale('zh', 'CN'),
             fallbackLocale: Get.deviceLocale,
             theme: ThemeData(
-              useMaterial3: true,
+              useMaterial3: false,
               appBarTheme: const AppBarTheme(color:  Color(0xFF171A26), titleTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
               // bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFF161D26)),
               scaffoldBackgroundColor: const Color(0xFF171A26),

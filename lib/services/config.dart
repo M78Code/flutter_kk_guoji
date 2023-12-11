@@ -20,4 +20,7 @@ class HttpConfig {
 
   //获取用户信息
   static const getUserInfo = "/api/user/getInfo";
+
+  //客服中心
+  static const getCustomer = "/api/public/customer";
 }

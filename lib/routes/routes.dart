@@ -2,8 +2,11 @@
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
+import 'package:kkguoji/pages/customer/binding/bindings.dart';
+import 'package:kkguoji/pages/customer/view/customer_service_page.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
+import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 
 import '../pages/activity/detail/binding.dart';
@@ -19,14 +22,19 @@ abstract class Routes {
   static const String activity = '/activity';
   static const String activityDetail = "/activityDetail";
   static const String webView = "/webView";
+  static const String customer = "/customer";
+  static const String promotion = "/promotion";
 
   static final List<GetPage> routePage = [
 
     GetPage(name: loginPage, page: ()=> const KKLoginPage()),
     GetPage(name: registerPage, page: ()=> const KKRegisterPage()),
     GetPage(name: homePage, page: ()=> KKHomePage(), binding: HomeBinding()),
-    GetPage(name: activity, page: ()=> ActivityPage(), binding: ActivityBinding()),
+    GetPage(name: activity, page: ()=> const ActivityPage(), binding: ActivityBinding()),
     GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
-    GetPage(name: webView, page:() => KKWebViewPage()),
+    GetPage(name: webView, page:() => const KKWebViewPage()),
+    GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
+    GetPage(name: promotion, page: () => const KKPromotionPage()),
+
   ];
 }
