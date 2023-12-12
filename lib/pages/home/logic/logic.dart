@@ -1,74 +1,114 @@
-
 import 'package:get/get.dart';
 import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/model/home/jcp_game_socket_model.dart';
 import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/utils/json_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'dart:core';
 
 import 'package:kkguoji/utils/websocket_util.dart';
 
-class HomeLogic extends GetxController {
+import '../../../model/home/jcp_game_model.dart';
+import '../../../model/home/kk_home_game_model.dart';
+import '../../../services/http_service.dart';
 
+class HomeLogic extends GetxController {
   final RxString marqueeStr = "".obs;
   final RxList bannerList = [].obs;
   final RxList ticketList = [].obs;
+  var gameList = <Datum>[].obs;
+  var margeGameList=<List<Datum>>[].obs;
+  var recommendGameList=[
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_lhc_icon.png',gameName: '香港六合彩',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_qxc_icon.png',gameName: '七星彩',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_bjl_icon.png',gameName: 'PC百家乐',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_pcnn_icon.png',gameName: 'PC牛牛',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jndssc_icon.png',gameName: '加拿大时时彩',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_zbbjl_icon.png',gameName: '主播百家乐',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jsbjl_icon.png',gameName: '极速百家乐',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_ombjl_icon.png',gameName: '欧美百家乐',),
+  ];
   Map imageMap = {
-    "XGLHC":{"bg_icon":"assets/images/home_xianggangliuhecai.png", "logo_icon":"assets/images/home_liuhecai_icon.png"},
-    "PCNN":{"bg_icon":"assets/images/home_pcniuniu.png", "logo_icon":"assets/images/home_pcniuniu_icon.png"},
-    "PCBJL":{"bg_icon":"assets/images/home_pcbaijiale.png", "logo_icon":"assets/images/home_pcbaijiale_icon.png"},
-    "JNDSI":{"bg_icon":"assets/images/home_jianada42.png", "logo_icon":"assets/images/home_jianada42_icon.png"},
-    "JNDWU":{"bg_icon":"assets/images/home_jianada5.png", "logo_icon":"assets/images/home_jianada50_icon.png"},
-    "JNDWP":{"bg_icon":"assets/images/home_jianadawangpan.png", "logo_icon":"assets/images/home_jianadawangpan_icon.png"},
-    "JNDEB":{"bg_icon":"assets/images/home_jianada28.png", "logo_icon":"assets/images/home_jianada28_icon.png"},
-    "JNDSSC":{"bg_icon":"assets/images/home_jianadashishicai.png", "logo_icon":"assets/images/home_jianadashishicai_icon.png"},
-    "JNDLHC":{"bg_icon":"assets/images/home_xianggangliuhecai.png", "logo_icon":"assets/images/home_liuhecai_icon.png"},
-
-
-
+    "XGLHC": {
+      "bg_icon": "assets/images/home_xianggangliuhecai.png",
+      "logo_icon": "assets/images/home_liuhecai_icon.png"
+    },
+    "PCNN": {
+      "bg_icon": "assets/images/home_pcniuniu.png",
+      "logo_icon": "assets/images/home_pcniuniu_icon.png"
+    },
+    "PCBJL": {
+      "bg_icon": "assets/images/home_pcbaijiale.png",
+      "logo_icon": "assets/images/home_pcbaijiale_icon.png"
+    },
+    "JNDSI": {
+      "bg_icon": "assets/images/home_jianada42.png",
+      "logo_icon": "assets/images/home_jianada42_icon.png"
+    },
+    "JNDWU": {
+      "bg_icon": "assets/images/home_jianada5.png",
+      "logo_icon": "assets/images/home_jianada50_icon.png"
+    },
+    "JNDWP": {
+      "bg_icon": "assets/images/home_jianadawangpan.png",
+      "logo_icon": "assets/images/home_jianadawangpan_icon.png"
+    },
+    "JNDEB": {
+      "bg_icon": "assets/images/home_jianada28.png",
+      "logo_icon": "assets/images/home_jianada28_icon.png"
+    },
+    "JNDSSC": {
+      "bg_icon": "assets/images/home_jianadashishicai.png",
+      "logo_icon": "assets/images/home_jianadashishicai_icon.png"
+    },
+    "JNDLHC": {
+      "bg_icon": "assets/images/home_xianggangliuhecai.png",
+      "logo_icon": "assets/images/home_liuhecai_icon.png"
+    },
   };
-  Map statesMap = {"0":"未开奖", "2":"已开奖", "4":"封盘中", "9":"未开盘"};
+  Map statesMap = {"0": "未开奖", "2": "已开奖", "4": "封盘中", "9": "未开盘"};
   final RxMap ticketInfo = {}.obs;
   final RxMap haveTimeMap = {}.obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     // TODO: implement onInit
     super.onInit();
 
     var result = await HttpRequest.request(HttpConfig.getMarqueeNotice);
-    if(result["code"] == 200) {
+    if (result["code"] == 200) {
       List marquees = result["data"];
-      if(marquees.isNotEmpty) {
+      if (marquees.isNotEmpty) {
         Map m = marquees.first;
         marqueeStr.value = m["content"];
       }
     }
 
-
-    var gameResult = await HttpRequest.request(HttpConfig.getJCPGameList, method: "post");
-    if(gameResult["code"] == 200) {
-      List data = gameResult["data"];
-      if(data.isNotEmpty) {
-       List newData = data.where((element) {
-          String lotteryCode = element["lotteryCode"];
-          return lotteryCode != "HXEB"  && lotteryCode != "QXC" && lotteryCode != "JNDLHC" && lotteryCode != "PLS";
+    var gameResult =
+        await HttpRequest.request(HttpConfig.getJCPGameList, method: "post");
+    if (gameResult["code"] == 200) {
+      print('xiaoan 首页彩票列表 ${JsonUtil.encodeObj(gameResult['data'])}');
+      JcpGameModel gameModel = JcpGameModel.fromJson(gameResult);
+      List<Datum> gameData = gameModel.data ?? [];
+      if (gameData.isNotEmpty) {
+        List<Datum> newData = gameData.where((element) {
+          String lotteryCode = element.lotteryCode ?? '';
+          return lotteryCode != "HXEB" &&
+              lotteryCode != "QXC" &&
+              lotteryCode != "JNDLHC" &&
+              lotteryCode != "PLS";
         }).toList();
-       List ticketList = constructList(2, newData);
-       this.ticketList.value = ticketList;
-        // data.forEach((element) {
-        //   String lotteryCode = element["lotteryCode"];
-        //   if() {
-        //
-        //   }
-        // });
+        gameList.clear();
+        gameList.addAll(newData);
+        margeData();
       }
-
     }
 
-    Map<String, dynamic> bannerParms = {"position":"home_banner"};
-    var bannerResult = await HttpRequest.request(HttpConfig.getBannerList, params: bannerParms);
-    if(bannerResult["code"] == 200) {
+    Map<String, dynamic> bannerParms = {"position": "home_banner"};
+    var bannerResult = await HttpRequest.request(HttpConfig.getBannerList,
+        params: bannerParms);
+    if (bannerResult["code"] == 200) {
       bannerList.value = bannerResult["data"];
     }
   }
@@ -79,7 +119,25 @@ class HomeLogic extends GetxController {
     super.onReady();
     WebSocketUtil().listenTicketMessage((msg) {
       ticketInfo.value = msg;
+      updateTicketInfo();
     });
+  }
+
+  updateTicketInfo() {
+    print('xiaoan 首页彩票列表Socket ${JsonUtil.encodeObj(ticketInfo)}');
+    ticketInfo.forEach((key, value) {
+      JcpGameSocketModel socketModel=JcpGameSocketModel.fromJson(value);
+      Datum? item =
+          gameList.firstWhereOrNull((p0) => (p0.lotteryCode??'') == key);
+      if (item != null) {
+        Future.delayed(const Duration(seconds: 5), () {
+          item.isValidity=int.parse(socketModel.isValidity ?? '1');
+          item.current?.autoCloseDate=num.parse(socketModel.autoCloseDate ?? '0');
+          item.current?.autoDrawingDate=num.parse(socketModel.autoDrawingDate ?? '0');
+        });
+      }
+    });
+    gameList.refresh();
   }
 
   List constructList(int len, List list) {
@@ -143,5 +201,13 @@ class HomeLogic extends GetxController {
     }
   }
 
-
+  margeData() {
+    margeGameList.clear();
+    for (int i = 0; i < gameList.length; i += 2) {
+      // 切片获取每两个对象
+      List<Datum> pair = gameList.sublist(i, i + 2);
+      // 添加到结果集合
+      margeGameList.add(pair);
+    }
+  }
 }
