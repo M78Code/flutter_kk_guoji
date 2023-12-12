@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
+import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
 
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
@@ -406,7 +407,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/icon_withdraw.png',
+                'assets/images/icon_fanshui.png',
                 width: 25,
                 height: 25,
               ),
@@ -436,7 +437,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/icon_fanshui.png',
+                  'assets/images/icon_withdraw.png',
                   width: 25,
                   height: 25,
                 ),
@@ -720,6 +721,10 @@ class WelfareReward extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const WelfareRewardPage()));
               print('福利奖励');
             },
           ),

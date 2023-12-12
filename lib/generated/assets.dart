@@ -3,35 +3,55 @@ class Assets {
   Assets._();
 
   static const String activityActivity = 'assets/images/activity/activity.png';
-  static const String activityActivityDetail = 'assets/images/activity/activity_detail.png';
+  static const String activityActivityDetail =
+      'assets/images/activity/activity_detail.png';
   static const String fontsDINPro = 'assets/fonts/DIN-Pro.otf';
   static const String fontsDINProBold = 'assets/fonts/DINPro-Bold.otf';
   static const String fontsDINProMedium = 'assets/fonts/DINPro-Medium.otf';
   static const String gamesBaijialeOm = 'assets/images/games/baijiale_om.png';
-  static const String gamesBaijialeQuick = 'assets/images/games/baijiale_quick.png';
-  static const String gamesBaijialeVideo = 'assets/images/games/baijiale_video.png';
+  static const String gamesBaijialeQuick =
+      'assets/images/games/baijiale_quick.png';
+  static const String gamesBaijialeVideo =
+      'assets/images/games/baijiale_video.png';
   static const String gamesCanada28 = 'assets/images/games/canada_28.png';
   static const String gamesCanada4246 = 'assets/images/games/canada_4246.png';
   static const String gamesCanada50 = 'assets/images/games/canada_50.png';
-  static const String gamesCanadaShishicai = 'assets/images/games/canada_shishicai.png';
-  static const String gamesCanadaWanpan = 'assets/images/games/canada_wanpan.png';
-  static const String gamesGamesCurrenceCn = 'assets/images/games/games_currence_cn.png';
+  static const String gamesCanadaShishicai =
+      'assets/images/games/canada_shishicai.png';
+  static const String gamesCanadaWanpan =
+      'assets/images/games/canada_wanpan.png';
+  static const String gamesGamesCurrenceCn =
+      'assets/images/games/games_currence_cn.png';
   static const String gamesGamesHot = 'assets/images/games/games_hot.png';
-  static const String gamesGamesHotArrow = 'assets/images/games/games_hot_arrow.png';
-  static const String gamesGamesLottery = 'assets/images/games/games_lottery.png';
-  static const String gamesGamesLotteryArrow = 'assets/images/games/games_lottery_arrow.png';
+  static const String gamesGamesHotArrow =
+      'assets/images/games/games_hot_arrow.png';
+  static const String gamesGamesLottery =
+      'assets/images/games/games_lottery.png';
+  static const String gamesGamesLotteryArrow =
+      'assets/images/games/games_lottery_arrow.png';
   static const String gamesGamesSports = 'assets/images/games/games_sports.png';
-  static const String gamesGamesSportsArrow = 'assets/images/games/games_sports_arrow.png';
+  static const String gamesGamesSportsArrow =
+      'assets/images/games/games_sports_arrow.png';
   static const String gamesGamesVideo = 'assets/images/games/games_video.png';
-  static const String gamesGamesVideoArrow = 'assets/images/games/games_video_arrow.png';
-  static const String gamesLotteryLiuhe = 'assets/images/games/lottery_liuhe.png';
-  static const String gamesLotteryPcBaijiale = 'assets/images/games/lottery_pc_baijiale.png';
-  static const String gamesLotteryPcNuinui = 'assets/images/games/lottery_pc_nuinui.png';
-  static const String gamesLotteryTixincai = 'assets/images/games/lottery_tixincai.png';
-  static const String gamesRealClassicBaijiale = 'assets/images/games/real_classic_baijiale.png';
-  static const String gamesRealOmBaijiale = 'assets/images/games/real_om_baijiale.png';
-  static const String gamesRealQuickBaijale = 'assets/images/games/real_quick_baijale.png';
-  static const String gamesRealWheelBaijiale = 'assets/images/games/real_wheel_baijiale.png';
+
+  static const String gamesGamesVideoArrow =
+      'assets/images/games/games_video_arrow.png';
+  static const String gamesLotteryLiuhe =
+      'assets/images/games/lottery_liuhe.png';
+  static const String gamesLotteryPcBaijiale =
+      'assets/images/games/lottery_pc_baijiale.png';
+  static const String gamesLotteryPcNuinui =
+      'assets/images/games/lottery_pc_nuinui.png';
+  static const String gamesLotteryTixincai =
+      'assets/images/games/lottery_tixincai.png';
+  static const String gamesRealClassicBaijiale =
+      'assets/images/games/real_classic_baijiale.png';
+  static const String gamesRealOmBaijiale =
+      'assets/images/games/real_om_baijiale.png';
+  static const String gamesRealQuickBaijale =
+      'assets/images/games/real_quick_baijale.png';
+  static const String gamesRealWheelBaijiale =
+      'assets/images/games/real_wheel_baijiale.png';
   static const String gamesSport1 = 'assets/images/games/sport_1.png';
   static const String gamesSport2 = 'assets/images/games/sport_2.png';
   static const String gamesSport3 = 'assets/images/games/sport_3.png';
@@ -43,72 +63,107 @@ class Assets {
   static const String imagesFacebook = 'assets/images/facebook.png';
   static const String imagesGmail = 'assets/images/gmail.png';
   static const String imagesHomeAddIcon = 'assets/images/home_add_icon.png';
-  static const String imagesHomeCunkuanIcon = 'assets/images/home_cunkuan_icon.png';
-  static const String imagesHomeDanzhuIcon = 'assets/images/home_danzhu_icon.png';
+  static const String imagesHomeCunkuanIcon =
+      'assets/images/home_cunkuan_icon.png';
+  static const String imagesHomeDanzhuIcon =
+      'assets/images/home_danzhu_icon.png';
   static const String imagesHomeFootball = 'assets/images/home_football.png';
   static const String imagesHomeJianada28 = 'assets/images/home_jianada28.png';
-  static const String imagesHomeJianada28Icon = 'assets/images/home_jianada28_icon.png';
+  static const String imagesHomeJianada28Icon =
+      'assets/images/home_jianada28_icon.png';
   static const String imagesHomeJianada42 = 'assets/images/home_jianada42.png';
-  static const String imagesHomeJianada42Icon = 'assets/images/home_jianada42_icon.png';
+  static const String imagesHomeJianada42Icon =
+      'assets/images/home_jianada42_icon.png';
   static const String imagesHomeJianada5 = 'assets/images/home_jianada5.png';
-  static const String imagesHomeJianada50Icon = 'assets/images/home_jianada50_icon.png';
-  static const String imagesHomeJianadashishicai = 'assets/images/home_jianadashishicai.png';
-  static const String imagesHomeJianadashishicaiIcon = 'assets/images/home_jianadashishicai_icon.png';
-  static const String imagesHomeJianadawangpan = 'assets/images/home_jianadawangpan.png';
-  static const String imagesHomeJianadawangpanIcon = 'assets/images/home_jianadawangpan_icon.png';
-  static const String imagesHomeJingdianbaijiale = 'assets/images/home_jingdianbaijiale.png';
-  static const String imagesHomeJingmibaijiale = 'assets/images/home_jingmibaijiale.png';
-  static const String imagesHomeJisubaijiale = 'assets/images/home_jisubaijiale.png';
-  static const String imagesHomeLiuhecaiIcon = 'assets/images/home_liuhecai_icon.png';
-  static const String imagesHomeLunpaibaijiale = 'assets/images/home_lunpaibaijiale.png';
-  static const String imagesHomeMarqueeIcon = 'assets/images/home_marquee_icon.png';
-  static const String imagesHomeOumeibaijiale = 'assets/images/home_oumeibaijiale.png';
-  static const String imagesHomePcbaijiale = 'assets/images/home_pcbaijiale.png';
-  static const String imagesHomePcbaijialeIcon = 'assets/images/home_pcbaijiale_icon.png';
+  static const String imagesHomeJianada50Icon =
+      'assets/images/home_jianada50_icon.png';
+  static const String imagesHomeJianadashishicai =
+      'assets/images/home_jianadashishicai.png';
+  static const String imagesHomeJianadashishicaiIcon =
+      'assets/images/home_jianadashishicai_icon.png';
+  static const String imagesHomeJianadawangpan =
+      'assets/images/home_jianadawangpan.png';
+  static const String imagesHomeJianadawangpanIcon =
+      'assets/images/home_jianadawangpan_icon.png';
+  static const String imagesHomeJingdianbaijiale =
+      'assets/images/home_jingdianbaijiale.png';
+  static const String imagesHomeJingmibaijiale =
+      'assets/images/home_jingmibaijiale.png';
+  static const String imagesHomeJisubaijiale =
+      'assets/images/home_jisubaijiale.png';
+  static const String imagesHomeLiuhecaiIcon =
+      'assets/images/home_liuhecai_icon.png';
+  static const String imagesHomeLunpaibaijiale =
+      'assets/images/home_lunpaibaijiale.png';
+  static const String imagesHomeMarqueeIcon =
+      'assets/images/home_marquee_icon.png';
+  static const String imagesHomeOumeibaijiale =
+      'assets/images/home_oumeibaijiale.png';
+  static const String imagesHomePcbaijiale =
+      'assets/images/home_pcbaijiale.png';
+  static const String imagesHomePcbaijialeIcon =
+      'assets/images/home_pcbaijiale_icon.png';
   static const String imagesHomePcniuniu = 'assets/images/home_pcniuniu.png';
-  static const String imagesHomePcniuniuIcon = 'assets/images/home_pcniuniu_icon.png';
+  static const String imagesHomePcniuniuIcon =
+      'assets/images/home_pcniuniu_icon.png';
   static const String imagesHomeQixingcai = 'assets/images/home_qixingcai.png';
-  static const String imagesHomeQixingcaiIcon = 'assets/images/home_qixingcai_icon.png';
-  static const String imagesHomeQukuanIcon = 'assets/images/home_qukuan_icon.png';
-  static const String imagesHomeRefreshIcon = 'assets/images/home_refresh_icon.png';
+  static const String imagesHomeQixingcaiIcon =
+      'assets/images/home_qixingcai_icon.png';
+  static const String imagesHomeQukuanIcon =
+      'assets/images/home_qukuan_icon.png';
+  static const String imagesHomeRefreshIcon =
+      'assets/images/home_refresh_icon.png';
   static const String imagesHomeSubIcon = 'assets/images/home_sub_icon.png';
-  static const String imagesHomeTicketHitIcon = 'assets/images/home_ticket_hit_icon.png';
+  static const String imagesHomeTicketHitIcon =
+      'assets/images/home_ticket_hit_icon.png';
   static const String imagesHomeTopAlert = 'assets/images/home_top_alert.png';
   static const String imagesHomeTopGuoqi = 'assets/images/home_top_guoqi.png';
   static const String imagesHomeTopLogo = 'assets/images/home_top_logo.png';
   static const String imagesHomeTopMsg = 'assets/images/home_top_msg.png';
   static const String imagesHomeVipIcon = 'assets/images/home_vip_icon.png';
-  static const String imagesHomeXianggangliuhecai = 'assets/images/home_xianggangliuhecai.png';
-  static const String imagesHomeZhubobaijiale = 'assets/images/home_zhubobaijiale.png';
+  static const String imagesHomeXianggangliuhecai =
+      'assets/images/home_xianggangliuhecai.png';
+  static const String imagesHomeZhubobaijiale =
+      'assets/images/home_zhubobaijiale.png';
   static const String imagesIconAccount = 'assets/images/icon_account.png';
-  static const String imagesIconArrowsEnter = 'assets/images/icon_arrows_enter.png';
+  static const String imagesIconArrowsEnter =
+      'assets/images/icon_arrows_enter.png';
   static const String imagesIconAward = 'assets/images/icon_award.png';
   static const String imagesIconBackWater = 'assets/images/icon_back_water.png';
   static const String imagesIconChina = 'assets/images/icon_china.png';
-  static const String imagesIconDottedLine = 'assets/images/icon_dotted_line.png';
+  static const String imagesIconDottedLine =
+      'assets/images/icon_dotted_line.png';
   static const String imagesIconEditBg = 'assets/images/icon_edit_bg.png';
   static const String imagesIconEnglish = 'assets/images/icon_english.png';
   static const String imagesIconEyeClose = 'assets/images/icon_eye_close.png';
   static const String imagesIconEyeOpen = 'assets/images/icon_eye_open.png';
-  static const String imagesIconGameRecord = 'assets/images/icon_game_record.png';
-  static const String imagesIconHeaderDefault = 'assets/images/icon_header_default.png';
+  static const String imagesIconGameRecord =
+      'assets/images/icon_game_record.png';
+  static const String imagesIconHeaderDefault =
+      'assets/images/icon_header_default.png';
   static const String imagesIconId = 'assets/images/icon_id.png';
   static const String imagesIconInform = 'assets/images/icon_inform.png';
   static const String imagesIconJapan = 'assets/images/icon_Japan.png';
-  static const String imagesIconLanguageSelect = 'assets/images/icon_language_select.png';
+  static const String imagesIconLanguageSelect =
+      'assets/images/icon_language_select.png';
   static const String imagesIconLogOut = 'assets/images/icon_log_out.png';
-  static const String imagesIconMessaageSet = 'assets/images/icon_messaage_set.png';
+  static const String imagesIconMessaageSet =
+      'assets/images/icon_messaage_set.png';
   static const String imagesIconMineShare = 'assets/images/icon_mine_share.png';
   static const String imagesIconMypurseBg = 'assets/images/icon_mypurse_bg.png';
-  static const String imagesIconPaidPromote = 'assets/images/icon_paid_promote.png';
+  static const String imagesIconPaidPromote =
+      'assets/images/icon_paid_promote.png';
   static const String imagesIconPersonal = 'assets/images/icon_personal.png';
   static const String imagesIconSafeBox = 'assets/images/icon_safe_box.png';
   static const String imagesIconSafeboxBg = 'assets/images/icon_safebox_bg.png';
-  static const String imagesIconSetingLogo = 'assets/images/icon_seting_logo.png';
+  static const String imagesIconSetingLogo =
+      'assets/images/icon_seting_logo.png';
   static const String imagesIconSetting = 'assets/images/icon_setting.png';
   static const String imagesIconShowDiaBg = 'assets/images/icon_showDia_bg.png';
-  static const String imagesIconSwitchClose = 'assets/images/icon_switch_close.png';
-  static const String imagesIconSwitchOpen = 'assets/images/icon_switch_open.png';
+  static const String imagesIconSwitchClose =
+      'assets/images/icon_switch_close.png';
+  static const String imagesIconSwitchOpen =
+      'assets/images/icon_switch_open.png';
   static const String imagesIconTopBg = 'assets/images/icon_top_bg.png';
   static const String imagesIconTopUp = 'assets/images/icon_top_up.png';
   static const String imagesIconVip = 'assets/images/icon_vip.png';
@@ -119,19 +174,30 @@ class Assets {
   static const String imagesPasswordIcon = 'assets/images/password_icon.png';
   static const String imagesPasswordOff = 'assets/images/password_off.png';
   static const String imagesPasswordOn = 'assets/images/password_on.png';
-  static const String imagesPrivacyBtnNormal = 'assets/images/privacy_btn_normal.png';
-  static const String imagesPrivacyBtnSelected = 'assets/images/privacy_btn_selected.png';
+  static const String imagesPrivacyBtnNormal =
+      'assets/images/privacy_btn_normal.png';
+  static const String imagesPrivacyBtnSelected =
+      'assets/images/privacy_btn_selected.png';
   static const String imagesRegistTopLogo = 'assets/images/regist_top_logo.png';
   static const String imagesRegisterBg = 'assets/images/register_bg.png';
-  static const String imagesTabbarActivityNormal = 'assets/images/tabbar_activity_normal.png';
-  static const String imagesTabbarActivitySelected = 'assets/images/tabbar_activity_selected.png';
-  static const String imagesTabbarGamesNormal = 'assets/images/tabbar_games_normal.png';
-  static const String imagesTabbarGamesSelected = 'assets/images/tabbar_games_selected.png';
-  static const String imagesTabbarHomeNormal = 'assets/images/tabbar_home_normal.png';
-  static const String imagesTabbarHomeSelected = 'assets/images/tabbar_home_selected.png';
-  static const String imagesTabbarMineNormal = 'assets/images/tabbar_mine_normal.png';
-  static const String imagesTabbarMineSelected = 'assets/images/tabbar_mine_selected.png';
-  static const String imagesTabbarRechangeIcon = 'assets/images/tabbar_rechange_icon.png';
+  static const String imagesTabbarActivityNormal =
+      'assets/images/tabbar_activity_normal.png';
+  static const String imagesTabbarActivitySelected =
+      'assets/images/tabbar_activity_selected.png';
+  static const String imagesTabbarGamesNormal =
+      'assets/images/tabbar_games_normal.png';
+  static const String imagesTabbarGamesSelected =
+      'assets/images/tabbar_games_selected.png';
+  static const String imagesTabbarHomeNormal =
+      'assets/images/tabbar_home_normal.png';
+  static const String imagesTabbarHomeSelected =
+      'assets/images/tabbar_home_selected.png';
+  static const String imagesTabbarMineNormal =
+      'assets/images/tabbar_mine_normal.png';
+  static const String imagesTabbarMineSelected =
+      'assets/images/tabbar_mine_selected.png';
+  static const String imagesTabbarRechangeIcon =
+      'assets/images/tabbar_rechange_icon.png';
   static const String imagesTelegram = 'assets/images/telegram.png';
   static const String imagesVerCode = 'assets/images/ver_code.png';
   static const String imagesWhatapp = 'assets/images/whatapp.png';
@@ -141,5 +207,8 @@ class Assets {
   static const imgRechargeDefaultPng = "assets/images/recharge/img_recharge_default.png";
   static const iconTipPng = "assets/images/recharge/icon_tip.png";
   static const iconCCPng = "assets/images/withdraw/icon_cc.png";
-
+  static const String imageClaimRecordbg = 'assets/images/icon_claim_bg.png';
+  static const String imageMineReceivedMoney =
+      'assets/images/icon_received_money.png';
+  static const String imagespherosome = 'assets/images/icon_spherosome.png';
 }

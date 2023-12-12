@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:kkguoji/pages/activity/list/activity_logic.dart';
 import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
 import 'package:kkguoji/pages/message/message_list.dart';
+import 'package:kkguoji/pages/message/message_request.dart';
 
 class MessageCenterPage extends StatefulWidget {
   const MessageCenterPage({super.key});
@@ -16,6 +19,9 @@ class MessageCenterPage extends StatefulWidget {
 class _MessageCenterPageState extends State<MessageCenterPage> {
   @override
   Widget build(BuildContext context) {
+    //获取数据
+    Get.put(MessageRequest());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('消息中心'),
@@ -43,13 +49,13 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
           endIndent: 10,
         ),
         const SizedBox(height: 15),
-        Expanded(child: _tabbleView()),
+        // Expanded(child: _tabbleView()),
       ],
     );
   }
 
   Widget _buildSelectionView() {
-    return GetBuilder<ActivityLogic>(
+    return GetBuilder<MessageRequest>(
       id: "categoryView",
       builder: (controller) {
         return Container(
@@ -61,7 +67,7 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
               return CategoryItem(
                 category: controller.selectBar[index],
                 isSelected: controller.selectedCategoryId ==
-                    controller.items[index].index,
+                    controller.selectBar[index].index,
                 onTap: (categoryId) {
                   controller.onCategoryTap(categoryId);
                 },
@@ -74,25 +80,24 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
   }
 
   Widget _tabbleView() {
-    return GetBuilder<ActivityLogic>(
+    return GetBuilder<MessageRequest>(
         id: "itemsView",
         builder: (controller) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: ListView.builder(
                 shrinkWrap: true,
-                // itemCount: controller.activities.length,
-                itemCount: 5,
+                // itemCount: controller.messageList.length,
+                itemCount: 3,
                 itemBuilder: (context, index) {
-                  return MeeageListView();
-                  // return const FittedBox(
-                  //   child: MeeageListView(
-                  //       // activity: controller.activities[index],
-                  //       // onTap: (activityId) {
-                  //       //   controller.onActivityTap(activityId);
-                  //       // },
-                  //       ),
-                  // );
+                  return FittedBox(
+                    child: MeeageListView(
+                      messageModel: controller.messageList[index],
+                      // onTap: (activityId) {
+                      //   controller.onActivityTap(activityId);
+                      // },
+                    ),
+                  );
                 }),
           );
         });
