@@ -14,11 +14,11 @@ class RechargeLogic extends GetxController {
   ///选择的值默认50¥
   RxInt selectedValue = 0.obs;
   List<CategoryModel> options = [
-    CategoryModel(index: 1, name: "50"),
-    CategoryModel(index: 2, name: "100"),
-    CategoryModel(index: 3, name: "200"),
-    CategoryModel(index: 4, name: "300"),
-    CategoryModel(index: 5, name: "500"),
+    CategoryModel(index: 1, name: "50 ¥"),
+    CategoryModel(index: 2, name: "100 ¥"),
+    CategoryModel(index: 3, name: "200 ¥"),
+    CategoryModel(index: 4, name: "300 ¥"),
+    CategoryModel(index: 5, name: "500 ¥"),
   ];
 
   void onCategoryTap(int categoryId){

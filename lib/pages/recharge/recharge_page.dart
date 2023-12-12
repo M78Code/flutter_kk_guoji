@@ -162,12 +162,12 @@ class RechargePage extends GetView<RechargeLogic> {
           runSpacing: 15.h,
           children: List.generate(
             controller.options.length,
-            (index) => RechargeMoneyWidget(
+            (index) => CategoryRadioWidget(
               category: controller.options[index],
               isSelected: controller.selectedValue.value ==
                   controller.options[index].index,
               onTap: (category) {
-                controller.rechargeController.text = category.name; //更新输入框值
+                controller.rechargeController.text = category.name.replaceAll(" ¥", ""); //更新输入框值
                 print("充值中选择的值:${category.name}");
                 controller.onCategoryTap(category.index);
               },

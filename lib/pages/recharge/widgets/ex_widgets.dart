@@ -8,14 +8,18 @@ Widget inputTextEdit({
   TextEditingController? editController,
   TextInputType keyboardType = TextInputType.text,
   String? hintText,
+  String? preText,
+  double hintTextSize = 20,
   bool isPassword = false,
   double marginTop = 15,
   bool autofocus = false,
+  Function(String value)? callback,
 }) {
   return Container(
     height: 44.h,
     width: double.infinity,
-    margin: EdgeInsets.only(top: marginTop.h),
+    alignment: Alignment.centerLeft,
+    // margin: EdgeInsets.only(top: marginTop.h),
     decoration: BoxDecoration(
       // color: Colors.white
       border: Border(
@@ -27,26 +31,32 @@ Widget inputTextEdit({
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(width: 5.w),
-        const Text(
-          "¥",
-          style: TextStyle(color: Colors.white),
+        // SizedBox(width: 5.w),
+        Text(
+          preText ?? "",
+          style: const TextStyle(color: Colors.white),
         ),
-        SizedBox(width: 10.w),
+        // SizedBox(width: 10.w),
         Expanded(
           child: TextField(
             autofocus: autofocus,
             controller: editController,
             keyboardType: keyboardType,
+            onChanged: (value) => callback?.call(value),
             maxLength: 10,
-            style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w500),
             decoration: InputDecoration(
               counterText: "",
               border: InputBorder.none,
               hintText: hintText,
+              contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
               hintStyle: TextStyle(
-                fontSize: 20.sp,
+                fontSize: hintTextSize.sp,
                 color: Colors.white.withOpacity(0.2),
                 fontWeight: FontWeight.w500,
               ),
@@ -129,12 +139,12 @@ Widget buttonSubmit({
   );
 }
 
-class RechargeMoneyWidget extends StatelessWidget {
+class CategoryRadioWidget extends StatelessWidget {
   final CategoryModel category;
   final bool isSelected;
   final Function(CategoryModel category)? onTap;
 
-  const RechargeMoneyWidget({
+  const CategoryRadioWidget({
     super.key,
     required this.category,
     required this.isSelected,
@@ -157,10 +167,22 @@ class RechargeMoneyWidget extends StatelessWidget {
         ),
         borderRadius: BorderRadius.all(Radius.circular(30.r)),
       ),
-      child: Text(
-        "${category.name} ¥",
-        style: TextStyle(fontSize: 16.sp, color: Colors.white),
-      ),
+      child: null == category.imgPath
+          ? Text(
+              category.name,
+              style: TextStyle(fontSize: 16.sp, color: Colors.white),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(category.imgPath!, width: 12.w, height: 12.h),
+                SizedBox(width: 5.w),
+                Text(
+                  category.name,
+                  style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                ),
+              ],
+            ),
     ).onTap(() => onTap?.call(category));
   }
 }
