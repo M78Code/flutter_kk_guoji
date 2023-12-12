@@ -1,4 +1,7 @@
 class StringUtil {
+
+  StringUtil._();
+
   /// number传入的值
   /// position保留几位小数
   /// 不进行四舍五入
