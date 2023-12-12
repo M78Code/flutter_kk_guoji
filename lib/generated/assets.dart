@@ -141,5 +141,6 @@ class Assets {
   static const imgRechargeDefaultPng = "assets/images/recharge/img_recharge_default.png";
   static const iconTipPng = "assets/images/recharge/icon_tip.png";
   static const iconCCPng = "assets/images/withdraw/icon_cc.png";
+  static const iconRefresh = "assets/images/icon_refresh.png";
 
 }
