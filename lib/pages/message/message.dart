@@ -53,7 +53,7 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
           endIndent: 10,
         ),
         const SizedBox(height: 15),
-        MeeageListView(),
+        Expanded(child: MeeageListView()),
       ],
     );
   }
@@ -154,7 +154,7 @@ class _MeeageListViewState extends State<MeeageListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: ListView.builder(
         shrinkWrap: true,

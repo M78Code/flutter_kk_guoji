@@ -8,12 +8,14 @@ import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../common/models/user_info_model.dart';
-import '../routes/routes.dart';
-import '../services/cache_key.dart';
-import '../services/config.dart';
-import '../services/http_service.dart';
-import '../utils/route_util.dart';
+import '../../../common/models/user_info_model.dart';
+import '../../../routes/routes.dart';
+import '../../../services/cache_key.dart';
+import '../../../services/config.dart';
+import '../../../services/http_service.dart';
+import '../../../services/user_service.dart';
+import '../../../utils/route_util.dart';
+import 'package:get/get.dart';
 
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
@@ -26,6 +28,7 @@ class _MinePageState extends State<MinePage> {
   late final UserInfoModel _model;
   // ignore: prefer_typing_uninitialized_variables
   var _isEyeClose; //是否明文
+  final userService = Get.find<UserService>();
 
   Future<void> fetchData() async {
     // 模拟异步加载数据
@@ -174,7 +177,7 @@ class _MinePageState extends State<MinePage> {
                       children: [
                         Text(
                           //昵称
-                          '${_model.userNick}',
+                          userService.userInfoModel.value?.userNick ?? "",
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -191,7 +194,9 @@ class _MinePageState extends State<MinePage> {
                             ),
                             const SizedBox(width: 3),
                             Text(
-                              '${_model.uuid}',
+                              userService.userInfoModel.value?.uuid
+                                      ?.toString() ??
+                                  "",
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -248,14 +253,18 @@ class _MinePageState extends State<MinePage> {
           height: 50,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            image: DecorationImage(
-              image: NetworkImage('${_model.portrait}'),
-              fit: BoxFit.cover,
-              onError: (exception, stackTrace) {
-                //网络图片为空就展示本土图片
-                const AssetImage('assets/images/icon_header_default.png');
-              },
-            ),
+            image: userService.userInfoModel.value?.portrait == null
+                ? const DecorationImage(
+                    image: AssetImage('assets/images/icon_header_default.png'))
+                : DecorationImage(
+                    image: NetworkImage(
+                        userService.userInfoModel.value?.portrait ?? ""),
+                    fit: BoxFit.cover,
+                    onError: (exception, stackTrace) {
+                      //网络图片为空就展示本土图片
+                      const AssetImage('assets/images/icon_header_default.png');
+                    },
+                  ),
           ),
         ),
         Positioned(
@@ -265,7 +274,7 @@ class _MinePageState extends State<MinePage> {
             width: 35,
             height: 14,
             decoration: BoxDecoration(
-              color: _model.level == 0
+              color: userService.userInfoModel.value?.level == 0
                   ? const Color(0xff687083)
                   : const Color(0xffFF8A00),
               borderRadius: BorderRadius.circular(4),
@@ -284,7 +293,7 @@ class _MinePageState extends State<MinePage> {
                   width: 3,
                 ),
                 Text(
-                  '${_model.level}',
+                  '${userService.userInfoModel.value?.level}',
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -378,7 +387,9 @@ class _MinePageState extends State<MinePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  _isEyeClose == false ? '${_model.money}' : '****',
+                  _isEyeClose == false
+                      ? '${userService.userInfoModel.value?.money}'
+                      : '****',
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 17,
