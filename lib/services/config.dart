@@ -23,4 +23,6 @@ class HttpConfig {
 
   //客服中心
   static const getCustomer = "/api/public/customer";
+  //我的推广
+  static const getAgentTeam = "/api/agent/team";
 }

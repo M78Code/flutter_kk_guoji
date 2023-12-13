@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kkguoji/pages/promotion/view/promotion_recods_widget.dart';
 import 'package:kkguoji/pages/promotion/view/promotion_reward_widget.dart';
 class KKPromotionPage extends StatelessWidget {
   const KKPromotionPage({super.key});
@@ -28,10 +29,8 @@ class KKPromotionPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: TabBarView(children: [
-        const KKPromotionRewardWidget(),
-        Container(
-          child: Text("2", style: TextStyle(color: Colors.white),),
-        ),
+        KKPromotionRewardWidget(),
+        const KKPromotionRecodsWidget(),
       ],
 
       ),
