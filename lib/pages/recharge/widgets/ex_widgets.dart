@@ -13,43 +13,46 @@ Widget inputTextEdit({
   bool isPassword = false,
   double marginTop = 15,
   bool autofocus = false,
+  Widget? rightWidget,
+  int maxLength = 10,
   Function(String value)? callback,
 }) {
   return Container(
     height: 44.h,
-    width: double.infinity,
-    alignment: Alignment.centerLeft,
-    // margin: EdgeInsets.only(top: marginTop.h),
+    padding: EdgeInsets.symmetric(horizontal: 19.w),
     decoration: BoxDecoration(
-      // color: Colors.white
-      border: Border(
-        bottom: BorderSide(
-          width: 1.h,
-          color: Colors.white.withOpacity(0.06),
-        ),
-      ),
+      color: const Color(0xff6C7A8F).withOpacity(0.24),
+      borderRadius: BorderRadius.circular(36.r),
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // SizedBox(width: 5.w),
+// SizedBox(width: 5.w),
         Text(
           preText ?? "",
           style: const TextStyle(color: Colors.white),
         ),
-        // SizedBox(width: 10.w),
+// SizedBox(width: 10.w),
         Expanded(
           child: TextField(
             autofocus: autofocus,
             controller: editController,
             keyboardType: keyboardType,
             onChanged: (value) => callback?.call(value),
-            maxLength: 10,
-            style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
+            maxLength: maxLength,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20, //同时设置text字体大小和hintText字体大小时，hintText向下偏移，
+              height: 1.2, //解决办法，设置text的行高为1.2，效果好很多
+              fontWeight: FontWeight.w500,
+            ),
             decoration: InputDecoration(
               counterText: "",
               border: const OutlineInputBorder(borderSide: BorderSide.none),
+              enabledBorder: const OutlineInputBorder(borderSide: BorderSide.none),
+              disabledBorder: const OutlineInputBorder(borderSide: BorderSide.none),
+              focusedBorder: const OutlineInputBorder(borderSide: BorderSide.none),
               hintText: hintText,
               contentPadding: const EdgeInsets.all(0),
               hintStyle: TextStyle(
@@ -59,7 +62,8 @@ Widget inputTextEdit({
               ),
             ),
           ),
-        )
+        ),
+        rightWidget ?? Container(),
       ],
     ),
   );
@@ -127,10 +131,74 @@ Widget buttonSubmit({
       child: Text(
         text,
         style: const TextStyle(fontSize: 14, color: Colors.white
-            // color: controller.canLogin.value
-            //     ? Colors.white
-            //     : const Color(0xFFB2B3BD)),
+// color: controller.canLogin.value
+//     ? Colors.white
+//     : const Color(0xFFB2B3BD)),
             ),
+      ),
+    ),
+  );
+}
+
+Widget textField(
+  TextEditingController controller,
+) {
+  return Container(
+    alignment: Alignment.center,
+    padding: EdgeInsets.symmetric(horizontal: 19.w),
+    height: 42.h,
+    decoration: BoxDecoration(
+      color: const Color(0xff6C7A8F).withOpacity(0.24),
+      borderRadius: BorderRadius.circular(36.r),
+    ),
+    child: Align(
+      alignment: Alignment.center,
+      child: TextField(
+        controller: controller,
+        style: TextStyle(color: const Color(0xff333333), fontSize: 14.sp),
+        decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(bottom: 0, top: 0),
+            hintText: '请输入...',
+            hintStyle: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.white.withOpacity(0.2),
+              fontWeight: FontWeight.w500,
+            ),
+            border: const OutlineInputBorder(
+// 重点
+              borderSide: BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            enabledBorder: const OutlineInputBorder(
+// 重点
+              borderSide: BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            disabledBorder: const OutlineInputBorder(
+// 重点
+              borderSide: BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            focusedBorder: const OutlineInputBorder(
+// 重点
+              borderSide: BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            suffixIcon: controller.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(
+                      Icons.cancel,
+                      size: 16,
+                    ),
+                    onPressed: () {
+                      controller.text = '';
+                    },
+                  )
+                : null),
       ),
     ),
   );

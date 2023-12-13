@@ -1,12 +1,17 @@
+// ignore_for_file: prefer_const_constructors, unused_field
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
-import 'package:kkguoji/pages/message/message_list.dart';
+import 'package:kkguoji/pages/message/message_model.dart';
 import 'package:kkguoji/pages/message/message_request.dart';
-import 'package:kkguoji/routes/routes.dart';
-import 'package:kkguoji/utils/route_util.dart';
+import 'package:kkguoji/services/config.dart';
+import '../../../services/http_service.dart';
+import '../../routes/routes.dart';
+import '../../utils/route_util.dart';
 
 class MessageCenterPage extends StatefulWidget {
   const MessageCenterPage({super.key});
@@ -39,22 +44,17 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
 
   Column _buildView() {
     return Column(
-        children: [
+      children: [
         _buildSelectionView(),
-    const Divider(
-    color: Color.fromRGBO(255, 255, 255, 0.06),
-    height: 1,
-    indent: 10,
-    endIndent: 10,
-    ),
-    const SizedBox(height: 15),
-    <<<<<<< HEAD
-    // Expanded(child: _tabbleView()),
-    =======
-    MeeageListView(),
-    >>>>>>> main
-    ]
-    ,
+        const Divider(
+          color: Color.fromRGBO(255, 255, 255, 0.06),
+          height: 1,
+          indent: 10,
+          endIndent: 10,
+        ),
+        const SizedBox(height: 15),
+        MeeageListView(),
+      ],
     );
   }
 
@@ -70,15 +70,9 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
             itemBuilder: (context, index) {
               return CategoryItem(
                 category: controller.selectBar[index],
-// <<<<<<< HEAD
-//                 isSelected: controller.selectedCategoryId ==
-//                     controller.selectBar[index].index,
-//                 onTap: (categoryId) {
-//                   controller.onCategoryTap(categoryId);
-// =======
                 isSelected:
-                // ignore: unrelated_type_equality_checks
-                controller.type == controller.selectBar[index].index,
+                    // ignore: unrelated_type_equality_checks
+                    controller.type == controller.selectBar[index].index,
                 onTap: (type) {
                   controller.onCategoryTap(type);
                   // type = index + 1;
@@ -199,7 +193,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                             '${messageList[index]['content']}',
                             textStyle: TextStyle(
                                 color:
-                                isShow ? Color(0xFF686F83) : Colors.white,
+                                    isShow ? Color(0xFF686F83) : Colors.white,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400),
                           ),
@@ -212,7 +206,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                                 const Expanded(child: Text('')), //用这个设置在右边
                                 Text(
                                   isShow ? '显示所有' : '收起',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400),
@@ -220,15 +214,15 @@ class _MeeageListViewState extends State<MeeageListView> {
                                 const SizedBox(width: 5),
                                 isShow
                                     ? Image.asset(
-                                  'assets/images/icon_down.png',
-                                  width: 12,
-                                  height: 12,
-                                )
+                                        'assets/images/icon_down.png',
+                                        width: 12,
+                                        height: 12,
+                                      )
                                     : Image.asset(
-                                  'assets/images/icon_up.png',
-                                  width: 12,
-                                  height: 12,
-                                ),
+                                        'assets/images/icon_up.png',
+                                        width: 12,
+                                        height: 12,
+                                      ),
                                 //icon_up
                               ],
                             ),
@@ -256,7 +250,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                               children: [
                                 Text(
                                   '${messageList[index]['link_title']}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: Color(0xFF5D5FEF),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400),
@@ -272,7 +266,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                             onTap: () {
                               RouteUtil.pushToView(Routes.webView,
                                   arguments:
-                                  '${messageList[index]['link_title']}');
+                                      '${messageList[index]['link_title']}');
                             },
                           ),
                         ),
@@ -286,7 +280,7 @@ class _MeeageListViewState extends State<MeeageListView> {
               ),
             );
           } else {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(), // 加载更多的指示器
             );
           }

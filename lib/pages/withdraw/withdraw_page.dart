@@ -102,10 +102,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
                     buttonSubmit(
                       text: "确认提现",
                       height: 55,
-                      onPressed: () {
-                        RouteUtil.pushToView(Routes.bindEmail);
-                        // controller.recharge();
-                      },
+                      onPressed: () => controller.withdrawSubmit(),
                     ),
                   ],
                 ),
@@ -196,14 +193,10 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 19.w),
-          height: 42.h,
-          decoration: BoxDecoration(
-            color: const Color(0xff6C7A8F).withOpacity(0.24),
-            borderRadius: BorderRadius.circular(36.r),
-          ),
-          child: inputTextEdit(hintText: "请输入收款人姓名", hintTextSize: 15, editController: controller.nameController),
+        inputTextEdit(
+          hintText: "请输入收款人姓名",
+          hintTextSize: 15,
+          editController: controller.nameController,
         ),
       ],
     );
@@ -219,20 +212,16 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 19.w),
-          height: 42.h,
-          decoration: BoxDecoration(
-            color: const Color(0xff6C7A8F).withOpacity(0.24),
-            borderRadius: BorderRadius.circular(36.r),
-          ),
-          child: inputTextEdit(hintText: "请输入银行卡卡号", hintTextSize: 15, editController: controller.accountController),
+        inputTextEdit(
+          hintText: "请输入银行卡卡号",
+          hintTextSize: 15,
+          editController: controller.accountController,
         ),
       ],
     );
   }
 
-  ///收款账户
+  ///提款金额
   Widget _buildInputAmount() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,21 +231,13 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 19.w),
-          height: 42.h,
-          decoration: BoxDecoration(
-            color: const Color(0xff6C7A8F).withOpacity(0.24),
-            borderRadius: BorderRadius.circular(36.r),
-          ),
-          child: inputTextEdit(
-            hintText: "请输入提款金额",
-            hintTextSize: 15,
-            keyboardType: TextInputType.number,
-            editController: controller.amountController,
-            callback: (value) => controller.calcAmount(value),
-          ),
-        ),
+        inputTextEdit(
+          hintText: "请输入提款金额",
+          hintTextSize: 15,
+          keyboardType: TextInputType.number,
+          editController: controller.amountController,
+          callback: (value) => controller.calcAmount(value),
+        )
       ],
     );
   }

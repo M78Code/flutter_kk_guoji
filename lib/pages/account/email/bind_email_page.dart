@@ -44,13 +44,15 @@ class BindEmailPage extends GetView<EmailLogic> {
         _buildInputEmail(),
         SizedBox(height: 25.h),
         _buildInputCode(),
+        SizedBox(height: 50.h),
+        buttonSubmit(
+          text: "立即绑定",
+          height: 55,
+          onPressed: () {
+            // controller.recharge();
+          },
+        ).marginSymmetric(horizontal: 15.w),
       ],
-    );
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(top: BorderSide()),
-      ),
     );
   }
 
@@ -64,19 +66,12 @@ class BindEmailPage extends GetView<EmailLogic> {
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 19.w),
-          height: 42.h,
-          decoration: BoxDecoration(
-            color: const Color(0xff6C7A8F).withOpacity(0.24),
-            borderRadius: BorderRadius.circular(36.r),
-          ),
-          child: inputTextEdit(
-            hintText: "请输入邮箱账号",
-            hintTextSize: 15,
-            keyboardType: TextInputType.number,
-            editController: controller.emailController,
-          ),
+        inputTextEdit(
+          hintText: "请输入邮箱账号",
+          hintTextSize: 15,
+          maxLength: 48,
+          keyboardType: TextInputType.emailAddress,
+          editController: controller.emailController,
         ),
       ],
     ).marginSymmetric(horizontal: 15.w);
@@ -92,18 +87,25 @@ class BindEmailPage extends GetView<EmailLogic> {
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 19.w),
-          height: 42.h,
-          decoration: BoxDecoration(
-            color: const Color(0xff6C7A8F).withOpacity(0.24),
-            borderRadius: BorderRadius.circular(36.r),
-          ),
-          child: inputTextEdit(
-            hintText: "请输入邮箱验证码",
-            hintTextSize: 15,
-            keyboardType: TextInputType.number,
-            editController: controller.emailController,
+        inputTextEdit(
+          hintText: "请输入邮箱验证码",
+          hintTextSize: 15,
+          keyboardType: TextInputType.emailAddress,
+          editController: controller.codeController,
+          rightWidget: TextButton(
+            style: ButtonStyle(
+              alignment: Alignment.centerRight,
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.zero),
+
+            ),
+            onPressed: () => controller.sendCodeToEmail(),
+            child: Obx(
+              () => Text(
+                controller.countdown.value > 0 ? "${controller.countdown.value} s" : "发送验证码",
+                textAlign: TextAlign.end,
+                style: TextStyle(color: const Color(0xff5D5FEF), fontSize: 14.sp),
+              ),
+            ),
           ),
         ),
       ],

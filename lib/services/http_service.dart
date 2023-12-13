@@ -69,7 +69,7 @@ class RequestInterceptors extends Interceptor {
     if(SqliteUtil().getString(CacheKey.apiToken) != null) {
       options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
     }
-    print(options.queryParameters);
+    // print(options.queryParameters);
 
     return handler.next(options);
   }

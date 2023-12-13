@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
@@ -10,39 +12,8 @@ class MessageRequest extends GetxController {
   late List<CategoryModel> selectBar = List.generate(messageSelectBar.length,
       (index) => CategoryModel(index: index, name: messageSelectBar[index]));
 
-  List<MessageModel> messageList = [
-    MessageModel(
-        id: 0,
-        title: '公告',
-        link: "",
-        content: '',
-        image: '',
-        create_time: '2023-24-29',
-        is_read: 2),
-  ];
-
-  void onCategoryTap(int categoryId) {
-    print(categoryId);
-    selectedCategoryId.value = categoryId;
-    update(["categoryView", "itemsView"]);
-  }
-
-  //获取公告列表
-  void getMessageListData(int page) {
-    print('什么鬼');
-    Get.toNamed(
-      Routes.getMessageList,
-      arguments: {
-        "type": selectedCategoryId.value + 1,
-        "page": page,
-        "limit": 10,
-      },
-    );
-  }
-
   void onCategoryTap(int type) {
     type = type;
     update(["categoryView", "itemsView"]);
   }
-
 }
