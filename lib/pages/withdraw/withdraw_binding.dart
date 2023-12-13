@@ -1,9 +1,7 @@
-
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_logic.dart';
 
-class WithdrawBinding extends Bindings{
-
+class WithdrawBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
