@@ -3,13 +3,13 @@ import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/pages/games/games_page.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/main/logic/main_logic.dart';
+import 'package:kkguoji/pages/recharge/recharge_page.dart';
 
 import '../../../routes/routes.dart';
 import '../../../utils/route_util.dart';
 import '../../activity/list/activity_page.dart';
 import '../../home/view/home_page.dart';
 import '../../mine_page.dart';
-import '../../rechange_page.dart';
 
 class KKMainPage extends StatefulWidget {
   // const MyHomePage({super.key, required this.title});
@@ -65,8 +65,8 @@ class _KKMainPageState extends State<KKMainPage> {
   final List _pages = [
     KKHomePage(),
     const KKGamesPage(),
-    const RechangePage(),
-    ActivityPage(),
+    const RechargePage(),
+    const ActivityPage(),
     const MinePage()
   ];
 
