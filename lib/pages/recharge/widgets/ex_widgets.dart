@@ -46,15 +46,12 @@ Widget inputTextEdit({
             keyboardType: keyboardType,
             onChanged: (value) => callback?.call(value),
             maxLength: 10,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w500),
+            style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
             decoration: InputDecoration(
               counterText: "",
-              border: InputBorder.none,
+              border: const OutlineInputBorder(borderSide: BorderSide.none),
               hintText: hintText,
-              contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              contentPadding: const EdgeInsets.all(0),
               hintStyle: TextStyle(
                 fontSize: hintTextSize.sp,
                 color: Colors.white.withOpacity(0.2),
@@ -158,9 +155,7 @@ class CategoryRadioWidget extends StatelessWidget {
       width: 98.w,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: isSelected
-            ? const Color.fromRGBO(93, 66, 206, 0.5)
-            : Colors.transparent,
+        color: isSelected ? const Color.fromRGBO(93, 66, 206, 0.5) : Colors.transparent,
         border: Border.all(
           width: 1,
           color: const Color(0xff4E5Ac5),

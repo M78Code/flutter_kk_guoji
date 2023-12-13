@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/account/email/bind_email_page.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
@@ -22,6 +23,7 @@ abstract class Routes {
   static const String recharge = "/recharge";
   static const String withdraw = "/withdraw";
   static const String getMessageList = '/notice/list'; //公告信息查询
+  static const String bindEmail = "/account/email";
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -33,5 +35,6 @@ abstract class Routes {
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
     GetPage(name: getMessageList, page: () => MessageCenterPage()),
+    GetPage(name: bindEmail, page: () => const BindEmailPage()),
   ];
 }

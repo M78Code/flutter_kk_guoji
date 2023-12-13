@@ -5,7 +5,9 @@ import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
 import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_logic.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
 class WithdrawPage extends GetView<WithdrawLogic> {
@@ -31,10 +33,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
                 ),
                 title: Text(
                   "提现",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
+                  style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
                 ),
                 actions: [
                   Padding(
@@ -77,10 +76,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
                   children: [
                     Text(
                       "提现货币",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 13.h),
                     _buildCoinCategory(),
@@ -90,10 +86,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
                     SizedBox(height: 32.h),
                     Text(
                       "选择类型",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 13.h),
                     _buildSelectCategory(),
@@ -107,9 +100,10 @@ class WithdrawPage extends GetView<WithdrawLogic> {
                     _buildTip(),
                     _buildWithdrawInfo(),
                     buttonSubmit(
-                      text: "立即充值",
+                      text: "确认提现",
                       height: 55,
                       onPressed: () {
+                        RouteUtil.pushToView(Routes.bindEmail);
                         // controller.recharge();
                       },
                     ),
@@ -125,8 +119,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
   Widget _buildSelectCategory() {
     return Obx(
       () {
-        List<CategoryModel> selectOptions =
-            controller.typeOptions[controller.coinCategoryIndex]!;
+        List<CategoryModel> selectOptions = controller.typeOptions[controller.coinCategoryIndex]!;
         return Wrap(
           spacing: 20.w,
           runSpacing: 15.h,
@@ -134,8 +127,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             selectOptions.length,
             (index) => CategoryRadioWidget(
               category: selectOptions[index],
-              isSelected: controller.selectTypeIndex.value ==
-                  selectOptions[index].index,
+              isSelected: controller.selectTypeIndex.value == selectOptions[index].index,
               onTap: (category) {
                 controller.onSelectCategoryUpdate(category.index);
                 print("选择类型的值:${category.name}");
@@ -157,8 +149,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           controller.options.length,
           (index) => CategoryRadioWidget(
             category: controller.options[index],
-            isSelected: controller.coinCategoryIndex.value ==
-                controller.options[index].index,
+            isSelected: controller.coinCategoryIndex.value == controller.options[index].index,
             onTap: (category) {
               controller.onCoinCategoryUpdate(category.index);
               print("充值中选择的值:${category.name}");
@@ -202,10 +193,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       children: [
         Text(
           "收款人姓名",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
         Container(
@@ -215,10 +203,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             color: const Color(0xff6C7A8F).withOpacity(0.24),
             borderRadius: BorderRadius.circular(36.r),
           ),
-          child: inputTextEdit(
-              hintText: "请输入收款人姓名",
-              hintTextSize: 15,
-              editController: controller.nameController),
+          child: inputTextEdit(hintText: "请输入收款人姓名", hintTextSize: 15, editController: controller.nameController),
         ),
       ],
     );
@@ -231,10 +216,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       children: [
         Text(
           "收款账户",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
         Container(
@@ -244,10 +226,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             color: const Color(0xff6C7A8F).withOpacity(0.24),
             borderRadius: BorderRadius.circular(36.r),
           ),
-          child: inputTextEdit(
-              hintText: "请输入银行卡卡号",
-              hintTextSize: 15,
-              editController: controller.accountController),
+          child: inputTextEdit(hintText: "请输入银行卡卡号", hintTextSize: 15, editController: controller.accountController),
         ),
       ],
     );
@@ -260,10 +239,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       children: [
         Text(
           "提款金额",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
         Container(
@@ -333,18 +309,15 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               children: [
                 Text(
                   "提款金额",
-                  style: TextStyle(
-                      color: const Color(0xffA6ACC0), fontSize: 13.sp),
+                  style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
                 ),
                 Text(
                   "提款手续费",
-                  style: TextStyle(
-                      color: const Color(0xffA6ACC0), fontSize: 13.sp),
+                  style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
                 ),
                 Text(
                   "提款总额",
-                  style: TextStyle(
-                      color: const Color(0xffA6ACC0), fontSize: 13.sp),
+                  style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
                 ),
               ],
             ),
