@@ -23,35 +23,38 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
-// ignore: unused_field
   late final UserInfoModel _model;
-  // ignore: unused_field, prefer_typing_uninitialized_variables
+  // ignore: prefer_typing_uninitialized_variables
   var _isEyeClose; //是否明文
+
+  Future<void> fetchData() async {
+    // 模拟异步加载数据
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      getUserInfo();
+      getEyeClose();
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    getUserInfo();
-    getEyeClose();
+    fetchData();
   }
 
   getUserInfo() async {
     var result = await HttpRequest.request(HttpConfig.getUserInfo);
     if (result["code"] == 200) {
-      setState(() {
-        _model = UserInfoModel.fromJson(result["data"]);
-      });
+      _model = UserInfoModel.fromJson(result["data"]);
     }
+
     return null;
   }
 
   // 读取bool值
   void getEyeClose() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isEyeClose = prefs.getBool('isEyeClose') ?? false; // 如果没有取到值，默认为false
-      print(prefs.getBool('isEyeClose'));
-    });
+    _isEyeClose = prefs.getBool('isEyeClose') ?? false; // 如果没有取到值，默认为false
   }
 
   // 存储bool值
@@ -63,39 +66,41 @@ class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 350,
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  _myHeaderView(),
-                  Positioned(
-                    top: 160,
-                    left: 10,
-                    right: 10,
-                    child: _mypurseView(),
-                  )
-                ],
-              ),
-            ),
-            const Column(
+      body: RefreshIndicator(
+          onRefresh: fetchData,
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                SafeBoxWaitGridView(), //保险箱等
-                SizedBox(height: 0),
-                MyAccountInfo(), //账号信息等
-                BlackInterval(), //黑色间隔线
-                WelfareReward(), //福利奖励等
-                SizedBox(height: 20),
-                logOutBtn(), //退出登录
-                SizedBox(height: 20),
+                SizedBox(
+                  height: 350,
+                  child: Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      _model == null ? Text('123') : _myHeaderView(),
+                      Positioned(
+                        top: 160,
+                        left: 10,
+                        right: 10,
+                        child: _mypurseView(),
+                      )
+                    ],
+                  ),
+                ),
+                const Column(
+                  children: [
+                    SafeBoxWaitGridView(), //保险箱等
+                    SizedBox(height: 0),
+                    MyAccountInfo(), //账号信息等
+                    BlackInterval(), //黑色间隔线
+                    WelfareReward(), //福利奖励等
+                    SizedBox(height: 20),
+                    logOutBtn(), //退出登录
+                    SizedBox(height: 20),
+                  ],
+                )
               ],
-            )
-          ],
-        ),
-      ),
+            ),
+          )),
     );
   }
 

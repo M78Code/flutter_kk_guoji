@@ -22,4 +22,5 @@ class HttpConfig {
   static const getUserInfo = "/api/user/getInfo";
 
   static const getMessageList = '/api/notice/list'; //公告信息查询
+  static const readNotice = '/api/notice/readNotice'; //系统公告设置已读
 }
