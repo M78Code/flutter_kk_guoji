@@ -23,6 +23,7 @@ class Assets {
   static const String gamesGamesSports = 'assets/images/games/games_sports.png';
   static const String gamesGamesSportsArrow = 'assets/images/games/games_sports_arrow.png';
   static const String gamesGamesVideo = 'assets/images/games/games_video.png';
+
   static const String gamesGamesVideoArrow = 'assets/images/games/games_video_arrow.png';
   static const String gamesLotteryLiuhe = 'assets/images/games/lottery_liuhe.png';
   static const String gamesLotteryPcBaijiale = 'assets/images/games/lottery_pc_baijiale.png';
@@ -137,5 +138,12 @@ class Assets {
   static const String imagesWhatapp = 'assets/images/whatapp.png';
   static const String systemIconBack = 'assets/images/system/icon_back.png';
   static const String systemIconShare = 'assets/images/system/icon_share.png';
-
+  static const imgRechargeSelectedPng = "assets/images/recharge/img_recharge_selected.png";
+  static const imgRechargeDefaultPng = "assets/images/recharge/img_recharge_default.png";
+  static const iconTipPng = "assets/images/recharge/icon_tip.png";
+  static const iconCCPng = "assets/images/withdraw/icon_cc.png";
+  static const String imageClaimRecordbg = 'assets/images/icon_claim_bg.png';
+  static const String imageMineReceivedMoney = 'assets/images/icon_received_money.png';
+  static const String imagespherosome = 'assets/images/icon_spherosome.png';
+  static const iconRefresh = "assets/images/icon_refresh.png";
 }

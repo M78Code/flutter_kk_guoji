@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
@@ -11,16 +10,18 @@ import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
 import 'package:kkguoji/pages/rebate/bindings/binding.dart';
 import 'package:kkguoji/pages/rebate/logic/logic.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
+import 'package:kkguoji/pages/recharge/recharge_page.dart';
+import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
-
+import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
 import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
 import '../pages/activity/list/activity_page.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
 
-abstract class Routes {
 
+abstract class Routes {
   static const String loginPage = '/login';
   static const String registerPage = '/register';
   static const String homePage = '/home';
@@ -31,6 +32,8 @@ abstract class Routes {
   static const String promotion = "/promotion";
   static const String promation_history = '/promotion_history';
   static const String rebate = '/rebate';
+  static const String recharge = "/recharge";
+  static const String withdraw = "/withdraw";
 
   static final List<GetPage> routePage = [
 
@@ -44,6 +47,8 @@ abstract class Routes {
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: rebate, page: ()=> KKRebatePage(), binding: KKRebateBinding()),
+    GetPage(name: recharge, page: () => const RechargePage()),
+    GetPage(name: withdraw, page: () => const WithdrawPage()),
 
 
   ];

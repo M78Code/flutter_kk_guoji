@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/utils/app_util.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 import 'package:package_info/package_info.dart'; // 用于获取应用版本信息的包
 // ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart'; //清除缓存
@@ -96,7 +97,8 @@ class _MySetingState extends State<MySeting> {
               ), // 显示版本号
             ],
           ),
-          const SizedBox(height: 60), // 版本号和消息通知的间距
+
+          /*const SizedBox(height: 60), // 版本号和消息通知的间距
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -128,8 +130,8 @@ class _MySetingState extends State<MySeting> {
 
               const SizedBox(width: 5), // 消息通知和右边的间距
             ],
-          ),
-          const SizedBox(height: 20), // 消息通知和黑色背景view的间距
+          ),*/
+          const SizedBox(height: 40), // 消息通知和黑色背景view的间距
           Container(
             height: 8,
             color: Colors.black, // 黑色背景view
@@ -351,6 +353,7 @@ class _MySetingState extends State<MySeting> {
                             onPressed: () {
                               clearCache();
                               Navigator.of(context).pop();
+                              ShowToast.showToast('清除成功');
                             },
                             child: const Text(
                               '确定',
@@ -388,32 +391,5 @@ class _MySetingState extends State<MySeting> {
             ),
           );
         });
-  }
-
-  //清除成功提示
-  void showDeleteSuccess(BuildContext context) {
-    const ScaffoldMessenger(
-      // child: Container(
-      //   width: 100,
-      //   height: 40,
-      //   clipBehavior: Clip.antiAlias,
-      //   decoration: ShapeDecoration(
-      //       gradient: const LinearGradient(
-      //           colors: [Color(0xFF2E374C), Color(0xFF181E2F)]),
-      //       shape: RoundedRectangleBorder(
-      //           borderRadius: BorderRadius.circular(20))),
-      // ),
-      child: SnackBar(
-        width: 100,
-        backgroundColor: Colors.black,
-        clipBehavior: Clip.antiAlias,
-        content: Text(
-          '清除成功',
-          style: TextStyle(
-              color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
-        ),
-        duration: Duration(seconds: 5),
-      ),
-    );
   }
 }

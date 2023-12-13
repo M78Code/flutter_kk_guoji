@@ -203,7 +203,7 @@ extension ExWidget on Widget {
       );
 
   // 居中
-  Widget center({
+  Widget center(Image image, {
     Key? key,
     double? widthFactor,
     double? heightFactor,
