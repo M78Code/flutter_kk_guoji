@@ -11,7 +11,7 @@ import 'generated/l10n.dart';
 import '../utils/app_util.dart';
 import 'global.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   APPUtil();
   // SqliteUtil();
@@ -20,14 +20,12 @@ void main() async{
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context, child) {
@@ -37,7 +35,12 @@ class MyApp extends StatelessWidget {
             fallbackLocale: Get.deviceLocale,
             theme: ThemeData(
               useMaterial3: true,
-              appBarTheme: const AppBarTheme(color:  Color(0xFF171A26), titleTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+              appBarTheme: const AppBarTheme(
+                  color: Color(0xFF171A26),
+                  titleTextStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600)),
               // bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFF161D26)),
               scaffoldBackgroundColor: const Color(0xFF171A26),
               canvasColor: const Color(0xFF171A26),
@@ -58,6 +61,5 @@ class MyApp extends StatelessWidget {
             home: KKMainPage(),
           );
         });
-
   }
 }

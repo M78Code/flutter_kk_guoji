@@ -1,10 +1,9 @@
+
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
-import 'package:kkguoji/pages/message/message_model.dart';
-import 'package:kkguoji/routes/routes.dart';
 
 class MessageRequest extends GetxController {
-  RxInt selectedCategoryId = 0.obs;
+  RxInt type = 0.obs;
 
   ///消息中心
   List<String> messageSelectBar = ["全部活动", "通知活动", "系统公告"];
@@ -40,4 +39,10 @@ class MessageRequest extends GetxController {
       },
     );
   }
+
+  void onCategoryTap(int type) {
+    type = type;
+    update(["categoryView", "itemsView"]);
+  }
+
 }

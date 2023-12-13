@@ -97,7 +97,8 @@ class _MySetingState extends State<MySeting> {
               ), // 显示版本号
             ],
           ),
-          const SizedBox(height: 60), // 版本号和消息通知的间距
+
+          /*const SizedBox(height: 60), // 版本号和消息通知的间距
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -129,8 +130,8 @@ class _MySetingState extends State<MySeting> {
 
               const SizedBox(width: 5), // 消息通知和右边的间距
             ],
-          ),
-          const SizedBox(height: 20), // 消息通知和黑色背景view的间距
+          ),*/
+          const SizedBox(height: 40), // 消息通知和黑色背景view的间距
           Container(
             height: 8,
             color: Colors.black, // 黑色背景view

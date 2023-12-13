@@ -31,10 +31,10 @@ abstract class Routes {
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
     GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
     GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
-    GetPage(name: webView, page: () => KKWebViewPage()),
+    GetPage(name: webView, page: () => const KKWebViewPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
-    GetPage(name: getMessageList, page: () => MessageCenterPage()),
+    GetPage(name: getMessageList, page: () => const MessageCenterPage()),
     GetPage(name: bindEmail, page: () => const BindEmailPage()),
   ];
 }
