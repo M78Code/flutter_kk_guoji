@@ -1,11 +1,19 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
 import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
+import 'package:kkguoji/utils/sqlite_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/models/user_info_model.dart';
+import '../routes/routes.dart';
+import '../services/cache_key.dart';
 import '../services/config.dart';
 import '../services/http_service.dart';
+import '../utils/route_util.dart';
 
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
@@ -15,9 +23,46 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
+// ignore: unused_field
+  late final UserInfoModel _model;
+  // ignore: unused_field, prefer_typing_uninitialized_variables
+  var _isEyeClose; //是否明文
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+    getEyeClose();
+  }
+
+  getUserInfo() async {
+    var result = await HttpRequest.request(HttpConfig.getUserInfo);
+    if (result["code"] == 200) {
+      setState(() {
+        _model = UserInfoModel.fromJson(result["data"]);
+      });
+    }
+    return null;
+  }
+
+  // 读取bool值
+  void getEyeClose() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isEyeClose = prefs.getBool('isEyeClose') ?? false; // 如果没有取到值，默认为false
+      print(prefs.getBool('isEyeClose'));
+    });
+  }
+
+  // 存储bool值
+  void saveEyeClose(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isEyeClose', value);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -26,17 +71,17 @@ class _MinePageState extends State<MinePage> {
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  MyHeader(),
+                  _myHeaderView(),
                   Positioned(
                     top: 160,
                     left: 10,
                     right: 10,
-                    child: Mypurse(),
+                    child: _mypurseView(),
                   )
                 ],
               ),
             ),
-            Column(
+            const Column(
               children: [
                 SafeBoxWaitGridView(), //保险箱等
                 SizedBox(height: 0),
@@ -53,37 +98,9 @@ class _MinePageState extends State<MinePage> {
       ),
     );
   }
-}
 
-class MyHeader extends StatefulWidget {
-  const MyHeader({super.key});
-
-  @override
-  State<MyHeader> createState() => _MyHeaderState();
-}
-
-class _MyHeaderState extends State<MyHeader> {
-  // ignore: unused_field
-   late final UserInfoModel _model;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getUserInfo();
-  }
-
-  getUserInfo() async {
-    var result = await HttpRequest.request(HttpConfig.getUserInfo);
-    if (result["code"] == 200) {
-      _model = UserInfoModel.fromJson(result["data"]);
-      print(_model.username);
-    }
-    return null;
-  }
-
-  @override
-  Widget build(BuildContext context) {
+//头像
+  Widget _myHeaderView() {
     return Stack(
       children: [
         Container(
@@ -142,7 +159,7 @@ class _MyHeaderState extends State<MyHeader> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const AvatarWithVip(),
+                    avatarWithVip(),
                     const SizedBox(
                       width: 10,
                       height: 5,
@@ -214,16 +231,9 @@ class _MyHeaderState extends State<MyHeader> {
         ),
       ],
     );
-    ;
   }
-}
 
-class AvatarWithVip extends StatelessWidget {
-  const AvatarWithVip({super.key});
-  
- 
-  @override
-  Widget build(BuildContext context) {
+  Widget avatarWithVip() {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -231,11 +241,15 @@ class AvatarWithVip extends StatelessWidget {
           // 头像
           width: 50,
           height: 50,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              image:  AssetImage('assets/images/icon_header_default.png'),
+              image: NetworkImage('${_model.portrait}'),
               fit: BoxFit.cover,
+              onError: (exception, stackTrace) {
+                //网络图片为空就展示本土图片
+                const AssetImage('assets/images/icon_header_default.png');
+              },
             ),
           ),
         ),
@@ -245,12 +259,12 @@ class AvatarWithVip extends StatelessWidget {
               Container(
             width: 35,
             height: 14,
-            // padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
             decoration: BoxDecoration(
-              color: const Color(0xff687083),
+              color: _model.level == 0
+                  ? const Color(0xff687083)
+                  : const Color(0xffFF8A00),
               borderRadius: BorderRadius.circular(4),
             ),
-
             child: Row(
               mainAxisSize: MainAxisSize.min, //尺寸以适应内容
               mainAxisAlignment: MainAxisAlignment.center, //水平方向上居中对齐
@@ -264,9 +278,9 @@ class AvatarWithVip extends StatelessWidget {
                 const SizedBox(
                   width: 3,
                 ),
-                const Text(
-                  '0',
-                  style: TextStyle(
+                Text(
+                  '${_model.level}',
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.w700),
@@ -278,14 +292,9 @@ class AvatarWithVip extends StatelessWidget {
       ],
     );
   }
-}
 
 //我的钱包
-class Mypurse extends StatelessWidget {
-  const Mypurse({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _mypurseView() {
     return Container(
       height: 167,
       decoration: BoxDecoration(
@@ -363,26 +372,39 @@ class Mypurse extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text(
-                  '¥88,686.00',
-                  style: TextStyle(
+                Text(
+                  _isEyeClose == false ? '${_model.money}' : '****',
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                       fontWeight: FontWeight.w700),
                 ),
                 IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      'assets/images/icon_eye_close.png',
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.cover,
-                    ))
+                    //是否显示明文
+                    onPressed: () {
+                      setState(() {
+                        _isEyeClose = !_isEyeClose;
+                        saveEyeClose(_isEyeClose);
+                      });
+                    },
+                    icon: _isEyeClose == false
+                        ? Image.asset(
+                            'assets/images/icon_eye_open.png',
+                            width: 30,
+                            height: 30,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/images/icon_eye_close.png',
+                            width: 30,
+                            height: 30,
+                            fit: BoxFit.cover,
+                          ))
               ],
             ),
           ),
           const SizedBox(height: 0),
-          TopUpWithdrawBackwater(),
+          const TopUpWithdrawBackwater(),
         ],
       ),
     );
@@ -823,6 +845,7 @@ class WelfareReward extends StatelessWidget {
   }
 }
 
+//退出登录
 class logOutBtn extends StatelessWidget {
   const logOutBtn({super.key});
 
@@ -848,9 +871,100 @@ class logOutBtn extends StatelessWidget {
           ],
         ),
         onPressed: () {
+          _showDialog(context);
           print('退出登录');
         },
       ),
     );
+  }
+
+//退出登录弹框
+  void _showDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            content: Stack(
+              alignment: Alignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/icon_showDia_bg.png',
+                  fit: BoxFit.cover,
+                ),
+                const Positioned(
+                    top: 60,
+                    left: 35,
+                    right: 35,
+                    child: Center(
+                      child: Text(
+                        '这将使您需要重新登录才能使用我们的服务！确定要退出吗?',
+                        softWrap: true,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+                Positioned(
+                  left: 20,
+                  right: 20,
+                  bottom: 23,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: 102,
+                        height: 40,
+                        decoration: ShapeDecoration(
+                            //渐变色
+                            gradient: const LinearGradient(
+                                colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            )),
+                        child: TextButton(
+                            onPressed: () {
+                              SqliteUtil()
+                                  .remove(CacheKey.apiToken); //删除token等信息
+                              Navigator.of(context).pop();
+                              RouteUtil.pushToView(Routes.loginPage);
+                            },
+                            child: const Text(
+                              '确定',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            )),
+                      ),
+                      Container(
+                        width: 102,
+                        height: 40,
+                        decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              width: 2, color: Color(0xFF3D35C6)),
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              '取消',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            )),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
