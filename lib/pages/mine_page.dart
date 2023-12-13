@@ -3,6 +3,10 @@ import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/setting/setting.dart';
 import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
 
+import '../common/models/user_info_model.dart';
+import '../services/config.dart';
+import '../services/http_service.dart';
+
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
 
@@ -51,8 +55,32 @@ class _MinePageState extends State<MinePage> {
   }
 }
 
-class MyHeader extends StatelessWidget {
+class MyHeader extends StatefulWidget {
   const MyHeader({super.key});
+
+  @override
+  State<MyHeader> createState() => _MyHeaderState();
+}
+
+class _MyHeaderState extends State<MyHeader> {
+  // ignore: unused_field
+   late final UserInfoModel _model;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserInfo();
+  }
+
+  getUserInfo() async {
+    var result = await HttpRequest.request(HttpConfig.getUserInfo);
+    if (result["code"] == 200) {
+      _model = UserInfoModel.fromJson(result["data"]);
+      print(_model.username);
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +150,10 @@ class MyHeader extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'gogo',
-                          style: TextStyle(
+                        Text(
+                          //昵称
+                          '${_model.userNick}',
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.w600),
@@ -139,9 +168,9 @@ class MyHeader extends StatelessWidget {
                               height: 10,
                             ),
                             const SizedBox(width: 3),
-                            const Text(
-                              '123456',
-                              style: TextStyle(
+                            Text(
+                              '${_model.uuid}',
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400),
@@ -185,12 +214,14 @@ class MyHeader extends StatelessWidget {
         ),
       ],
     );
+    ;
   }
 }
 
 class AvatarWithVip extends StatelessWidget {
   const AvatarWithVip({super.key});
-
+  
+ 
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -203,7 +234,7 @@ class AvatarWithVip extends StatelessWidget {
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              image: AssetImage('assets/images/icon_header_default.png'),
+              image:  AssetImage('assets/images/icon_header_default.png'),
               fit: BoxFit.cover,
             ),
           ),
