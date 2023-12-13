@@ -12,12 +12,14 @@ class HttpConfig {
   static const login = "/api/public/login";
   static const getGameByCompanyCode = "/api/game/getGameByCompanyCode";
   static const loginGame = "/api/game/login";
-  static const gameLoginCallback  = "/api/game/loginCallback";
+  static const gameLoginCallback = "/api/game/loginCallback";
   // 用户
-  static const getUserMoney = "/api/user/getUserMoney";   // 用户余额
+  static const getUserMoney = "/api/user/getUserMoney"; // 用户余额
   // 游戏
-  static const getGroupGameList = "/api/game/getGroupGameList";   // 所有游戏分组数据
+  static const getGroupGameList = "/api/game/getGroupGameList"; // 所有游戏分组数据
 
   //获取用户信息
   static const getUserInfo = "/api/user/getInfo";
+
+  static const getMessageList = '/api/notice/list'; //公告信息查询
 }

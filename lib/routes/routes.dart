@@ -18,7 +18,6 @@ abstract class Routes {
   static const String activity = '/activity';
   static const String activityDetail = "/activityDetail";
   static const String webView = "/webView";
-  static const String getMessageList = '/notice/list'; //公告信息查询
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -31,6 +30,5 @@ abstract class Routes {
         page: () => ActivityDetailPage(),
         binding: ActivityDetailBinding()),
     GetPage(name: webView, page: () => KKWebViewPage()),
-    GetPage(name: getMessageList, page: () => MessageCenterPage()),
   ];
 }
