@@ -20,16 +20,13 @@ class HttpConfig {
   static const getUserMoneyDetailsSearch = "/api/user/getUserMoneyDetailsSearch";   // 获取用户资金明细-筛选
   // 游戏
   static const getGroupGameList = "/api/game/getGroupGameList"; // 所有游戏分组数据
-
   //获取用户信息
   static const getUserInfo = "/api/user/getInfo";
-
   //客服中心
   static const getCustomer = "/api/public/customer";
   //我的推广
   static const getAgentTeam = "/api/agent/team";
   static const getMessageList = '/api/notice/list'; //公告信息查询
-
   //获取游戏类型分类列表
   static const getGameTypeList = '/api/game/getGameTypeList';
   //获取自动返佣
