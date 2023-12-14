@@ -1,8 +1,8 @@
 import 'dart:ffi';
 
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/account_api.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../common/models/mine_wallet/user_money_details_model.dart';
 import '../../../../common/models/mine_wallet/user_money_details_search_respond_model.dart';
@@ -16,8 +16,11 @@ class WalletFundDetailLogic extends GetxController {
   var dateType = "today";
   int page = 1;
   bool isNoMoreData = false;
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
-  RefreshController get refreshController => _refreshController;
+  EasyRefreshController _refreshController = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
+  EasyRefreshController get refreshController => _refreshController;
 
   @override
   void onReady() {
@@ -43,7 +46,7 @@ class WalletFundDetailLogic extends GetxController {
   onTapSwitchFundDetailDate(String dateType) async {
     this.dateType = dateType;
     update(['dateSelector']);
-    _refreshController.resetNoData();
+    // _refreshController.resetNoData();
     await onRefresh();
   }
   fetchUserMoneyDetails() async {
@@ -79,12 +82,10 @@ class WalletFundDetailLogic extends GetxController {
     // await Future.delayed(Duration(milliseconds: 1000));
     await initData();
     // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
+    _refreshController.finishRefresh();
+    _refreshController.resetFooter();
     if (this.isNoMoreData) {
-      _refreshController.loadNoData();
-    }
-    else {
-      _refreshController.resetNoData();
+      _refreshController.finishLoad(IndicatorResult.noMore);
     }
   }
 
@@ -92,12 +93,9 @@ class WalletFundDetailLogic extends GetxController {
     // monitor network fetch
     await getUserMoneyDetailsSearch(false);
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    _refreshController.loadComplete();
+    _refreshController.finishRefresh();
     if (this.isNoMoreData) {
-      _refreshController.loadNoData();
-    }
-    else {
-      _refreshController.resetNoData();
+      _refreshController.finishLoad(IndicatorResult.noMore);
     }
   }
 }
