@@ -52,7 +52,7 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
           endIndent: 10,
         ),
         const SizedBox(height: 15),
-        MeeageListView(),
+        Expanded(child: MeeageListView()),
       ],
     );
   }
@@ -71,10 +71,11 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
                 category: controller.selectBar[index],
                 isSelected:
                     // ignore: unrelated_type_equality_checks
-                    controller.type == controller.selectBar[index].index,
+                    controller.selectedCategoryId ==
+                        controller.selectBar[index].index,
                 onTap: (type) {
                   controller.onCategoryTap(type);
-                  // type = index + 1;
+                  type = index + 1;
                   initState();
                 },
               ).paddingOnly(right: 10);
@@ -104,10 +105,10 @@ class _MeeageListViewState extends State<MeeageListView> {
   @override
   //控件创建的时候，会执行
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scrollController.addListener(_scrollListener);
     getMessageListData();
+    getReadNotice();
   }
 
   void _scrollListener() {
@@ -139,9 +140,20 @@ class _MeeageListViewState extends State<MeeageListView> {
     }
   }
 
+//系统公告设置已读
+  void getReadNotice() async {
+    // ignore: unused_local_variable  //系统公告ID
+    var result = await HttpRequest.request(HttpConfig.readNotice,
+        method: "post", params: {"id": type});
+    print(result['code']);
+    if (result['code'] == 200) {
+      print('成功');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: ListView.builder(
         shrinkWrap: true,

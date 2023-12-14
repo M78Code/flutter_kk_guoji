@@ -392,31 +392,4 @@ class _MySetingState extends State<MySeting> {
           );
         });
   }
-
-  //清除成功提示
-  void showDeleteSuccess(BuildContext context) {
-    const ScaffoldMessenger(
-      // child: Container(
-      //   width: 100,
-      //   height: 40,
-      //   clipBehavior: Clip.antiAlias,
-      //   decoration: ShapeDecoration(
-      //       gradient: const LinearGradient(
-      //           colors: [Color(0xFF2E374C), Color(0xFF181E2F)]),
-      //       shape: RoundedRectangleBorder(
-      //           borderRadius: BorderRadius.circular(20))),
-      // ),
-      child: SnackBar(
-        width: 100,
-        backgroundColor: Colors.black,
-        clipBehavior: Clip.antiAlias,
-        content: Text(
-          '清除成功',
-          style: TextStyle(
-              color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
-        ),
-        duration: Duration(seconds: 5),
-      ),
-    );
-  }
 }
