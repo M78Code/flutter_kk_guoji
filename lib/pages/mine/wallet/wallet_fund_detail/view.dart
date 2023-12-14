@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/extension/index.dart';
+import 'package:kkguoji/pages/mine/wallet/wallet_fund_detail/widgets/date_selection_section.dart';
+import 'package:kkguoji/pages/mine/wallet/wallet_fund_detail/widgets/recharge_section.dart';
+import 'package:kkguoji/pages/mine/wallet/wallet_fund_detail/widgets/transaction_list_section.dart';
 
 import '../../../../generated/assets.dart';
-import '../widgets/mine_wallet_balance_widget.dart';
+import '../index/widgets/mine_wallet_balance_widget.dart';
 import 'logic.dart';
 
 class WalletFundDetailPage extends StatelessWidget {
   WalletFundDetailPage({Key? key}) : super(key: key);
 
-  // final logic = Get.put(WalletFundDetailPage());
+  final logic = Get.put(WalletFundDetailLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +33,32 @@ class WalletFundDetailPage extends StatelessWidget {
           },
         ),
       ),
-      body: Container(
-        child: Column(
-            children: [
-              SizedBox(height: 20.w,),
-              MineWalletBalanceWidget(),
-
-              Spacer(),
-            ]
+      body:  Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: MineWalletBalanceWidget(),
+            ),
+            SliverToBoxAdapter(
+                child: SizedBox(height: 20.w,)
+            ),
+            SliverToBoxAdapter(
+              child: RechargeSection(),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 20.w,)
+            ),
+            SliverToBoxAdapter(
+              child: DateSelectionSection(),
+            ),
+            SliverToBoxAdapter(
+                child: SizedBox(height: 15.w,)
+            ),
+            TransactionListSection(),
+          ],
         ),
-      ),
+      ).safeArea(),
     );
   }
 }

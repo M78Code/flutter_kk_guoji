@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import '../../../../generated/assets.dart';
+import '../../../../../generated/assets.dart';
+import '../../../../../services/user_service.dart';
+
 
 class MineWalletBalanceWidget extends StatelessWidget {
   MineWalletBalanceWidget({Key? key}) : super(key: key);
@@ -13,7 +16,6 @@ class MineWalletBalanceWidget extends StatelessWidget {
 
   Widget _buildView() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
       height: 74.w,
       decoration: BoxDecoration(
         color: Color(0xFF2E374C).withOpacity(0.5),
@@ -35,13 +37,20 @@ class MineWalletBalanceWidget extends StatelessWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.w300),
               ),
-              const Text(
-                '¥88,686.00',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700),
-              ),
+              Obx(() {
+                return RichText(text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "¥",
+                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: UserService.to.userMoneyModel?.betMoney ?? "0.00",
+                      style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ));
+              }),
             ],
           ),
           Spacer(),

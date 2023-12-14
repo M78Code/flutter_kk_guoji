@@ -8,7 +8,7 @@ import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
-import 'package:kkguoji/common/widget/show_toast.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 
 class RegisterLogic extends GetxController {
 

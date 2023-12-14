@@ -8,7 +8,7 @@ import 'package:kkguoji/pages/account/login/logic.dart';
 
 import '../../../routes/routes.dart';
 import '../../../utils/route_util.dart';
-import '../../../common/widget/custom_input_field.dart';
+import '../../../widget/custom_input_field.dart';
 
 class KKLoginPage extends StatefulWidget {
   const KKLoginPage({super.key});

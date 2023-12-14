@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/register/logic.dart';
 import 'package:kkguoji/pages/account/register/segment_contrl_view.dart';
 import 'package:kkguoji/utils/route_util.dart';
-import 'package:kkguoji/common/widget/custom_input_field.dart';
-import 'package:kkguoji/common/widget/show_toast.dart';
+import 'package:kkguoji/widget/custom_input_field.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 
 import '../../../routes/routes.dart';
 

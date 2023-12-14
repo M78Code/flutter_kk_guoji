@@ -4,15 +4,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
-import 'package:kkguoji/pages/mine/wallet/widgets/mine_wallet_balance_widget.dart';
+import 'package:kkguoji/pages/mine/wallet/index/widgets/mine_wallet_balance_widget.dart';
 
-import '../../../generated/assets.dart';
-import '../../../routes/routes.dart';
-import '../../../utils/route_util.dart';
+import '../../../../generated/assets.dart';
+import '../../../../routes/routes.dart';
+import '../../../../services/user_service.dart';
+import '../../../../utils/route_util.dart';
 import 'logic.dart';
 
-class WalletPage extends StatelessWidget {
-  WalletPage({Key? key}) : super(key: key);
+
+class WalletPage extends StatefulWidget {
+  const WalletPage({Key? key}) : super(key: key);
+
+  @override
+  State<WalletPage> createState() => _WalletPageState();
+}
+
+class _WalletPageState extends State<WalletPage>
+    with AutomaticKeepAliveClientMixin {
+
+  // final GamesLogic controller = Get.find<GamesLogic>();
+
+  @override
+  bool get wantKeepAlive => true;
+  final _WalletPageGetx pageGetx = _WalletPageGetx();
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return pageGetx;
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    UserService.to.fetchUserMoney();
+  }
+}
+
+class _WalletPageGetx extends StatelessWidget {
+  _WalletPageGetx({Key? key}) : super(key: key);
 
   final logic = Get.put(WalletLogic());
   final state = Get.find<WalletLogic>().state;
@@ -40,14 +70,14 @@ class WalletPage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 20.w,),
-            MineWalletBalanceWidget(),
+            MineWalletBalanceWidget().marginSymmetric(horizontal: 12.w),
             SizedBox(height: 20.w,),
             _buildActionView('资金明细',Assets.mineWalletFundDetails, (){
               RouteUtil.pushToView(Routes.walletFundDetailPage);
             }),
             Divider(height: 1,color: Color(0x66FFFFFF),).opacity(0.3).marginSymmetric(horizontal: 12.w),
             _buildActionView('交易记录',Assets.mineWalletTransactionRecords, (){
-
+              RouteUtil.pushToView(Routes.walletRecordPage);
             }),
             Spacer(),
           ]

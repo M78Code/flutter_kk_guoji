@@ -150,7 +150,9 @@ class Assets {
   static const String imagesWhatapp = 'assets/images/whatapp.png';
   static const String mineWalletArrow = 'assets/images/mine/wallet_arrow.png';
   static const String mineWalletFundDetails = 'assets/images/mine/wallet_fund_details.png';
+  static const String mineWalletNavArrow = 'assets/images/mine/wallet_nav_arrow.png';
   static const String mineWalletSaving = 'assets/images/mine/wallet_saving.png';
+  static const String mineWalletSearch = 'assets/images/mine/wallet_search.png';
   static const String mineWalletTransactionRecords = 'assets/images/mine/wallet_transaction_records.png';
   static const String mineWalletWithdraw = 'assets/images/mine/wallet_withdraw.png';
   static const String systemIconBack = 'assets/images/system/icon_back.png';

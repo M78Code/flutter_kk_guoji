@@ -8,7 +8,7 @@ import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
-import 'package:kkguoji/common/widget/show_toast.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 
 class LoginLogic extends GetxController {
 
