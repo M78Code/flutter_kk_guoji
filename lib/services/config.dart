@@ -5,6 +5,7 @@ class HttpConfig {
   static const getCode = "/api/public/captcha";
   static const registerByAccount = "/api/public/register_account";
   static const sendCodeToEmail = "/api/public/sendEmailCode";
+  static const bindEmail = "/api/user/bindEmail";
   static const registerByEmail = "/api/public/register_email";
   static const getMarqueeNotice = "/api/public/getMarqueeNotice";
   static const getJCPGameList = "/api/game/getJCPGameList";

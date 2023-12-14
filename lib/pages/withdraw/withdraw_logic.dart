@@ -3,10 +3,15 @@ import 'package:get/get.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
 import 'package:kkguoji/pages/recharge/widgets/recharge_radio.dart';
+import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/services/user_service.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 
 ///提现控制类
 class WithdrawLogic extends GetxController {
+  final userService = Get.find<UserService>();
+
   final ImageRadioController imageController = ImageRadioController();
 
   ///姓名controller
@@ -55,11 +60,19 @@ class WithdrawLogic extends GetxController {
     if (text.isNotEmpty) {
       withdrawAmount.value = double.parse(text);
       //提款总额计算 2%手续费
-      withTotalAmount.value =
-          double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
+      withTotalAmount.value = double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
     } else {
       withdrawAmount.value = 0.0;
       withTotalAmount.value = 0.0;
+    }
+  }
+
+  ///提现操作
+  void withdrawSubmit() {
+    if (userService.isBindEmail) {
+      ///提现接口请求
+    } else {
+      RouteUtil.pushToView(Routes.bindEmail);
     }
   }
 
@@ -72,6 +85,9 @@ class WithdrawLogic extends GetxController {
   @override
   void dispose() {
     imageController.dispose();
+    nameController.dispose();
+    accountController.dispose();
+    amountController.dispose();
     // TODO: implement dispose
     super.dispose();
   }
