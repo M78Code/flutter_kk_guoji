@@ -33,6 +33,7 @@ dependencies:
 
   get:
   dio: ^4.0.0
+  dio_log: ^2.0.4
   device_info_plus: ^9.1.1
   flutter_screenutil: ^5.9.0
   fluttertoast: ^8.2.4
@@ -44,6 +45,7 @@ dependencies:
   web_socket_channel: ^2.4.0
   date_format: ^2.0.7
   webview_flutter: ^4.4.2
+  flutter_widget_from_html: ^0.14.9
 
   flutter_localizations:
     sdk: flutter
@@ -53,6 +55,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_cache_manager: ^3.3.1
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
@@ -82,8 +85,13 @@ flutter:
     - assets/images/games/
     - assets/images/activity/
     - assets/images/system/
+    - assets/images/service/
+    - assets/images/promotion/
     - assets/images/home/
     - assets/images/mine/
+    - assets/images/rebate/
+    - assets/images/recharge/
+    - assets/images/withdraw/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

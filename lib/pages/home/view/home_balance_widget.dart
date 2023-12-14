@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
+import 'package:kkguoji/utils/route_util.dart';
 
 class KKHomeBalanceWidget extends StatelessWidget {
   KKHomeBalanceWidget({super.key});
@@ -67,9 +69,12 @@ class KKHomeBalanceWidget extends StatelessWidget {
                   children: [
                     Image.asset("assets/images/home_cunkuan_icon.png", width: 27, height: 25,),
                     const SizedBox(height: 10,),
-                    const Text("存款", style: TextStyle(color: Colors.white, fontSize: 16),)
+                    const Text("充值", style: TextStyle(color: Colors.white, fontSize: 16),)
                   ],
                 ),
+                onTap: () {
+                  RouteUtil.pushToView(Routes.recharge, arguments: true);
+                },
               ),
               GestureDetector(
                 child: Column(
@@ -77,9 +82,12 @@ class KKHomeBalanceWidget extends StatelessWidget {
                   children: [
                     Image.asset("assets/images/home_qukuan_icon.png", width: 27, height: 25,),
                     const SizedBox(height: 10,),
-                    const Text("取款", style: TextStyle(color: Colors.white, fontSize: 16),)
+                    const Text("提现", style: TextStyle(color: Colors.white, fontSize: 16),)
                   ],
                 ),
+                onTap: () {
+                  RouteUtil.pushToView(Routes.withdraw, arguments: true);
+                },
               ),
               GestureDetector(
                 child: Column(

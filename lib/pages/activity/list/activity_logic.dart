@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:kkguoji/routes/routes.dart';
 
 import '../../../generated/assets.dart';
@@ -20,18 +19,13 @@ class ActivityLogic extends GetxController {
     // 添加更多活动项
   ];
 
-//消息中心
-  List<String> messageSelectBar = ["全部活动", "通知活动", "系统公告"];
-  late List<CategoryModel> selectBar = List.generate(messageSelectBar.length,
-      (index) => CategoryModel(index: index, name: itemNames[index]));
-
   void onCategoryTap(int categoryId) {
+    print(categoryId);
     selectedCategoryId.value = categoryId;
     update(["categoryView", "itemsView"]);
   }
 
   void onActivityTap(int activityId) {
-    print(22222);
     Get.toNamed(
       Routes.activityDetail,
       arguments: {

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kkguoji/common/extension/index.dart';
+import 'package:kkguoji/pages/mine/message/message_model.dart';
 
 class MeeageListView extends StatelessWidget {
-  const MeeageListView({super.key});
+  const MeeageListView({super.key, required MessageModel messageModel});
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    final MessageModel messageModel;
+
     return Container(
       margin: const EdgeInsets.only(left: 0, right: 0, bottom: 15),
       clipBehavior: Clip.antiAlias,

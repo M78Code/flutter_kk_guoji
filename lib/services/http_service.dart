@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:kkguoji/services/config.dart';
@@ -25,6 +26,7 @@ class HttpService extends GetxService {
 
     // 拦截器
     _dio.interceptors.add(RequestInterceptors());
+    _dio.interceptors.add(DioLogInterceptor());
   }
 
   Future<T> fetch<T>(String url, {
@@ -67,7 +69,7 @@ class RequestInterceptors extends Interceptor {
     if(SqliteUtil().getString(CacheKey.apiToken) != null) {
       options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
     }
-    print(options.queryParameters);
+    // print(options.queryParameters);
 
     return handler.next(options);
   }
