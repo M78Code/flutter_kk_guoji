@@ -26,4 +26,13 @@ class HttpConfig {
   //我的推广
   static const getAgentTeam = "/api/agent/team";
   static const getMessageList = '/api/notice/list'; //公告信息查询
+
+  //获取游戏类型分类列表
+  static const getGameTypeList = '/api/game/getGameTypeList';
+  //获取自动返佣
+  static const getAutoRecord = '/api/userRebate/getAutoRecord';
+  //获取总戏码金额
+  static const getTotalMoney = '/api/userRebate/getTotalMoney';
+  //洗码记录
+  static const getRecord = '/api/userRebate/getRecord';
 }
