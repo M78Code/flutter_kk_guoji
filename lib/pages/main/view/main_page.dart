@@ -9,7 +9,11 @@ import '../../../routes/routes.dart';
 import '../../../utils/route_util.dart';
 import '../../activity/list/activity_page.dart';
 import '../../home/view/home_page.dart';
+<<<<<<< HEAD
 import '../../mine/mine_page.dart';
+=======
+import '../../mine/view/mine_page.dart';
+>>>>>>> eb6891a9e6f80af8a21524ab0bb59f25d14043b4
 
 class KKMainPage extends StatefulWidget {
   // const MyHomePage({super.key, required this.title});

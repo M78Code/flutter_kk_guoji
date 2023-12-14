@@ -22,5 +22,10 @@ class HttpConfig {
   //获取用户信息
   static const getUserInfo = "/api/user/getInfo";
 
+  //客服中心
+  static const getCustomer = "/api/public/customer";
+  //我的推广
+  static const getAgentTeam = "/api/agent/team";
   static const getMessageList = '/api/notice/list'; //公告信息查询
+  static const readNotice = '/api/notice/readNotice'; //系统公告设置已读
 }
