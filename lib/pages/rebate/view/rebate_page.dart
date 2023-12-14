@@ -29,21 +29,32 @@ class KKRebatePage extends StatelessWidget {
                       SizedBox(
                         height: 250,
                         width: double.infinity,
-                        child: Swiper(
-                          autoplayDisableOnInteraction:false,
-                          autoplay: true,
-                          itemCount: 5, itemBuilder: (BuildContext context, int index) {
-                          return Container(color: Colors.black,);
-                        },
-                          pagination: const SwiperPagination(), ),
+                        child: Obx(() {
+                          return Swiper(
+                            autoplayDisableOnInteraction:false,
+                            autoplay: true,
+                            itemCount: controller.bannerList.value.length, itemBuilder: (BuildContext context, int index) {
+                            Map bannerInfo = controller.bannerList.value[index];
+                            if(bannerInfo.isNotEmpty) {
+                              return Image.network(bannerInfo["image"], fit: BoxFit.cover,);
+                            }else {
+                              return Container();
+                            }
+                          },
+                            pagination: const SwiperPagination(), );
+                        }),
                       ),
                       Positioned(
                         bottom: 0,
                         left: 15, right: 15,
                         child:  Container(
                           height: 70,
-                          color: Colors.blue,
                           padding: const EdgeInsets.symmetric(horizontal: 15),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(colors: [Color(0x1F2E374C), Color(0x1F181E2F)]),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: const Color(0x54FFFFFF)),
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,13 +63,15 @@ class KKRebatePage extends StatelessWidget {
                                 children: [
                                   Image.asset("assets/images/promotion/promotion_my_reward.png", width: 40, height: 41,),
                                   const SizedBox(width: 20,),
-                                  const Column(
+                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("历史总金额", style: TextStyle(color: Colors.white, fontSize: 12),),
-                                      SizedBox(height: 8,),
-                                      Text("199.50 ¥", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),),
+                                      const Text("历史总金额", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                      const SizedBox(height: 8,),
+                                      Obx(() {
+                                        return Text("${controller.totalMoney.value} ¥", style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),);
+                                      })
                                     ],
                                   ),
                                 ],
@@ -109,7 +122,7 @@ class KKRebatePage extends StatelessWidget {
               child:Container(
                 height: 88,
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: [Color(0x00050820), Color(0xFF11163C)])
+                  gradient: LinearGradient(colors: [Color(0xFF11163C),Color(0x00050820)]),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
