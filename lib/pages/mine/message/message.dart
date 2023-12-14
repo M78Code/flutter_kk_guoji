@@ -6,12 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
-import 'package:kkguoji/pages/message/message_model.dart';
-import 'package:kkguoji/pages/message/message_request.dart';
+import 'package:kkguoji/pages/mine/message/message_request.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import '../../../services/http_service.dart';
-import '../../routes/routes.dart';
-import '../../utils/route_util.dart';
 
 class MessageCenterPage extends StatefulWidget {
   const MessageCenterPage({super.key});
@@ -72,10 +71,11 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
                 category: controller.selectBar[index],
                 isSelected:
                     // ignore: unrelated_type_equality_checks
-                    controller.type == controller.selectBar[index].index,
+                    controller.selectedCategoryId ==
+                        controller.selectBar[index].index,
                 onTap: (type) {
                   controller.onCategoryTap(type);
-                  // type = index + 1;
+                  type = index + 1;
                   initState();
                 },
               ).paddingOnly(right: 10);
@@ -105,10 +105,10 @@ class _MeeageListViewState extends State<MeeageListView> {
   @override
   //控件创建的时候，会执行
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scrollController.addListener(_scrollListener);
     getMessageListData();
+    getReadNotice();
   }
 
   void _scrollListener() {
@@ -137,6 +137,17 @@ class _MeeageListViewState extends State<MeeageListView> {
         messageList.addAll(result['data']["list"]);
         _page++;
       });
+    }
+  }
+
+//系统公告设置已读
+  void getReadNotice() async {
+    // ignore: unused_local_variable  //系统公告ID
+    var result = await HttpRequest.request(HttpConfig.readNotice,
+        method: "post", params: {"id": type});
+    print(result['code']);
+    if (result['code'] == 200) {
+      print('成功');
     }
   }
 

@@ -17,7 +17,7 @@ class KKGamesPage extends StatefulWidget {
 class _KKGamesPageState extends State<KKGamesPage>
     with AutomaticKeepAliveClientMixin {
 
-  final GamesLogic controller = Get.find<GamesLogic>();
+  // final GamesLogic controller = Get.find<GamesLogic>();
 
   @override
   bool get wantKeepAlive => true;
