@@ -12,7 +12,7 @@ import '../models/mine_wallet/user_money_details_search_respond_model.dart';
 class AccountApi {
 
   static Future<UserMoneyModel?> getUserMoney() async {
-    var result = await HttpRequest.request(HttpConfig.getUserMoney,params: {"is_mobile":"1"});
+    var result = await HttpRequest.request( HttpConfig.getUserMoney, method: "get", params: {"is_mobile":"1"});
     if (result["code"] == 200) {
       UserMoneyModel? model = UserMoneyModel.fromJson(result['data']);
       return model;
@@ -37,11 +37,11 @@ class AccountApi {
     return null;
   }
 
-  static Future<UserMoneyDetailsSearchRespondModelData?>? getUserMoneyDetailsSearch(
-      String dateType,Int page, String type
+  static Future<UserMoneyDetailsSearchListModel?>? getUserMoneyDetailsSearch(
+      String dateType,int page, String type
       ) async {
     var result = await HttpRequest.request(HttpConfig.getUserMoneyDetailsSearch,
-        params: {"dateType":dateType,"page":page,"limit":10,"type":type});
+        params: {"dateType":dateType,"page":page,"limit":20,"type":type});
     if (result["code"] == 200) {
       UserMoneyDetailsSearchRespondModel? model = UserMoneyDetailsSearchRespondModel.fromJson(result);
       return model.data;
