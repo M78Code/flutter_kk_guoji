@@ -4,9 +4,10 @@ import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
+import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
+import 'package:kkguoji/pages/mine/setting/setting.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
-import 'package:kkguoji/pages/message/message.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
 import '../pages/activity/detail/binding.dart';
@@ -23,9 +24,10 @@ abstract class Routes {
   static const String webView = "/webView";
   static const String recharge = "/recharge";
   static const String withdraw = "/withdraw";
-  static const String getMessageList = '/notice/list'; //公告信息查询
   static const String bindEmail = "/account/email";
   static const String mine = "/mine";
+  static const String messageCenter = '/mine/message'; //公告信息查询
+  static const String settingPage = "/mine/setting";
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -36,8 +38,9 @@ abstract class Routes {
     GetPage(name: webView, page: () => const KKWebViewPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
-    GetPage(name: getMessageList, page: () => const MessageCenterPage()),
+    GetPage(name: messageCenter, page: () => const MessageCenterPage()),
     GetPage(name: bindEmail, page: () => const BindEmailPage()),
     GetPage(name: mine, page: () => const MinePage()),
+    GetPage(name: settingPage, page: () => const SettingPage()),
   ];
 }

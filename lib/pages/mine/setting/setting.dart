@@ -9,14 +9,14 @@ import 'package:package_info/package_info.dart'; // 用于获取应用版本信�
 // ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart'; //清除缓存
 
-class SetinagePage extends StatefulWidget {
-  const SetinagePage({super.key});
+class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
 
   @override
-  State<SetinagePage> createState() => _SetinagePageState();
+  State<SettingPage> createState() => _SettingPageState();
 }
 
-class _SetinagePageState extends State<SetinagePage> {
+class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
