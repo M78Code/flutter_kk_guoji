@@ -2,7 +2,7 @@ class UserMoneyDetailsSearchRespondModel {
   bool? success;
   String? message;
   int? code;
-  UserMoneyDetailsSearchRespondModelData? data;
+  UserMoneyDetailsSearchListModel? data;
 
   UserMoneyDetailsSearchRespondModel(
       {this.success, this.message, this.code, this.data});
@@ -11,7 +11,7 @@ class UserMoneyDetailsSearchRespondModel {
     success = json['success'];
     message = json['message'];
     code = json['code'];
-    data = json['data'] != null ? new UserMoneyDetailsSearchRespondModelData.fromJson(json['data']) : null;
+    data = json['data'] != null ? new UserMoneyDetailsSearchListModel.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -26,14 +26,14 @@ class UserMoneyDetailsSearchRespondModel {
   }
 }
 
-class UserMoneyDetailsSearchRespondModelData {
+class UserMoneyDetailsSearchListModel {
   List<UserMoneyDetailsSearchModel>? list;
   int? totalCount;
   int? page;
 
-  UserMoneyDetailsSearchRespondModelData({this.list, this.totalCount, this.page});
+  UserMoneyDetailsSearchListModel({this.list, this.totalCount, this.page});
 
-  UserMoneyDetailsSearchRespondModelData.fromJson(Map<String, dynamic> json) {
+  UserMoneyDetailsSearchListModel.fromJson(Map<String, dynamic> json) {
     if (json['list'] != null) {
       list = <UserMoneyDetailsSearchModel>[];
       json['list'].forEach((v) {

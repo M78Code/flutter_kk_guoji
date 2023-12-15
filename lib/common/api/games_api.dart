@@ -16,7 +16,7 @@ class GamesApi {
   }
 
   static Future<GetGameModel?>? getGameByCompanyCode(String game_company_code, String gameCode) async {
-    var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode,params: {"company_code":game_company_code});
+    var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode,method: "get" ,params: {"company_code":game_company_code});
     if (result["code"] == 200 && result["data"] != null) {
       if (gameCode.length > 0) {
         return GetGameModel.fromJson(result["data"][gameCode]);

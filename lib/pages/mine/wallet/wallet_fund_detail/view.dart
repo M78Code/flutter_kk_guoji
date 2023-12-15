@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,7 @@ import 'logic.dart';
 class WalletFundDetailPage extends StatelessWidget {
   WalletFundDetailPage({Key? key}) : super(key: key);
 
-  final logic = Get.put(WalletFundDetailLogic());
+  final controller = Get.put(WalletFundDetailLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -35,30 +36,41 @@ class WalletFundDetailPage extends StatelessWidget {
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: MineWalletBalanceWidget(),
-            ),
-            SliverToBoxAdapter(
-                child: SizedBox(height: 20.w,)
-            ),
-            SliverToBoxAdapter(
-              child: RechargeSection(),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 20.w,)
-            ),
-            SliverToBoxAdapter(
-              child: DateSelectionSection(),
-            ),
-            SliverToBoxAdapter(
-                child: SizedBox(height: 15.w,)
-            ),
-            TransactionListSection(),
-          ],
+        child:EasyRefresh(
+          controller: controller.refreshController,
+          onRefresh: () async {
+            controller.onRefresh();
+          },
+          onLoad: () async {
+            controller.onLoading();
+          },
+          child:  CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: MineWalletBalanceWidget(),
+              ),
+              SliverToBoxAdapter(
+                  child: SizedBox(height: 20.w,)
+              ),
+              SliverToBoxAdapter(
+                child: RechargeSection(),
+              ),
+              SliverToBoxAdapter(
+                  child: SizedBox(height: 20.w,)
+              ),
+              SliverToBoxAdapter(
+                child: DateSelectionSection(),
+              ),
+              SliverToBoxAdapter(
+                  child: SizedBox(height: 15.w,)
+              ),
+              TransactionListSection(),
+            ],
+          ),
         ),
       ).safeArea(),
     );
   }
+
+
 }
