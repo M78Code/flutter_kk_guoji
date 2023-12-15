@@ -1,6 +1,6 @@
+import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 
-import '../base/logic/gloabal_state_controller.dart';
 import '../services/cache_key.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +18,7 @@ class AccountService {
   static AccountService? _instance;
   bool? _isLogin;
 
-  final globalController = Get.find<GlobalStateController>();
+  final globalController = Get.find<UserService>();
 
   // 私有的命名式构造方法，通过它可以实现一个类可以有多个构造函数，
   // 子类不能继承internal不是关键字，可定义其他名字
@@ -38,7 +38,7 @@ class AccountService {
     } else {
       _isLogin = false;
     }
-    globalController.isLogin.value = _isLogin!;
+    globalController.isLogin = _isLogin!;
     return _isLogin!;
   }
 }

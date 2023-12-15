@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:get/get_core/src/get_main.dart';
-import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
