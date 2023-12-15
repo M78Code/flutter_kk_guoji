@@ -12,16 +12,14 @@ class MineLogic extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
+    userInfoModel = userService.userInfoModel.value;
     super.onInit();
   }
 
   @override
   void onReady() {
     // TODO: implement onReady
-    if(!userService.isLogin) {
-      RouteUtil.pushToView(Routes.loginPage);
-    }
-    userInfoModel = userService.userInfoModel.value;
+
     super.onReady();
   }
 }
