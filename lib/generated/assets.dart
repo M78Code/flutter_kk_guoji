@@ -166,4 +166,13 @@ class Assets {
   static const String imageMineReceivedMoney = 'assets/images/icon_received_money.png';
   static const String imagespherosome = 'assets/images/icon_spherosome.png';
   static const iconRefresh = "assets/images/icon_refresh.png";
+  static const avatar1 = "assets/images/myaccount/avatar1.png";
+  static const avatar2 = "assets/images/myaccount/avatar2.png";
+  static const avatar3 = "assets/images/myaccount/avatar3.png";
+  static const avatar4 = "assets/images/myaccount/avatar4.png";
+  static const avatar5 = "assets/images/myaccount/avatar5.png";
+  static const avatar6 = "assets/images/myaccount/avatar6.png";
+  static const avatar7 = "assets/images/myaccount/avatar7.png";
+  static const iconEdit = "assets/images/myaccount/icon_edit.png";
+  static const iconCamera = "assets/images/myaccount/icon_camera.png";
 }

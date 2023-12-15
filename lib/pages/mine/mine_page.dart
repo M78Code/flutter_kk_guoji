@@ -18,25 +18,27 @@ class MinePage extends GetView<MineLogic> {
       init: MineLogic(),
       id: "MinePage",
       builder: (MineLogic controller) {
-        return Column(
-          children: [
-            SizedBox(
-              height: 330.h,
-              child: Stack(
-                children: [
-                  _buildTopBg(),
-                  _buildRightSetting(),
-                  _buildUserInfo(),
-                  _buildMyWallet(),
-                ],
+        return Scaffold(
+          body: Column(
+            children: [
+              SizedBox(
+                height: 330.h,
+                child: Stack(
+                  children: [
+                    _buildTopBg(),
+                    _buildRightSetting(),
+                    _buildUserInfo(),
+                    _buildMyWallet(),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: _buildItems(),
-            ),
-            _buildLogOutBtn().marginSymmetric(vertical: 20.h)
-          ],
+              Expanded(
+                flex: 1,
+                child: _buildItems(),
+              ),
+              _buildLogOutBtn().marginSymmetric(vertical: 20.h)
+            ],
+          ),
         );
       },
     );
@@ -342,8 +344,7 @@ class Mypurse extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 0),
-          TopUpWithdrawBackwater(),
+          const TopUpWithdrawBackwater(),
         ],
       ),
     );
@@ -578,7 +579,7 @@ class MyAccountInfo extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              print('账户');
+              RouteUtil.pushToView(Routes.myAccountPage);
             },
           ),
           const Divider(

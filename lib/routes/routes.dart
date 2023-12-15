@@ -11,6 +11,7 @@ import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
 import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
+import 'package:kkguoji/pages/mine/myaccount/my_account_page.dart';
 import 'package:kkguoji/pages/mine/setting/setting.dart';
 import 'package:kkguoji/pages/promotion/binding/promotion_bindings.dart';
 import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
@@ -47,6 +48,7 @@ abstract class Routes {
   static const String mine = "/mine";
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
+  static const String myAccountPage = "/mine/myaccount";
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -68,5 +70,6 @@ abstract class Routes {
     GetPage(name: bindEmail, page: () => const BindEmailPage()),
     GetPage(name: mine, page: () => const MinePage()),
     GetPage(name: settingPage, page: () => const SettingPage()),
+    GetPage(name: myAccountPage, page: () => const MyAccountPage()),
   ];
 }

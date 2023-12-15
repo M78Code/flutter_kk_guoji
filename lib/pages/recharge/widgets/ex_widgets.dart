@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
 
@@ -110,6 +111,7 @@ Widget buttonSubmit({
   String text = "",
   Color textColor = Colors.white,
   double height = 44,
+  double hPadding = 0,
   required Function() onPressed,
 }) {
   return Container(
@@ -137,7 +139,7 @@ Widget buttonSubmit({
             ),
       ),
     ),
-  );
+  ).marginSymmetric(horizontal: hPadding);
 }
 
 Widget textField(

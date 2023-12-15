@@ -5,9 +5,7 @@ import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
 import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_logic.dart';
-import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
-import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
 class WithdrawPage extends GetView<WithdrawLogic> {
