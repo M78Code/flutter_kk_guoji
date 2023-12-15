@@ -18,6 +18,10 @@ class HttpConfig {
   static const getUserMoney = "/api/user/getUserMoney";   // 用户余额
   static const getUserMoneyDetails = "/api/user/getUserMoneyDetails";   // 用户资金明细
   static const getUserMoneyDetailsSearch = "/api/user/getUserMoneyDetailsSearch";   // 获取用户资金明细-筛选
+
+  static const getUserRechargeList = "/api/userRecharge/list";   // 充值信息查询
+  static const getUserWithdrawList = "/api/userWithdraw/list";   // 提现信息查询
+
   // 游戏
   static const getGroupGameList = "/api/game/getGroupGameList"; // 所有游戏分组数据
   //获取用户信息
