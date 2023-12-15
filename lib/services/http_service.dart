@@ -69,7 +69,7 @@ class RequestInterceptors extends Interceptor {
     if(SqliteUtil().getString(CacheKey.apiToken) != null) {
       options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
     }
-    print(options.queryParameters);
+    // print(options.queryParameters);
 
     return handler.next(options);
   }
@@ -91,7 +91,7 @@ class RequestInterceptors extends Interceptor {
 
 class HttpRequest {
   static Future<T> request<T>(String url, {
-    String method = "get",
+    String method = "post",
     Map<String, dynamic>? params,
     Interceptor? inter}) async {
     return HttpService.to.fetch(url,method: method,params: params,inter: inter);

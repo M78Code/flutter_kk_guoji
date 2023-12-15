@@ -1,249 +1,222 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:kkguoji/common/extension/index.dart';
-import 'package:kkguoji/pages/message/message.dart';
-import 'package:kkguoji/pages/setting/setting.dart';
-import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
-import 'package:kkguoji/utils/sqlite_util.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../common/models/user_info_model.dart';
-import '../../../routes/routes.dart';
-import '../../../services/cache_key.dart';
-import '../../../services/config.dart';
-import '../../../services/http_service.dart';
-import '../../../services/user_service.dart';
-import '../../../utils/route_util.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/mine/mine_logic.dart';
+import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
+import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/services/cache_key.dart';
+import 'package:kkguoji/utils/route_util.dart';
+import 'package:kkguoji/utils/sqlite_util.dart';
 
-class MinePage extends StatefulWidget {
+class MinePage extends GetView<MineLogic> {
   const MinePage({super.key});
 
   @override
-  State<MinePage> createState() => _MinePageState();
-}
-
-class _MinePageState extends State<MinePage> {
-  late final UserInfoModel _model;
-  // ignore: prefer_typing_uninitialized_variables
-  var _isEyeClose; //是否明文
-  final userService = Get.find<UserService>();
-
-  Future<void> fetchData() async {
-    // 模拟异步加载数据
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      getUserInfo();
-      getEyeClose();
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  getUserInfo() async {
-    var result = await HttpRequest.request(HttpConfig.getUserInfo);
-    if (result["code"] == 200) {
-      _model = UserInfoModel.fromJson(result["data"]);
-    }
-
-    return null;
-  }
-
-  // 读取bool值
-  void getEyeClose() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _isEyeClose = prefs.getBool('isEyeClose') ?? false; // 如果没有取到值，默认为false
-  }
-
-  // 存储bool值
-  void saveEyeClose(bool value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isEyeClose', value);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RefreshIndicator(
-          onRefresh: fetchData,
-          child: SingleChildScrollView(
-            child: Column(
+    // TODO: implement build
+    return GetBuilder<MineLogic>(
+      init: MineLogic(),
+      id: "MinePage",
+      builder: (MineLogic controller) {
+        return Column(
+          children: [
+            SizedBox(
+              height: 330.h,
+              child: Stack(
+                children: [
+                  _buildTopBg(),
+                  _buildRightSetting(),
+                  _buildUserInfo(),
+                  _buildMyWallet(),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: _buildItems(),
+            ),
+            _buildLogOutBtn().marginSymmetric(vertical: 20.h)
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildTopBg() {
+    return SizedBox(
+      height: 180.h,
+      child: Image.asset('assets/images/icon_top_bg.png', fit: BoxFit.cover),
+    );
+  }
+
+  Widget _buildRightSetting() {
+    return Positioned(
+      top: 44.h,
+      right: 13.w,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IconButton(
+              //信息
+              onPressed: () {
+                //进入消息界面
+                RouteUtil.pushToView(Routes.messageCenter);
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageCenterPage()));
+              },
+              icon: Image.asset(
+                'assets/images/icon_inform.png',
+                width: 30,
+                height: 30,
+              )),
+          IconButton(
+              //设置
+              onPressed: () {
+                //进入安全设置界面
+                RouteUtil.pushToView(Routes.settingPage);
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => const SetinagePage()));
+              },
+              icon: Image.asset(
+                'assets/images/icon_setting.png',
+                width: 30,
+                height: 30,
+                fit: BoxFit.cover,
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserInfo() {
+    return Positioned(
+      top: 91.h,
+      child: Container(
+        padding: const EdgeInsets.only(left: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const AvatarWithVip(),
+            const SizedBox(
+              width: 10,
+              height: 5,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 350,
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      _myHeaderView(),
-                      Positioned(
-                        top: 160,
-                        left: 10,
-                        right: 10,
-                        child: _mypurseView(),
-                      )
-                    ],
-                  ),
+                Text(
+                  //昵称
+                  '${controller.userInfoModel?.userNick}',
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
                 ),
-                const Column(
+                const SizedBox(height: 5),
+                Row(
                   children: [
-                    SafeBoxWaitGridView(), //保险箱等
-                    SizedBox(height: 0),
-                    MyAccountInfo(), //账号信息等
-                    BlackInterval(), //黑色间隔线
-                    WelfareReward(), //福利奖励等
-                    SizedBox(height: 20),
-                    logOutBtn(), //退出登录
-                    SizedBox(height: 20),
+                    Image.asset(
+                      'assets/images/icon_id.png',
+                      width: 10,
+                      height: 10,
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      '${controller.userInfoModel?.uuid}',
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
+                    )
                   ],
                 )
               ],
             ),
-          )),
+            const SizedBox(width: 22),
+            GestureDetector(
+              child: //编辑
+                  Container(
+                width: 67,
+                height: 25,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/icon_edit_bg.png'))),
+                child: const Center(
+                  //文字居中
+                  child: Text(
+                    '编辑',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              onTap: () {
+                //编辑
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-//头像
-  Widget _myHeaderView() {
-    return Stack(
+  Widget _buildMyWallet() {
+    return Positioned(
+      top: 165.h,
+      left: 0,
+      right: 0,
+      child: const Mypurse().marginSymmetric(horizontal: 12.w),
+    );
+  }
+
+  Widget _buildItems() {
+    return ListView(
+      padding: EdgeInsets.only(top: 20.h),
       children: [
-        Container(
-          //背景图
-          height: 180,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/images/icon_top_bg.png'),
-            fit: BoxFit.cover,
-          )),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                      //信息
-                      onPressed: () {
-                        //进入消息界面
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const MessageCenterPage()));
-                      },
-                      icon: Image.asset(
-                        'assets/images/icon_inform.png',
-                        width: 30,
-                        height: 30,
-                      )),
-                  IconButton(
-                      //设置
-                      onPressed: () {
-                        //进入安全设置界面
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SetinagePage()));
-                      },
-                      icon: Image.asset(
-                        'assets/images/icon_setting.png',
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.cover,
-                      )),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    avatarWithVip(),
-                    const SizedBox(
-                      width: 10,
-                      height: 5,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          //昵称
-                          userService.userInfoModel.value?.userNick ?? "",
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/icon_id.png',
-                              width: 10,
-                              height: 10,
-                            ),
-                            const SizedBox(width: 3),
-                            Text(
-                              userService.userInfoModel.value?.uuid
-                                      ?.toString() ??
-                                  "",
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    const SizedBox(width: 22),
-                    GestureDetector(
-                      child: //编辑
-                          Container(
-                        width: 67,
-                        height: 25,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/icon_edit_bg.png'))),
-                        child: const Center(
-                          //文字居中
-                          child: Text(
-                            '编辑',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        //编辑
-                      },
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+        const SafeBoxWaitGridView(),
+        const MyAccountInfo(),
+        Divider(height: 8.h, color: Colors.black),
+        const WelfareReward(),
       ],
     );
   }
 
-  Widget avatarWithVip() {
+  Widget _buildLogOutBtn() {
+    return Container(
+      margin: const EdgeInsets.only(left: 25, right: 25),
+      height: 40,
+      decoration: ShapeDecoration(
+          color: const Color(0xFF686F83),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
+      child: TextButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/icon_log_out.png',
+                width: 18, height: 18),
+            const Text(
+              '退出登录',
+              style: TextStyle(color: Colors.white, fontSize: 13),
+            )
+          ],
+        ),
+        onPressed: () {
+          print('退出登录');
+        },
+      ),
+    );
+  }
+}
+
+class AvatarWithVip extends StatelessWidget {
+  const AvatarWithVip({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -251,20 +224,12 @@ class _MinePageState extends State<MinePage> {
           // 头像
           width: 50,
           height: 50,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            image: userService.userInfoModel.value?.portrait == null
-                ? const DecorationImage(
-                    image: AssetImage('assets/images/icon_header_default.png'))
-                : DecorationImage(
-                    image: NetworkImage(
-                        userService.userInfoModel.value?.portrait ?? ""),
-                    fit: BoxFit.cover,
-                    onError: (exception, stackTrace) {
-                      //网络图片为空就展示本土图片
-                      const AssetImage('assets/images/icon_header_default.png');
-                    },
-                  ),
+            image: DecorationImage(
+              image: AssetImage('assets/images/icon_header_default.png'),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         Positioned(
@@ -273,12 +238,12 @@ class _MinePageState extends State<MinePage> {
               Container(
             width: 35,
             height: 14,
+            // padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
             decoration: BoxDecoration(
-              color: userService.userInfoModel.value?.level == 0
-                  ? const Color(0xff687083)
-                  : const Color(0xffFF8A00),
+              color: const Color(0xff687083),
               borderRadius: BorderRadius.circular(4),
             ),
+
             child: Row(
               mainAxisSize: MainAxisSize.min, //尺寸以适应内容
               mainAxisAlignment: MainAxisAlignment.center, //水平方向上居中对齐
@@ -292,9 +257,9 @@ class _MinePageState extends State<MinePage> {
                 const SizedBox(
                   width: 3,
                 ),
-                Text(
-                  '${userService.userInfoModel.value?.level}',
-                  style: const TextStyle(
+                const Text(
+                  '0',
+                  style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.w700),
@@ -306,9 +271,14 @@ class _MinePageState extends State<MinePage> {
       ],
     );
   }
+}
 
 //我的钱包
-  Widget _mypurseView() {
+class Mypurse extends StatelessWidget {
+  const Mypurse({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 167,
       decoration: BoxDecoration(
@@ -350,7 +320,7 @@ class _MinePageState extends State<MinePage> {
                     ],
                   ),
                   onTap: () {
-                    print('进入钱包');
+                    RouteUtil.pushToView(Routes.walletPage);
                   },
                 ),
               ],
@@ -386,41 +356,26 @@ class _MinePageState extends State<MinePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  _isEyeClose == false
-                      ? '${userService.userInfoModel.value?.money}'
-                      : '****',
-                  style: const TextStyle(
+                const Text(
+                  '¥88,686.00',
+                  style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                       fontWeight: FontWeight.w700),
                 ),
                 IconButton(
-                    //是否显示明文
-                    onPressed: () {
-                      setState(() {
-                        _isEyeClose = !_isEyeClose;
-                        saveEyeClose(_isEyeClose);
-                      });
-                    },
-                    icon: _isEyeClose == false
-                        ? Image.asset(
-                            'assets/images/icon_eye_open.png',
-                            width: 30,
-                            height: 30,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/images/icon_eye_close.png',
-                            width: 30,
-                            height: 30,
-                            fit: BoxFit.cover,
-                          ))
+                    onPressed: () {},
+                    icon: Image.asset(
+                      'assets/images/icon_eye_close.png',
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ))
               ],
             ),
           ),
           const SizedBox(height: 0),
-          const TopUpWithdrawBackwater(),
+          TopUpWithdrawBackwater(),
         ],
       ),
     );
@@ -524,7 +479,8 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             ),
           ),
           onTap: () {
-            print('返水');
+            // print('返水');
+            RouteUtil.pushToView(Routes.rebate);
           },
         ),
       ],
@@ -548,7 +504,8 @@ class SafeBoxWaitGridView extends StatelessWidget {
                   image: AssetImage('assets/images/icon_safebox_bg.png'),
                   fit: BoxFit.cover)),
           child: GridView.count(
-            physics: const NeverScrollableScrollPhysics(), //禁止滚动
+            physics: const NeverScrollableScrollPhysics(),
+            //禁止滚动
             crossAxisCount: 4,
             shrinkWrap: true,
             padding: const EdgeInsets.all(10),
@@ -748,18 +705,6 @@ class MyAccountInfo extends StatelessWidget {
   }
 }
 
-//黑色间隔
-class BlackInterval extends StatelessWidget {
-  const BlackInterval({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 8,
-      color: Colors.black, // 黑色背景view
-    );
-  }
-}
-
 //福利奖励、信息设置、分享
 class WelfareReward extends StatelessWidget {
   const WelfareReward({super.key});
@@ -861,7 +806,6 @@ class WelfareReward extends StatelessWidget {
   }
 }
 
-//退出登录
 class logOutBtn extends StatelessWidget {
   const logOutBtn({super.key});
 
@@ -894,7 +838,7 @@ class logOutBtn extends StatelessWidget {
     );
   }
 
-//退出登录弹框
+  //退出登录弹框
   void _showDialog(BuildContext context) {
     showDialog(
         context: context,

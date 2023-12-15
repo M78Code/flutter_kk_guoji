@@ -6,12 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
-import 'package:kkguoji/pages/message/message_model.dart';
-import 'package:kkguoji/pages/message/message_request.dart';
+import 'package:kkguoji/pages/mine/message/message_request.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import '../../../services/http_service.dart';
-import '../../routes/routes.dart';
-import '../../utils/route_util.dart';
 
 class MessageCenterPage extends StatefulWidget {
   const MessageCenterPage({super.key});

@@ -46,7 +46,7 @@ dependencies:
   date_format: ^2.0.7
   webview_flutter: ^4.4.2
   flutter_widget_from_html: ^0.14.9
-
+  easy_refresh: ^3.3.3+1
   flutter_localizations:
     sdk: flutter
 
@@ -88,6 +88,7 @@ flutter:
     - assets/images/service/
     - assets/images/promotion/
     - assets/images/home/
+    - assets/images/mine/
     - assets/images/rebate/
     - assets/images/recharge/
     - assets/images/withdraw/
