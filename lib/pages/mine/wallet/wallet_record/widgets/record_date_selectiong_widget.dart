@@ -4,14 +4,15 @@ import 'package:get/get.dart';
 
 import '../../../../../generated/assets.dart';
 import '../logic.dart';
-class RecordDateSelectionWidget extends StatefulWidget {
-  @override
-  _RecordDateSelectionWidgetState createState() => _RecordDateSelectionWidgetState();
-}
 
-class _RecordDateSelectionWidgetState extends State<RecordDateSelectionWidget> {
+class RecordDateSelectionWidget extends StatelessWidget {
 
   var controller = Get.find<WalletRecordLogic>();
+  String builderId;
+
+  RecordDateSelectionWidget({super.key, required this.builderId});
+
+
   @override
   Widget build(BuildContext context) {
     return _buildView();
@@ -19,7 +20,7 @@ class _RecordDateSelectionWidgetState extends State<RecordDateSelectionWidget> {
 
   Widget _buildView() {
     return GetBuilder<WalletRecordLogic>(
-      id: 'dateSelector',
+      id: builderId,
       builder: (controller) {
         return Container(
           height: 42.w,
@@ -69,7 +70,8 @@ class _RecordDateSelectionWidgetState extends State<RecordDateSelectionWidget> {
   }
 
   Widget buildDateItem(List<String> datas) {
-    bool isSelected = controller.userWithdrawState.dateType == datas.first;
+    bool isSelected = controller.currentIndex ==0  ?
+    controller.userWithdrawState.dateType == datas.first : controller.userRechargeState.dateType == datas.first;
     return InkWell(
       onTap: () {
         controller.onTapSwitchlDate(datas.first);

@@ -9,26 +9,14 @@ import '../../../../common/models/mine_wallet/user_withdraw_list_respond_model.d
 import 'state.dart';
 
 
-class UserWithdrawState {
-  List<UserWithdrawModel> userWithdrawModels = [];
-  final List<List<String>> dateTypes = [["today","今天"], ["yesterday","昨天" ], ["month","本月"], ["last_month","上月"],];
-  var dateType = "today";
-  int page = 1;
-  bool isNoMoreData = false;
-  EasyRefreshController _refreshController = EasyRefreshController(
-    controlFinishRefresh: true,
-    controlFinishLoad: true,
-  );
-  EasyRefreshController get refreshController => _refreshController;
-}
+
 
 class WalletRecordLogic extends GetxController {
-  final WalletRecordPageState state = WalletRecordPageState();
   late PageController pageController = PageController(initialPage: 0);
   var currentIndex  = 0;
   UserMoneyDetailsModel? userMoneyDetailsModel;
-  List<UserRechargeModel> userRechargeModels = [];
-  UserWithdrawState userWithdrawState = UserWithdrawState();
+  final WalletRecordWithdrawState userWithdrawState = WalletRecordWithdrawState();
+  final WalletRecordRechargeState userRechargeState = WalletRecordRechargeState();
 
   @override
   void onReady() {
@@ -52,42 +40,74 @@ class WalletRecordLogic extends GetxController {
   }
   // 资产明细日期切换
   onTapSwitchlDate(String dateType) async {
-    userWithdrawState.dateType = dateType;
-    update(['dateSelector']);
-    // _refreshController.resetNoData();
+    if (currentIndex == 0) {
+      userWithdrawState.dateType = dateType;
+      update(['withdrawDateSelector']);
+    }
+    else {
+      userRechargeState.dateType = dateType;
+      update(['rechargeDateSelector']);
+    }
+
     await onRefresh();
   }
+
   switchIndex(int index) {
     if (currentIndex == index) return;
     currentIndex = index;
     update(["menu"]);
   }
+
   Future<void> onRefresh() async{
     // monitor network fetch
     // await Future.delayed(Duration(milliseconds: 1000));
     await initData();
     // if failed,use refreshFailed()
-    userWithdrawState.refreshController.finishRefresh();
-    userWithdrawState.refreshController.resetFooter();
-    if (userWithdrawState.isNoMoreData) {
-      userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
+    if (currentIndex == 0) {
+      userWithdrawState.refreshController.finishRefresh();
+      userWithdrawState.refreshController.resetFooter();
+      if (userWithdrawState.isNoMoreData) {
+        userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
+      }
+    }
+    else {
+      userRechargeState.refreshController.finishRefresh();
+      userRechargeState.refreshController.resetFooter();
+      if (userRechargeState.isNoMoreData) {
+        userRechargeState.refreshController.finishLoad(IndicatorResult.noMore);
+      }
     }
   }
 
   void onLoading() async{
     // monitor network fetch
     // await getUserMoneyDetailsSearch(false);
-    await Future.delayed(Duration(milliseconds: 1000));
+    // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    userWithdrawState.refreshController.finishRefresh();
-    if (userWithdrawState.isNoMoreData) {
-      userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
+    if (currentIndex == 0) {
+      await fetchUserWithdrawList(false);
+      userWithdrawState.refreshController.finishRefresh();
+      if (userWithdrawState.isNoMoreData) {
+        userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
+      }
+    }
+    else {
+      await fetchUserRechargeList(false);
+      userRechargeState.refreshController.finishRefresh();
+      if (userRechargeState.isNoMoreData) {
+        userRechargeState.refreshController.finishLoad(IndicatorResult.noMore);
+      }
     }
   }
 
   initData() {
     fetchUserMoneyDetails();
-    fetchUserWithdrawList(true);
+    if (currentIndex == 0) {
+      fetchUserWithdrawList(true);
+    }
+    else {
+      fetchUserRechargeList(true);
+    }
   }
 
   fetchUserMoneyDetails() async {
@@ -114,6 +134,26 @@ class WalletRecordLogic extends GetxController {
         this.userWithdrawState.userWithdrawModels.addAll(userMoneyDetailsSearchListModel.list ?? []);
       }
       this.userWithdrawState.isNoMoreData = (userMoneyDetailsSearchListModel.total ?? 0) <= this.userWithdrawState.userWithdrawModels.length;
+      update(["searchList"]);
+    }
+    return;
+  }
+  Future<void> fetchUserRechargeList(bool isrefresh) async {
+    if (isrefresh) {
+      userRechargeState.page = 1;
+    }
+    else {
+      ++userRechargeState.page;
+    }
+    UserRechargeListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserRechargeList(userRechargeState.dateType, this.userRechargeState.page, "");
+    if (userMoneyDetailsSearchListModel != null) {
+      if (isrefresh) {
+        this.userRechargeState.userRechargeModels = userMoneyDetailsSearchListModel.list ?? [];
+      }
+      else {
+        this.userRechargeState.userRechargeModels.addAll(userMoneyDetailsSearchListModel.list ?? []);
+      }
+      this.userRechargeState.isNoMoreData = (userMoneyDetailsSearchListModel.total ?? 0) <= this.userRechargeState.userRechargeModels.length;
       update(["searchList"]);
     }
     return;
