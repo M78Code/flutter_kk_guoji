@@ -85,15 +85,15 @@ class RequestInterceptors extends Interceptor {
       DioError err,
       ErrorInterceptorHandler handler,
       ) {
-    int? statusCode = err.response?.statusCode;
-    int? code = err.response?.data["code"];
-    if(statusCode == 401 || code == 1001) {
-      SqliteUtil().remove(CacheKey.apiToken);
-      Get.find<GlobalStateController>().isLogin.value = false;
-      return;
-    }else {
+    // int? statusCode = err.response?.statusCode;
+    // int? code = err.response?.data["code"];
+    // if(statusCode == 401 || code == 1001) {
+    //   SqliteUtil().remove(CacheKey.apiToken);
+    //   Get.find<GlobalStateController>().isLogin.value = false;
+    //   return;
+    // }else {
       return handler.next(err);
-    }
+    // }
   }
 }
 
