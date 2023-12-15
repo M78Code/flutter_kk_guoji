@@ -67,6 +67,7 @@ abstract class Routes {
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
+    GetPage(name: recharge, page: () => const RechargePage()),
+    GetPage(name: withdraw, page: () => const WithdrawPage()),
   ];
-
 }
