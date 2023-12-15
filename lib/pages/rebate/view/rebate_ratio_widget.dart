@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/rebate/model/record_rate_model.dart';
 
 import '../logic/logic.dart';
 
@@ -45,7 +46,7 @@ class KKRebateRatioWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                  width:70,
+                  width:120,
                   child: Center(
                     child: Text("游戏类型", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
                   )
@@ -59,26 +60,29 @@ class KKRebateRatioWidget extends StatelessWidget {
             ],
           ),
         ),
-        MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return  Container(
-              height: 37,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(width: 70, child: Center(
-                    child: Text("100348", style: TextStyle(color: Colors.white, fontSize: 14),),
-                  ),),
-                  SizedBox(width: 70, child: Center(
-                    child: Text("100348", style: TextStyle(color: Colors.white, fontSize: 14),),
-                  ),),
-                ],
-              ),
-            );
-          }, itemCount: 10,)),
+        Obx(() {
+          return MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              KKRecordRateModel model = controller.recordRateList.value[index];
+              return  Container(
+                height: 37,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(width: 120, child: Center(
+                      child: Text(model.name ?? "", style: const TextStyle(color: Colors.white, fontSize: 14), textAlign: TextAlign.center,),
+                    ),),
+                    SizedBox(width: 70, child: Center(
+                      child: Text("${model.rate ?? 0} %", style: const TextStyle(color: Colors.white, fontSize: 14),),
+                    ),),
+                  ],
+                ),
+              );
+            }, itemCount: controller.recordRateList.value.length,));
+        }),
       ],
     );
   }

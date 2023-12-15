@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
+import 'package:kkguoji/pages/main/logic/main_logic.dart';
 import 'dart:math';
 
 import 'package:kkguoji/services/cache_key.dart';
@@ -101,6 +102,7 @@ class LoginLogic extends GetxController {
       if(savePassword.value) {
         SqliteUtil().setString(CacheKey.passwordKey, passwordText);
       }
+      Get.find<MainPageLogic>().currentIndex.value = 0;
       RouteUtil.popView();
     } else {
       ShowToast.showToast(result["message"]);

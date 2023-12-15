@@ -11,6 +11,7 @@ class KKRebateRecordsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.max,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,69 +58,80 @@ class KKRebateRecordsWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 15,),
-        Container(
-          color: const Color(0x1F6A6CB2),
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          height: 26,
-          child:  const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                  width:52.5,
-                  child: Center(
-                    child: Text("时间", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                  )
-              ),
-              SizedBox(
-                  width:70,
-                  child: Center(
-                    child: Text("游戏类型", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                  )
-              ),
-              SizedBox(
-                  width:70,
-                  child: Center(
-                    child: Text("返水金额", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                  )
-              ),
-              SizedBox(
-                  width:70,
-                  child: Center(
-                    child: Text("反水余额", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                  )
-              ),
-
-
-            ],
-          ),
-        ),
-        MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return  Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+        Obx(() {
+          return controller.dateTotalCount.value > 0?
+              Column(
                 children: [
+                  Container(
+                    color: const Color(0x1F6A6CB2),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 26,
+                    child:  const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width:52.5,
+                            child: Center(
+                              child: Text("时间", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                            )
+                        ),
+                        SizedBox(
+                            width:70,
+                            child: Center(
+                              child: Text("游戏类型", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                            )
+                        ),
+                        SizedBox(
+                            width:70,
+                            child: Center(
+                              child: Text("返水金额", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                            )
+                        ),
+                        SizedBox(
+                            width:70,
+                            child: Center(
+                              child: Text("反水余额", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                            )
+                        ),
 
-                  SizedBox(width: 55, child: Center(
-                    child: Text("2023-11-11 11:59:32", textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500),),
-                  ),),
-                  SizedBox(width: 70, child: Center(
-                    child: Text("100348", style: TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w600),),
-                  ),),
-                  SizedBox(width: 70, child: Center(
-                    child: Text("100346", style: TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w600),),
-                  ),),
-                  SizedBox(width: 70, child: Center(
-                    child: Text("100346", style: TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w600),),
-                  ),),                    ],
-              ),
-            );
-          }, itemCount: 10,)),
+
+                      ],
+                    ),
+                  ),
+                  MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return  Container(
+                        height: 50,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+
+                            SizedBox(width: 55, child: Center(
+                              child: Text("2023-11-11 11:59:32", textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500),),
+                            ),),
+                            SizedBox(width: 70, child: Center(
+                              child: Text("100348", style: TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w600),),
+                            ),),
+                            SizedBox(width: 70, child: Center(
+                              child: Text("100346", style: TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w600),),
+                            ),),
+                            SizedBox(width: 70, child: Center(
+                              child: Text("100346", style: TextStyle(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w600),),
+                            ),),                    ],
+                        ),
+                      );
+                    }, itemCount: 10,))
+                ],
+              )
+              : Center(
+                child: Image.asset("assets/images/rebate/nodata.png", width: 200, height: 223,),
+              );
+        })
+
       ],
     );
   }
@@ -132,10 +144,13 @@ class KKRebateRecordsWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: TextButton(
-        child: Text(text, style: TextStyle(color: isSelected? Colors.white:const Color(0xFF707A8C), fontSize: 12),),
         onPressed: (){
           controller.dateType.value = index;
         },
+        style: const ButtonStyle(
+          padding: MaterialStatePropertyAll(EdgeInsets.zero)
+        ),
+        child: Text(text, style: TextStyle(color: isSelected? Colors.white:const Color(0xFF707A8C), fontSize: 12),),
       ),
     );
   }

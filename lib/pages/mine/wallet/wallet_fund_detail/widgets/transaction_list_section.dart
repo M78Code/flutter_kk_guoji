@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
 
-// 示例数据
-List<List<String>> transactions = [
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-  ['2023-11-11\n11:59:32', '游戏下注', '-100', '1,686'],
-];
+import '../../../../../common/models/mine_wallet/user_money_details_search_respond_model.dart';
+import '../logic.dart';
+
+
 class TransactionListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-          if (index == 0) {
-            return TransactionHeaderRow();
-          }
-          else {
-            List<String> rowData = transactions[index - 1];
-            return TransactionDataRow(rowData);
-          }
-        },
-        childCount:transactions.length+1,
-      ),
+    return _buildView();
+  }
+
+  Widget _buildView() {
+    return GetBuilder<WalletFundDetailLogic>(
+      id: 'searchList',
+      builder: (controller) {
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+              if (index == 0) {
+                return TransactionHeaderRow();
+              }
+              else {
+                UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index - 1];
+                return TransactionDataRow(rowData);
+              }
+            },
+            childCount:controller.userMoneyDetailsSearchList.length + 1,
+          ),
+        );
+      },
     );
   }
 }
@@ -69,7 +68,7 @@ class TransactionHeaderRow extends StatelessWidget {
 }
 
 class TransactionDataRow extends StatelessWidget {
-  final List<String> rowData;
+  final UserMoneyDetailsSearchModel rowData;
 
   TransactionDataRow(this.rowData);
 
@@ -78,16 +77,24 @@ class TransactionDataRow extends StatelessWidget {
     var index = -1;
     List fontSizes = [11.w,12.w,14.w,14.w];
     List fontWeights = [FontWeight.w400,FontWeight.w400,FontWeight.w500,FontWeight.w500];
-    List colors = [Color(0xFFFFFFFF),Color(0xFFFFFFFF),Color(0xFF74CC7D),Color(0xFFFFFFFF)]; // EE5D5D
 
-    List<Widget> widgets = rowData.map((e) {
+    List<Widget> widgets = [rowData.createTime ?? "",rowData.desc ?? "",rowData.incomeExpenses ?? "", rowData.afterMoney ?? ""].map((e) {
       ++index;
+      var color = Color(0xFFFFFFFF);
+      if (index == 2) {
+        if (double.parse(rowData.incomeExpenses ?? "") > 0) {
+          color = Color(0xFF74CC7D);
+        }
+        else if (double.parse(rowData.incomeExpenses ?? "") < 0) {
+          color = Color(0xFFEE5D5D);
+        }
+      }
       return Container(
         child: Text(
           e,
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: colors[index],
+              color: color,
               fontSize: fontSizes[index],
               fontWeight: fontWeights[index]),
         ),
