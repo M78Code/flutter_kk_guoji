@@ -57,37 +57,16 @@ abstract class Routes {
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
     GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
-    GetPage(name: activityDetail, page: () => getPage(activityDetail), binding: ActivityDetailBinding()),
-    GetPage(name: webView, page:() => KKWebViewPage()),
-    GetPage(name: walletPage, page:() => WalletPage()),
-    GetPage(name: walletFundDetailPage, page:() => WalletFundDetailPage()),
-    GetPage(name: walletRecordPage, page:() => WalletRecordPage()),
+    GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
+    GetPage(name: webView, page: () => const KKWebViewPage()),
+    GetPage(name: walletPage, page: () => const WalletPage()),
+    GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
+    GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
     GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
-    // GetPage(name: recharge, page: () => getPage(recharge)),
-    // GetPage(name: withdraw, page: () => getPage(withdraw)),
   ];
-
-
-  static Widget getPage(String pageName) {
-    if(!Get.find<UserService>().isLogin) {
-      return const KKLoginPage();
-    }else {
-      if(pageName == activityDetail) {
-        return ActivityDetailPage();
-      } else if (pageName == withdraw) {
-        return const WithdrawPage();
-      }else if (pageName == recharge) {
-        return const RechargePage();
-      }
-      
-      else {
-        return Container();
-      }
-    }
-  }
 
 }
