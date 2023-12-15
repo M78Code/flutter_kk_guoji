@@ -100,7 +100,7 @@ class RequestInterceptors extends Interceptor {
 
 class HttpRequest {
   static Future<T> request<T>(String url, {
-    String method = "post",
+    String method = "get",
     Map<String, dynamic>? params,
     Interceptor? inter}) async {
     return HttpService.to.fetch(url,method: method,params: params,inter: inter);
