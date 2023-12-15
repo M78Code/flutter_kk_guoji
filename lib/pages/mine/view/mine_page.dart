@@ -79,7 +79,7 @@ class _MinePageState extends State<MinePage> {
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
-                      _model == null ? Text('123') : _myHeaderView(),
+                      _myHeaderView(),
                       Positioned(
                         top: 160,
                         left: 10,

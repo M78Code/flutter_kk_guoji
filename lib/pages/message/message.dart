@@ -109,7 +109,6 @@ class _MeeageListViewState extends State<MeeageListView> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     getMessageListData();
-    getReadNotice();
   }
 
   void _scrollListener() {
@@ -142,10 +141,10 @@ class _MeeageListViewState extends State<MeeageListView> {
   }
 
 //系统公告设置已读
-  void getReadNotice() async {
+  void getReadNotice(int id) async {
     // ignore: unused_local_variable  //系统公告ID
     var result = await HttpRequest.request(HttpConfig.readNotice,
-        method: "post", params: {"id": type});
+        method: "post", params: {"id": id});
     print(result['code']);
     if (result['code'] == 200) {
       print('成功');
@@ -241,6 +240,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                             onTap: () {
                               setState(() {
                                 isShow = !isShow;
+                                getReadNotice(messageList[index]['id']);
                               });
                               print('显示所有');
                             },
