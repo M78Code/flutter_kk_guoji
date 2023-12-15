@@ -15,6 +15,7 @@ class KKRebateLogic extends GetxController {
   final autoRecordList = [].obs;
   final totalMoney = "".obs;
   final bannerList = [].obs;
+  final gameList = [].obs;
   final dateList = ["today", "yesterday", "month", "last_month"];
   final dateTotalCount = 0.obs;
   final dateRecordList = [].obs;
@@ -87,7 +88,6 @@ class KKRebateLogic extends GetxController {
   }
 
   void getRatio(int gameType) async {
-    List rateList = [];
     var result = await HttpRequest.request(HttpConfig.getRatio, params: {"page":1, "limit":30, "game_type":gameType});
     if(result["code"] == 200) {
       List list = result["data"]["list"];
@@ -100,7 +100,11 @@ class KKRebateLogic extends GetxController {
   }
 
   void clickGameBtn(int index) {
+     if(index == 0) {
+       getRatio(0);
+     }else {
 
+     }
   }
 
 }
