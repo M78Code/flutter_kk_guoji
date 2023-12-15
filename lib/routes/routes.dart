@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/email/bind_email_page.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
@@ -6,6 +7,8 @@ import 'package:kkguoji/pages/customer/binding/bindings.dart';
 import 'package:kkguoji/pages/customer/view/customer_service_page.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
+
+import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
 import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
 import 'package:kkguoji/pages/mine/setting/setting.dart';
@@ -20,6 +23,8 @@ import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
 import '../pages/activity/list/activity_page.dart';
+import '../pages/mine/wallet/wallet_fund_detail/view.dart';
+import '../pages/mine/wallet/wallet_record/view.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
 
 abstract class Routes {
@@ -29,6 +34,9 @@ abstract class Routes {
   static const String activity = '/activity';
   static const String activityDetail = "/activityDetail";
   static const String webView = "/webView";
+  static const String walletPage = "/walletPage";
+  static const String walletFundDetailPage = "/walletFundDetailPage";
+  static const String walletRecordPage = "/walletRecordPage";
   static const String customer = "/customer";
   static const String promotion = "/promotion";
   static const String promation_history = '/promotion_history';
@@ -46,6 +54,9 @@ abstract class Routes {
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
     GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
     GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
+    GetPage(name: walletPage, page: () => const WalletPage()),
+    GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
+    GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
     GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),

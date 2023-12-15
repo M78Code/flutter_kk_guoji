@@ -190,7 +190,7 @@ class MinePage extends GetView<MineLogic> {
           ],
         ),
         onPressed: () {
-          print('退出登录');
+          controller.clickLogout();
         },
       ),
     );
@@ -778,10 +778,7 @@ class logOutBtn extends StatelessWidget {
                       child: Text(
                         '这将使您需要重新登录才能使用我们的服务！确定要退出吗?',
                         softWrap: true,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     )),
                 Positioned(
@@ -795,25 +792,20 @@ class logOutBtn extends StatelessWidget {
                         width: 102,
                         height: 40,
                         decoration: ShapeDecoration(
-                          //渐变色
-                            gradient: const LinearGradient(
-                                colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
+                            //渐变色
+                            gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             )),
                         child: TextButton(
                             onPressed: () {
-                              SqliteUtil()
-                                  .remove(CacheKey.apiToken); //删除token等信息
+                              SqliteUtil().remove(CacheKey.apiToken); //删除token等信息
                               Navigator.of(context).pop();
                               RouteUtil.pushToView(Routes.loginPage);
                             },
                             child: const Text(
                               '确定',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
+                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
                             )),
                       ),
                       Container(
@@ -821,20 +813,16 @@ class logOutBtn extends StatelessWidget {
                         height: 40,
                         decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 2, color: Color(0xFF3D35C6)),
-                              borderRadius: BorderRadius.circular(20),
-                            )),
+                          side: const BorderSide(width: 2, color: Color(0xFF3D35C6)),
+                          borderRadius: BorderRadius.circular(20),
+                        )),
                         child: TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                             child: const Text(
                               '取消',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
+                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
                             )),
                       )
                     ],
