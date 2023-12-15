@@ -40,4 +40,6 @@ class HttpConfig {
   //洗码记录
   static const getRecord = '/api/userRebate/getRecord';
   static const readNotice = '/api/notice/readNotice'; //系统公告设置已读
+  //洗码比例
+  static const getRatio = '/api/userRebate/getRatio';
 }

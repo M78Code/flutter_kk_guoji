@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/rebate/model/auto_record_model.dart';
+import 'package:kkguoji/pages/rebate/model/record_rate_model.dart';
 import '../../../services/http_service.dart';
 import '../../../services/config.dart';
 
@@ -14,14 +15,18 @@ class KKRebateLogic extends GetxController {
   final autoRecordList = [].obs;
   final totalMoney = "".obs;
   final bannerList = [].obs;
+  final gameList = [].obs;
   final dateList = ["today", "yesterday", "month", "last_month"];
   final dateTotalCount = 0.obs;
   final dateRecordList = [].obs;
+  final recordRateList = [].obs;
 
   changeRebateType(int index) {
     rebateType.value = index;
     if(index == 1) {
       getRecord(dateList.first);
+    }else if(index == 2) {
+      getRatio(0);
     }
   }
 
@@ -80,6 +85,26 @@ class KKRebateLogic extends GetxController {
         dateTotalCount.value = map["totalCount"];
         dateRecordList.value = map["list"];
       }
+  }
+
+  void getRatio(int gameType) async {
+    var result = await HttpRequest.request(HttpConfig.getRatio, params: {"page":1, "limit":30, "game_type":gameType});
+    if(result["code"] == 200) {
+      List list = result["data"]["list"];
+      if(list.isNotEmpty) {
+        list.forEach((element) {
+          recordRateList.add(KKRecordRateModel.fromJson(element));
+        });
+      }
+    }
+  }
+
+  void clickGameBtn(int index) {
+     if(index == 0) {
+       getRatio(0);
+     }else {
+
+     }
   }
 
 }

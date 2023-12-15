@@ -176,7 +176,7 @@ class MinePage extends GetView<MineLogic> {
     return ListView(
       padding: EdgeInsets.only(top: 20.h),
       children: [
-        const SafeBoxWaitGridView(),
+        // const SafeBoxWaitGridView(),
         const MyAccountInfo(),
         Divider(height: 8.h, color: Colors.black),
         const WelfareReward(),

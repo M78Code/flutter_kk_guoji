@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'package:kkguoji/pages/account/email/bind_email_page.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
@@ -55,7 +57,7 @@ abstract class Routes {
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
     GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
-    GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
+    GetPage(name: activityDetail, page: () => getPage(activityDetail), binding: ActivityDetailBinding()),
     GetPage(name: webView, page:() => KKWebViewPage()),
     GetPage(name: walletPage, page:() => WalletPage()),
     GetPage(name: walletFundDetailPage, page:() => WalletFundDetailPage()),
@@ -65,7 +67,27 @@ abstract class Routes {
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
-    GetPage(name: recharge, page: () => const RechargePage()),
-    GetPage(name: withdraw, page: () => const WithdrawPage()),
+    GetPage(name: recharge, page: () => getPage(recharge)),
+    GetPage(name: withdraw, page: () => getPage(withdraw)),
   ];
+
+
+  static Widget getPage(String pageName) {
+    if(!Get.find<GlobalStateController>().isLogin.value) {
+      return const KKLoginPage();
+    }else {
+      if(pageName == activityDetail) {
+        return ActivityDetailPage();
+      } else if (pageName == withdraw) {
+        return const WithdrawPage();
+      }else if (pageName == recharge) {
+        return const RechargePage();
+      }
+      
+      else {
+        return Container();
+      }
+    }
+  }
+
 }

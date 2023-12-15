@@ -76,7 +76,7 @@ class HomeLogic extends GetxController {
     // TODO: implement onInit
     super.onInit();
 
-    var result = await HttpRequest.request(HttpConfig.getMarqueeNotice);
+    var result = await HttpRequest.request(HttpConfig.getMarqueeNotice, method: "get");
     if (result["code"] == 200) {
       List marquees = result["data"];
       if (marquees.isNotEmpty) {
@@ -107,7 +107,7 @@ class HomeLogic extends GetxController {
 
     Map<String, dynamic> bannerParms = {"position": "home_banner"};
     var bannerResult = await HttpRequest.request(HttpConfig.getBannerList,
-        params: bannerParms);
+        params: bannerParms, method: "get");
     if (bannerResult["code"] == 200) {
       bannerList.value = bannerResult["data"];
     }
