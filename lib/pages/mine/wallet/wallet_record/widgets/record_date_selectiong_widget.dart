@@ -33,7 +33,7 @@ class _RecordDateSelectionWidgetState extends State<RecordDateSelectionWidget> {
                 padding: EdgeInsets.all(6.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: controller.dateTypes.map((e) {
+                  children: controller.userWithdrawState.dateTypes.map((e) {
                     return buildDateItem(e);
                   }).toList(),
                 ),
@@ -69,7 +69,7 @@ class _RecordDateSelectionWidgetState extends State<RecordDateSelectionWidget> {
   }
 
   Widget buildDateItem(List<String> datas) {
-    bool isSelected = controller.dateType == datas.first;
+    bool isSelected = controller.userWithdrawState.dateType == datas.first;
     return InkWell(
       onTap: () {
         controller.onTapSwitchlDate(datas.first);

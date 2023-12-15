@@ -4,16 +4,13 @@ import 'package:get/get.dart';
 
 import '../../../../common/api/account_api.dart';
 import '../../../../common/models/mine_wallet/user_money_details_model.dart';
+import '../../../../common/models/mine_wallet/user_recharge_list_respond_model.dart';
 import '../../../../common/models/mine_wallet/user_withdraw_list_respond_model.dart';
 import 'state.dart';
 
-class WalletRecordLogic extends GetxController {
-  final WalletRecordPageState state = WalletRecordPageState();
-  late PageController pageController = PageController(initialPage: 0);
-  var currentIndex  = 0;
-  UserMoneyDetailsModel? userMoneyDetailsModel;
-  List<UserWithdrawModel> userWithdrawModels = [];
 
+class UserWithdrawState {
+  List<UserWithdrawModel> userWithdrawModels = [];
   final List<List<String>> dateTypes = [["today","今天"], ["yesterday","昨天" ], ["month","本月"], ["last_month","上月"],];
   var dateType = "today";
   int page = 1;
@@ -23,6 +20,15 @@ class WalletRecordLogic extends GetxController {
     controlFinishLoad: true,
   );
   EasyRefreshController get refreshController => _refreshController;
+}
+
+class WalletRecordLogic extends GetxController {
+  final WalletRecordPageState state = WalletRecordPageState();
+  late PageController pageController = PageController(initialPage: 0);
+  var currentIndex  = 0;
+  UserMoneyDetailsModel? userMoneyDetailsModel;
+  List<UserRechargeModel> userRechargeModels = [];
+  UserWithdrawState userWithdrawState = UserWithdrawState();
 
   @override
   void onReady() {
@@ -46,7 +52,7 @@ class WalletRecordLogic extends GetxController {
   }
   // 资产明细日期切换
   onTapSwitchlDate(String dateType) async {
-    this.dateType = dateType;
+    userWithdrawState.dateType = dateType;
     update(['dateSelector']);
     // _refreshController.resetNoData();
     await onRefresh();
@@ -61,10 +67,10 @@ class WalletRecordLogic extends GetxController {
     // await Future.delayed(Duration(milliseconds: 1000));
     await initData();
     // if failed,use refreshFailed()
-    _refreshController.finishRefresh();
-    _refreshController.resetFooter();
-    if (this.isNoMoreData) {
-      _refreshController.finishLoad(IndicatorResult.noMore);
+    userWithdrawState.refreshController.finishRefresh();
+    userWithdrawState.refreshController.resetFooter();
+    if (userWithdrawState.isNoMoreData) {
+      userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
     }
   }
 
@@ -73,9 +79,9 @@ class WalletRecordLogic extends GetxController {
     // await getUserMoneyDetailsSearch(false);
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    _refreshController.finishRefresh();
-    if (this.isNoMoreData) {
-      _refreshController.finishLoad(IndicatorResult.noMore);
+    userWithdrawState.refreshController.finishRefresh();
+    if (userWithdrawState.isNoMoreData) {
+      userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
     }
   }
 
@@ -94,20 +100,20 @@ class WalletRecordLogic extends GetxController {
 
   Future<void> fetchUserWithdrawList(bool isrefresh) async {
     if (isrefresh) {
-      page = 1;
+      userWithdrawState.page = 1;
     }
     else {
-      ++page;
+      ++userWithdrawState.page;
     }
-    UserWithdrawListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserWithdrawList(dateType, this.page, "");
+    UserWithdrawListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserWithdrawList(userWithdrawState.dateType, this.userWithdrawState.page, "");
     if (userMoneyDetailsSearchListModel != null) {
       if (isrefresh) {
-        this.userWithdrawModels = userMoneyDetailsSearchListModel.list ?? [];
+        this.userWithdrawState.userWithdrawModels = userMoneyDetailsSearchListModel.list ?? [];
       }
       else {
-        this.userWithdrawModels.addAll(userMoneyDetailsSearchListModel.list ?? []);
+        this.userWithdrawState.userWithdrawModels.addAll(userMoneyDetailsSearchListModel.list ?? []);
       }
-      this.isNoMoreData = (userMoneyDetailsSearchListModel.total ?? 0) <= this.userWithdrawModels.length;
+      this.userWithdrawState.isNoMoreData = (userMoneyDetailsSearchListModel.total ?? 0) <= this.userWithdrawState.userWithdrawModels.length;
       update(["searchList"]);
     }
     return;
