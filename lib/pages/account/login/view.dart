@@ -60,7 +60,6 @@ class _KKLoginPageState extends State<KKLoginPage> {
                         width: 50,
                         height: 50,
                         child: TextButton(onPressed: (){
-                          mainLogic.currentIndex.value = 0;
                          RouteUtil.popView();
                         }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
                       )
