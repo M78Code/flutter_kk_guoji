@@ -190,7 +190,7 @@ class MinePage extends GetView<MineLogic> {
           ],
         ),
         onPressed: () {
-          print('退出登录');
+          controller.clickLogout();
         },
       ),
     );
