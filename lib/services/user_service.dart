@@ -22,6 +22,8 @@ class UserService extends GetxService {
 
   UserMoneyModel? get userMoneyModel => this._userMoneyModel.value;
 
+  set userMoneyModel(value) => this._userMoneyModel.value = value;
+
   //用户信息
   Rx<UserInfoModel?> userInfoModel = Rx<UserInfoModel?>(null);
 
