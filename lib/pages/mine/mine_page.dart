@@ -105,7 +105,10 @@ class MinePage extends GetView<MineLogic> {
                 Text(
                   //昵称
                   '${controller.userInfoModel?.userNick}',
-                  style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 5),
@@ -119,7 +122,10 @@ class MinePage extends GetView<MineLogic> {
                     const SizedBox(width: 3),
                     Text(
                       '${controller.userInfoModel?.uuid}',
-                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
                     )
                   ],
                 )
@@ -132,12 +138,17 @@ class MinePage extends GetView<MineLogic> {
                 width: 67,
                 height: 25,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/icon_edit_bg.png'))),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/icon_edit_bg.png'))),
                 child: const Center(
                   //文字居中
                   child: Text(
                     '编辑',
-                    style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -177,12 +188,16 @@ class MinePage extends GetView<MineLogic> {
     return Container(
       margin: const EdgeInsets.only(left: 25, right: 25),
       height: 40,
-      decoration: ShapeDecoration(color: const Color(0xFF686F83), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
+      decoration: ShapeDecoration(
+          color: const Color(0xFF686F83),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
       child: TextButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/icon_log_out.png', width: 18, height: 18),
+            Image.asset('assets/images/icon_log_out.png',
+                width: 18, height: 18),
             const Text(
               '退出登录',
               style: TextStyle(color: Colors.white, fontSize: 13),
@@ -244,7 +259,10 @@ class AvatarWithVip extends StatelessWidget {
                 ),
                 const Text(
                   '0',
-                  style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700),
                 )
               ],
             ),
@@ -263,7 +281,12 @@ class Mypurse extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 167,
-      decoration: BoxDecoration(image: const DecorationImage(image: AssetImage('assets/images/icon_mypurse_bg.png'), fit: BoxFit.cover), borderRadius: BorderRadius.circular(6), border: Border.all(width: 1.0, color: Colors.white)),
+      decoration: BoxDecoration(
+          image: const DecorationImage(
+              image: AssetImage('assets/images/icon_mypurse_bg.png'),
+              fit: BoxFit.cover),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(width: 1.0, color: Colors.white)),
       child: Column(
         children: [
           const SizedBox(
@@ -284,7 +307,10 @@ class Mypurse extends StatelessWidget {
                     children: [
                       const Text(
                         '进入钱包',
-                        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
                       ),
                       Image.asset(
                         'assets/images/icon_arrows_enter.png',
@@ -316,7 +342,10 @@ class Mypurse extends StatelessWidget {
               children: [
                 Text(
                   '钱包余额',
-                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300),
                 ),
               ],
             ),
@@ -329,7 +358,10 @@ class Mypurse extends StatelessWidget {
               children: [
                 const Text(
                   '¥88,686.00',
-                  style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700),
                 ),
                 IconButton(
                     onPressed: () {},
@@ -379,7 +411,10 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               ),
               const Text(
                 '充值',
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -405,7 +440,10 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               ),
               const Text(
                 '提现',
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -432,7 +470,10 @@ class TopUpWithdrawBackwater extends StatelessWidget {
                 ),
                 const Text(
                   '返水',
-                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -458,7 +499,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 12, right: 12),
           height: 93,
-          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/icon_safebox_bg.png'), fit: BoxFit.cover)),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/icon_safebox_bg.png'),
+                  fit: BoxFit.cover)),
           child: GridView.count(
             physics: const NeverScrollableScrollPhysics(),
             //禁止滚动
@@ -477,7 +521,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       '保险箱',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -497,7 +544,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       'VIP',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -517,7 +567,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       '返水',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -536,7 +589,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       '推广赚钱',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -571,7 +627,10 @@ class MyAccountInfo extends StatelessWidget {
             ),
             title: const Text(
               '账号',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               'assets/images/icon_arrows_enter.png',
@@ -597,7 +656,10 @@ class MyAccountInfo extends StatelessWidget {
             ),
             title: const Text(
               '个人数据',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               'assets/images/icon_arrows_enter.png',
@@ -623,7 +685,10 @@ class MyAccountInfo extends StatelessWidget {
             ),
             title: const Text(
               '游戏记录',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               'assets/images/icon_arrows_enter.png',
@@ -659,7 +724,10 @@ class WelfareReward extends StatelessWidget {
             ),
             title: const Text(
               '福利奖励',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               'assets/images/icon_arrows_enter.png',
@@ -667,7 +735,10 @@ class WelfareReward extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const WelfareRewardPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const WelfareRewardPage()));
               print('福利奖励');
             },
           ),
@@ -686,7 +757,10 @@ class WelfareReward extends StatelessWidget {
             ),
             title: const Text(
               '信息设置',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               'assets/images/icon_arrows_enter.png',
@@ -712,7 +786,10 @@ class WelfareReward extends StatelessWidget {
             ),
             title: const Text(
               '分享',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               'assets/images/icon_arrows_enter.png',
@@ -737,12 +814,16 @@ class logOutBtn extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 25, right: 25),
       height: 40,
-      decoration: ShapeDecoration(color: const Color(0xFF686F83), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
+      decoration: ShapeDecoration(
+          color: const Color(0xFF686F83),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
       child: TextButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/icon_log_out.png', width: 18, height: 18),
+            Image.asset('assets/images/icon_log_out.png',
+                width: 18, height: 18),
             const Text(
               '退出登录',
               style: TextStyle(color: Colors.white, fontSize: 13),
@@ -796,7 +877,7 @@ class logOutBtn extends StatelessWidget {
                         width: 102,
                         height: 40,
                         decoration: ShapeDecoration(
-                          //渐变色
+                            //渐变色
                             gradient: const LinearGradient(
                                 colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
                             shape: RoundedRectangleBorder(
@@ -822,10 +903,10 @@ class logOutBtn extends StatelessWidget {
                         height: 40,
                         decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 2, color: Color(0xFF3D35C6)),
-                              borderRadius: BorderRadius.circular(20),
-                            )),
+                          side: const BorderSide(
+                              width: 2, color: Color(0xFF3D35C6)),
+                          borderRadius: BorderRadius.circular(20),
+                        )),
                         child: TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
