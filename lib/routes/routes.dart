@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'package:kkguoji/pages/account/email/bind_email_page.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
@@ -19,6 +18,7 @@ import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
+import 'package:kkguoji/services/user_service.dart';
 import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
@@ -73,7 +73,7 @@ abstract class Routes {
 
 
   static Widget getPage(String pageName) {
-    if(!Get.find<GlobalStateController>().isLogin.value) {
+    if(!Get.find<UserService>().isLogin) {
       return const KKLoginPage();
     }else {
       if(pageName == activityDetail) {

@@ -9,13 +9,13 @@ import 'package:kkguoji/pages/home/view/home_real_widget.dart';
 import 'package:kkguoji/pages/home/view/home_sports_widget.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/home_top_widget.dart';
+import 'package:kkguoji/services/user_service.dart';
 
-import '../../../base/logic/gloabal_state_controller.dart';
 
 class KKHomePage extends GetView<HomeLogic> {
 
   final controller = Get.find<HomeLogic>();
-  final globalController = Get.find<GlobalStateController>();
+  final globalController = Get.find<UserService>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +162,7 @@ class KKHomePage extends GetView<HomeLogic> {
             ),
           ),
           Positioned(child:Obx((){
-            return KKHomeTopWidget(globalController.isLogin.value);
+            return KKHomeTopWidget(globalController.isLogin);
           }),),
         ],
       ),
