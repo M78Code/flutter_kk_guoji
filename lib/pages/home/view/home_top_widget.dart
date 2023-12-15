@@ -3,7 +3,6 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'package:kkguoji/utils/account_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
