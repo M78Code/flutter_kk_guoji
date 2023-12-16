@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
+import 'package:kkguoji/pages/mine/wallet/wallet_record/logic.dart';
 
 
 class WalletRecordBalanceWidget extends StatelessWidget {
@@ -12,17 +14,22 @@ class WalletRecordBalanceWidget extends StatelessWidget {
   }
 
   Widget _buildView() {
-    return Container(
-      height: 64.w,
-      child:Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _buildButton('充值金额','88,686.00').expanded(),
-          SizedBox(width: 10,),
-          _buildButton('提现金额', '88,686.00').expanded(),
-        ],
-      ),
+    return GetBuilder<WalletRecordLogic>(
+      id: 'userMoneyDetails',
+      builder: (controller) {
+        return Container(
+          height: 64.w,
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildButton('充值金额', controller.userMoneyDetailsModel?.totalRecharge ?? "0.00").expanded(),
+              SizedBox(width: 10,),
+              _buildButton('提现金额', controller.userMoneyDetailsModel?.totalWithdraw ?? "0.00").expanded(),
+            ],
+          ),
+        );
+      },
     );
   }
 

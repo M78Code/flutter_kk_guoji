@@ -84,14 +84,22 @@ class RequestInterceptors extends Interceptor {
       DioError err,
       ErrorInterceptorHandler handler,
       ) {
-    return handler.next(err);
+    // int? statusCode = err.response?.statusCode;
+    // int? code = err.response?.data["code"];
+    // if(statusCode == 401 || code == 1001) {
+    //   SqliteUtil().remove(CacheKey.apiToken);
+    //   Get.find<GlobalStateController>().isLogin.value = false;
+    //   return;
+    // }else {
+      return handler.next(err);
+    // }
   }
 }
 
 
 class HttpRequest {
   static Future<T> request<T>(String url, {
-    String method = "post",
+    String method = "get",
     Map<String, dynamic>? params,
     Interceptor? inter}) async {
     return HttpService.to.fetch(url,method: method,params: params,inter: inter);

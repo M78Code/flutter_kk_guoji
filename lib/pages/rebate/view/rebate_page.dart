@@ -22,6 +22,7 @@ class KKRebatePage extends StatelessWidget {
           SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(height: 44,),
                 SizedBox(
                   height: 285,
                   child: Stack(
@@ -122,7 +123,7 @@ class KKRebatePage extends StatelessWidget {
               child:Container(
                 height: 88,
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: [Color(0xFF11163C),Color(0x00050820)]),
+                  // gradient: LinearGradient(colors: [Color(0xFF11163C),Color(0x00050820)]),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

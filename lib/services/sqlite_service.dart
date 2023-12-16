@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,11 +23,11 @@ class SqliteService extends GetxService {
   Future<void> getPreferences() async{
     _preferences = await SharedPreferences.getInstance();
     if(getString(CacheKey.apiToken) != null) {
-      Get.find<GlobalStateController>().isLogin.value = true;
+      Get.find<UserService>().isLogin = true;
       Get.find<UserService>().fetchUserInfo();
       Get.find<UserService>().fetchUserMoney();
     }else {
-      Get.find<GlobalStateController>().isLogin.value = false;
+      Get.find<UserService>().isLogin = false;
     }
   }
 

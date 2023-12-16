@@ -10,6 +10,7 @@ import 'package:kkguoji/widget/keyboard_dismissable.dart';
 import '../../../routes/routes.dart';
 import '../../../utils/route_util.dart';
 import '../../../widget/custom_input_field.dart';
+import '../../main/logic/main_logic.dart';
 
 class KKLoginPage extends StatefulWidget {
   const KKLoginPage({super.key});
@@ -21,6 +22,8 @@ class KKLoginPage extends StatefulWidget {
 class _KKLoginPageState extends State<KKLoginPage> {
 
   late LoginLogic controller = Get.find<LoginLogic>();
+  final mainLogic = Get.find<MainPageLogic>();
+
 
   @override
   void initState() {

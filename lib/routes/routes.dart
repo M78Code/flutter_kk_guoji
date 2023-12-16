@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/email/bind_email_page.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
@@ -17,6 +18,7 @@ import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
+import 'package:kkguoji/services/user_service.dart';
 import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
@@ -56,6 +58,7 @@ abstract class Routes {
     GetPage(name: loginPage, page: () => const KKLoginPage()),
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
+<<<<<<< HEAD
     GetPage(
         name: activity,
         page: () => const ActivityPage(),
@@ -68,6 +71,14 @@ abstract class Routes {
     GetPage(name: walletPage, page: () => WalletPage()),
     GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
     GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
+=======
+    GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
+    GetPage(name: activityDetail, page: () => getPage(activityDetail), binding: ActivityDetailBinding()),
+    GetPage(name: webView, page:() => KKWebViewPage()),
+    GetPage(name: walletPage, page:() => WalletPage()),
+    GetPage(name: walletFundDetailPage, page:() => WalletFundDetailPage()),
+    GetPage(name: walletRecordPage, page:() => WalletRecordPage()),
+>>>>>>> ce651cdfcbc6a11d6485bef9cf974cb0f0bec120
     GetPage(name: webView, page: () => const KKWebViewPage()),
     GetPage(
         name: customer,
@@ -78,10 +89,36 @@ abstract class Routes {
         page: () => const KKPromotionPage(),
         binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
+<<<<<<< HEAD
     GetPage(
         name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
     GetPage(name: claimRecordPage, page: () => const ClaimRecordPage()),
+=======
+    GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
+    GetPage(name: recharge, page: () => getPage(recharge)),
+    GetPage(name: withdraw, page: () => getPage(withdraw)),
+>>>>>>> ce651cdfcbc6a11d6485bef9cf974cb0f0bec120
   ];
+
+
+  static Widget getPage(String pageName) {
+    if(!Get.find<UserService>().isLogin) {
+      return const KKLoginPage();
+    }else {
+      if(pageName == activityDetail) {
+        return ActivityDetailPage();
+      } else if (pageName == withdraw) {
+        return const WithdrawPage();
+      }else if (pageName == recharge) {
+        return const RechargePage();
+      }
+      
+      else {
+        return Container();
+      }
+    }
+  }
+
 }

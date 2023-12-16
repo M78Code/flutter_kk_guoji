@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_item.dart';
 
 import '../../../model/home/jcp_game_model.dart';
+import '../../../utils/json_util.dart';
 import '../logic/logic.dart';
 
 class KKHomeTicketWidget extends StatelessWidget {
@@ -51,7 +52,7 @@ class KKHomeTicketWidget extends StatelessWidget {
             width: double.infinity,
             child: controller.margeGameList.isEmpty ? Container() : Swiper(
               autoplayDisableOnInteraction: false,
-              autoplay: true,
+              autoplay: false,
               autoplayDelay: 5000,
               itemCount: controller.margeGameList.length,
               itemBuilder: (BuildContext context, int index) {
@@ -69,10 +70,11 @@ class KKHomeTicketWidget extends StatelessWidget {
       children: List.generate(ticketGroup.length, (index) {
         Map bgInfo = controller.imageMap[ticketGroup[index].lotteryCode];
         Datum item = ticketGroup[index];
+        print('xiaoan 合并数据结果：${JsonUtil.encodeObj(item)}');
         return Column(
           children: [
             KKHomeTicketItem(bgInfo["bg_icon"], bgInfo["logo_icon"], item),
-            const SizedBox(height: 30,)
+            const SizedBox(height: 15,)
           ],
         );
       }),

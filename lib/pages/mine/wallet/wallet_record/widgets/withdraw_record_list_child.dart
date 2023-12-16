@@ -2,8 +2,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kkguoji/common/extension/index.dart';
 import 'package:flutter/material.dart';
 
+
+
+class WithdrawRecordListChildViewModel {
+  String? createTime;
+  String? type;
+  String? bankUsername;
+  String? bankNumber;
+  String? orderN;
+  int? money;
+  String? statusName;
+
+  WithdrawRecordListChildViewModel({this.createTime,
+    this.type,
+    this.bankUsername,
+    this.bankNumber,
+    this.orderN,
+    this.money,
+    this.statusName});
+}
+
+
 class WithdrawRecordListChild extends StatelessWidget {
-  final List<String> rowData;
+  final WithdrawRecordListChildViewModel rowData;
 
   WithdrawRecordListChild(this.rowData);
 
@@ -25,7 +46,7 @@ class WithdrawRecordListChild extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '2023-11-11 11:59:32',
+                    rowData.createTime ?? "",
                     style: TextStyle(
                         color: Color(0x66FFFFFF),
                         fontSize: 12.sp,
@@ -33,7 +54,7 @@ class WithdrawRecordListChild extends StatelessWidget {
                   ),
                   SizedBox(height: 4.w,),
                   Text(
-                    'CNPL提现',
+                    rowData.type ?? "",
                     style: TextStyle(
                         color: Color(0xFFFFFFFF),
                         fontSize: 14.sp,
@@ -47,7 +68,7 @@ class WithdrawRecordListChild extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '成功',
+                    rowData.statusName ?? "",
                     style: TextStyle(
                         color: Color(0xFF74CC7D),
                         fontSize: 12.sp,
@@ -55,7 +76,7 @@ class WithdrawRecordListChild extends StatelessWidget {
                   ),
                   SizedBox(height: 4.w,),
                   Text(
-                    '-1000',
+                    (rowData.money ?? 0).toString(),
                     style: TextStyle(
                         color: Color(0xFFFFFFFF),
                         fontSize: 17.sp,
@@ -74,11 +95,11 @@ class WithdrawRecordListChild extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildRecordItem('提现人姓名','张三丰'),
+                _buildRecordItem('提现人姓名',rowData.bankUsername ?? ""),
                 SizedBox(height: 8.w,),
-                _buildRecordItem('到账账号','张三丰'),
+                _buildRecordItem('到账账号', rowData.bankNumber ?? ""),
                 SizedBox(height: 8.w,),
-                _buildRecordItem('订单号','张三丰'),
+                _buildRecordItem('订单号',rowData.orderN ?? ""),
               ],
             ),
           )

@@ -1,14 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/base/logic/gloabal_state_controller.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
 class KKHomeBalanceWidget extends StatelessWidget {
   KKHomeBalanceWidget({super.key});
-  final globalContrller = Get.find<GlobalStateController>();
   final userService = Get.find<UserService>();
 
 

@@ -144,10 +144,13 @@ class KKRebateRecordsWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: TextButton(
-        child: Text(text, style: TextStyle(color: isSelected? Colors.white:const Color(0xFF707A8C), fontSize: 12),),
         onPressed: (){
           controller.dateType.value = index;
         },
+        style: const ButtonStyle(
+          padding: MaterialStatePropertyAll(EdgeInsets.zero)
+        ),
+        child: Text(text, style: TextStyle(color: isSelected? Colors.white:const Color(0xFF707A8C), fontSize: 12),),
       ),
     );
   }
