@@ -145,6 +145,7 @@ class MyAccountPage extends GetView<MyAccountLogic> {
         hPadding: 25.w,
         onPressed: () {
           // controller.recharge();
+          controller.postAWSS3();
         },
       ),
     );

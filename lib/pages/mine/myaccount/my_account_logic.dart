@@ -1,8 +1,12 @@
+import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/pair.dart';
 import 'package:kkguoji/generated/assets.dart';
+import 'package:kkguoji/pages/mine/myaccount/my_account_model.dart';
 import 'package:kkguoji/services/cache_key.dart';
+import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 
 class MyAccountLogic extends GetxController {
@@ -60,33 +64,68 @@ class MyAccountLogic extends GetxController {
     TPair(7, false, Assets.myaccountIconCamera),
   ];
 
-  ///图片上传
-  // void uploadImageFromAWSS3(
-  //   String imagePath,
-  //   String imageName,
-  // ) async {
-  //   // String uploadedImageUrl = await AmazonS3Cognito.uploadImage(
-  //   //     _image.path, BUCKET_NAME, IDENTITY_POOL_ID);
-  //   //Use the below code to upload an image to amazon s3 server
-  //   //I advise using this method for image upload.
-  //   String uploadedImageUrl = await AmazonS3Cognito.upload(
-  //     imagePath,
-  //     CacheKey.BUCKET_NAME,
-  //     CacheKey.IDENTITY_POOL_ID,
-  //     imageName,
-  //     AwsRegion.US_EAST_1,
-  //     AwsRegion.AP_SOUTHEAST_1,
-  //   );
-  // }
+  Future<AwsS3Model?> postAWSS3() async {
+    final response = await HttpRequest.request(
+      HttpConfig.uploadImage,
+      method: "post",
+      params: {"type": "image/*"},
+    );
+    final result = response["data"];
+    return AwsS3Model.fromJson(result);
+  }
 
-  // void deleteImageFromAWSS3(String imageName) {
-  //   String result = AmazonS3Cognito.delete(
-  //     CacheKey.BUCKET_NAME,
-  //     CacheKey.IDENTITY_POOL_ID,
-  //     imageName,
-  //     folderInBucketWhereImgIsUploaded,
-  //     AwsRegion.US_EAST_1,
-  //     AwsRegion.AP_SOUTHEAST_1,
-  //   );
-  // }
+  ///图片上传
+  void uploadImageFromAWSS3(
+    String imagePath,
+    String imageName,
+  ) async {
+    // String uploadedImageUrl = await AmazonS3Cognito.uploadImage(
+    //     _image.path, BUCKET_NAME, IDENTITY_POOL_ID);
+    //Use the below code to upload an image to amazon s3 server
+    //I advise using this method for image upload.
+    // String uploadedImageUrl = await AmazonS3Cognito.upload(
+    //   imagePath,
+    //   CacheKey.BUCKET_NAME,
+    //   CacheKey.IDENTITY_POOL_ID,
+    //   imageName,
+    //   AwsRegion.US_EAST_1,
+    //   AwsRegion.AP_SOUTHEAST_1,
+    // );
+    final aws3 = await postAWSS3();
+    // AmazonS3Cognito.upload(bucket, identity, region, subRegion, imageData)
+  }
+
+// void deleteImageFromAWSS3(String imageName) {
+//   String result = AmazonS3Cognito.delete(
+//     CacheKey.BUCKET_NAME,
+//     CacheKey.IDENTITY_POOL_ID,
+//     imageName,
+//     folderInBucketWhereImgIsUploaded,
+//     AwsRegion.US_EAST_1,
+//     AwsRegion.AP_SOUTHEAST_1,
+//   );
+// }
+
+  void uploadSingleImage() async {
+    String bucketName = "test";
+    String cognitoPoolId = "your pool id";
+    String bucketRegion = "imageUploadRegion";
+    String bucketSubRegion = "Sub region of bucket";
+
+    //fileUploadFolder - this is optional parameter
+    String fileUploadFolder =
+        "folder inside bucket where we want file to be uploaded";
+
+    String filePath = ""; //path of file you want to upload
+    // ImageData imageData = ImageData("uniqueFileName", filePath,
+    //     uniqueId: "uniqueIdToTrackImage", imageUploadFolder: fileUploadFolder);
+
+    //result is either amazon s3 url or failure reason
+    // String? result = await AmazonS3Cognito.upload(
+    //     bucketName, cognitoPoolId, bucketRegion, bucketSubRegion, imageData,
+    //     needMultipartUpload: true);
+    // //once upload is success or failure update the ui accordingly
+    // print(result);
+  }
+
 }
