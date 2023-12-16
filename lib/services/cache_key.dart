@@ -7,4 +7,6 @@ class CacheKey {
   static const String firstOpenCamera = "first_open_camera";
   static const String defaultAvatar = "default_avatar";
   static const String selectAvatarIndex = "select_avatar_index"; //记录选择的图片列表中的下标
+  static const String BUCKET_NAME = "BUCKET_NAME";
+  static const String IDENTITY_POOL_ID = "IDENTITY_POOL_ID";
 }

@@ -170,7 +170,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             style: TextStyle(color: Colors.white, fontSize: 14.sp),
           ),
           SizedBox(width: 3.w),
-          Image.asset(Assets.iconRefresh, width: 14.w, height: 12.h),
+          Image.asset(Assets.imagesIconRefresh, width: 14.w, height: 12.h),
           const Spacer(),
           Text(
             "100.00 ¥",
@@ -246,7 +246,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       children: [
         Row(
           children: [
-            Image.asset(Assets.iconTipPng, width: 14.w, height: 14.h),
+            Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
             SizedBox(width: 5.w),
             Text(
               "最低充值金额不低于5.0 ¥",
@@ -257,7 +257,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
         SizedBox(height: 11.h),
         Row(
           children: [
-            Image.asset(Assets.iconTipPng, width: 14.w, height: 14.h),
+            Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
             SizedBox(width: 5.w),
             Text(
               "最高充值金额不低于80000.0 ¥",

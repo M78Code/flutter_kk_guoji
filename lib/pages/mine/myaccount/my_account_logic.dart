@@ -1,3 +1,4 @@
+import 'package:amazon_s3_cognito/amazon_s3_cognito.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/pair.dart';
 import 'package:kkguoji/generated/assets.dart';
@@ -9,7 +10,7 @@ class MyAccountLogic extends GetxController {
   RxInt selectedIndex = 0.obs;
 
   //用于观察选择的图片
-  RxString selectedImg = Assets.avatar1.obs;
+  RxString selectedImg = Assets.myaccountAvatar1.obs;
 
   @override
   void onInit() {
@@ -49,13 +50,43 @@ class MyAccountLogic extends GetxController {
   }
 
   List<TPair<int, bool, String>> avatarList = [
-    TPair(0, true, Assets.avatar1),
-    TPair(1, false, Assets.avatar2),
-    TPair(2, false, Assets.avatar3),
-    TPair(3, false, Assets.avatar4),
-    TPair(4, false, Assets.avatar5),
-    TPair(5, false, Assets.avatar6),
-    TPair(6, false, Assets.avatar7),
-    TPair(7, false, Assets.iconCamera),
+    TPair(0, true, Assets.myaccountAvatar1),
+    TPair(1, false, Assets.myaccountAvatar2),
+    TPair(2, false, Assets.myaccountAvatar3),
+    TPair(3, false, Assets.myaccountAvatar4),
+    TPair(4, false, Assets.myaccountAvatar5),
+    TPair(5, false, Assets.myaccountAvatar6),
+    TPair(6, false, Assets.myaccountAvatar7),
+    TPair(7, false, Assets.myaccountIconCamera),
   ];
+
+  ///图片上传
+  // void uploadImageFromAWSS3(
+  //   String imagePath,
+  //   String imageName,
+  // ) async {
+  //   // String uploadedImageUrl = await AmazonS3Cognito.uploadImage(
+  //   //     _image.path, BUCKET_NAME, IDENTITY_POOL_ID);
+  //   //Use the below code to upload an image to amazon s3 server
+  //   //I advise using this method for image upload.
+  //   String uploadedImageUrl = await AmazonS3Cognito.upload(
+  //     imagePath,
+  //     CacheKey.BUCKET_NAME,
+  //     CacheKey.IDENTITY_POOL_ID,
+  //     imageName,
+  //     AwsRegion.US_EAST_1,
+  //     AwsRegion.AP_SOUTHEAST_1,
+  //   );
+  // }
+
+  // void deleteImageFromAWSS3(String imageName) {
+  //   String result = AmazonS3Cognito.delete(
+  //     CacheKey.BUCKET_NAME,
+  //     CacheKey.IDENTITY_POOL_ID,
+  //     imageName,
+  //     folderInBucketWhereImgIsUploaded,
+  //     AwsRegion.US_EAST_1,
+  //     AwsRegion.AP_SOUTHEAST_1,
+  //   );
+  // }
 }

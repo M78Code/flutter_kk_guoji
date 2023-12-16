@@ -29,10 +29,11 @@ class MyAccountPage extends GetView<MyAccountLogic> {
                 ),
               ),
               title: Text(
-                "个人资料",
+                "我的账号",
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
             ),
+            // body: Center(),
             body: Center(
               child: Column(
                 children: [
@@ -78,7 +79,7 @@ class MyAccountPage extends GetView<MyAccountLogic> {
             ),
             InkWellView(
               child: Image.asset(
-                Assets.iconEdit,
+                Assets.myaccountIconEdit,
                 width: 24.w,
                 height: 24.h,
               ),
