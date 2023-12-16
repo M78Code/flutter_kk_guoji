@@ -21,6 +21,7 @@ import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
 import '../pages/activity/list/activity_page.dart';
+import '../pages/mine/claimrecord/claim_record_page.dart';
 import '../pages/mine/wallet/wallet_fund_detail/view.dart';
 import '../pages/mine/wallet/wallet_record/view.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
@@ -45,6 +46,7 @@ abstract class Routes {
   static const String mine = "/mine";
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
+  static const String claimRecordPage = "/mine/claimrecord"; //领取记录
 
   static final List<GetPage> routePage = [
     GetPage(name: messageCenter, page: () => const MessageCenterPage()),
@@ -54,18 +56,32 @@ abstract class Routes {
     GetPage(name: loginPage, page: () => const KKLoginPage()),
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
-    GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
-    GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
-    GetPage(name: webView, page:() => KKWebViewPage()),
-    GetPage(name: walletPage, page:() => WalletPage()),
-    GetPage(name: walletFundDetailPage, page:() => WalletFundDetailPage()),
-    GetPage(name: walletRecordPage, page:() => WalletRecordPage()),
+    GetPage(
+        name: activity,
+        page: () => const ActivityPage(),
+        binding: ActivityBinding()),
+    GetPage(
+        name: activityDetail,
+        page: () => ActivityDetailPage(),
+        binding: ActivityDetailBinding()),
+    GetPage(name: webView, page: () => KKWebViewPage()),
+    GetPage(name: walletPage, page: () => WalletPage()),
+    GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
+    GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
-    GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
-    GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
+    GetPage(
+        name: customer,
+        page: () => KKCustomerServicePage(),
+        binding: CustomerBinding()),
+    GetPage(
+        name: promotion,
+        page: () => const KKPromotionPage(),
+        binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
-    GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
+    GetPage(
+        name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
+    GetPage(name: claimRecordPage, page: () => const ClaimRecordPage()),
   ];
 }
