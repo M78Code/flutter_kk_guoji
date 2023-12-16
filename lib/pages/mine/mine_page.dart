@@ -696,7 +696,7 @@ class MyAccountInfo extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              print('游戏记录');
+               RouteUtil.pushToView(Routes.betListPage);
             },
           ),
         ],

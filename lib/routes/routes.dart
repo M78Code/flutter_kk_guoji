@@ -7,6 +7,7 @@ import 'package:kkguoji/pages/customer/binding/bindings.dart';
 import 'package:kkguoji/pages/customer/view/customer_service_page.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
+import 'package:kkguoji/pages/mine/bet_list/view.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
 import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
@@ -47,6 +48,7 @@ abstract class Routes {
   static const String mine = "/mine";
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
+  static const String betListPage = "/betListPage";
 
   static final List<GetPage> routePage = [
     GetPage(name: messageCenter, page: () => const MessageCenterPage()),
@@ -69,6 +71,7 @@ abstract class Routes {
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
     GetPage(name: recharge, page: () => getPage(recharge)),
     GetPage(name: withdraw, page: () => getPage(withdraw)),
+    GetPage(name: betListPage, page: () => getPage(betListPage)),
   ];
 
 
@@ -80,10 +83,11 @@ abstract class Routes {
         return ActivityDetailPage();
       } else if (pageName == withdraw) {
         return const WithdrawPage();
-      }else if (pageName == recharge) {
+      } else if (pageName == recharge) {
         return const RechargePage();
+      } else if (pageName == betListPage) {
+        return const BetListPage();
       }
-      
       else {
         return Container();
       }
