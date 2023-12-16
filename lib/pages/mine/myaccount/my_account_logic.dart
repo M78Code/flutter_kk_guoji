@@ -1,4 +1,4 @@
-import 'package:amazon_s3_cognito/amazon_s3_cognito.dart';
+
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/pair.dart';
 import 'package:kkguoji/generated/assets.dart';

@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.0"
-  amazon_s3_cognito:
-    dependency: "direct main"
-    description:
-      name: amazon_s3_cognito
-      sha256: "2b2c2ff4f6f60d3b974f6e2f928706b7c8ec609bd6cac98b83b52fb21ace1e33"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.4"
   args:
     dependency: transitive
     description:
