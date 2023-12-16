@@ -173,6 +173,7 @@ class Play {
   String? playTypeCode;
   String? lotteryCode;
   int? orderNum;
+  bool? isSelect=false;
   List<Play>? lotteryPlayTypeList;
   List<CachePlayList>? cachePlayList;
 
@@ -183,6 +184,7 @@ class Play {
     this.orderNum,
     this.lotteryPlayTypeList,
     this.cachePlayList,
+    this.isSelect,
   });
 
   factory Play.fromJson(Map<String, dynamic> json) => Play(
@@ -215,6 +217,7 @@ class CachePlayList {
   int? singleMaxLimit;
   int? singleMinLimit;
   List<ListElement>? list;
+  bool? isSelect=false;
 
   CachePlayList({
     this.playName,
@@ -227,6 +230,7 @@ class CachePlayList {
     this.singleMaxLimit,
     this.singleMinLimit,
     this.list,
+    this.isSelect,
   });
 
   factory CachePlayList.fromJson(Map<String, dynamic> json) => CachePlayList(

@@ -22,6 +22,7 @@ class WithdrawRecordListChildViewModel {
     this.statusName});
 }
 
+
 class WithdrawRecordListChild extends StatelessWidget {
   final WithdrawRecordListChildViewModel rowData;
 
