@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:kkguoji/services/cache_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:get/get.dart';
 
 class SqliteUtil {
    factory SqliteUtil() => _getInstance();

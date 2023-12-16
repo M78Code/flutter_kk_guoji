@@ -10,6 +10,7 @@ import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
 import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
+import 'package:kkguoji/pages/mine/myaccount/my_account_page.dart';
 import 'package:kkguoji/pages/mine/setting/setting.dart';
 import 'package:kkguoji/pages/promotion/binding/promotion_bindings.dart';
 import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
@@ -18,7 +19,6 @@ import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
-import 'package:kkguoji/services/user_service.dart';
 import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
@@ -47,18 +47,15 @@ abstract class Routes {
   static const String mine = "/mine";
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
+  static const String myAccountPage = "/mine/myaccount";
+
 
   static final List<GetPage> routePage = [
-    GetPage(name: messageCenter, page: () => const MessageCenterPage()),
-    GetPage(name: bindEmail, page: () => const BindEmailPage()),
-    GetPage(name: mine, page: () => const MinePage()),
-    GetPage(name: settingPage, page: () => const SettingPage()),
     GetPage(name: loginPage, page: () => const KKLoginPage()),
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
     GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
     GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
-    GetPage(name: webView, page: () => const KKWebViewPage()),
     GetPage(name: walletPage, page: () => const WalletPage()),
     GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
     GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
@@ -69,5 +66,10 @@ abstract class Routes {
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
+    GetPage(name: messageCenter, page: () => const MessageCenterPage()),
+    GetPage(name: bindEmail, page: () => const BindEmailPage()),
+    GetPage(name: mine, page: () => const MinePage()),
+    GetPage(name: settingPage, page: () => const SettingPage()),
+    GetPage(name: myAccountPage, page: () => const MyAccountPage()),
   ];
 }

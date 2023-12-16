@@ -129,7 +129,7 @@ class WelfareList extends StatelessWidget {
             top: 10,
             right: 0,
             child: Image.asset(
-              Assets.imagespherosome,
+              Assets.imagesIconSpherosome,
               width: 121,
               height: 121,
             ),

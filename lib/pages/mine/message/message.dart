@@ -1,6 +1,3 @@
-// ignore_for_file: prefer_const_constructors, unused_field
-
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -71,8 +68,7 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
                 category: controller.selectBar[index],
                 isSelected:
                     // ignore: unrelated_type_equality_checks
-                    controller.selectedCategoryId ==
-                        controller.selectBar[index].index,
+                    controller.selectedCategoryId == controller.selectBar[index].index,
                 onTap: (type) {
                   controller.onCategoryTap(type);
                   type = index + 1;
@@ -108,11 +104,11 @@ class _MeeageListViewState extends State<MeeageListView> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     getMessageListData();
+    getReadNotice(type);
   }
 
   void _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       getMessageListData(); // 滑动到底部时加载更多数据
     }
   }
@@ -127,8 +123,7 @@ class _MeeageListViewState extends State<MeeageListView> {
 //获取公告列表
   getMessageListData() async {
     // ignore: unused_local_variable
-    var result = await HttpRequest.request(HttpConfig.getMessageList,
-        method: "get", params: {"type": type, "page": _page, "limit": 10});
+    var result = await HttpRequest.request(HttpConfig.getMessageList, method: "get", params: {"type": type, "page": _page, "limit": 10});
 
     if (result['code'] == 200) {
       //今后只要为私有数据赋值，都需要把赋值操作，放到setState当中才会刷新
@@ -140,10 +135,16 @@ class _MeeageListViewState extends State<MeeageListView> {
   }
 
 //系统公告设置已读
+
+// <<<<<<< HEAD
+//   void getReadNotice() async {
+//     // ignore: unused_local_variable  //系统公告ID
+//     var result = await HttpRequest.request(HttpConfig.readNotice,
+//         method: "post", params: {"id": type});
+// =======
   void getReadNotice(int id) async {
     // ignore: unused_local_variable  //系统公告ID
-    var result = await HttpRequest.request(HttpConfig.readNotice,
-        method: "post", params: {"id": id});
+    var result = await HttpRequest.request(HttpConfig.readNotice, method: "post", params: {"id": id});
     print(result['code']);
     if (result['code'] == 200) {
       print('成功');
@@ -177,35 +178,23 @@ class _MeeageListViewState extends State<MeeageListView> {
                         Positioned(
                           child: Text(
                             '${messageList[index]['create_time']}',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                            style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                           ),
                         ),
                         const SizedBox(height: 5),
                         Positioned(
                           child: Text(
                             '${messageList[index]['title']}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400),
+                            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
                           ),
                         ),
                         SizedBox(height: 5),
-                        Positioned(
-                            child: Image.network(
-                                '${messageList[index]['image']}')),
+                        Positioned(child: Image.network('${messageList[index]['image']}')),
                         const SizedBox(height: 5),
                         Positioned(
                           child: HtmlWidget(
                             '${messageList[index]['content']}',
-                            textStyle: TextStyle(
-                                color:
-                                    isShow ? Color(0xFF686F83) : Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                            textStyle: TextStyle(color: isShow ? Color(0xFF686F83) : Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -216,10 +205,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                                 const Expanded(child: Text('')), //用这个设置在右边
                                 Text(
                                   isShow ? '显示所有' : '收起',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
+                                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                                 ),
                                 const SizedBox(width: 5),
                                 isShow
@@ -261,10 +247,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                               children: [
                                 Text(
                                   '${messageList[index]['link_title']}',
-                                  style: TextStyle(
-                                      color: Color(0xFF5D5FEF),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
+                                  style: TextStyle(color: Color(0xFF5D5FEF), fontSize: 12, fontWeight: FontWeight.w400),
                                 ),
                                 const Expanded(child: Text('')), //用这个设置左右一个
                                 Image.asset(
@@ -275,9 +258,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                               ],
                             ),
                             onTap: () {
-                              RouteUtil.pushToView(Routes.webView,
-                                  arguments:
-                                      '${messageList[index]['link_title']}');
+                              RouteUtil.pushToView(Routes.webView, arguments: '${messageList[index]['link_title']}');
                             },
                           ),
                         ),
@@ -291,7 +272,7 @@ class _MeeageListViewState extends State<MeeageListView> {
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(), // 加载更多的指示器
             );
           }

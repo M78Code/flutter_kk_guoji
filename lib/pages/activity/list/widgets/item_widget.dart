@@ -25,16 +25,7 @@ class CategoryListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(category.name,
-            style: TextStyle(
-                color: selectId == category.index
-                    ? Colors.white
-                    : Color(0xFF707A8C),
-                fontSize: 18.0))
-        .padding(vertical: 6.w, horizontal: 12.w)
-        .backgroundColor(
-            selectId == category.index ? Color(0xFF171A26) : Color(0xFF222633))
-        .onTap(() => onTap?.call(category.index));
+    return Text(category.name, style: TextStyle(color: selectId == category.index ? Colors.white : Color(0xFF707A8C), fontSize: 18.0)).padding(vertical: 6.w, horizontal: 12.w).backgroundColor(selectId == category.index ? Color(0xFF171A26) : Color(0xFF222633)).onTap(() => onTap?.call(category.index));
   }
 }
 
@@ -50,9 +41,7 @@ class CategoryItem extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: isSelected == category.index
-            ? Color(0xFF171A26)
-            : Color(0xFF222633),
+        color: isSelected == category.index ? Color(0xFF171A26) : Color(0xFF222633),
         borderRadius: BorderRadius.circular(20.0),
         border: isSelected
             ? Border.all(
@@ -61,13 +50,11 @@ class CategoryItem extends StatelessWidget {
               )
             : null,
       ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 12,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Text(
         category.name,
         style: TextStyle(
-          color: isSelected ? Colors.white : Color(0xFF707A8C),
+          color: isSelected ? Colors.white : const Color(0xFF707A8C),
           fontSize: 13,
         ),
       ),

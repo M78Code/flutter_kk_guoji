@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:kkguoji/common/models/mine_wallet/user_money_details_model.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
