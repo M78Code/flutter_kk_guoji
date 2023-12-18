@@ -68,7 +68,7 @@ class ClaimRecord extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(12, 0, 12, 20),
       height: 110,
       decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage(Assets.imageClaimRecordbg))),
+          image: DecorationImage(image: AssetImage(Assets.imagesIconClaimBg))),
       child: Stack(
         children: [
           Row(
@@ -77,7 +77,7 @@ class ClaimRecord extends StatelessWidget {
               const SizedBox(width: 18),
               SizedBox(
                 height: double.infinity,
-                child: Image.asset(Assets.imageMineReceivedMoney,
+                child: Image.asset(Assets.imagesIconReceivedMoney,
                     width: 44, height: 44),
               ),
               const SizedBox(width: 13),

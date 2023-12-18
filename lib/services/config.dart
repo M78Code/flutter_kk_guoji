@@ -42,4 +42,6 @@ class HttpConfig {
   static const readNotice = '/api/notice/readNotice'; //系统公告设置已读
   //洗码比例
   static const getRatio = '/api/userRebate/getRatio';
+  //上传图片
+  static const uploadImage = "/api/public/image";
 }

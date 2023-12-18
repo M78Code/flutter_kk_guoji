@@ -84,16 +84,16 @@ class RechargePage extends GetView<RechargeLogic> {
               Row(
                 children: [
                   RechargeRadio(
-                    activePath: Assets.imgRechargeSelectedPng,
-                    defaultPath: Assets.imgRechargeDefaultPng,
+                    activePath: Assets.rechargeImgRechargeSelected,
+                    defaultPath: Assets.rechargeImgRechargeDefault,
                     isSelected: true,
                     controller: controller.imageController,
                     onChange: (v) => print("ImageRadio_1--->$v"),
                   ),
                   const SizedBox(width: 18),
                   RechargeRadio(
-                    activePath: Assets.imgRechargeSelectedPng,
-                    defaultPath: Assets.imgRechargeDefaultPng,
+                    activePath: Assets.rechargeImgRechargeSelected,
+                    defaultPath: Assets.rechargeImgRechargeDefault,
                     isSelected: false,
                     controller: controller.imageController,
                     onChange: (v) => print("ImageRadio_2--->$v"),
@@ -119,7 +119,7 @@ class RechargePage extends GetView<RechargeLogic> {
               SizedBox(height: 40.h),
               Row(
                 children: [
-                  Image.asset(Assets.iconTipPng, width: 14.w, height: 14.h),
+                  Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
                   SizedBox(width: 5.w),
                   const Text(
                     "最低充值金额不低于5.0 ¥",
@@ -130,7 +130,7 @@ class RechargePage extends GetView<RechargeLogic> {
               SizedBox(height: 11.h),
               Row(
                 children: [
-                  Image.asset(Assets.iconTipPng, width: 14.w, height: 14.h),
+                  Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
                   SizedBox(width: 5.w),
                   const Text(
                     "最高充值金额不低于80000.0 ¥",

@@ -26,8 +26,8 @@ class WithdrawLogic extends GetxController {
   RxInt coinCategoryIndex = 1.obs;
   RxInt selectTypeIndex = 1.obs;
   List<CategoryModel> options = [
-    CategoryModel(index: 1, name: "RMB", imgPath: Assets.iconCCPng),
-    CategoryModel(index: 2, name: "BRL", imgPath: Assets.iconCCPng),
+    CategoryModel(index: 1, name: "RMB", imgPath: Assets.withdrawIconCc),
+    CategoryModel(index: 2, name: "BRL", imgPath: Assets.withdrawIconCc),
   ];
 
   void onCoinCategoryUpdate(int categoryId) {
@@ -38,14 +38,14 @@ class WithdrawLogic extends GetxController {
 
   Map<int, List<CategoryModel>> typeOptions = {
     1: [
-      CategoryModel(index: 1, name: "CPF", imgPath: Assets.iconCCPng),
-      CategoryModel(index: 2, name: "TRC", imgPath: Assets.iconCCPng),
+      CategoryModel(index: 1, name: "CPF", imgPath: Assets.withdrawIconCc),
+      CategoryModel(index: 2, name: "TRC", imgPath: Assets.withdrawIconCc),
     ],
     2: [
-      CategoryModel(index: 1, name: "CNPJ", imgPath: Assets.iconCCPng),
-      CategoryModel(index: 2, name: "EMAIL", imgPath: Assets.iconCCPng),
-      CategoryModel(index: 3, name: "PHONE", imgPath: Assets.iconCCPng),
-      CategoryModel(index: 4, name: "EVP", imgPath: Assets.iconCCPng),
+      CategoryModel(index: 1, name: "CNPJ", imgPath: Assets.withdrawIconCc),
+      CategoryModel(index: 2, name: "EMAIL", imgPath: Assets.withdrawIconCc),
+      CategoryModel(index: 3, name: "PHONE", imgPath: Assets.withdrawIconCc),
+      CategoryModel(index: 4, name: "EVP", imgPath: Assets.withdrawIconCc),
     ]
   };
 
