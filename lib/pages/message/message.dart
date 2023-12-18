@@ -1,17 +1,18 @@
 // ignore_for_file: prefer_const_constructors, unused_field
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
-import 'package:kkguoji/pages/mine/message/message_model.dart';
-import 'package:kkguoji/pages/mine/message/message_request.dart';
-import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/pages/message/message_model.dart';
+import 'package:kkguoji/pages/message/message_request.dart';
 import 'package:kkguoji/services/config.dart';
-import 'package:kkguoji/utils/route_util.dart';
 import '../../../services/http_service.dart';
+import '../../routes/routes.dart';
+import '../../utils/route_util.dart';
 
 class MessageCenterPage extends StatefulWidget {
   const MessageCenterPage({super.key});
@@ -23,7 +24,7 @@ class MessageCenterPage extends StatefulWidget {
 class _MessageCenterPageState extends State<MessageCenterPage> {
   @override
   Widget build(BuildContext context) {
-    //获取top标题
+    //获取数据
     Get.put(MessageRequest());
 
     return Scaffold(
@@ -98,9 +99,10 @@ class MeeageListView extends StatefulWidget {
 class _MeeageListViewState extends State<MeeageListView> {
   // ignore: prefer_typing_uninitialized_variables,
   final ScrollController _scrollController = ScrollController();
-  List<MessageListModel> messageList = [];
+  var messageList = [];
   var _page = 1; // 当前页数
   var type = 1; //选中类型
+  var isShow = false; //是否展开所有内容
 
   @override
   //控件创建的时候，会执行
@@ -129,13 +131,11 @@ class _MeeageListViewState extends State<MeeageListView> {
     // ignore: unused_local_variable
     var result = await HttpRequest.request(HttpConfig.getMessageList,
         method: "get", params: {"type": type, "page": _page, "limit": 10});
+
     if (result['code'] == 200) {
       //今后只要为私有数据赋值，都需要把赋值操作，放到setState当中才会刷新
       setState(() {
-        List dataArray = result['data']["list"];
-        messageList = List<MessageListModel>.from(
-            dataArray.map((jsonMap) => MessageListModel.fromMap(jsonMap)));
-        // messageList.addAll(messageList);
+        messageList.addAll(result['data']["list"]);
         _page++;
       });
     }
@@ -161,7 +161,6 @@ class _MeeageListViewState extends State<MeeageListView> {
         itemCount: messageList.length + 1, // 加上加载更多的item
         itemBuilder: (context, index) {
           if (index < messageList.length) {
-            MessageListModel? model = messageList[index];
             return Container(
               margin: const EdgeInsets.only(left: 0, right: 0, bottom: 15),
               clipBehavior: Clip.antiAlias,
@@ -179,7 +178,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                       children: [
                         Positioned(
                           child: Text(
-                            model.createTime,
+                            '${messageList[index]['create_time']}',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -189,7 +188,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                         const SizedBox(height: 5),
                         Positioned(
                           child: Text(
-                            model.title,
+                            '${messageList[index]['title']}',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
@@ -198,26 +197,18 @@ class _MeeageListViewState extends State<MeeageListView> {
                         ),
                         SizedBox(height: 5),
                         Positioned(
-                            child: model.image != null
-                                ? Image.network('${model.image}')
-                                : SizedBox(height: 0)),
+                            child: Image.network(
+                                '${messageList[index]['image']}')),
                         const SizedBox(height: 5),
                         Positioned(
-                          child: model.isShow
-                              ? HtmlWidget(
-                                  model.content,
-                                  textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
-                                )
-                              : HtmlWidget(
-                                  model.content.substring(0),
-                                  textStyle: TextStyle(
-                                      color: Color(0xFF686F83),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
-                                ),
+                          child: HtmlWidget(
+                            '${messageList[index]['content']}',
+                            textStyle: TextStyle(
+                                color:
+                                    isShow ? Color(0xFF686F83) : Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Positioned(
@@ -226,21 +217,21 @@ class _MeeageListViewState extends State<MeeageListView> {
                               children: [
                                 const Expanded(child: Text('')), //用这个设置在右边
                                 Text(
-                                  model.isShow ? '收起' : '显示所有',
+                                  isShow ? '显示所有' : '收起',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400),
                                 ),
                                 const SizedBox(width: 5),
-                                model.isShow
+                                isShow
                                     ? Image.asset(
-                                        Assets.imageMessageUp,
+                                        'assets/images/icon_down.png',
                                         width: 12,
                                         height: 12,
                                       )
                                     : Image.asset(
-                                        Assets.imageMessageDown,
+                                        'assets/images/icon_up.png',
                                         width: 12,
                                         height: 12,
                                       ),
@@ -249,8 +240,8 @@ class _MeeageListViewState extends State<MeeageListView> {
                             ),
                             onTap: () {
                               setState(() {
-                                model.isShow = !model.isShow;
-                                getReadNotice(model.id);
+                                isShow = !isShow;
+                                getReadNotice(messageList[index]['id']);
                               });
                               print('显示所有');
                             },
@@ -271,7 +262,7 @@ class _MeeageListViewState extends State<MeeageListView> {
                             child: Row(
                               children: [
                                 Text(
-                                  model.linkTitle,
+                                  '${messageList[index]['link_title']}',
                                   style: TextStyle(
                                       color: Color(0xFF5D5FEF),
                                       fontSize: 12,
@@ -287,7 +278,8 @@ class _MeeageListViewState extends State<MeeageListView> {
                             ),
                             onTap: () {
                               RouteUtil.pushToView(Routes.webView,
-                                  arguments: model.linkTitle);
+                                  arguments:
+                                      '${messageList[index]['link_title']}');
                             },
                           ),
                         ),
