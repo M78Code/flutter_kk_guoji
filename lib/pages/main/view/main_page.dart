@@ -71,14 +71,13 @@ class _KKMainPageState extends State<KKMainPage> {
           selectedItemColor: const Color(0xFF5D5FEF),
           unselectedItemColor: const Color(0xFF687083),
           onTap: (int index) {
-            if (userService.isLogin) {
-              controller.clickTabBarItem(index);
-            } else {
-              if (index == 0) {
-              } else {
+            if (userService.isLogin == false) {
+              if (index != 0 && index != 1) {
                 RouteUtil.pushToView(Routes.loginPage);
+                return;
               }
             }
+            controller.clickTabBarItem(index);
           },
         );
       }),
