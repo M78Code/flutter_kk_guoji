@@ -4,8 +4,8 @@ import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/app_util.dart';
-import 'package:kkguoji/utils/sqlite_util.dart';
 
 import 'cache_key.dart';
 
@@ -66,8 +66,8 @@ class RequestInterceptors extends Interceptor {
     if(APPUtil().getAppVersion() != null) {
       options.queryParameters["app_version"] = APPUtil().getAppVersion()!;
     }
-    if(SqliteUtil().getString(CacheKey.apiToken) != null) {
-      options.headers["Authorization"] = "Bearer ${SqliteUtil().getString(CacheKey.apiToken)!}";
+    if(Get.find<SqliteService>().getString(CacheKey.apiToken) != null) {
+      options.headers["Authorization"] = "Bearer ${Get.find<SqliteService>().getString(CacheKey.apiToken)!}";
     }
     // print(options.queryParameters);
 

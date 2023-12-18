@@ -7,7 +7,6 @@ import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
-import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 class RegisterLogic extends GetxController {
@@ -19,6 +18,7 @@ class RegisterLogic extends GetxController {
   final RxBool psdObscure = true.obs;
   final RxBool verPsdObscure = true.obs;
   final RxList<int> verCodeImageBytes = RxList<int>();
+  final sqliteService = Get.find<SqliteService>();
 
   String accountText = "";
   String passwordText = "";
@@ -142,7 +142,7 @@ class RegisterLogic extends GetxController {
           HttpConfig.registerByAccount, method: "post", params: params);
       if (result["code"] == 200) {
         ShowToast.showToast("注册成功");
-        SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
+        sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
         RouteUtil.popView();
       } else {
         ShowToast.showToast(result["message"]);
@@ -160,7 +160,7 @@ class RegisterLogic extends GetxController {
           HttpConfig.registerByEmail, method: "post", params: params);
       if (result["code"] == 200) {
         ShowToast.showToast("注册成功");
-        Get.find<SqliteService>().setString(CacheKey.apiToken, result["data"]["token"]);
+        sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
         // SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
       } else {
         ShowToast.showToast(result["message"]);

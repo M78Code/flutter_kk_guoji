@@ -6,7 +6,8 @@ import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/utils/route_util.dart';
-import 'package:kkguoji/utils/sqlite_util.dart';
+
+import '../../services/sqlite_service.dart';
 
 class MinePage extends GetView<MineLogic> {
   const MinePage({super.key});
@@ -667,7 +668,7 @@ class MyAccountInfo extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              print('个人数据');
+              RouteUtil.pushToView(Routes.personalData);
             },
           ),
           const Divider(
@@ -885,7 +886,7 @@ class logOutBtn extends StatelessWidget {
                             )),
                         child: TextButton(
                             onPressed: () {
-                              SqliteUtil()
+                              Get.find<SqliteService>()
                                   .remove(CacheKey.apiToken); //删除token等信息
                               Navigator.of(context).pop();
                               RouteUtil.pushToView(Routes.loginPage);

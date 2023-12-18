@@ -5,7 +5,8 @@ import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
-import 'package:kkguoji/utils/sqlite_util.dart';
+
+import '../../services/sqlite_service.dart';
 
 class MineLogic extends GetxController {
   final userService = Get.find<UserService>();
@@ -30,7 +31,7 @@ class MineLogic extends GetxController {
 
   void clickLogout() {
     userService.isLogin = false;
-    SqliteUtil().remove(CacheKey.apiToken);
+    Get.find<SqliteService>().remove(CacheKey.apiToken);
     mainController.currentIndex.value = 0;
     userService.userInfoModel.value = null;
     userService.userMoneyModel = null;
