@@ -2,8 +2,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kkguoji/common/extension/index.dart';
 import 'package:flutter/material.dart';
 
+
+
+class RechargeRecordListChildViewModel {
+  String? orderN;
+  String? payName;
+  String? createTime;
+  String? money;
+  String? status_name;
+
+  RechargeRecordListChildViewModel({this.createTime,
+    this.payName,
+    this.orderN,
+    this.money,
+    this.status_name});
+}
+
 class ChargeRecordListChild extends StatelessWidget {
-  final List<String> rowData;
+  final RechargeRecordListChildViewModel rowData;
 
   ChargeRecordListChild(this.rowData);
 
@@ -14,6 +30,9 @@ class ChargeRecordListChild extends StatelessWidget {
   }
 
   Container _buildView() {
+
+    var moneyColor = (rowData.status_name ?? '').contains('成功') ? Color(0xFF74CC7D) :
+    (rowData.status_name ?? '').contains('失败') ? Color(0xFFEE5D5D) : Color(0xFF687083);
     return Container(
     // height: 160.w,
     alignment: Alignment.center,
@@ -23,21 +42,23 @@ class ChargeRecordListChild extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(
+              '订单号：${rowData.orderN ?? ""}',
+              style: TextStyle(color: Color(0x66FFFFFF),fontSize: 12.sp,fontWeight: FontWeight.w500)),
+            Text(
+              rowData.payName ?? "",
+              style: TextStyle(color: moneyColor,fontSize: 12.sp,fontWeight: FontWeight.w600)),// 失败 FFEE5D5D 处理中#FF687083
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10.w,),
                 Text(
-                  '订单号：20231112000892658924',
-                  style: TextStyle(
-                      color: Color(0x66FFFFFF),
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                SizedBox(height: 12.w,),
-                Text(
-                  '支付宝充值',
+                  rowData.payName ?? "",
                   style: TextStyle(
                       color: Color(0xFFFFFFFF),
                       fontSize: 14.sp,
@@ -45,7 +66,7 @@ class ChargeRecordListChild extends StatelessWidget {
                 ),
                 SizedBox(height: 4.w,),
                 Text(
-                  '2023-11-11 11:59:32',
+                  rowData.createTime ?? "",
                   style: TextStyle(
                       color: Color(0x66FFFFFF),
                       fontSize: 10.sp,
@@ -53,30 +74,16 @@ class ChargeRecordListChild extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '成功',
-                  style: TextStyle(
-                      color: Color(0xFF74CC7D),
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 4.w,),
-                Text(
-                  '-1000',
-                  style: TextStyle(
-                      color: Color(0xFFFFFFFF),
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w700),
-                )
-              ],
+            Text(
+              rowData.money ?? "",
+              style: TextStyle(
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w700),
             )
           ],
         ),
-        SizedBox(height: 14.w,),
+        SizedBox(height: 10.w,),
         Divider(height: 1,color: Color(0x66FFFFFF),).opacity(0.1),
       ],
     ),

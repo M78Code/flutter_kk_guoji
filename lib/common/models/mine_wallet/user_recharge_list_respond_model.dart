@@ -60,19 +60,15 @@ class UserRechargeListModel {
 
 class UserRechargeModel {
   String? createTime;
-  String? type;
-  String? bankUsername;
-  String? bankNumber;
+  String? payName;
   String? sn;
-  int? money;
+  String? money;
   int? status;
   String? statusName;
 
   UserRechargeModel(
       {this.createTime,
-        this.type,
-        this.bankUsername,
-        this.bankNumber,
+        this.payName,
         this.sn,
         this.money,
         this.status,
@@ -80,9 +76,7 @@ class UserRechargeModel {
 
   UserRechargeModel.fromJson(Map<String, dynamic> json) {
     createTime = json['create_time'];
-    type = json['type'];
-    bankUsername = json['bank_username'];
-    bankNumber = json['bank_number'];
+    payName = json['pay_name'];
     sn = json['sn'];
     money = json['money'];
     status = json['status'];
@@ -92,9 +86,7 @@ class UserRechargeModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['create_time'] = this.createTime;
-    data['type'] = this.type;
-    data['bank_username'] = this.bankUsername;
-    data['bank_number'] = this.bankNumber;
+    data['pay_name'] = this.payName;
     data['sn'] = this.sn;
     data['money'] = this.money;
     data['status'] = this.status;

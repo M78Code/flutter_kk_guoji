@@ -15,6 +15,7 @@ class WalletRecordBalanceWidget extends StatelessWidget {
 
   Widget _buildView() {
     return GetBuilder<WalletRecordLogic>(
+      id: 'userMoneyDetails',
       builder: (controller) {
         return Container(
           height: 64.w,

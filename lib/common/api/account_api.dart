@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:kkguoji/common/models/mine_wallet/user_money_details_model.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
@@ -31,7 +29,7 @@ class AccountApi {
     return null;
   }
   static Future<UserMoneyDetailsModel?> getUserMoneyDetails() async {
-    var result = await HttpRequest.request(HttpConfig.getUserMoneyDetails);
+    var result = await HttpRequest.request(HttpConfig.getUserMoneyDetails, method: "post");
     if(result["code"] == 200) {
       UserMoneyDetailsModel? model = UserMoneyDetailsModel.fromJson(result["data"]);
       return model;
@@ -42,7 +40,7 @@ class AccountApi {
   static Future<UserMoneyDetailsSearchListModel?>? getUserMoneyDetailsSearch(
       String dateType,int page, String type
       ) async {
-    var result = await HttpRequest.request(HttpConfig.getUserMoneyDetailsSearch,
+    var result = await HttpRequest.request(HttpConfig.getUserMoneyDetailsSearch, method: "post",
         params: {"dateType":dateType,"page":page,"limit":20,"type":type});
     if (result["code"] == 200) {
       UserMoneyDetailsSearchRespondModel? model = UserMoneyDetailsSearchRespondModel.fromJson(result);

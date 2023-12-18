@@ -43,10 +43,14 @@ dependencies:
   marquee: ^2.2.3
   package_info: ^2.0.2
   web_socket_channel: ^2.4.0
+  # 将图片上传到aws
+  amazon_cognito_identity_dart_2: ^3.6.0
+#  amazon_s3_cognito: ^0.7.4
   date_format: ^2.0.7
   webview_flutter: ^4.4.2
   flutter_widget_from_html: ^0.14.9
   easy_refresh: ^3.3.3+1
+  image_picker: ^1.0.5
   flutter_localizations:
     sdk: flutter
 
@@ -92,6 +96,7 @@ flutter:
     - assets/images/rebate/
     - assets/images/recharge/
     - assets/images/withdraw/
+    - assets/images/myaccount/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

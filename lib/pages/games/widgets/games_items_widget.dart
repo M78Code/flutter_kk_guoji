@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common//extension/index.dart';
+import 'package:kkguoji/services/user_service.dart';
 
 import '../../../common/models/group_game_list_model.dart';
 import '../../../generated/assets.dart';
+import '../../../routes/routes.dart';
+import '../../../utils/route_util.dart';
 import '../games_logic.dart';
 
 class GamesItemsWidget extends GetView<GamesLogic> {
@@ -113,6 +116,10 @@ class GamesItemsWidget extends GetView<GamesLogic> {
       widgets.add(Image.asset(items[index].first, height: 123.w)
           .paddingOnly(bottom: 12.w)
           .onTap(() {
+        if (UserService.to.isLogin == false) {
+          RouteUtil.pushToView(Routes.loginPage);
+          return;
+        }
         controller.gamesOnTap(items[index]);
       }));
     return Column(
@@ -152,6 +159,10 @@ class GamesItemsWidget extends GetView<GamesLogic> {
             ],
           ),
         ).onTap(() {
+          if (UserService.to.isLogin == false) {
+            RouteUtil.pushToView(Routes.loginPage);
+            return;
+          }
           controller.gamesOnTap(items[index]);
         }); // Passing index + 1 as item number
       },
@@ -192,6 +203,10 @@ class GamesItemsWidget extends GetView<GamesLogic> {
             ],
           ),
         ).onTap(() {
+          if (UserService.to.isLogin == false) {
+            RouteUtil.pushToView(Routes.loginPage);
+            return;
+          }
           controller.gamesOnTapFormApi(gameModel);
         }); // Passing index + 1 as item number
       },

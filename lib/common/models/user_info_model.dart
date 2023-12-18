@@ -1,3 +1,4 @@
+
 class UserInfoModel {
   int? id;
   int? uuid;

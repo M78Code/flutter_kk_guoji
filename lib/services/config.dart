@@ -44,4 +44,6 @@ class HttpConfig {
   static const getRatio = '/api/userRebate/getRatio';
   //个人数据
   static const getGameDataStatistics = "/api/game/getGameDataStatistics";
+  //上传图片
+  static const uploadImage = "/api/public/image";
 }

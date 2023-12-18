@@ -3,7 +3,9 @@ import 'package:kkguoji/common/models/group_game_list_model.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 
+import '../models/game_type_list_response_model.dart';
 import '../models/get_game_model.dart';
+
 
 class GamesApi {
   /// 分类列表
@@ -31,6 +33,13 @@ class GamesApi {
     if (result["code"] == 200 && result["data"] != null ) {
 
       return GameLogin.fromJson(result["data"]);
+    }
+  }
+
+  static Future<List<GameTypeModel>?> getGameTypeList() async {
+    var result = await HttpRequest.request(HttpConfig.getGameTypeList, method: "post");
+    if (result["code"] == 200 && result["data"] != null ) {
+      return GameTypeListResponseModel.fromJson(result).data;
     }
   }
 }
