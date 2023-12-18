@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/email/bind_email_page.dart';
 import 'package:kkguoji/pages/account/login/view.dart';
@@ -20,6 +21,7 @@ import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
+import 'package:kkguoji/services/user_service.dart';
 import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
@@ -79,4 +81,15 @@ abstract class Routes {
     GetPage(name: settingPage, page: () => const SettingPage()),
     GetPage(name: myAccountPage, page: () => const MyAccountPage()),
   ];
+
+
+  static Widget getPage(String pageName){
+    //没有登录，跳转登录页面
+    if(Get.find<UserService>().isLogin){
+      return KKLoginPage();
+    }
+
+    return Container();
+
+  }
 }
