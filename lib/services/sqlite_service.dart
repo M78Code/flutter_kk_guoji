@@ -7,6 +7,8 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/websocket_util.dart';
+
 class SqliteService extends GetxService {
   static SqliteService get to => Get.find();
 
@@ -29,6 +31,8 @@ class SqliteService extends GetxService {
     }else {
       Get.find<UserService>().isLogin = false;
     }
+    WebSocketUtil().connetSocket();
+
   }
 
 

@@ -3,6 +3,9 @@ import 'package:kkguoji/pages/games/games_page.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/main/logic/main_logic.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
+import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/services/user_service.dart';
+import 'package:kkguoji/utils/route_util.dart';
 
 import '../../activity/list/activity_page.dart';
 import '../../home/view/home_page.dart';
@@ -34,40 +37,15 @@ class _KKMainPageState extends State<KKMainPage> {
           width: 35,
           height: 35,
         )),
-    BottomNavigationBarItem(
-        label: "游戏",
-        icon: Image.asset("assets/images/tabbar_games_normal.png",
-            width: 35, height: 35),
-        activeIcon: Image.asset("assets/images/tabbar_games_selected.png",
-            width: 35, height: 35)),
-    BottomNavigationBarItem(
-        label: "充值",
-        icon: Image.asset("assets/images/tabbar_rechange_icon.png",
-            width: 35, height: 35),
-        activeIcon: Image.asset("assets/images/tabbar_rechange_icon.png",
-            width: 35, height: 35)),
-    BottomNavigationBarItem(
-        label: "活动",
-        icon: Image.asset("assets/images/tabbar_activity_normal.png",
-            width: 35, height: 35),
-        activeIcon: Image.asset("assets/images/tabbar_activity_selected.png",
-            width: 35, height: 35)),
-    BottomNavigationBarItem(
-        label: "我的",
-        icon: Image.asset("assets/images/tabbar_mine_normal.png",
-            width: 35, height: 35),
-        activeIcon: Image.asset("assets/images/tabbar_mine_selected.png",
-            width: 35, height: 35))
+    BottomNavigationBarItem(label: "游戏", icon: Image.asset("assets/images/tabbar_games_normal.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_games_selected.png", width: 35, height: 35)),
+    BottomNavigationBarItem(label: "充值", icon: Image.asset("assets/images/tabbar_rechange_icon.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_rechange_icon.png", width: 35, height: 35)),
+    BottomNavigationBarItem(label: "活动", icon: Image.asset("assets/images/tabbar_activity_normal.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_activity_selected.png", width: 35, height: 35)),
+    BottomNavigationBarItem(label: "我的", icon: Image.asset("assets/images/tabbar_mine_normal.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_mine_selected.png", width: 35, height: 35))
   ];
   final controller = Get.find<MainPageLogic>();
+  final userService = Get.find<UserService>();
 
-  final List _pages = [
-    KKHomePage(),
-    const KKGamesPage(),
-    const RechargePage(),
-    const ActivityPage(),
-    const MinePage()
-  ];
+  final List _pages = [KKHomePage(), const KKGamesPage(), const RechargePage(), const ActivityPage(), const MinePage()];
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +71,12 @@ class _KKMainPageState extends State<KKMainPage> {
           selectedItemColor: const Color(0xFF5D5FEF),
           unselectedItemColor: const Color(0xFF687083),
           onTap: (int index) {
-            // if (index == 4) {
-            //   RouteUtil.pushToView(Routes.loginPage);
-            // }
-
+            if (userService.isLogin == false) {
+              if (index != 0 && index != 1) {
+                RouteUtil.pushToView(Routes.loginPage);
+                return;
+              }
+            }
             controller.clickTabBarItem(index);
           },
         );

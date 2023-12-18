@@ -108,6 +108,7 @@ class _MeeageListViewState extends State<MeeageListView> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     getMessageListData();
+    getReadNotice(type);
   }
 
   void _scrollListener() {
@@ -301,7 +302,7 @@ class _MeeageListViewState extends State<MeeageListView> {
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(), // 加载更多的指示器
             );
           }

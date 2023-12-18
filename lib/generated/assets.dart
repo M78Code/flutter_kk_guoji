@@ -148,6 +148,7 @@ class Assets {
   static const String imagesIconChina = 'assets/images/icon_china.png';
   static const String imagesIconDottedLine =
       'assets/images/icon_dotted_line.png';
+  static const String imagesIconClaimBg = 'assets/images/icon_claim_bg.png';
   static const String imagesIconDown = 'assets/images/icon_down.png';
   static const String imagesIconEditBg = 'assets/images/icon_edit_bg.png';
   static const String imagesIconEnglish = 'assets/images/icon_english.png';
@@ -171,6 +172,9 @@ class Assets {
   static const String imagesIconPaidPromote =
       'assets/images/icon_paid_promote.png';
   static const String imagesIconPersonal = 'assets/images/icon_personal.png';
+  static const String imagesIconReceivedMoney =
+      'assets/images/icon_received_money.png';
+  static const String imagesIconRefresh = 'assets/images/icon_refresh.png';
   static const String imagesIconSafeBox = 'assets/images/icon_safe_box.png';
   static const String imagesIconSafeboxBg = 'assets/images/icon_safebox_bg.png';
   static const String imagesIconSetingLogo =
@@ -181,6 +185,8 @@ class Assets {
       'assets/images/icon_switch_close.png';
   static const String imagesIconSwitchOpen =
       'assets/images/icon_switch_open.png';
+  static const String imagesIconSpherosome =
+      'assets/images/icon_spherosome.png';
   static const String imagesIconTopBg = 'assets/images/icon_top_bg.png';
   static const String imagesIconTopUp = 'assets/images/icon_top_up.png';
   static const String imagesIconUp = 'assets/images/icon_up.png';
@@ -246,4 +252,65 @@ class Assets {
   static const iconRefresh = "assets/images/icon_refresh.png";
   static const imageMessageUp = 'assets/images/icon_up.png';
   static const imageMessageDown = 'assets/images/icon_down.png';
+  static const String myaccountAvatar1 = 'assets/images/myaccount/avatar1.png';
+  static const String myaccountAvatar2 = 'assets/images/myaccount/avatar2.png';
+  static const String myaccountAvatar3 = 'assets/images/myaccount/avatar3.png';
+  static const String myaccountAvatar4 = 'assets/images/myaccount/avatar4.png';
+  static const String myaccountAvatar5 = 'assets/images/myaccount/avatar5.png';
+  static const String myaccountAvatar6 = 'assets/images/myaccount/avatar6.png';
+  static const String myaccountAvatar7 = 'assets/images/myaccount/avatar7.png';
+  static const String myaccountIconCamera =
+      'assets/images/myaccount/icon_camera.png';
+  static const String myaccountIconEdit =
+      'assets/images/myaccount/icon_edit.png';
+  static const String promotionCopy = 'assets/images/promotion/copy.png';
+  static const String promotionPromotionCaipiao =
+      'assets/images/promotion/promotion_caipiao.png';
+  static const String promotionPromotionCaipiaoSelected =
+      'assets/images/promotion/promotion_caipiao_selected.png';
+  static const String promotionPromotionDianzi =
+      'assets/images/promotion/promotion_dianzi.png';
+  static const String promotionPromotionDianziSelected =
+      'assets/images/promotion/promotion_dianzi_selected.png';
+  static const String promotionPromotionMyReward =
+      'assets/images/promotion/promotion_my_reward.png';
+  static const String promotionPromotionRewardBg =
+      'assets/images/promotion/promotion_reward_bg.png';
+  static const String promotionPromotionShixun =
+      'assets/images/promotion/promotion_shixun.png';
+  static const String promotionPromotionShixunSelected =
+      'assets/images/promotion/promotion_shixun_selected.png';
+  static const String promotionPromotionTiyu =
+      'assets/images/promotion/promotion_tiyu.png';
+  static const String promotionPromotionTiyuSelected =
+      'assets/images/promotion/promotion_tiyu_selected.png';
+  static const String rebateNodata = 'assets/images/rebate/nodata.png';
+  static const String rebateRebateAllNormal =
+      'assets/images/rebate/rebate_all_normal.png';
+  static const String rebateRebateAllSelected =
+      'assets/images/rebate/rebate_all_selected.png';
+  static const String rebateRebateCaipaoSelected =
+      'assets/images/rebate/rebate_caipao_selected.png';
+  static const String rebateRebateCaipiaoNormal =
+      'assets/images/rebate/rebate_caipiao_normal.png';
+  static const String rebateRebateDianziNormal =
+      'assets/images/rebate/rebate_dianzi_normal.png';
+  static const String rebateRebateDianziSelected =
+      'assets/images/rebate/rebate_dianzi_selected.png';
+  static const String rebateRebateShixunNormal =
+      'assets/images/rebate/rebate_shixun_normal.png';
+  static const String rebateRebateShixunSelected =
+      'assets/images/rebate/rebate_shixun_selected.png';
+  static const String rebateRebateTiyuNormal =
+      'assets/images/rebate/rebate_tiyu_normal.png';
+  static const String rebateRebateTiyuSelected =
+      'assets/images/rebate/rebate_tiyu_selected.png';
+  static const String rechargeIconTip = 'assets/images/recharge/icon_tip.png';
+  static const String rechargeImgRechargeDefault =
+      'assets/images/recharge/img_recharge_default.png';
+  static const String rechargeImgRechargeSelected =
+      'assets/images/recharge/img_recharge_selected.png';
+  static const String serviceServiceTelegrame =
+      'assets/images/service/service_Telegrame.png';
+  static const String withdrawIconCc = 'assets/images/withdraw/icon_cc.png';
 }

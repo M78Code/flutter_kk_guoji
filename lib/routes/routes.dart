@@ -7,9 +7,12 @@ import 'package:kkguoji/pages/customer/binding/bindings.dart';
 import 'package:kkguoji/pages/customer/view/customer_service_page.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
+import 'package:kkguoji/pages/mine/data/personal_data_page.dart';
+import 'package:kkguoji/pages/mine/bet_list/view.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
 import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
+import 'package:kkguoji/pages/mine/myaccount/my_account_page.dart';
 import 'package:kkguoji/pages/mine/setting/setting.dart';
 import 'package:kkguoji/pages/promotion/binding/promotion_bindings.dart';
 import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
@@ -24,6 +27,7 @@ import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
 import '../pages/activity/list/activity_page.dart';
 import '../pages/mine/claimrecord/claim_record_page.dart';
+import '../pages/mine/data/person_data_building.dart';
 import '../pages/mine/wallet/wallet_fund_detail/view.dart';
 import '../pages/mine/wallet/wallet_record/view.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
@@ -49,12 +53,11 @@ abstract class Routes {
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
   static const String claimRecordPage = "/mine/claimrecord"; //领取记录
+  static const String personalData = "/personDataPage";
+  static const String betListPage = "/betListPage";
+  static const String myAccountPage = "/mine/myaccount";
 
   static final List<GetPage> routePage = [
-    GetPage(name: messageCenter, page: () => const MessageCenterPage()),
-    GetPage(name: bindEmail, page: () => const BindEmailPage()),
-    GetPage(name: mine, page: () => const MinePage()),
-    GetPage(name: settingPage, page: () => const SettingPage()),
     GetPage(name: loginPage, page: () => const KKLoginPage()),
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
@@ -66,20 +69,7 @@ abstract class Routes {
         name: activityDetail,
         page: () => ActivityDetailPage(),
         binding: ActivityDetailBinding()),
-    GetPage(name: webView, page: () => KKWebViewPage()),
-    GetPage(name: walletPage, page: () => WalletPage()),
-    GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
-    GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
-    GetPage(
-        name: activity,
-        page: () => const ActivityPage(),
-        binding: ActivityBinding()),
-    GetPage(
-        name: activityDetail,
-        page: () => getPage(activityDetail),
-        binding: ActivityDetailBinding()),
-    GetPage(name: webView, page: () => KKWebViewPage()),
-    GetPage(name: walletPage, page: () => WalletPage()),
+    GetPage(name: walletPage, page: () => const WalletPage()),
     GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
     GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
@@ -101,21 +91,32 @@ abstract class Routes {
         name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
     GetPage(name: recharge, page: () => getPage(recharge)),
     GetPage(name: withdraw, page: () => getPage(withdraw)),
+    GetPage(
+        name: personalData,
+        page: () => KKPersonalDataPage(),
+        binding: PersonalDataBinding()),
+    GetPage(name: betListPage, page: () => BetListPage()),
+    GetPage(name: recharge, page: () => const RechargePage()),
+    GetPage(name: withdraw, page: () => const WithdrawPage()),
+    GetPage(name: messageCenter, page: () => const MessageCenterPage()),
+    GetPage(name: bindEmail, page: () => const BindEmailPage()),
+    GetPage(name: mine, page: () => const MinePage()),
+    GetPage(name: settingPage, page: () => const SettingPage()),
+    GetPage(name: myAccountPage, page: () => const MyAccountPage()),
   ];
 
   static Widget getPage(String pageName) {
-    if (!Get.find<UserService>().isLogin) {
-      return const KKLoginPage();
-    } else {
-      if (pageName == activityDetail) {
-        return ActivityDetailPage();
-      } else if (pageName == withdraw) {
-        return const WithdrawPage();
-      } else if (pageName == recharge) {
-        return const RechargePage();
-      } else {
-        return Container();
-      }
+    //没有登录，跳转登录页面
+    if (Get.find<UserService>().isLogin) {
+      return KKLoginPage();
     }
+
+    if (pageName == recharge) {
+      return const RechargePage();
+    } else if (pageName == withdraw) {
+      return const WithdrawPage();
+    }
+
+    return Container();
   }
 }
