@@ -296,7 +296,7 @@ class Mypurse extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    print('进入钱包');
+                    RouteUtil.pushToView(Routes.walletPage);
                   },
                 ),
               ],
@@ -631,7 +631,7 @@ class MyAccountInfo extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              print('游戏记录');
+               RouteUtil.pushToView(Routes.betListPage);
             },
           ),
         ],

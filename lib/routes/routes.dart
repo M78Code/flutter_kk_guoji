@@ -7,6 +7,7 @@ import 'package:kkguoji/pages/customer/binding/bindings.dart';
 import 'package:kkguoji/pages/customer/view/customer_service_page.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
+import 'package:kkguoji/pages/mine/bet_list/view.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
 import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
@@ -47,8 +48,8 @@ abstract class Routes {
   static const String mine = "/mine";
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
+  static const String betListPage = "/betListPage";
   static const String myAccountPage = "/mine/myaccount";
-
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -64,6 +65,7 @@ abstract class Routes {
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
+    GetPage(name: betListPage, page: () => BetListPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
     GetPage(name: messageCenter, page: () => const MessageCenterPage()),
