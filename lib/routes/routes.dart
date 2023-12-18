@@ -69,8 +69,8 @@ abstract class Routes {
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
-    GetPage(name: recharge, page: () => RechargePage()),
-    GetPage(name: withdraw, page: () => WithdrawPage()),
+    GetPage(name: recharge, page: () => getPage(recharge)),
+    GetPage(name: withdraw, page: () => getPage(withdraw)),
     GetPage(name: personalData, page: () => KKPersonalDataPage(), binding: PersonalDataBinding()),
    GetPage(name: betListPage, page: () => BetListPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
@@ -87,6 +87,12 @@ abstract class Routes {
     //没有登录，跳转登录页面
     if(Get.find<UserService>().isLogin){
       return KKLoginPage();
+    }
+
+    if(pageName == recharge) {
+      return const RechargePage();
+    }else if(pageName == withdraw) {
+      return const WithdrawPage();
     }
 
     return Container();
