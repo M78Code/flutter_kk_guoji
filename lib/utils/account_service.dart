@@ -1,8 +1,9 @@
 import 'package:kkguoji/services/user_service.dart';
-import 'package:kkguoji/utils/sqlite_util.dart';
 
 import '../services/cache_key.dart';
 import 'package:get/get.dart';
+
+import '../services/sqlite_service.dart';
 
 class AccountService {
   // 如果一个函数的构造方法并不总是返回一个新的对象的时候，可以使用factory，
@@ -33,7 +34,7 @@ class AccountService {
   }
 
   bool get isLogin {
-    if (SqliteUtil().getString(CacheKey.apiToken) != null) {
+    if (Get.find<SqliteService>().getString(CacheKey.apiToken) != null) {
       _isLogin = true;
     } else {
       _isLogin = false;
