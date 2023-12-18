@@ -1,8 +1,12 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import '../services/cache_key.dart';
 
 enum SocketStatus {
   socketStatusConnected,
@@ -26,10 +30,15 @@ class WebSocketUtil {
   ListenMessageCallback? _ticketMsgCallback;
 
   get socketStatus => _socketStatus;
+  final sqliteService = Get.find<SqliteService>();
 
   WebSocketUtil._initial() {}
 
   void connetSocket() {
+    Map<String, dynamic> headers = {};
+    if(sqliteService.getString(CacheKey.apiToken) != null) {
+      connectUrl += "?Bearer%20${sqliteService.getString(CacheKey.apiToken)!}";
+    }
     _webSocket = IOWebSocketChannel.connect(connectUrl, pingInterval: const Duration(seconds: 5));
     _socketStatus = SocketStatus.socketStatusConnected;
     _webSocket.stream.listen((event) {

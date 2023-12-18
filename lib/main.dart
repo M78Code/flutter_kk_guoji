@@ -15,7 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   APPUtil();
   // SqliteUtil();
-  WebSocketUtil().connetSocket();
+
   await Global.init();
   runApp(const MyApp());
 }
