@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/pages/welfare_reward/welfare_list.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import '../../../generated/assets.dart';
+import '../../routes/routes.dart';
 
 class WelfareRewardPage extends StatelessWidget {
   const WelfareRewardPage({super.key});
@@ -119,7 +121,9 @@ class ClaimRecord extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        RouteUtil.pushToView(Routes.claimRecordPage);
+                      },
                       child: const Text(
                         '领取记录',
                         style: TextStyle(

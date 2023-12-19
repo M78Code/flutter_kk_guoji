@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:kkguoji/pages/activity/list/activity_model.dart';
 
-class MessageRequest extends GetxController {
+import '../../activity/list/activity_model.dart';
+
+class ClaimRecordLogic extends GetxController {
   RxInt selectedCategoryId = 0.obs;
 
-  ///消息中心
-  List<String> messageSelectBar = ["全部活动", "通知活动", "系统公告"];
+  List<String> messageSelectBar = ["全部奖励", "任务奖励", "一般奖励", "贵宾奖励"];
   late List<CategoryModel> selectBar = List.generate(messageSelectBar.length,
       (index) => CategoryModel(index: index, name: messageSelectBar[index]));
 
