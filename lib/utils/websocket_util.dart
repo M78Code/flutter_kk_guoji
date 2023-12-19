@@ -96,29 +96,6 @@ class WebSocketUtil {
 
   }
 
-  _showNormalSimpleDialog(BuildContext context) async {
-    int result = await showDialog(
-      context: context,
-      builder: (ctx) {
-        return SimpleDialog(
-          contentPadding: const EdgeInsets.all(10), // 内容外间距
-          // 子控件，可以随意自定义
-          children: [
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: const Text("你的账户在其他地方登录。如非本人操作,请立即修改密码", style: TextStyle(color: Colors.white, fontSize: 16),),
-            ),
-            ElevatedButton(
-              onPressed: () {
-              },
-              child: const Text("确认", style: TextStyle(color: Colors.white, fontSize: 15),),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   void _webSocketConnetedError( e ) {
     print(e);
