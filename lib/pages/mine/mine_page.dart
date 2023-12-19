@@ -244,7 +244,7 @@ class MinePage extends GetView<MineLogic> {
                         child: TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              controller.clickLogout();
+                              controller.userService.logout();
 
                             },
                             child: const Text(

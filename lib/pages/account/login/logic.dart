@@ -15,8 +15,11 @@ import '../../../services/sqlite_service.dart';
 class LoginLogic extends GetxController {
 
   final RxBool psdObscure = true.obs;
-  final RxBool savePassword = false.obs;
+  final RxBool savePassword = true.obs;
   final RxBool canLogin  = false.obs;
+  final passwordObs = "".obs;
+  final accountObs = "".obs;
+
 
   final globalController = Get.find<UserService>();
   final sqliteService = Get.find<SqliteService>();
@@ -36,6 +39,10 @@ class LoginLogic extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getVerCode();
+    accountText = sqliteService.getString(CacheKey.accountKey) ?? "";
+    accountObs.value = accountText;
+    passwordText = sqliteService.getString(CacheKey.passwordKey) ?? "";
+    passwordObs.value = passwordText;
   }
 
 
@@ -102,9 +109,13 @@ class LoginLogic extends GetxController {
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
       sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
-      sqliteService.setString(CacheKey.accountKey, accountText);
       if(savePassword.value) {
+        sqliteService.setString(CacheKey.accountKey, accountText);
         sqliteService.setString(CacheKey.passwordKey, passwordText);
+      }else {
+        sqliteService.remove(CacheKey.accountKey);
+        sqliteService.remove(CacheKey.passwordKey);
+
       }
       Get.find<MainPageLogic>().currentIndex.value = 0;
       RouteUtil.popView();

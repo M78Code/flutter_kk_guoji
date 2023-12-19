@@ -9,6 +9,8 @@ import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
+import '../../../services/user_service.dart';
+
 class RegisterLogic extends GetxController {
 
 
@@ -19,6 +21,8 @@ class RegisterLogic extends GetxController {
   final RxBool verPsdObscure = true.obs;
   final RxList<int> verCodeImageBytes = RxList<int>();
   final sqliteService = Get.find<SqliteService>();
+  final globalController = Get.find<UserService>();
+
 
   String accountText = "";
   String passwordText = "";
@@ -143,6 +147,11 @@ class RegisterLogic extends GetxController {
       if (result["code"] == 200) {
         ShowToast.showToast("注册成功");
         sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
+        globalController.isLogin = true;
+        globalController.fetchUserMoney();
+        globalController.fetchUserInfo();
+        sqliteService.setString(CacheKey.accountKey, accountText);
+        sqliteService.setString(CacheKey.passwordKey, passwordText);
         RouteUtil.popView();
       } else {
         ShowToast.showToast(result["message"]);

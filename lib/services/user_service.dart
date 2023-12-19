@@ -1,8 +1,13 @@
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
+import 'package:kkguoji/services/sqlite_service.dart';
 
 import '../common/api/account_api.dart';
 import '../common/models/user_money_model.dart';
+import '../pages/main/logic/main_logic.dart';
+import '../utils/websocket_util.dart';
+import 'cache_key.dart';
+
 
 class UserService extends GetxService {
   static UserService get to => Get.find();
@@ -41,5 +46,15 @@ class UserService extends GetxService {
     UserInfoModel? userInfo = await AccountApi.getUserInfo();
     userInfoModel.value = userInfo;
     isBindEmail = null != userInfo?.email;
+  }
+
+  void logout() async {
+
+    isLogin = false;
+    Get.find<SqliteService>().remove(CacheKey.apiToken);
+    WebSocketUtil().closeSocket();
+    Get.find<MainPageLogic>().currentIndex.value = 0;
+    userInfoModel.value = null;
+    userMoneyModel = null;
   }
 }
