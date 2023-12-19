@@ -21,6 +21,84 @@ class MessageCenterPage extends StatefulWidget {
 }
 
 class _MessageCenterPageState extends State<MessageCenterPage> {
+  final ScrollController _scrollController = ScrollController();
+  List<MessageListModel> messageList = [];
+  bool isLoading = false;
+  var _page = 1; // 当前页数
+  var _type = 1; //选中类型
+
+  @override
+  //控件创建的时候，会执行
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+    _loadData();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (!isLoading) {
+        setState(() {
+          isLoading = true;
+        });
+        _loadMoreData(); // 滑动到底部时加载更多数据
+      }
+    }
+  }
+
+  Future<void> _loadData() async {
+    setState(() {
+      messageList.clear();
+      _page = 1;
+    });
+
+    var result = await HttpRequest.request(HttpConfig.getMessageList,
+        method: "get", params: {"type": _type, "page": _page, "limit": 10});
+    if (result['code'] == 200) {
+      List dataArray = result['data']["list"];
+      List<MessageListModel> models = List<MessageListModel>.from(
+          dataArray.map((jsonMap) => MessageListModel.fromMap(jsonMap)));
+      //今后只要为私有数据赋值，都需要把赋值操作，放到setState当中才会刷新
+      setState(() {
+        messageList.addAll(models);
+        _page++;
+      });
+    }
+  }
+
+  Future<void> _loadMoreData() async {
+    //获取公告列表
+    var result = await HttpRequest.request(HttpConfig.getMessageList,
+        method: "get", params: {"type": _type, "page": _page, "limit": 10});
+    if (result['code'] == 200) {
+      List dataArray = result['data']["list"];
+      List<MessageListModel> models = List<MessageListModel>.from(
+          dataArray.map((jsonMap) => MessageListModel.fromMap(jsonMap)));
+      //今后只要为私有数据赋值，都需要把赋值操作，放到setState当中才会刷新
+      setState(() {
+        messageList.addAll(models);
+        isLoading = false;
+        _page++;
+      });
+    }
+  }
+
+//系统公告设置已读
+  void getReadNotice(int id) async {
+    // ignore: unused_local_variable  //系统公告ID
+    var result = await HttpRequest.request(HttpConfig.readNotice,
+        method: "post", params: {"id": id});
+    if (result['code'] == 200) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     //获取top标题
@@ -53,7 +131,7 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
           endIndent: 10,
         ),
         const SizedBox(height: 15),
-        Expanded(child: MeeageListView()),
+        Expanded(child: _messageListView()),
       ],
     );
   }
@@ -74,10 +152,12 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
                     // ignore: unrelated_type_equality_checks
                     controller.selectedCategoryId ==
                         controller.selectBar[index].index,
-                onTap: (type) {
-                  controller.onCategoryTap(type);
-                  type = index + 1;
-                  initState();
+                onTap: (selectIndex) {
+                  controller.onCategoryTap(selectIndex);
+                  setState(() {
+                    _type = index + 1;
+                  });
+                  _loadData();
                 },
               ).paddingOnly(right: 10);
             },
@@ -86,78 +166,12 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
       },
     );
   }
-}
 
-class MeeageListView extends StatefulWidget {
-  const MeeageListView({super.key});
-
-  @override
-  State<MeeageListView> createState() => _MeeageListViewState();
-}
-
-class _MeeageListViewState extends State<MeeageListView> {
-  // ignore: prefer_typing_uninitialized_variables,
-  final ScrollController _scrollController = ScrollController();
-  List<MessageListModel> messageList = [];
-  var _page = 1; // 当前页数
-  var type = 1; //选中类型
-
-  @override
-  //控件创建的时候，会执行
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_scrollListener);
-    getMessageListData();
-    getReadNotice(type);
-  }
-
-  void _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      getMessageListData(); // 滑动到底部时加载更多数据
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-//获取公告列表
-  getMessageListData() async {
-    // ignore: unused_local_variable
-    var result = await HttpRequest.request(HttpConfig.getMessageList,
-        method: "get", params: {"type": type, "page": _page, "limit": 10});
-    if (result['code'] == 200) {
-      //今后只要为私有数据赋值，都需要把赋值操作，放到setState当中才会刷新
-      setState(() {
-        List dataArray = result['data']["list"];
-        messageList = List<MessageListModel>.from(
-            dataArray.map((jsonMap) => MessageListModel.fromMap(jsonMap)));
-        // messageList.addAll(messageList);
-        _page++;
-      });
-    }
-  }
-
-//系统公告设置已读
-  void getReadNotice(int id) async {
-    // ignore: unused_local_variable  //系统公告ID
-    var result = await HttpRequest.request(HttpConfig.readNotice,
-        method: "post", params: {"id": id});
-    print(result['code']);
-    if (result['code'] == 200) {
-      print('成功');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _messageListView() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: ListView.builder(
+        controller: _scrollController,
         shrinkWrap: true,
         itemCount: messageList.length + 1, // 加上加载更多的item
         itemBuilder: (context, index) {
