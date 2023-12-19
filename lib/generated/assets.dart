@@ -23,7 +23,6 @@ class Assets {
   static const String gamesGamesSports = 'assets/images/games/games_sports.png';
   static const String gamesGamesSportsArrow = 'assets/images/games/games_sports_arrow.png';
   static const String gamesGamesVideo = 'assets/images/games/games_video.png';
-
   static const String gamesGamesVideoArrow = 'assets/images/games/games_video_arrow.png';
   static const String gamesLotteryLiuhe = 'assets/images/games/lottery_liuhe.png';
   static const String gamesLotteryPcBaijiale = 'assets/images/games/lottery_pc_baijiale.png';
@@ -95,7 +94,9 @@ class Assets {
   static const String imagesIconAward = 'assets/images/icon_award.png';
   static const String imagesIconBackWater = 'assets/images/icon_back_water.png';
   static const String imagesIconChina = 'assets/images/icon_china.png';
+
   static const String imagesIconDottedLine = 'assets/images/icon_dotted_line.png';
+
   static const String imagesIconClaimBg = 'assets/images/icon_claim_bg.png';
   static const String imagesIconDown = 'assets/images/icon_down.png';
   static const String imagesIconEditBg = 'assets/images/icon_edit_bg.png';

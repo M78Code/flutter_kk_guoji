@@ -236,7 +236,6 @@ class MinePage extends GetView<MineLogic> {
                         width: 102,
                         height: 40,
                         decoration: ShapeDecoration(
-                            //渐变色
                             gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -244,7 +243,7 @@ class MinePage extends GetView<MineLogic> {
                         child: TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              controller.clickLogout();
+                              controller.userService.logout();
                             },
                             child: const Text(
                               '确定',

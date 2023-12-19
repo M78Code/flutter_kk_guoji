@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/account/login/logic.dart';
+import 'package:kkguoji/services/cache_key.dart';
+import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
 import '../../../routes/routes.dart';
@@ -22,6 +24,7 @@ class KKLoginPage extends StatefulWidget {
 class _KKLoginPageState extends State<KKLoginPage> {
   late LoginLogic controller = Get.find<LoginLogic>();
   final mainLogic = Get.find<MainPageLogic>();
+  final sqlitService = Get.find<SqliteService>();
 
   @override
   void initState() {
