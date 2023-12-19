@@ -29,6 +29,7 @@ import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
 import '../pages/activity/list/activity_page.dart';
+import '../pages/mine/claimrecord/claim_record_page.dart';
 import '../pages/mine/data/person_data_building.dart';
 import '../pages/mine/wallet/wallet_fund_detail/view.dart';
 import '../pages/mine/wallet/wallet_record/view.dart';
@@ -54,6 +55,7 @@ abstract class Routes {
   static const String mine = "/mine";
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
+  static const String claimRecordPage = "/mine/claimrecord"; //领取记录
   static const String personalData = "/personDataPage";
   static const String betListPage = "/betListPage";
   static const String personalInfoPage = "/mine/personalInfoPage";
@@ -74,13 +76,12 @@ abstract class Routes {
     GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
     GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
-    GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
-    GetPage(name: recharge, page: () => getPage(recharge)),
-    GetPage(name: withdraw, page: () => getPage(withdraw)),
-    GetPage(name: personalData, page: () => KKPersonalDataPage(), binding: PersonalDataBinding()),
-    GetPage(name: betListPage, page: () => const BetListPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
+    GetPage(name: claimRecordPage, page: () => const ClaimRecordPage()),
+    GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
+    GetPage(name: personalData, page: () => KKPersonalDataPage(), binding: PersonalDataBinding()),
+    GetPage(name: betListPage, page: () => const BetListPage()),
     GetPage(name: messageCenter, page: () => const MessageCenterPage()),
     GetPage(name: bindEmail, page: () => const BindEmailPage()),
     GetPage(name: mine, page: () => const MinePage()),
@@ -88,7 +89,7 @@ abstract class Routes {
     GetPage(name: personalInfoPage, page: () => const PersonalPage()),
     GetPage(name: myAccountPage, page: () => const MyAccountPage()),
     GetPage(name: setLoginPsdPage, page: () => const SetLoginPsdPage()),
-    GetPage(name: mainPage, page: ()=> const KKMainPage()),
+    GetPage(name: mainPage, page: () => const KKMainPage()),
   ];
 
   static Widget getPage(String pageName) {

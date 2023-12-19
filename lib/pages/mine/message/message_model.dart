@@ -73,6 +73,7 @@ class MessageListModel {
   String content;
   String createTime;
   int isRead;
+  bool isShow = false; //是否展开所有内容
 
   MessageListModel({
     required this.id,
@@ -84,6 +85,7 @@ class MessageListModel {
     required this.content,
     required this.createTime,
     required this.isRead,
+    this.isShow = false,
   });
 
   factory MessageListModel.fromMap(Map<String, dynamic> json) =>

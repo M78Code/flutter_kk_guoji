@@ -3,6 +3,7 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 import 'package:package_info/package_info.dart'; // 用于获取应用版本信息的包
@@ -43,7 +44,7 @@ class _SettingPageState extends State<SettingPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Image.asset('assets/images/back_normal.png')),
+              icon: Image.asset(Assets.imagesBackNormal)),
         ),
         body: const MySeting());
   }
@@ -85,7 +86,7 @@ class _MySetingState extends State<MySeting> {
           Column(
             children: [
               Image.asset(
-                'assets/images/icon_seting_logo.png',
+                Assets.imagesIconSetingLogo,
                 width: 70,
                 height: 70,
               ),
@@ -168,7 +169,7 @@ class _MySetingState extends State<MySeting> {
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: Image.asset(
-                    'assets/images/icon_arrows_enter.png',
+                    Assets.imagesIconArrowsEnter,
                     width: 16,
                     height: 16,
                   ),
@@ -221,7 +222,7 @@ class _MySetingState extends State<MySeting> {
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: Image.asset(
-                    'assets/images/icon_arrows_enter.png',
+                    Assets.imagesIconArrowsEnter,
                     width: 16,
                     height: 16,
                   ),
@@ -253,10 +254,10 @@ class _MySetingState extends State<MySeting> {
     int selectedIndex = 0; // 默认选中
     // ignore: unused_local_variable
     List itemList = [
-      {'image': 'assets/images/icon_china.png', 'title': '中文'},
-      {'image': 'assets/images/icon_english.png', 'title': 'English'},
-      {'image': 'assets/images/icon_Japan.png', 'title': '日本語'},
-      {'image': 'assets/images/iocn_brazil.png', 'title': 'brasileño'}
+      {'image': Assets.imagesIconChina, 'title': '中文'},
+      {'image': Assets.imagesIconEnglish, 'title': 'English'},
+      {'image': Assets.imagesIconJapan, 'title': '日本語'},
+      {'image': Assets.imagesIocnBrazil, 'title': 'brasileño'}
     ];
 
     showModalBottomSheet(
@@ -319,7 +320,7 @@ class _MySetingState extends State<MySeting> {
               alignment: Alignment.center,
               children: [
                 Image.asset(
-                  'assets/images/icon_showDia_bg.png',
+                  Assets.imagesIconShowDiaBg,
                   fit: BoxFit.cover,
                 ),
                 const Positioned(
