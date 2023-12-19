@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/myaccount/my_account_logic.dart';
-import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
-import 'package:kkguoji/utils/image_util.dart';
+import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/utils/route_util.dart';
+import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
@@ -37,117 +38,67 @@ class MyAccountPage extends GetView<MyAccountLogic> {
             body: Center(
               child: Column(
                 children: [
-                  _buildAvatar(),
-                  SizedBox(height: 40.h),
-                  _buildAvatarList(context),
-                  _buildConfirm(),
+                  SizedBox(height: 20.h),
+                  Row(
+                    children: [
+                      Image.asset(Assets.imagesIconAccount, width: 18, height: 18.5, fit: BoxFit.cover),
+                      SizedBox(width: 15.w),
+                      Text("我的账号", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                      const Spacer(),
+                      InkWellView(
+                          child: Row(
+                        children: [
+                          Text(controller.userInfoModel?.username ?? "", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                          SizedBox(width: 10.w),
+                          Image.asset(Assets.promotionCopy, width: 18.w, height: 18.h),
+                        ],
+                      ), onPressed: ()=> StringUtil.clipText(controller.userInfoModel?.username)),
+                    ],
+                  ),
+                  Divider(height: 0.5.h, color: Colors.white.withOpacity(0.3)).marginSymmetric(vertical: 13.h),
+                  Row(
+                    children: [
+                      Image.asset(Assets.imagesPasswordIcon, width: 20.w, height: 20.h, fit: BoxFit.cover),
+                      SizedBox(width: 15.w),
+                      Text("登录密码", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                      const Spacer(),
+                      InkWellView(
+                        child: Row(
+                          children: [
+                            Text("已设置", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                            SizedBox(width: 10.w),
+                            Image.asset(Assets.imagesIconArrowsEnter, width: 20.w, height: 20.h),
+                          ],
+                        ),
+                        onPressed: () => RouteUtil.pushToView(Routes.setLoginPsdPage, arguments: false),
+                      ),
+                    ],
+                  ),
+                  // Divider(height: 0.5.h, color: Colors.white.withOpacity(0.3)).marginSymmetric(vertical: 13.h),
+                  // Row(
+                  //   children: [
+                  //     Image.asset(Assets.imagesPasswordIcon, width: 20.w, height: 20.h, fit: BoxFit.cover),
+                  //     SizedBox(width: 15.w),
+                  //     Text("提现密码", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                  //     const Spacer(),
+                  //     InkWellView(
+                  //       child: Row(
+                  //         children: [
+                  //           Text("已设置", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                  //           SizedBox(width: 10.w),
+                  //           Image.asset(Assets.imagesIconArrowsEnter, width: 20.w, height: 20.h),
+                  //         ],
+                  //       ),
+                  //       onPressed: () => RouteUtil.pushToView(Routes.setLoginPsdPage, arguments: true),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
-              ),
+              ).paddingSymmetric(horizontal: 15.w),
             ),
           ),
         );
       },
-    );
-  }
-
-  Widget _buildAvatar() {
-    return Column(
-      children: [
-        SizedBox(height: 30.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Column(
-              children: [
-                Obx(
-                  () => CircleAvatar(
-                    radius: 40.r,
-                    backgroundImage: AssetImage(controller.selectedImg.value),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  "用户昵称",
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            InkWellView(
-              child: Image.asset(
-                Assets.myaccountIconEdit,
-                width: 24.w,
-                height: 24.h,
-              ),
-              onPressed: () {},
-            )
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAvatarList(BuildContext context) {
-    return Wrap(
-      spacing: 20.w,
-      runSpacing: 15.h,
-      children: List.generate(
-        controller.avatarList.length,
-        (index) {
-          final pair = controller.avatarList[index];
-          return Obx(
-            () => Container(
-              width: 60.w,
-              height: 60.h,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                    color: controller.selectedIndex.value == pair.first ? const Color(0xff70BAFF) : Colors.transparent, //圆环颜色
-                    width: 1),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: InkWell(
-                  onTap: () {
-                    if (pair.first == 7) {
-                      //打开摄像头
-                      ImageUtil.requestCamera(
-                        context,
-                        callback: (result) => controller.updateCamera(result),
-                      );
-                    } else {
-                      controller.updateIndex(index);
-                    }
-                  },
-                  child: CircleAvatar(
-                    radius: 32.r,
-                    backgroundImage: AssetImage(pair.third),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildConfirm() {
-    return Container(
-      margin: EdgeInsets.only(top: 35.h),
-      child: buttonSubmit(
-        text: "确定",
-        height: 55,
-        hPadding: 25.w,
-        onPressed: () {
-          // controller.recharge();
-          controller.postAWSS3();
-        },
-      ),
     );
   }
 }

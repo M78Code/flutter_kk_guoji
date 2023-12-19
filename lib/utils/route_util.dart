@@ -7,6 +7,7 @@ class RouteUtil {
   static void pushToView(String pageName, {dynamic arguments, bool offAll = false, bool offLast = false, ValueChanged<dynamic>? onBack}) {
 
     if (offAll == true) {
+      print("打印前: ${Get}");
       Get.offAllNamed(pageName, arguments: arguments)?.then((value) {
         if (onBack != null) {
           onBack(value);

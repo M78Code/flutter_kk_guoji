@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
+import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/mine_logic.dart';
 import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
 import 'package:kkguoji/routes/routes.dart';
@@ -37,7 +39,7 @@ class MinePage extends GetView<MineLogic> {
                 flex: 1,
                 child: _buildItems(),
               ),
-              _buildLogOutBtn().marginSymmetric(vertical: 20.h)
+              _buildLogOutBtn(context).marginSymmetric(vertical: 20.h)
             ],
           ),
         );
@@ -48,7 +50,7 @@ class MinePage extends GetView<MineLogic> {
   Widget _buildTopBg() {
     return SizedBox(
       height: 180.h,
-      child: Image.asset('assets/images/icon_top_bg.png', fit: BoxFit.cover),
+      child: Image.asset(Assets.imagesIconTopBg, fit: BoxFit.cover),
     );
   }
 
@@ -67,7 +69,7 @@ class MinePage extends GetView<MineLogic> {
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageCenterPage()));
               },
               icon: Image.asset(
-                'assets/images/icon_inform.png',
+                Assets.imagesIconInform,
                 width: 30,
                 height: 30,
               )),
@@ -79,7 +81,7 @@ class MinePage extends GetView<MineLogic> {
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => const SetinagePage()));
               },
               icon: Image.asset(
-                'assets/images/icon_setting.png',
+                Assets.imagesIconSetting,
                 width: 30,
                 height: 30,
                 fit: BoxFit.cover,
@@ -115,7 +117,7 @@ class MinePage extends GetView<MineLogic> {
                 Row(
                   children: [
                     Image.asset(
-                      'assets/images/icon_id.png',
+                      Assets.imagesIconId,
                       width: 10,
                       height: 10,
                     ),
@@ -135,7 +137,7 @@ class MinePage extends GetView<MineLogic> {
                 width: 67,
                 height: 25,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/icon_edit_bg.png'))),
+                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconEditBg))),
                 child: const Center(
                   //文字居中
                   child: Text(
@@ -145,9 +147,7 @@ class MinePage extends GetView<MineLogic> {
                   ),
                 ),
               ),
-              onTap: () {
-                //编辑
-              },
+              onTap: () => RouteUtil.pushToView(Routes.personalInfoPage),
             ),
           ],
         ),
@@ -176,7 +176,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
-  Widget _buildLogOutBtn() {
+  Widget _buildLogOutBtn(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 25, right: 25),
       height: 40,
@@ -185,7 +185,7 @@ class MinePage extends GetView<MineLogic> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/icon_log_out.png', width: 18, height: 18),
+            Image.asset(Assets.imagesIconLogOut, width: 18, height: 18),
             const Text(
               '退出登录',
               style: TextStyle(color: Colors.white, fontSize: 13),
@@ -193,7 +193,8 @@ class MinePage extends GetView<MineLogic> {
           ],
         ),
         onPressed: () {
-          controller.clickLogout();
+          // controller.clickLogout();
+          _showDialog(context);
         },
       ),
     );
@@ -215,7 +216,7 @@ class AvatarWithVip extends StatelessWidget {
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              image: AssetImage('assets/images/icon_header_default.png'),
+              image: AssetImage(Assets.imagesIconHeaderDefault),
               fit: BoxFit.cover,
             ),
           ),
@@ -238,7 +239,7 @@ class AvatarWithVip extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center, //垂直方向上居中对齐
               children: [
                 Image.asset(
-                  'assets/images/icon_vip.png',
+                  Assets.imagesIconVip,
                   width: 15,
                   height: 15,
                 ),
@@ -266,7 +267,7 @@ class Mypurse extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 167,
-      decoration: BoxDecoration(image: const DecorationImage(image: AssetImage('assets/images/icon_mypurse_bg.png'), fit: BoxFit.cover), borderRadius: BorderRadius.circular(6), border: Border.all(width: 1.0, color: Colors.white)),
+      decoration: BoxDecoration(image: const DecorationImage(image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover), borderRadius: BorderRadius.circular(6), border: Border.all(width: 1.0, color: Colors.white)),
       child: Column(
         children: [
           const SizedBox(
@@ -290,7 +291,7 @@ class Mypurse extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                       ),
                       Image.asset(
-                        'assets/images/icon_arrows_enter.png',
+                        Assets.imagesIconArrowsEnter,
                         width: 16,
                         height: 16,
                       ),
@@ -307,7 +308,7 @@ class Mypurse extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(left: 25, right: 25),
             child: Image.asset(
-              'assets/images/icon_dotted_line.png',
+              Assets.imagesIconDottedLine,
               height: 1.5,
             ),
           ),
@@ -337,7 +338,7 @@ class Mypurse extends StatelessWidget {
                 IconButton(
                     onPressed: () {},
                     icon: Image.asset(
-                      'assets/images/icon_eye_close.png',
+                      Assets.imagesIconEyeClose,
                       width: 30,
                       height: 30,
                       fit: BoxFit.cover,
@@ -372,7 +373,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/icon_top_up.png',
+                Assets.imagesIconTopUp,
                 width: 25,
                 height: 25,
               ),
@@ -398,7 +399,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/icon_fanshui.png',
+                Assets.imagesIconFanshui,
                 width: 25,
                 height: 25,
               ),
@@ -425,7 +426,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/icon_withdraw.png',
+                  Assets.imagesIconWithdraw,
                   width: 25,
                   height: 25,
                 ),
@@ -459,7 +460,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 12, right: 12),
           height: 93,
-          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/icon_safebox_bg.png'), fit: BoxFit.cover)),
+          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconSafeboxBg), fit: BoxFit.cover)),
           child: GridView.count(
             physics: const NeverScrollableScrollPhysics(),
             //禁止滚动
@@ -472,7 +473,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/images/icon_safe_box.png',
+                      Assets.imagesIconSafeBox,
                       width: 48,
                       height: 48,
                     ),
@@ -492,7 +493,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/images/icon_vip_image.png',
+                      Assets.imagesIconVipImage,
                       width: 48,
                       height: 48,
                     ),
@@ -512,7 +513,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/images/icon_back_water.png',
+                      Assets.imagesIconBackWater,
                       width: 48,
                       height: 48,
                     ),
@@ -531,7 +532,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/images/icon_paid_promote.png',
+                      Assets.imagesIconPaidPromote,
                       width: 48,
                       height: 48,
                     ),
@@ -565,7 +566,7 @@ class MyAccountInfo extends StatelessWidget {
         children: [
           ListTile(
             leading: Image.asset(
-              'assets/images/icon_account.png',
+              Assets.imagesIconAccount,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,
@@ -575,11 +576,12 @@ class MyAccountInfo extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
-              'assets/images/icon_arrows_enter.png',
+              Assets.imagesIconArrowsEnter,
               width: 16,
               height: 16,
             ),
             onTap: () {
+              // print("kkk账号:${}");
               RouteUtil.pushToView(Routes.myAccountPage);
             },
           ),
@@ -591,7 +593,7 @@ class MyAccountInfo extends StatelessWidget {
           ),
           ListTile(
             leading: Image.asset(
-              'assets/images/icon_personal.png',
+              Assets.imagesIconPersonal,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,
@@ -601,7 +603,7 @@ class MyAccountInfo extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
-              'assets/images/icon_arrows_enter.png',
+              Assets.imagesIconArrowsEnter,
               width: 16,
               height: 16,
             ),
@@ -617,7 +619,7 @@ class MyAccountInfo extends StatelessWidget {
           ),
           ListTile(
             leading: Image.asset(
-              'assets/images/icon_game_record.png',
+              Assets.imagesIconGameRecord,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,
@@ -627,12 +629,12 @@ class MyAccountInfo extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
-              'assets/images/icon_arrows_enter.png',
+              Assets.imagesIconArrowsEnter,
               width: 16,
               height: 16,
             ),
             onTap: () {
-               RouteUtil.pushToView(Routes.betListPage);
+              RouteUtil.pushToView(Routes.betListPage);
             },
           ),
         ],
@@ -653,7 +655,7 @@ class WelfareReward extends StatelessWidget {
         children: [
           ListTile(
             leading: Image.asset(
-              'assets/images/icon_award.png',
+              Assets.imagesIconAward,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,
@@ -663,7 +665,7 @@ class WelfareReward extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
-              'assets/images/icon_arrows_enter.png',
+              Assets.imagesIconArrowsEnter,
               width: 16,
               height: 16,
             ),
@@ -680,7 +682,7 @@ class WelfareReward extends StatelessWidget {
           ),
           ListTile(
             leading: Image.asset(
-              'assets/images/icon_messaage_set.png',
+              Assets.imagesIconMessaageSet,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,
@@ -690,7 +692,7 @@ class WelfareReward extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
-              'assets/images/icon_arrows_enter.png',
+              Assets.imagesIconArrowsEnter,
               width: 16,
               height: 16,
             ),
@@ -706,7 +708,7 @@ class WelfareReward extends StatelessWidget {
           ),
           ListTile(
             leading: Image.asset(
-              'assets/images/icon_mine_share.png',
+              Assets.imagesIconLogOut,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,
@@ -716,7 +718,7 @@ class WelfareReward extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
-              'assets/images/icon_arrows_enter.png',
+              Assets.imagesIconArrowsEnter,
               width: 16,
               height: 16,
             ),
@@ -730,110 +732,80 @@ class WelfareReward extends StatelessWidget {
   }
 }
 
-class logOutBtn extends StatelessWidget {
-  const logOutBtn({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 25, right: 25),
-      height: 40,
-      decoration: ShapeDecoration(color: const Color(0xFF686F83), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
-      child: TextButton(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/icon_log_out.png', width: 18, height: 18),
-            const Text(
-              '退出登录',
-              style: TextStyle(color: Colors.white, fontSize: 13),
-            )
-          ],
-        ),
-        onPressed: () {
-          _showDialog(context);
-          print('退出登录');
-        },
-      ),
-    );
-  }
-
-  //退出登录弹框
-  void _showDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            contentPadding: EdgeInsets.zero,
-            content: Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/icon_showDia_bg.png',
-                  fit: BoxFit.cover,
+//退出登录弹框
+void _showDialog(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.asset(
+                Assets.imagesIconShowDiaBg,
+                fit: BoxFit.cover,
+              ),
+              const Positioned(
+                  top: 60,
+                  left: 35,
+                  right: 35,
+                  child: Center(
+                    child: Text(
+                      '这将使您需要重新登录才能使用我们的服务！确定要退出吗?',
+                      softWrap: true,
+                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  )),
+              Positioned(
+                left: 20,
+                right: 20,
+                bottom: 23,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: 102,
+                      height: 40,
+                      decoration: ShapeDecoration(
+                          //渐变色
+                          gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
+                      child: TextButton(
+                          onPressed: () {
+                            Get.find<SqliteService>().remove(CacheKey.apiToken); //删除token等信息
+                            Navigator.of(context).pop();
+                            RouteUtil.pushToView(Routes.loginPage);
+                          },
+                          child: const Text(
+                            '确定',
+                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                          )),
+                    ),
+                    Container(
+                      width: 102,
+                      height: 40,
+                      decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                        side: const BorderSide(width: 2, color: Color(0xFF3D35C6)),
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            '取消',
+                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                          )),
+                    )
+                  ],
                 ),
-                const Positioned(
-                    top: 60,
-                    left: 35,
-                    right: 35,
-                    child: Center(
-                      child: Text(
-                        '这将使您需要重新登录才能使用我们的服务！确定要退出吗?',
-                        softWrap: true,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                Positioned(
-                  left: 20,
-                  right: 20,
-                  bottom: 23,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: 102,
-                        height: 40,
-                        decoration: ShapeDecoration(
-                            //渐变色
-                            gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )),
-                        child: TextButton(
-                            onPressed: () {
-                              Get.find<SqliteService>()
-                                  .remove(CacheKey.apiToken); //删除token等信息
-                              Navigator.of(context).pop();
-                              RouteUtil.pushToView(Routes.loginPage);
-                            },
-                            child: const Text(
-                              '确定',
-                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
-                            )),
-                      ),
-                      Container(
-                        width: 102,
-                        height: 40,
-                        decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                          side: const BorderSide(width: 2, color: Color(0xFF3D35C6)),
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              '取消',
-                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
-                            )),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }
+              ),
+            ],
+          ),
+        );
+      });
 }

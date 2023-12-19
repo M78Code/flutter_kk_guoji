@@ -1,6 +1,6 @@
-
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/main/logic/main_logic.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'dart:math';
 
 import 'package:kkguoji/services/cache_key.dart';
@@ -13,14 +13,12 @@ import 'package:kkguoji/widget/show_toast.dart';
 import '../../../services/sqlite_service.dart';
 
 class LoginLogic extends GetxController {
-
   final RxBool psdObscure = true.obs;
   final RxBool savePassword = false.obs;
-  final RxBool canLogin  = false.obs;
+  final RxBool canLogin = false.obs;
 
   final globalController = Get.find<UserService>();
   final sqliteService = Get.find<SqliteService>();
-
 
   final RxList<int> verCodeImageBytes = RxList<int>();
 
@@ -29,8 +27,6 @@ class LoginLogic extends GetxController {
   String accountText = "";
   String passwordText = "";
 
-
-
   @override
   void onInit() {
     // TODO: implement onInit
@@ -38,8 +34,7 @@ class LoginLogic extends GetxController {
     getVerCode();
   }
 
-
-  void getVerCode() async{
+  void getVerCode() async {
     code_value = getVerify(6);
     var result = await HttpRequest.request(HttpConfig.getCode, method: "get", params: {"code_value": code_value});
     verCodeImageBytes.value = result;
@@ -49,7 +44,7 @@ class LoginLogic extends GetxController {
     String code = "";
     String str = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     List strList = str.split("");
-    for(int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++) {
       Random random = Random.secure();
       code += strList[random.nextInt(str.length)];
     }
@@ -68,6 +63,7 @@ class LoginLogic extends GetxController {
     accountText = account;
     checkCanLogin();
   }
+
   inputPasswordValue(String password) {
     passwordText = password;
     checkCanLogin();
@@ -79,14 +75,14 @@ class LoginLogic extends GetxController {
   }
 
   void checkCanLogin() {
-    if(accountText.isEmpty || passwordText.isEmpty || verCodeText.isEmpty) {
+    if (accountText.isEmpty || passwordText.isEmpty || verCodeText.isEmpty) {
       canLogin.value = false;
-    }else {
+    } else {
       canLogin.value = true;
     }
   }
 
-  clickLoginBtn() async{
+  clickLoginBtn() async {
     Map<String, dynamic> params = {
       "username": accountText,
       "password": passwordText,
@@ -94,8 +90,7 @@ class LoginLogic extends GetxController {
       "code_value": code_value,
     };
 
-    var result = await HttpRequest.request(
-        HttpConfig.login, method: "post", params: params);
+    var result = await HttpRequest.request(HttpConfig.login, method: "post", params: params);
     if (result["code"] == 200) {
       ShowToast.showToast("登录成功");
       globalController.isLogin = true;
@@ -103,15 +98,14 @@ class LoginLogic extends GetxController {
       globalController.fetchUserInfo();
       sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
       sqliteService.setString(CacheKey.accountKey, accountText);
-      if(savePassword.value) {
+      if (savePassword.value) {
         sqliteService.setString(CacheKey.passwordKey, passwordText);
       }
       Get.find<MainPageLogic>().currentIndex.value = 0;
-      RouteUtil.popView();
+      RouteUtil.pushToView(Routes.mainPage, offAll: true);
+      // RouteUtil.popView();
     } else {
       ShowToast.showToast(result["message"]);
     }
-
   }
-
 }

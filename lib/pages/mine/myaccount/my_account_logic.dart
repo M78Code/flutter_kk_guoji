@@ -1,25 +1,45 @@
-import 'dart:convert';
+import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/pair.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/myaccount/my_account_model.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
+import 'package:kkguoji/services/user_service.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
+import 'package:kkguoji/utils/string_util.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 
 class MyAccountLogic extends GetxController {
   //选中的下标
   RxInt selectedIndex = 0.obs;
+  final RxBool psdObscure1 = true.obs;
+  final RxBool psdObscure2 = true.obs;
+  final RxBool psdObscure3 = true.obs;
+  String passwordText = "";
+  String newPsdText = "";
+  String confirmPsdText = "";
+  String verCodeText = "";
+  String codeValue = "";
+  final RxList<int> verCodeImageBytes = RxList<int>();
 
   //用于观察选择的图片
   RxString selectedImg = Assets.myaccountAvatar1.obs;
+  final userService = Get.find<UserService>();
+  UserInfoModel? userInfoModel; //用户信息类
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    userInfoModel = userService.userInfoModel.value;
+    getVerCode();
     final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
     if (null != saveAvatar) {
       selectedImg.value = saveAvatar;
@@ -33,6 +53,46 @@ class MyAccountLogic extends GetxController {
     if (null == saveIndex && null == saveAvatar) {
       selectedIndex = 0.obs;
     }
+  }
+
+  showPassword(RxBool b) {
+    b.value = !b.value;
+    // psdObscure.value = !psdObscure.value;
+  }
+
+  inputPasswordValue(String password) {
+    passwordText = password;
+    // checkCanLogin();
+  }
+
+  inputConfirmPsdValue(String confirmText, bool isConfirm) {
+    if (isConfirm) {
+      confirmPsdText = confirmText;
+    } else {
+      newPsdText = confirmText;
+    }
+  }
+
+  inputVerCodeValue(String code) {
+    verCodeText = code;
+    // checkCanLogin();
+  }
+
+  void getVerCode() async {
+    codeValue = getVerify(6);
+    var result = await HttpRequest.request(HttpConfig.getCode, method: "get", params: {"code_value": codeValue});
+    verCodeImageBytes.value = result;
+  }
+
+  String getVerify(int length) {
+    String code = "";
+    String str = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+    List strList = str.split("");
+    for (int i = 0; i < length; i++) {
+      Random random = Random.secure();
+      code += strList[random.nextInt(str.length)];
+    }
+    return code;
   }
 
   ///通过默认图片列表选择图像
@@ -113,8 +173,7 @@ class MyAccountLogic extends GetxController {
     String bucketSubRegion = "Sub region of bucket";
 
     //fileUploadFolder - this is optional parameter
-    String fileUploadFolder =
-        "folder inside bucket where we want file to be uploaded";
+    String fileUploadFolder = "folder inside bucket where we want file to be uploaded";
 
     String filePath = ""; //path of file you want to upload
     // ImageData imageData = ImageData("uniqueFileName", filePath,
@@ -128,4 +187,53 @@ class MyAccountLogic extends GetxController {
     // print(result);
   }
 
+  String clipText(String text) {
+    Clipboard.setData(ClipboardData(text: text)).then((value){
+      ShowToast.showToast("复制成功");
+    });
+    return "";
+  }
+
+  //设置登录密码提交
+  Future<bool> setPsdSubmit(bool isWithdrawPsd) async {
+    if (passwordText.isEmpty) {
+      ShowToast.showToast("请输入原密码");
+      return false;
+    }
+    if (newPsdText.isEmpty) {
+      ShowToast.showToast("请输入新密码");
+      return false;
+    }
+    if (!StringUtil.checkPsdRule(newPsdText)) {
+      ShowToast.showToast("密码由数字、字母、构成,长度8-20");
+      return false;
+    }
+    if (confirmPsdText.isEmpty) {
+      ShowToast.showToast("请确认新密码");
+      return false;
+    }
+    if (newPsdText != confirmPsdText) {
+      ShowToast.showToast("新密码不一致");
+      return false;
+    }
+    if (verCodeText.isEmpty) {
+      ShowToast.showToast("请输入验证码");
+      return false;
+    }
+    Map<String, dynamic> params = {
+      "old_password": passwordText,
+      "password": newPsdText,
+      "code": verCodeText,
+      "code_value": codeValue,
+    };
+    var result = await HttpRequest.request(HttpConfig.modifyPassword, method: "post", params: params);
+    if (result["code"] == 200) {
+      ShowToast.showToast("更新登录密码成功");
+      SqliteUtil().clean();
+      RouteUtil.pushToView(Routes.loginPage, offAll: true);
+    } else {
+      ShowToast.showToast(result["message"]);
+    }
+    return false;
+  }
 }

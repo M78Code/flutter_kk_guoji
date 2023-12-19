@@ -150,8 +150,10 @@ class Assets {
   static const String imagesTabbarMineSelected = 'assets/images/tabbar_mine_selected.png';
   static const String imagesTabbarRechangeIcon = 'assets/images/tabbar_rechange_icon.png';
   static const String imagesTelegram = 'assets/images/telegram.png';
+  static const String imagesTipStar = 'assets/images/tip_star.png';
   static const String imagesVerCode = 'assets/images/ver_code.png';
   static const String imagesWhatapp = 'assets/images/whatapp.png';
+  static const String mineBetListDown = 'assets/images/mine/bet_list_down.png';
   static const String mineWalletArrow = 'assets/images/mine/wallet_arrow.png';
   static const String mineWalletFundDetails = 'assets/images/mine/wallet_fund_details.png';
   static const String mineWalletNavArrow = 'assets/images/mine/wallet_nav_arrow.png';
@@ -168,6 +170,7 @@ class Assets {
   static const String myaccountAvatar7 = 'assets/images/myaccount/avatar7.png';
   static const String myaccountIconCamera = 'assets/images/myaccount/icon_camera.png';
   static const String myaccountIconEdit = 'assets/images/myaccount/icon_edit.png';
+  static const String myaccountIconFormInput = 'assets/images/myaccount/icon_form_input.png';
   static const String promotionCopy = 'assets/images/promotion/copy.png';
   static const String promotionPromotionCaipiao = 'assets/images/promotion/promotion_caipiao.png';
   static const String promotionPromotionCaipiaoSelected = 'assets/images/promotion/promotion_caipiao_selected.png';
