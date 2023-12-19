@@ -9,7 +9,8 @@ class CustomInputField extends StatefulWidget {
   final TextInputType keybordType;
   Widget? rightWidget;
   final bool isObscureText;
-  CustomInputField(this.imageStr, this.hintText, {this.valueChanged, this.onTap,this.rightWidget,this.isObscureText = false, this.keybordType = TextInputType.text, super.key,});
+  String text;
+  CustomInputField(this.imageStr, this.hintText, {this.valueChanged, this.onTap,this.rightWidget,this.text = "",this.isObscureText = false, this.keybordType = TextInputType.text, super.key,});
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();
@@ -52,6 +53,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
             child: Image.asset(widget.imageStr, width: 30, height: 30,),
           ),
           Expanded(child: TextField(
+            controller: TextEditingController.fromValue(TextEditingValue(text: widget.text)),
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(0),
               hintText: widget.hintText,
