@@ -77,7 +77,7 @@ class KKPersonalDataPage extends StatelessWidget {
                 )),
               ),
 
-              (controller.data.value["game_details"] as List).isEmpty?Center(
+              controller.gameList.isEmpty?Center(
                 child: Image.asset("assets/images/rebate/nodata.png", width: 200, height: 223,),
               ):
                   Column(
