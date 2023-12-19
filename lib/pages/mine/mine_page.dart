@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kkguoji/pages/mine/mine_logic.dart';
 import 'package:kkguoji/pages/welfare_reward/welfare_reward_page.dart';
 import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
 import '../../services/sqlite_service.dart';
@@ -160,7 +161,7 @@ class MinePage extends GetView<MineLogic> {
       top: 165.h,
       left: 0,
       right: 0,
-      child: const Mypurse().marginSymmetric(horizontal: 12.w),
+      child: MyPurse().marginSymmetric(horizontal: 12.w),
     );
   }
 
@@ -168,7 +169,8 @@ class MinePage extends GetView<MineLogic> {
     return ListView(
       padding: EdgeInsets.only(top: 20.h),
       children: [
-        const SafeBoxWaitGridView(),
+        //先不开发
+        // const SafeBoxWaitGridView(),
         const MyAccountInfo(),
         Divider(height: 8.h, color: Colors.black),
         const WelfareReward(),
@@ -259,14 +261,17 @@ class AvatarWithVip extends StatelessWidget {
 }
 
 //我的钱包
-class Mypurse extends StatelessWidget {
-  const Mypurse({super.key});
+class MyPurse extends StatelessWidget {
+  MyPurse({super.key});
+
+  final userService = Get.find<UserService>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 167,
-      decoration: BoxDecoration(image: const DecorationImage(image: AssetImage('assets/images/icon_mypurse_bg.png'), fit: BoxFit.cover), borderRadius: BorderRadius.circular(6), border: Border.all(width: 1.0, color: Colors.white)),
+      decoration: BoxDecoration(image: const DecorationImage(image: AssetImage('assets/images/icon_mypurse_bg.png'), fit: BoxFit.cover),
+          borderRadius: BorderRadius.circular(6), border: Border.all(width: 1.0, color: const Color(0x1AFFFFFF))),
       child: Column(
         children: [
           const SizedBox(
@@ -330,9 +335,9 @@ class Mypurse extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text(
-                  '¥88,686.00',
-                  style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                 Text(
+                  "¥${userService.userMoneyModel?.money}",
+                  style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
                 ),
                 IconButton(
                     onPressed: () {},
