@@ -3,13 +3,18 @@ import 'dart:math';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/ex_widget.dart';
+import 'package:kkguoji/common/models/bet_list_response_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/bet_list/widgets/bet_list_record_list_chid_view.dart';
 
 import 'widgets/date_selection_section.dart';
 import 'logic.dart';
+
+final GlobalKey _buttonKey1 = GlobalKey();
+final GlobalKey _buttonKey2 = GlobalKey();
 
 class BetListPage extends StatefulWidget {
   const BetListPage({Key? key}) : super(key: key);
@@ -21,39 +26,22 @@ class BetListPage extends StatefulWidget {
 class _BetListPageState extends State<BetListPage> {
   final controller = Get.put(BetListController());
   final state = Get.find<BetListController>().state;
-  GlobalKey rowKey = GlobalKey();
+
+  late FToast fToast;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+  @override
   Widget build(BuildContext context) {
+    fToast = FToast();
+    fToast.init(context);
     return _buildView();
   }
   Widget _buildView() {
-
-    var widgets = ['全部类型','全部游戏'].asMap().map((index, value) {
-      return  MapEntry(
-          index,
-          Expanded(
-            child: Container(
-              margin: index == 1 ? EdgeInsets.only(left: 10.w) : null,
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              height: 42.w,
-              decoration: BoxDecoration(
-                color: Color(0xFF222633),
-                borderRadius: BorderRadius.circular(6.w),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('全部类型', style: TextStyle(color: Color(0xFF707A8C), fontSize: 12.sp, fontWeight: FontWeight.w400),),
-                  Image.asset('assets/images/mine/bet_list_down.png', width: 16.w, height: 16.w)
-                ],
-              ),
-            ).onTap(() {
-              _showPopup(context);
-            }),
-          )
-      );
-    }).values.toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -82,12 +70,109 @@ class _BetListPageState extends State<BetListPage> {
             slivers: [
               SliverToBoxAdapter(child: SizedBox(height: 15.w,)),
               SliverToBoxAdapter(
-                child: Container(
-                  key: rowKey,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: widgets,
-                  ),
+                child:  GetBuilder<BetListController>(
+                  builder: (controller){
+                    return Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: ['全部类型','全部游戏'].asMap().map((index, value) {
+                          return  MapEntry(
+                              index,
+                              Expanded(
+                                child: Container(
+                                    key: index == 0 ? _buttonKey1 : _buttonKey2,
+                                    margin: index == 1 ? EdgeInsets.only(left: 10.w) : null,
+                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    height: 42.w,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFF222633),
+                                      borderRadius: BorderRadius.circular(6.w),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(value, style: TextStyle(color: Color(0xFF707A8C), fontSize: 12.sp, fontWeight: FontWeight.w400),),
+                                        Image.asset('assets/images/mine/bet_list_down.png', width: 16.w, height: 16.w)
+                                      ],
+                                    )
+                                ).onTap(() {
+                                  if (index == 0) {
+                                    List<String> gameTypeNames = controller.gameTypeModels.map((e) => e.name ?? "").toList();
+                                    RenderBox renderBox = _buttonKey1.currentContext!.findRenderObject() as RenderBox;
+                                    final buttonSize = renderBox.size;
+                                    var child = GetBuilder<BetListController>(
+                                        id: 'gameTypeMenu',
+                                        builder: (controller){
+                                      return Material(
+                                        color: Colors.transparent,
+                                        child: Container(
+                                          width: buttonSize.width,
+                                          margin: EdgeInsets.only(top: 10.w),
+                                          padding:  EdgeInsets.symmetric(horizontal: 18.w, vertical: 22.w),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(6.0),
+                                            color: Color(0xFF222633),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: gameTypeNames.asMap().map((typeIndex, value) {
+                                              var color = (controller.selectedGameTypeModel?.name ?? "") == value ? Color(0xFF5D5FEF) : Color(0xFF687083);
+                                              return MapEntry(typeIndex, Text(
+                                                  value,
+                                                  style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400)
+                                              ).onTap(() {
+                                                controller.onTapSwitchGameTyp(typeIndex);
+                                              }));
+                                            }).values.toList(),
+                                          ),
+                                        ),
+                                      );
+                                    });
+
+                                    showOverlay(child, _buttonKey1);
+                                  }
+                                  else {
+                                    List<String> gameTypeNames = controller.gameModels.map((e) => e.name ?? "").toList();
+                                    RenderBox renderBox = _buttonKey2.currentContext!.findRenderObject() as RenderBox;
+                                    final buttonSize = renderBox.size;
+                                    var child = GetBuilder<BetListController>(
+                                        id: 'gameMenu',
+                                        builder: (controller){
+                                          return Material(
+                                            color: Colors.transparent,
+                                            child: Container(
+                                              width: buttonSize.width,
+                                              margin: EdgeInsets.only(top: 10.w),
+                                              padding:  EdgeInsets.symmetric(horizontal: 18.w, vertical: 22.w),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(6.0),
+                                                color: Color(0xFF222633),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: gameTypeNames.asMap().map((typeIndex, value) {
+                                                  var color = (controller.selectedGameModel?.name ?? "") == value ? Color(0xFF5D5FEF) : Color(0xFF687083);
+                                                  return MapEntry(typeIndex, Text(
+                                                      value,
+                                                      style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400)
+                                                  ).onTap(() {
+                                                    controller.onTapSwitchGame(typeIndex);
+                                                  }));
+                                                }).values.toList(),
+                                              ),
+                                            ),
+                                          );
+                                        });
+
+                                    showOverlay(child, _buttonKey2);
+                                  }
+                                }),
+                              )
+                          );
+                        }).values.toList(),
+                      ),
+                    );
+                  },
                 ),
               ),
               SliverToBoxAdapter(child: SizedBox(height: 15.w,)),
@@ -105,23 +190,24 @@ class _BetListPageState extends State<BetListPage> {
                   child: SizedBox(height: 15.w,)
               ),
               GetBuilder<BetListController>(
-                id: 'searchList',
+                id: 'betList',
                 builder: (controller) {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
-                            // UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index - 1];
+                            BetModel rowData = controller.betModels[index];
                             return BetListRecordListChidView(WBetListRecordListChidViewModel(
-                                createTime: '2023', // userWithdrawModel.createTime,
-                                type: '2023', // userWithdrawModel.type,
-                                statusName: '2023', // userWithdrawModel.statusName,
-                                money: int.parse('100'), // userWithdrawModel.money,
-                                bankUsername: '2023' ,// userWithdrawModel.bankUsername,
-                                bankNumber: '2023', // userWithdrawModel.bankNumber,
-                                orderN: '2023' // userWithdrawModel.sn
+                                createTime: rowData.createTime,
+                                gameName:rowData.gameName,
+                                statusName:  rowData.gameWinStatusName,
+                                money: rowData.gameProfit,
+                                gameTypeName:  rowData.gameTypeName,
+                                betAmount:  rowData.gameBet,
+                                orderN: rowData.gameSn,
+                                status:rowData.gameWinStatus
                             ));
                       },
-                      childCount: 10// controller.userMoneyDetailsSearchList.length + 1,
+                      childCount: controller.betModels.length
                     ),
                   );
                 },
@@ -134,35 +220,40 @@ class _BetListPageState extends State<BetListPage> {
     );
   }
 
+  late OverlayEntry overlayEntry;
 
-  void _showPopup(BuildContext context) {
-    double spacing = 10.0; // Adjust the spacing as needed
-    RenderBox renderBox = rowKey.currentContext!.findRenderObject() as RenderBox;
-    var rowTop = renderBox.localToGlobal(Offset.zero).dy;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Positioned(
-          top:  11110,
-          left: 0.0,
-          right: 0.0,
-          child: AlertDialog(
-              alignment: Alignment.topLeft,
-            title: Text('Popup Title'),
-            content: Text('Popup Content'),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Close'),
+  void showOverlay(Widget child, GlobalKey widgetKey) {
+
+    RenderBox renderBox = widgetKey.currentContext!.findRenderObject() as RenderBox;
+    final buttonSize = renderBox.size;
+    final buttonPosition = renderBox.localToGlobal(Offset.zero);
+
+    overlayEntry = OverlayEntry(
+      builder: (context) => Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {
+                // Remove the overlay when tapped outside the image
+                overlayEntry.remove();
+              },
+              child: Container(
+                color: Colors.transparent,
               ),
-            ],
+            ),
           ),
-        );
-      },
+          Positioned(
+            left: buttonPosition.dx,
+            top: buttonPosition.dy + buttonSize.height,
+            child: child,
+          ),
+        ],
+      ),
     );
+
+    Overlay.of(context)?.insert(overlayEntry);
   }
+
   @override
   void dispose() {
     Get.delete<BetListController>();
