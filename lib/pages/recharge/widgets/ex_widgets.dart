@@ -20,21 +20,18 @@ Widget inputTextEdit({
 }) {
   return Container(
     height: 44.h,
-    padding: EdgeInsets.symmetric(horizontal: 19.w),
+    padding: EdgeInsets.only(left: 19.w, right: 5.w),
     decoration: BoxDecoration(
       color: const Color(0xff6C7A8F).withOpacity(0.24),
       borderRadius: BorderRadius.circular(36.r),
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-// SizedBox(width: 5.w),
         Text(
           preText ?? "",
           style: const TextStyle(color: Colors.white),
         ),
-// SizedBox(width: 10.w),
         Expanded(
           child: TextField(
             autofocus: autofocus,
@@ -136,15 +133,13 @@ Widget buttonSubmit({
 // color: controller.canLogin.value
 //     ? Colors.white
 //     : const Color(0xFFB2B3BD)),
-            ),
+        ),
       ),
     ),
   ).marginSymmetric(horizontal: hPadding);
 }
 
-Widget textField(
-  TextEditingController controller,
-) {
+Widget textField(TextEditingController controller,) {
   return Container(
     alignment: Alignment.center,
     padding: EdgeInsets.symmetric(horizontal: 19.w),
@@ -192,14 +187,14 @@ Widget textField(
             ),
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(
-                    icon: const Icon(
-                      Icons.cancel,
-                      size: 16,
-                    ),
-                    onPressed: () {
-                      controller.text = '';
-                    },
-                  )
+              icon: const Icon(
+                Icons.cancel,
+                size: 16,
+              ),
+              onPressed: () {
+                controller.text = '';
+              },
+            )
                 : null),
       ),
     ),
@@ -234,20 +229,20 @@ class CategoryRadioWidget extends StatelessWidget {
       ),
       child: null == category.imgPath
           ? Text(
-              category.name,
-              style: TextStyle(fontSize: 16.sp, color: Colors.white),
-            )
+        category.name ?? "",
+        style: TextStyle(fontSize: 16.sp, color: Colors.white),
+      )
           : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(category.imgPath!, width: 12.w, height: 12.h),
-                SizedBox(width: 5.w),
-                Text(
-                  category.name,
-                  style: TextStyle(fontSize: 16.sp, color: Colors.white),
-                ),
-              ],
-            ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(category.imgPath!, width: 12.w, height: 12.h),
+          SizedBox(width: 5.w),
+          Text(
+            category.name ?? "",
+            style: TextStyle(fontSize: 16.sp, color: Colors.white),
+          ),
+        ],
+      ),
     ).onTap(() => onTap?.call(category));
   }
 }
