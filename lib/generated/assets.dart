@@ -226,6 +226,10 @@ class Assets {
   static const String imagesTelegram = 'assets/images/telegram.png';
   static const String imagesVerCode = 'assets/images/ver_code.png';
   static const String imagesWhatapp = 'assets/images/whatapp.png';
+  static const String mineBetListDown = 'assets/images/mine/bet_list_down.png';
+  static const String mineBetListLose = 'assets/images/mine/bet_list_lose.png';
+  static const String mineBetListPreDraw = 'assets/images/mine/bet_list_pre_draw.png';
+  static const String mineBetListWin = 'assets/images/mine/bet_list_win.png';
   static const String mineWalletArrow = 'assets/images/mine/wallet_arrow.png';
   static const String mineWalletFundDetails =
       'assets/images/mine/wallet_fund_details.png';
