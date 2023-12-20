@@ -67,14 +67,26 @@ abstract class Routes {
     GetPage(name: loginPage, page: () => const KKLoginPage()),
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
-    GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
-    GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
+    GetPage(
+        name: activity,
+        page: () => const ActivityPage(),
+        binding: ActivityBinding()),
+    GetPage(
+        name: activityDetail,
+        page: () => ActivityDetailPage(),
+        binding: ActivityDetailBinding()),
     GetPage(name: walletPage, page: () => const WalletPage()),
     GetPage(name: walletFundDetailPage, page: () => const WalletFundDetailPage()),
     GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
-    GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
-    GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
+    GetPage(
+        name: customer,
+        page: () => KKCustomerServicePage(),
+        binding: CustomerBinding()),
+    GetPage(
+        name: promotion,
+        page: () => const KKPromotionPage(),
+        binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
@@ -95,7 +107,7 @@ abstract class Routes {
   static Widget getPage(String pageName) {
     //没有登录，跳转登录页面
     if (Get.find<UserService>().isLogin) {
-      return KKLoginPage();
+      return const KKLoginPage();
     }
 
     if (pageName == recharge) {

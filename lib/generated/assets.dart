@@ -23,6 +23,7 @@ class Assets {
   static const String gamesGamesSports = 'assets/images/games/games_sports.png';
   static const String gamesGamesSportsArrow = 'assets/images/games/games_sports_arrow.png';
   static const String gamesGamesVideo = 'assets/images/games/games_video.png';
+
   static const String gamesGamesVideoArrow = 'assets/images/games/games_video_arrow.png';
   static const String gamesLotteryLiuhe = 'assets/images/games/lottery_liuhe.png';
   static const String gamesLotteryPcBaijiale = 'assets/images/games/lottery_pc_baijiale.png';
@@ -94,8 +95,8 @@ class Assets {
   static const String imagesIconAward = 'assets/images/icon_award.png';
   static const String imagesIconBackWater = 'assets/images/icon_back_water.png';
   static const String imagesIconChina = 'assets/images/icon_china.png';
-  static const String imagesIconClaimBg = 'assets/images/icon_claim_bg.png';
   static const String imagesIconDottedLine = 'assets/images/icon_dotted_line.png';
+  static const String imagesIconClaimBg = 'assets/images/icon_claim_bg.png';
   static const String imagesIconDown = 'assets/images/icon_down.png';
   static const String imagesIconEditBg = 'assets/images/icon_edit_bg.png';
   static const String imagesIconEnglish = 'assets/images/icon_english.png';
@@ -121,9 +122,9 @@ class Assets {
   static const String imagesIconSetingLogo = 'assets/images/icon_seting_logo.png';
   static const String imagesIconSetting = 'assets/images/icon_setting.png';
   static const String imagesIconShowDiaBg = 'assets/images/icon_showDia_bg.png';
-  static const String imagesIconSpherosome = 'assets/images/icon_spherosome.png';
   static const String imagesIconSwitchClose = 'assets/images/icon_switch_close.png';
   static const String imagesIconSwitchOpen = 'assets/images/icon_switch_open.png';
+  static const String imagesIconSpherosome = 'assets/images/icon_spherosome.png';
   static const String imagesIconTopBg = 'assets/images/icon_top_bg.png';
   static const String imagesIconTopUp = 'assets/images/icon_top_up.png';
   static const String imagesIconUp = 'assets/images/icon_up.png';
@@ -165,6 +166,18 @@ class Assets {
   static const String mineWalletSearch = 'assets/images/mine/wallet_search.png';
   static const String mineWalletTransactionRecords = 'assets/images/mine/wallet_transaction_records.png';
   static const String mineWalletWithdraw = 'assets/images/mine/wallet_withdraw.png';
+  static const String systemIconBack = 'assets/images/system/icon_back.png';
+  static const String systemIconShare = 'assets/images/system/icon_share.png';
+  static const imgRechargeSelectedPng = "assets/images/recharge/img_recharge_selected.png";
+  static const imgRechargeDefaultPng = "assets/images/recharge/img_recharge_default.png";
+  static const iconTipPng = "assets/images/recharge/icon_tip.png";
+  static const iconCCPng = "assets/images/withdraw/icon_cc.png";
+  static const String imageClaimRecordbg = 'assets/images/icon_claim_bg.png';
+  static const String imageMineReceivedMoney = 'assets/images/icon_received_money.png';
+  static const String imagespherosome = 'assets/images/icon_spherosome.png';
+  static const iconRefresh = "assets/images/icon_refresh.png";
+  static const imageMessageUp = 'assets/images/icon_up.png';
+  static const imageMessageDown = 'assets/images/icon_down.png';
   static const String myaccountAvatar1 = 'assets/images/myaccount/avatar1.png';
   static const String myaccountAvatar2 = 'assets/images/myaccount/avatar2.png';
   static const String myaccountAvatar3 = 'assets/images/myaccount/avatar3.png';
@@ -201,8 +214,5 @@ class Assets {
   static const String rechargeImgRechargeDefault = 'assets/images/recharge/img_recharge_default.png';
   static const String rechargeImgRechargeSelected = 'assets/images/recharge/img_recharge_selected.png';
   static const String serviceServiceTelegrame = 'assets/images/service/service_Telegrame.png';
-  static const String systemIconBack = 'assets/images/system/icon_back.png';
-  static const String systemIconShare = 'assets/images/system/icon_share.png';
   static const String withdrawIconCc = 'assets/images/withdraw/icon_cc.png';
-
 }

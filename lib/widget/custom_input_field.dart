@@ -9,7 +9,6 @@ class CustomInputField extends StatefulWidget {
   Widget? rightWidget;
   final bool isObscureText;
   String text;
-
   int maxLength;
 
   CustomInputField(

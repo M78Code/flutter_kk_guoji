@@ -14,7 +14,6 @@ import '../../../services/sqlite_service.dart';
 
 class LoginLogic extends GetxController {
   final RxBool psdObscure = true.obs;
-
   final RxBool savePassword = true.obs;
   final RxBool canLogin = false.obs;
   final passwordObs = "".obs;

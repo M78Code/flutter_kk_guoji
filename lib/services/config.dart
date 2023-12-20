@@ -33,7 +33,6 @@ class HttpConfig {
   //我的推广
   static const getAgentTeam = "/api/agent/team";
   static const getMessageList = '/api/notice/list'; //公告信息查询
-
   //获取自动返佣
   static const getAutoRecord = '/api/userRebate/getAutoRecord';
 
