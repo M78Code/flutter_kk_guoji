@@ -79,7 +79,7 @@ class KKHomeTopWidget extends StatelessWidget {
                         padding: MaterialStatePropertyAll(EdgeInsets.zero),
                       ),
                         onPressed: (){
-                          RouteUtil.pushToView(Routes.loginPage);
+
                         },child: Image.asset("assets/images/home_top_guoqi.png", width: 33, height: 33,),),
                     )
                 ),

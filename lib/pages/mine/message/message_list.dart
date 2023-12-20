@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/message/message_model.dart';
 
 class MeeageListView extends StatelessWidget {
@@ -103,7 +104,7 @@ class MeeageListView extends StatelessWidget {
                         ),
                         const Expanded(child: Text('')), //用这个设置左右一个
                         Image.asset(
-                          'assets/images/icon_arrows_blue.png',
+                          Assets.imagesIconArrowsBlue,
                           width: 18,
                           height: 18,
                         )

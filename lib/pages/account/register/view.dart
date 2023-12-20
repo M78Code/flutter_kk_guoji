@@ -34,18 +34,20 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/register_bg.png"),
-          ),
-        ),
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         child: Container(
+          height: double.infinity,
           decoration: const BoxDecoration(
-              color: Color(0xED2E374C)
+            image: DecorationImage(
+              image: AssetImage("assets/images/register_bg.png"),
+            ),
           ),
-          child: SingleChildScrollView(
+          child: Container(
+            decoration: const BoxDecoration(
+                color: Color(0xED2E374C)
+            ),
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,7 +60,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                         width: 50,
                         height: 50,
                         child: TextButton(onPressed: (){
-                           RouteUtil.popView();
+                          RouteUtil.popView();
                         }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
                       )
                     ],
@@ -71,33 +73,39 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                         const SizedBox(height: 30,),
                         Obx(() {
                           return SegmentControlView((value) {
+                            FocusScope.of(context).requestFocus(FocusNode());
                             controller.setRegisterType(value);
                           }, controller.isAccount.value);
                         }),
                         const SizedBox(height: 30,),
-                        CustomInputField("assets/images/account_icon.png", "请输入用户名", valueChanged: (value){
-                          controller.inputAccountValue(value);
-                        },),
+                        Obx(() {
+                          return CustomInputField("assets/images/account_icon.png", controller.isAccount.value?"请输入8-12位字母+数字用户名":"请输入电子邮箱", valueChanged: (value){
+                            controller.inputAccountValue(value);
+                          },);
+
+                        }),
                         const SizedBox(height: 20,),
                         Obx(() {
-                         return CustomInputField("assets/images/password_icon.png", "请输入密码",
+                          return CustomInputField("assets/images/password_icon.png", "请输入8-12位字母+数字+字符密码",
                             isObscureText: controller.psdObscure.value, rightWidget: GestureDetector(
-                              child: SizedBox(width: 60,
-                                child: Image.asset(controller.psdObscure.value ? "assets/images/password_off.png":"assets/images/password_on.png", width: 30, height: 30,),),
+                              child: SizedBox(width: 40,
+                                child: Image.asset(controller.psdObscure.value ? "assets/images/password_off.png":"assets/images/password_on.png", width: 25, height: 25,),),
                               onTap: () {
                                 controller.showPassword();
                               },
                             ), valueChanged: (value){
-                             controller.inputPasswordValue(value);
-                           },);
+                              controller.inputPasswordValue(value);
+                            },);
                         }),
                         const SizedBox(height: 20,),
                         Obx(() {
-                          return CustomInputField("assets/images/password_icon.png", "请再次输入密码",
+                          return CustomInputField(
+                            "assets/images/password_icon.png",
+                            "请再次输入8-12位字母+数字+字符密码",
                             isObscureText: controller.verPsdObscure.value,
                             rightWidget: GestureDetector(
-                              child: SizedBox(width: 60,
-                                child: Image.asset(controller.verPsdObscure.value ? "assets/images/password_off.png":"assets/images/password_on.png", width: 30, height: 30,),),
+                              child: SizedBox(width: 40,
+                                child: Image.asset(controller.verPsdObscure.value ? "assets/images/password_off.png":"assets/images/password_on.png", width: 25, height: 25,),),
                               onTap: () {
                                 controller.showVerPassword();
                               },
@@ -108,32 +116,36 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                             },);
                         }),
                         const SizedBox(height: 20,),
-                        CustomInputField("assets/images/invite_icon.png", "请输入邀请码（选填）", valueChanged: (value){
+                        CustomInputField(
+                          "assets/images/invite_icon.png",
+                          "请输入邀请码（选填）",
+                          valueChanged: (value){
                           controller.inputInviteCodeValue(value);
                         },),
                         const SizedBox(height: 20,),
                         Obx(() {
-                         return CustomInputField("assets/images/ver_code.png", "请输入验证码", valueChanged: (value){
-                            controller.inputVerCodeValue(value);
-                          }, rightWidget: controller.isAccount.value ? GestureDetector(
-                           child: SizedBox(
-                               width: 80,
-                               child: Center(
-                                 child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
-                               )
-                           ), onTap: () {
-                           controller.getVerCode();
-                         },
-                         ):GestureDetector(
-                           child: const SizedBox(
-                               width: 110,
-                               child: Center(
-                                 child: Text("发送验证码", style: TextStyle(color: Colors.white, fontSize: 15),),
-                               )
-                           ), onTap: () {
-                           controller.sendCodeToEmail();
-                         },
-                         ));
+                          return CustomInputField(
+                              "assets/images/ver_code.png",
+                              "请输入验证码",
+                              valueChanged: (value){
+                                controller.inputVerCodeValue(value);
+                          },
+                              rightWidget: controller.isAccount.value ? GestureDetector(child: SizedBox(
+                                width: 80,
+                                child: Center(
+                                  child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
+                                )
+                            ), onTap: () {controller.getVerCode();},
+                          ):GestureDetector(
+                            child: const SizedBox(
+                                width: 110,
+                                child: Center(
+                                  child: Text("发送验证码", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                )
+                            ), onTap: () {
+                            controller.sendCodeToEmail();
+                          },
+                          ));
                         }),
                         const SizedBox(height: 25,),
                         Obx(() {
@@ -146,31 +158,31 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                   width: 14, height: 14,),
                                 const SizedBox(width: 5,),
                                 RichText(text: TextSpan(
-                                    children: [
-                                      const TextSpan(
-                                        text: "我已阅读并同意",
-                                        style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
-                                      ),
-                                      TextSpan(
+                                  children: [
+                                    const TextSpan(
+                                      text: "我已阅读并同意",
+                                      style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
+                                    ),
+                                    TextSpan(
                                         text: "相关条款",
                                         style: const TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
                                         recognizer: TapGestureRecognizer()..onTap = (){
 
                                         }
-                                      ),
-                                      const TextSpan(
-                                        text: "和",
-                                        style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
-                                      ),
-                                      TextSpan(
+                                    ),
+                                    const TextSpan(
+                                      text: "和",
+                                      style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
+                                    ),
+                                    TextSpan(
                                         text: "隐私政策",
                                         style: const TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
-                                          recognizer: TapGestureRecognizer()..onTap = (){
+                                        recognizer: TapGestureRecognizer()..onTap = (){
 
-                                          }
-                                      )
-                                    ],
-                                  )) ,
+                                        }
+                                    )
+                                  ],
+                                )) ,
                               ],
                             ),
                             onTap: (){
@@ -183,7 +195,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                           return Container(
                             height: 44,
                             decoration: BoxDecoration(
-                              gradient: controller.isCanRegister.value ?  
+                              gradient: controller.isCanRegister.value ?
                               const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]):
                               const LinearGradient(colors: [Color(0xFF3D3891), Color(0xFF351D94)]),
                               borderRadius: BorderRadius.circular(6),
@@ -193,7 +205,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                   minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50))
                               ),
                               onPressed: (){
-                                 controller.clickRegisterBtn();
+                                controller.clickRegisterBtn();
                               }, child: Text("立即注册", style: TextStyle(fontSize: 14,
                                 color: controller.isCanRegister.value ? Colors.white
                                     :const Color(0xFFB2B3BD))),),
@@ -251,8 +263,12 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
 
                 ],
               ),
+            ),
           ),
         ),
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
       )
     );
   }
