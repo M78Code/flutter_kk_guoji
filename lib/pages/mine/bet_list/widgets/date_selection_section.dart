@@ -75,7 +75,6 @@ class DateSelectionSection extends StatelessWidget {
     bool isSelected = selectType == datas.first;
     return InkWell(
       onTap: () {
-        // controller.onTapSwitchFundDetailDate(datas.first);
         onTap.call(datas.first);
       },
       child: Container(

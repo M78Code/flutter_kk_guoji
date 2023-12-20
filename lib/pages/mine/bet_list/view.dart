@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:easy_refresh/easy_refresh.dart';
@@ -43,7 +44,7 @@ class _BetListPageState extends State<BetListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('资产明细'),
+        title: Text('游戏记录'),
         leading:  IconButton(
           icon: Image.asset(
               Assets.systemIconBack,
@@ -177,7 +178,8 @@ class _BetListPageState extends State<BetListPage> {
           );
         });
 
-    showOverlay(child, menuButtonKey2);
+    final buttonPosition = renderBox.localToGlobal(Offset.zero);
+    showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
   }
 
   void _typeMenuCli(BetListController controller) {
@@ -213,11 +215,11 @@ class _BetListPageState extends State<BetListPage> {
           );
         });
 
-    showOverlay(child, menuButtonKey1);
+    final buttonPosition = renderBox.localToGlobal(Offset.zero);
+    showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
   }
 
   void _showTimeWidget(BetListController controller) {
-    RenderBox renderBox = dateSelectionSectionKey.currentContext!.findRenderObject() as RenderBox;
     Widget child = CustomDatePicker(
       startDate: controller.startDate ?? DateTime.now(),
       endDate: controller.endDate ?? DateTime.now(),
@@ -229,38 +231,36 @@ class _BetListPageState extends State<BetListPage> {
         overlayEntry.remove();
       },
     );
-    showOverlay(child, dateSelectionSectionKey);
-  }
-
-  void showOverlay(Widget child, GlobalKey widgetKey) {
-
-    RenderBox renderBox = widgetKey.currentContext!.findRenderObject() as RenderBox;
+    RenderBox renderBox = dateSelectionSectionKey.currentContext!.findRenderObject() as RenderBox;
     final buttonSize = renderBox.size;
     final buttonPosition = renderBox.localToGlobal(Offset.zero);
+    showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
+  }
 
+  void showOverlay(Widget child, double left,double top) {
     overlayEntry = OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: () {
-                // Remove the overlay when tapped outside the image
-                overlayEntry.remove();
-              },
-              child: Container(
-                color: Colors.transparent,
+      builder: (context) =>
+          Stack(
+            children: [
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: () {
+                    // Remove the overlay when tapped outside the image
+                    overlayEntry.remove();
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                left: left,
+                top: top,
+                child: child,
+              ),
+            ],
           ),
-          Positioned(
-            left: buttonPosition.dx,
-            top: buttonPosition.dy + buttonSize.height,
-            child: child,
-          ),
-        ],
-      ),
     );
-
     Overlay.of(context)?.insert(overlayEntry);
   }
 
