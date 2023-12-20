@@ -41,18 +41,20 @@ class InkWellView extends StatelessWidget {
         alignment: AlignmentDirectional.center,
         children: [
           child,
-          Material(
-            type: MaterialType.transparency,
-            borderRadius: borderRadius,
-            child: Ink(
-              height: width,
-              width: width,
-              color: backColor,
-              child: InkWell(
-                splashColor: splashColor.withOpacity(0.1),
-                highlightColor: Colors.transparent,
-                borderRadius: borderRadius,
-                onTap: onPressed,
+          Positioned.fill(
+            child: Material(
+              type: MaterialType.transparency,
+              borderRadius: borderRadius,
+              child: Ink(
+                height: width,
+                width: width,
+                color: backColor,
+                child: InkWell(
+                  splashColor: splashColor.withOpacity(0.1),
+                  highlightColor: Colors.transparent,
+                  borderRadius: borderRadius,
+                  onTap: onPressed,
+                ),
               ),
             ),
           ),
