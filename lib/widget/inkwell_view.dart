@@ -40,7 +40,8 @@ class InkWellView extends StatelessWidget {
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          child,
+          // child,
+          Center(child: child),
           Positioned.fill(
             child: Material(
               type: MaterialType.transparency,

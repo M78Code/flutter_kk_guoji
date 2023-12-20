@@ -51,4 +51,8 @@ class HttpConfig {
   static const getGameDataStatistics = "/api/game/getGameDataStatistics"; //个人数据
   static const uploadImage = "/api/public/image"; //上传图片
   static const modifyPassword = "/api/public/modifyPassword"; //更新密码
+  static const setWithDrawPassword = "/api/public/setWDPassword"; //设置提现密码
+  static const currency = "/api/withdrawal/currency"; //获取提现币种
+  static const withdraw = "/api/withdrawal/apply"; //申请提现
+// static const feeConfig = "/api/withdrawal/config"; //获取提现配置信息
 }

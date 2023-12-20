@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kkguoji/common/extension/ex_list.dart';
 import 'package:kkguoji/common/extension/ex_widget.dart';
 
 import '../activity_model.dart';
@@ -25,7 +24,12 @@ class CategoryListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(category.name, style: TextStyle(color: selectId == category.index ? Colors.white : Color(0xFF707A8C), fontSize: 18.0)).padding(vertical: 6.w, horizontal: 12.w).backgroundColor(selectId == category.index ? Color(0xFF171A26) : Color(0xFF222633)).onTap(() => onTap?.call(category.index));
+    return Text(category.name ?? "", style: TextStyle(color: selectId == category.index ? Colors.white : const Color(0xFF707A8C), fontSize: 18.0))
+        .padding(vertical: 6.w, horizontal: 12.w)
+        .backgroundColor(selectId == category.index ? const Color(0xFF171A26) : const Color(0xFF222633))
+        .onTap(
+          () => onTap?.call(category.index ?? -1),
+        );
   }
 }
 
@@ -52,13 +56,13 @@ class CategoryItem extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Text(
-        category.name,
+        category.name ?? "",
         style: TextStyle(
           color: isSelected ? Colors.white : const Color(0xFF707A8C),
           fontSize: 13,
         ),
       ),
-    ).onTap(() => onTap?.call(category.index));
+    ).onTap(() => onTap?.call(category.index ?? -1));
   }
 }
 

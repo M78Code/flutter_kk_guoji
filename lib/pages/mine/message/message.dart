@@ -250,12 +250,12 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
                                 const SizedBox(width: 5),
                                 model.isShow
                                     ? Image.asset(
-                                        Assets.imageMessageUp,
+                                        Assets.imagesIconUp,
                                         width: 12,
                                         height: 12,
                                       )
                                     : Image.asset(
-                                        Assets.imageMessageDown,
+                                        Assets.imagesIconDown,
                                         width: 12,
                                         height: 12,
                                       ),

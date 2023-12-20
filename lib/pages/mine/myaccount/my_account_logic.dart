@@ -188,7 +188,7 @@ class MyAccountLogic extends GetxController {
   }
 
   String clipText(String text) {
-    Clipboard.setData(ClipboardData(text: text)).then((value){
+    Clipboard.setData(ClipboardData(text: text)).then((value) {
       ShowToast.showToast("复制成功");
     });
     return "";
@@ -196,43 +196,69 @@ class MyAccountLogic extends GetxController {
 
   //设置登录密码提交
   Future<bool> setPsdSubmit(bool isWithdrawPsd) async {
-    if (passwordText.isEmpty) {
-      ShowToast.showToast("请输入原密码");
-      return false;
-    }
-    if (newPsdText.isEmpty) {
-      ShowToast.showToast("请输入新密码");
-      return false;
-    }
-    if (!StringUtil.checkPsdRule(newPsdText)) {
-      ShowToast.showToast("密码由数字、字母、构成,长度8-20");
-      return false;
-    }
-    if (confirmPsdText.isEmpty) {
-      ShowToast.showToast("请确认新密码");
-      return false;
-    }
-    if (newPsdText != confirmPsdText) {
-      ShowToast.showToast("新密码不一致");
-      return false;
-    }
-    if (verCodeText.isEmpty) {
-      ShowToast.showToast("请输入验证码");
-      return false;
-    }
-    Map<String, dynamic> params = {
-      "old_password": passwordText,
-      "password": newPsdText,
-      "code": verCodeText,
-      "code_value": codeValue,
-    };
-    var result = await HttpRequest.request(HttpConfig.modifyPassword, method: "post", params: params);
-    if (result["code"] == 200) {
-      ShowToast.showToast("更新登录密码成功");
-      SqliteUtil().clean();
-      RouteUtil.pushToView(Routes.loginPage, offAll: true);
+    if (isWithdrawPsd) {
+      if (passwordText.isEmpty) {
+        ShowToast.showToast("请输入提现密码");
+        return false;
+      }
+      if (newPsdText.isEmpty) {
+        ShowToast.showToast("请再次输入提现密码");
+        return false;
+      }
+      if (passwordText != newPsdText) {
+        ShowToast.showToast("两次密码不一致");
+        return false;
+      }
+      var result = await HttpRequest.request(
+        HttpConfig.setWithDrawPassword,
+        method: "post",
+        params: {"password": passwordText},
+      );
+      if (result["code"] == 200) {
+        ShowToast.showToast("设置提现密码成功");
+        RouteUtil.popView();
+      } else {
+        ShowToast.showToast(result["message"]);
+      }
     } else {
-      ShowToast.showToast(result["message"]);
+      if (passwordText.isEmpty) {
+        ShowToast.showToast("请输入原密码");
+        return false;
+      }
+      if (newPsdText.isEmpty) {
+        ShowToast.showToast("请输入新密码");
+        return false;
+      }
+      if (!StringUtil.checkPsdRule(newPsdText)) {
+        ShowToast.showToast("密码由数字、字母、构成,长度8-20");
+        return false;
+      }
+      if (confirmPsdText.isEmpty) {
+        ShowToast.showToast("请确认新密码");
+        return false;
+      }
+      if (newPsdText != confirmPsdText) {
+        ShowToast.showToast("新密码不一致");
+        return false;
+      }
+      if (verCodeText.isEmpty) {
+        ShowToast.showToast("请输入验证码");
+        return false;
+      }
+      Map<String, dynamic> params = {
+        "old_password": passwordText,
+        "password": newPsdText,
+        "code": verCodeText,
+        "code_value": codeValue,
+      };
+      var result = await HttpRequest.request(HttpConfig.modifyPassword, method: "post", params: params);
+      if (result["code"] == 200) {
+        ShowToast.showToast("更新登录密码成功");
+        SqliteUtil().clean();
+        RouteUtil.pushToView(Routes.loginPage, offAll: true);
+      } else {
+        ShowToast.showToast(result["message"]);
+      }
     }
     return false;
   }

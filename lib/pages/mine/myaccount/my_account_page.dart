@@ -74,25 +74,6 @@ class MyAccountPage extends GetView<MyAccountLogic> {
                       ),
                     ],
                   ),
-                  // Divider(height: 0.5.h, color: Colors.white.withOpacity(0.3)).marginSymmetric(vertical: 13.h),
-                  // Row(
-                  //   children: [
-                  //     Image.asset(Assets.imagesPasswordIcon, width: 20.w, height: 20.h, fit: BoxFit.cover),
-                  //     SizedBox(width: 15.w),
-                  //     Text("提现密码", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
-                  //     const Spacer(),
-                  //     InkWellView(
-                  //       child: Row(
-                  //         children: [
-                  //           Text("已设置", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
-                  //           SizedBox(width: 10.w),
-                  //           Image.asset(Assets.imagesIconArrowsEnter, width: 20.w, height: 20.h),
-                  //         ],
-                  //       ),
-                  //       onPressed: () => RouteUtil.pushToView(Routes.setLoginPsdPage, arguments: true),
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ).paddingSymmetric(horizontal: 15.w),
             ),

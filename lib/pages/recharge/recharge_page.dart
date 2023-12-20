@@ -280,7 +280,7 @@ class RechargePage extends GetView<RechargeLogic> {
           // textDirection: ,
           children: [
             Image.asset(
-              Assets.iconTipPng,
+              Assets.rechargeIconTip,
               width: 14.w,
               height: 14.h,
               color: const Color(0xffFF8A00),
@@ -303,7 +303,7 @@ class RechargePage extends GetView<RechargeLogic> {
           // textDirection: ,
           children: [
             Image.asset(
-              Assets.iconTipPng,
+              Assets.rechargeIconTip,
               width: 14.w,
               height: 14.h,
               color: const Color(0xffF32A2A),
