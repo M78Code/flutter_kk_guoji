@@ -191,7 +191,9 @@ class _KKLoginPageState extends State<KKLoginPage> {
                           return Container(
                             height: 44,
                             decoration: BoxDecoration(
-                              gradient: controller.canLogin.value ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) : const LinearGradient(colors: [Color(0xFF3D3891), Color(0xFF351D94)]),
+                              gradient: controller.canLogin.value
+                                  ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)])
+                                  : const LinearGradient(colors: [Color(0xFF3D3891), Color(0xFF351D94)]),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: TextButton(

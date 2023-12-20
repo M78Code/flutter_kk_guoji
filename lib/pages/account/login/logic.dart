@@ -16,7 +16,7 @@ class LoginLogic extends GetxController {
   final RxBool psdObscure = true.obs;
 
   final RxBool savePassword = true.obs;
-  final RxBool canLogin  = false.obs;
+  final RxBool canLogin = false.obs;
   final passwordObs = "".obs;
   final accountObs = "".obs;
 
@@ -104,13 +104,12 @@ class LoginLogic extends GetxController {
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
       sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
-      if(savePassword.value) {
+      if (savePassword.value) {
         sqliteService.setString(CacheKey.accountKey, accountText);
         sqliteService.setString(CacheKey.passwordKey, passwordText);
-      }else {
+      } else {
         sqliteService.remove(CacheKey.accountKey);
         sqliteService.remove(CacheKey.passwordKey);
-
       }
       Get.find<MainPageLogic>().currentIndex.value = 0;
       RouteUtil.pushToView(Routes.mainPage, offAll: true);

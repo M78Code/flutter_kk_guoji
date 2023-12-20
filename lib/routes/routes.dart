@@ -70,7 +70,7 @@ abstract class Routes {
     GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
     GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
     GetPage(name: walletPage, page: () => const WalletPage()),
-    GetPage(name: walletFundDetailPage, page: () => WalletFundDetailPage()),
+    GetPage(name: walletFundDetailPage, page: () => const WalletFundDetailPage()),
     GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
     GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),

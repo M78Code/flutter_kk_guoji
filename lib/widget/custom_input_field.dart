@@ -9,6 +9,7 @@ class CustomInputField extends StatefulWidget {
   Widget? rightWidget;
   final bool isObscureText;
   String text;
+
   int maxLength;
 
   CustomInputField(
@@ -40,7 +41,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
     super.initState();
     inputText = widget.text;
     _textEditingController = TextEditingController.fromValue(TextEditingValue(text: inputText));
-    setState(() {});
     focusNode.addListener(() {
       if ((focusNode.hasFocus)) {
         isOnTap = true;
