@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/app_util.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 import 'cache_key.dart';
@@ -38,7 +40,12 @@ class HttpService extends GetxService {
     } on DioError catch (e) {
       Response errResponse = e.response!;
       final msg = errResponse.data["message"];
-      ShowToast.showToast(msg);
+      final code = errResponse.data["code"];
+      if (code == 1001) {
+        RouteUtil.pushToView(Routes.loginPage, offAll: true);
+      } else {
+        ShowToast.showToast(msg);
+      }
       return Future.error(e);
     }
   }

@@ -38,7 +38,7 @@ class MinePage extends GetView<MineLogic> {
                     children: [
                       MyPurse().paddingSymmetric(horizontal: 12.w),
                       Expanded(flex: 1, child: _buildItems()),
-                      _buildLogOutBtn(context).marginOnly(top: 32.h, bottom: 36.h),
+                      _buildLogOutBtn(context).marginOnly(top: 30.h, bottom: 20.h),
                     ],
                   ),
                 ),
@@ -193,15 +193,6 @@ class MinePage extends GetView<MineLogic> {
           const WelfareReward(),
         ],
       ),
-    );
-    return ListView(
-      children: [
-        //先不开发
-        const SafeBoxWaitGridView(),
-        const MyAccountInfo(),
-        Divider(height: 8.h, color: Colors.black),
-        const WelfareReward(),
-      ],
     );
   }
 
