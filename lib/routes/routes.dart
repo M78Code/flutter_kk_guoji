@@ -5,6 +5,7 @@ import 'package:kkguoji/pages/account/login/view.dart';
 import 'package:kkguoji/pages/account/register/view.dart';
 import 'package:kkguoji/pages/customer/binding/bindings.dart';
 import 'package:kkguoji/pages/customer/view/customer_service_page.dart';
+import 'package:kkguoji/pages/games/games_page.dart';
 import 'package:kkguoji/pages/home/binding/bindings.dart';
 import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/main/view/main_page.dart';
@@ -53,6 +54,7 @@ abstract class Routes {
   static const String withdraw = "/withdraw";
   static const String bindEmail = "/account/email";
   static const String mine = "/mine";
+  static const String game = "/games";
   static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
   static const String claimRecordPage = "/mine/claimrecord"; //领取记录
@@ -67,26 +69,14 @@ abstract class Routes {
     GetPage(name: loginPage, page: () => const KKLoginPage()),
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
-    GetPage(
-        name: activity,
-        page: () => const ActivityPage(),
-        binding: ActivityBinding()),
-    GetPage(
-        name: activityDetail,
-        page: () => ActivityDetailPage(),
-        binding: ActivityDetailBinding()),
+    GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
+    GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
     GetPage(name: walletPage, page: () => const WalletPage()),
     GetPage(name: walletFundDetailPage, page: () => const WalletFundDetailPage()),
     GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
-    GetPage(
-        name: customer,
-        page: () => KKCustomerServicePage(),
-        binding: CustomerBinding()),
-    GetPage(
-        name: promotion,
-        page: () => const KKPromotionPage(),
-        binding: PromotionBinding()),
+    GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
+    GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
@@ -102,6 +92,7 @@ abstract class Routes {
     GetPage(name: myAccountPage, page: () => const MyAccountPage()),
     GetPage(name: setLoginPsdPage, page: () => const SetLoginPsdPage()),
     GetPage(name: mainPage, page: () => const KKMainPage()),
+    GetPage(name: game, page: () => const KKGamesPage()),
   ];
 
   static Widget getPage(String pageName) {
