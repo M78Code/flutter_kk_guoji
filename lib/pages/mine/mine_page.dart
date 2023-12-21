@@ -524,6 +524,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
           ),
           onTap: () {
             print('返水');
+            RouteUtil.pushToView(Routes.recharge);
           },
         ),
       ],
@@ -607,6 +608,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
                 ),
                 onTap: () {
                   print('返水');
+
                 },
               ),
               // 推广赚钱
