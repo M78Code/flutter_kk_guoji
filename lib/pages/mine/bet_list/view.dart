@@ -12,6 +12,7 @@ import 'package:kkguoji/pages/mine/bet_list/widgets/bet_list_menu_widget.dart';
 import 'package:kkguoji/pages/mine/bet_list/widgets/bet_list_record_list_chid_view.dart';
 import 'package:kkguoji/pages/mine/bet_list/widgets/custom_date_picker.dart';
 
+import '../../../services/user_service.dart';
 import 'widgets/date_selection_section.dart';
 import 'logic.dart';
 import 'package:intl/intl.dart';
@@ -38,10 +39,10 @@ class _BetListPageState extends State<BetListPage> {
   }
   @override
   Widget build(BuildContext context) {
+
     return _buildView();
   }
   Widget _buildView() {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('游戏记录'),
@@ -54,6 +55,20 @@ class _BetListPageState extends State<BetListPage> {
             Get.back();
           },
         ),
+        actions: [
+          RichText(text: TextSpan(
+            children: [
+              TextSpan(
+                text: "¥",
+                style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
+              ),
+              TextSpan(
+                text: UserService.to.userMoneyModel?.betMoney ?? "0.00",
+                style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+            ],
+          )).marginOnly(right: 14.sp),
+        ],
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
