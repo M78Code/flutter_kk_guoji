@@ -22,8 +22,6 @@ class RechargeSection extends StatelessWidget {
     // 获取计算得到的 childAspectRatio
     double childAspectRatio = calculateChildAspectRatio(context);
 
-
-
     return GetBuilder<WalletFundDetailLogic>(
       id: 'userMoneyDetails',
       builder: (controller){

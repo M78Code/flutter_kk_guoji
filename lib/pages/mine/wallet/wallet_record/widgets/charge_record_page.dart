@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/ex_widget.dart';
+import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/record_date_selectiong_widget.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/wallet_record_balance_widget.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/wallet_record_list.dart';
@@ -68,7 +69,7 @@ class ChargeRecordPage extends StatelessWidget {
                   child: SizedBox(height: 15.w,)
               ),
               controller.userRechargeState.userRechargeModels.isEmpty ? SliverToBoxAdapter(child: Center(
-                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
+                child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
               )) :
               WalletRecordList(isWithDrawRecord: false),
               SliverToBoxAdapter(
