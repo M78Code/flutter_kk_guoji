@@ -37,8 +37,10 @@ class _KKLoginPageState extends State<KKLoginPage> {
       child: Scaffold(
         body: Container(
           height: double.infinity,
+          width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
+              fit: BoxFit.cover,
               image: AssetImage(Assets.imagesRegisterBg),
             ),
           ),

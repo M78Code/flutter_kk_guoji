@@ -24,35 +24,49 @@ class MinePage extends GetView<MineLogic> {
       id: "MinePage",
       builder: (MineLogic controller) {
         return Scaffold(
-          body: Column(
-            children: [
-              SizedBox(
-                height: 330.h,
-                child: Stack(
-                  children: [
-                    _buildTopBg(),
-                    _buildRightSetting(),
-                    _buildUserInfo(),
-                    _buildMyWallet(),
-                  ],
+          body: SizedBox(
+            height: double.infinity,
+            child: Stack(
+              children: [
+                _buildTop(),
+                Positioned(
+                  top: 165.h,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Column(
+                    children: [
+                      MyPurse().paddingSymmetric(horizontal: 12.w),
+                      Expanded(flex: 1, child: _buildItems()),
+                      _buildLogOutBtn(context).marginOnly(top: 32.h, bottom: 36.h),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: _buildItems(),
-              ),
-              _buildLogOutBtn(context).marginSymmetric(vertical: 20.h)
-            ],
+                // _buildMyWallet(),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildTopBg() {
-    return SizedBox(
+  Widget _buildTop() {
+    return Container(
       height: 180.h,
-      child: Image.asset(Assets.imagesIconTopBg, fit: BoxFit.cover),
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(Assets.imagesIconTopBg),
+        ),
+      ),
+      child: Stack(
+        children: [
+          _buildRightSetting(),
+          _buildUserInfo(),
+        ],
+      ),
     );
   }
 
@@ -165,21 +179,25 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
-  Widget _buildMyWallet() {
-    return Positioned(
-      top: 165.h,
-      left: 0,
-      right: 0,
-      child: MyPurse().marginSymmetric(horizontal: 12.w),
-    );
-  }
-
   Widget _buildItems() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 20.h),
+          const SafeBoxWaitGridView(),
+          const MyAccountInfo(),
+          Container(
+            height: 8.h,
+            color: Colors.black,
+          ),
+          const WelfareReward(),
+        ],
+      ),
+    );
     return ListView(
-      padding: EdgeInsets.only(top: 20.h),
       children: [
         //先不开发
-        // const SafeBoxWaitGridView(),
+        const SafeBoxWaitGridView(),
         const MyAccountInfo(),
         Divider(height: 8.h, color: Colors.black),
         const WelfareReward(),
@@ -353,20 +371,15 @@ class MyPurse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 167,
+      height: 175,
       decoration: BoxDecoration(
         image: const DecorationImage(image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(
-          width: 1.0,
-          color: Colors.white,
-        ),
+        border: Border.all(width: 1.0, color: Colors.white),
       ),
       child: Column(
         children: [
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
@@ -401,10 +414,7 @@ class MyPurse extends StatelessWidget {
           const SizedBox(height: 12),
           Container(
             margin: const EdgeInsets.only(left: 25, right: 25),
-            child: Image.asset(
-              Assets.imagesIconDottedLine,
-              height: 1.5,
-            ),
+            child: Image.asset(Assets.imagesIconDottedLine, height: 1.5),
           ),
           const SizedBox(height: 5),
           const Padding(
@@ -454,61 +464,66 @@ class TopUpWithdrawBackwater extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Container(
-          height: 40,
-          width: 100,
-          decoration: BoxDecoration(
-            color: const Color(0xFF2D374E),
-            borderRadius: BorderRadius.circular(4),
-          ),
+        InkWellView(
+          height: 40.h,
+          width: 100.w,
+          backColor: const Color(0xFF2D374E),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                Assets.imagesIconTopUp,
-                width: 25,
-                height: 25,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
+              Image.asset(Assets.imagesIconTopUp, width: 25, height: 25),
+              const SizedBox(width: 5),
               const Text(
                 '充值',
                 style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
               ),
             ],
           ),
+          onPressed: () {
+            print("充值");
+          },
         ),
-        const SizedBox(width: 25),
-        Container(
-          height: 40,
-          width: 100,
-          decoration: BoxDecoration(
-            color: const Color(0xFF2D374E),
-            borderRadius: BorderRadius.circular(4),
-          ),
+        InkWellView(
+          height: 40.h,
+          width: 100.w,
+          backColor: const Color(0xFF2D374E),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                Assets.imagesIconFanshui,
-                width: 25,
-                height: 25,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
+              Image.asset(Assets.imagesIconWithdraw, width: 25, height: 25),
+              const SizedBox(width: 5),
               const Text(
                 '提现',
                 style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
               ),
             ],
           ),
+          onPressed: () {
+            print("提现");
+          },
         ),
-        const SizedBox(width: 25),
-        GestureDetector(
+        InkWellView(
+          height: 40.h,
+          width: 100.w,
+          backColor: const Color(0xFF2D374E),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(Assets.imagesIconFanshui, width: 25, height: 25),
+              const SizedBox(width: 5),
+              const Text(
+                '返水',
+                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          onPressed: () {
+            print("返水");
+          },
+        ),
+        /*GestureDetector(
           child: Container(
             height: 40,
             width: 100,
@@ -537,7 +552,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
           onTap: () {
             print('返水');
           },
-        ),
+        ),*/
       ],
     );
   }
@@ -655,7 +670,7 @@ class MyAccountInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20),
+      margin: const EdgeInsets.only(left: 15, right: 15),
       child: Column(
         children: [
           ListTile(
