@@ -7,7 +7,7 @@ class InkWellView extends StatelessWidget {
   final BorderRadius borderRadius;
   final Color splashColor;
   final Color highlightColor;
-  final Color backColor = Colors.transparent;
+  final Color? backColor;
   final double? width, height, borderWidth;
   final LinearGradient? gradient;
   final Color borderColor;
@@ -24,6 +24,7 @@ class InkWellView extends StatelessWidget {
     this.width,
     this.height,
     this.gradient,
+    this.backColor,
   });
 
   @override
@@ -35,6 +36,7 @@ class InkWellView extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: borderColor, width: borderWidth ?? 1),
         gradient: gradient,
+        color: backColor,
         borderRadius: borderRadius,
       ),
       child: Stack(
@@ -49,7 +51,7 @@ class InkWellView extends StatelessWidget {
               child: Ink(
                 height: width,
                 width: width,
-                color: backColor,
+                color: Colors.transparent,
                 child: InkWell(
                   splashColor: splashColor.withOpacity(0.1),
                   highlightColor: Colors.transparent,
