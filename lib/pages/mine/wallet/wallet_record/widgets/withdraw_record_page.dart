@@ -67,6 +67,9 @@ class WithdrawRecordPage extends StatelessWidget {
               SliverToBoxAdapter(
                   child: SizedBox(height: 15.w,)
               ),
+              controller.userWithdrawState.userWithdrawModels.isEmpty ? SliverToBoxAdapter(child: Center(
+                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
+              )) :
               WalletRecordList(isWithDrawRecord: true),
               SliverToBoxAdapter(
                   child: SizedBox(height: 10.w,)

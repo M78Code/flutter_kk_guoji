@@ -67,6 +67,9 @@ class ChargeRecordPage extends StatelessWidget {
               SliverToBoxAdapter(
                   child: SizedBox(height: 15.w,)
               ),
+              controller.userRechargeState.userRechargeModels.isEmpty ? SliverToBoxAdapter(child: Center(
+                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
+              )) :
               WalletRecordList(isWithDrawRecord: false),
               SliverToBoxAdapter(
                   child: SizedBox(height: 10.w,)

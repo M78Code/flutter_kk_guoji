@@ -125,7 +125,9 @@ class _BetListPageState extends State<BetListPage> {
                 ),
               ),
               SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-              _buildList()
+              controller.betModels.isEmpty ? SliverToBoxAdapter(child: Center(
+                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
+              )) : _buildList()
               // TransactionListSection(),
             ],
           ),
