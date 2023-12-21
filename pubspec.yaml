@@ -44,8 +44,6 @@ dependencies:
   package_info: ^2.0.2
   web_socket_channel: ^2.4.0
   # 将图片上传到aws
-  amazon_cognito_identity_dart_2: ^3.6.0
-#  amazon_s3_cognito: ^0.7.4
   date_format: ^2.0.7
   webview_flutter: ^4.4.2
   flutter_widget_from_html: ^0.14.9

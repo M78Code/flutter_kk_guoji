@@ -1,24 +1,28 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:kkguoji/common/extension/index.dart';
+import 'package:kkguoji/generated/assets.dart';
 
 
 
 class WBetListRecordListChidViewModel {
   String? createTime;
-  String? type;
-  String? bankUsername;
-  String? bankNumber;
+  String? gameName;
+  String? gameTypeName;
+  String? betAmount;
   String? orderN;
-  int? money;
+  String? money;
   String? statusName;
+  int? status;
 
   WBetListRecordListChidViewModel({this.createTime,
-    this.type,
-    this.bankUsername,
-    this.bankNumber,
+    this.gameName,
+    this.gameTypeName,
+    this.betAmount,
     this.orderN,
     this.money,
-    this.statusName});
+    this.statusName,
+    this.status});
 }
 
 
@@ -53,34 +57,13 @@ class BetListRecordListChidView extends StatelessWidget {
                   ),
                   SizedBox(height: 4.w,),
                   Text(
-                    rowData.type ?? "",
+                    rowData.gameName ?? "",
                     style: TextStyle(
                         color: Color(0xFFFFFFFF),
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w600),
                   )
 
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    rowData.statusName ?? "",
-                    style: TextStyle(
-                        color: Color(0xFF74CC7D),
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(height: 4.w,),
-                  Text(
-                    (rowData.money ?? 0).toString(),
-                    style: TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w700),
-                  )
                 ],
               )
             ],
@@ -92,13 +75,37 @@ class BetListRecordListChidView extends StatelessWidget {
               color: Color(0x61222633),
               borderRadius: BorderRadius.all(Radius.circular(6.w)),
             ),
-            child: Column(
+            child: Row(
               children: [
-                _buildRecordItem('游戏类型',rowData.bankUsername ?? ""),
-                SizedBox(height: 8.w,),
-                _buildRecordItem('投注金额', rowData.bankNumber ?? ""),
-                SizedBox(height: 8.w,),
-                _buildRecordItem('注单号',rowData.orderN ?? ""),
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        _buildRecordItem('游戏类型',rowData.gameTypeName ?? ""),
+                        _buildRecordItem('投注金额', rowData.betAmount ?? ""),
+                        _buildRecordItem('注单号',rowData.orderN ?? "")
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10.w),
+                Container(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          rowData.status == 0 ? Assets.mineBetListLose : (rowData.status == 1 ? Assets.mineBetListWin : Assets.mineBetListPreDraw),
+                          width: 36.w,
+                          height: 36.w,),
+                        SizedBox(height: 4.w),
+                        Text(
+                          rowData.betAmount ?? "",
+                          style: TextStyle(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    )),
               ],
             ),
           )
@@ -107,25 +114,33 @@ class BetListRecordListChidView extends StatelessWidget {
     );
   }
 
-  Row _buildRecordItem(String title, String subTitle) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-              color: Color(0xFFB2B3BD),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400),
-        ),
-        Text(
-          subTitle,
-          style: TextStyle(
-              color: Color(0xFFCCCCCC),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400),
-        )
-      ],
+  Widget _buildRecordItem(String title, String subTitle) {
+    return Container(
+      height: 20.w,
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                color: Color(0xFFB2B3BD),
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400),
+          ).width(60.w),
+          Expanded(
+              child:FittedBox(
+                alignment: Alignment.topLeft,
+                fit: BoxFit.contain,
+                child: Text(
+                  subTitle,
+                  style: TextStyle(
+                      color: Color(0xFFCCCCCC),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400),
+                ),
+              )
+          )
+        ],
+      ),
     );
   }
 }

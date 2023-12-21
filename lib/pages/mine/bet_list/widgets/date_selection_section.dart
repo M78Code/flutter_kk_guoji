@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/extension/index.dart';
 
 import '../../../../../generated/assets.dart';
+
+final GlobalKey dateSelectionSectionKey = GlobalKey();
 
 class DateSelectionSection extends StatelessWidget {
 
   final void Function(String dataType) onTap;
+  final void Function() onTapSelectTime;
   final List<List<String>> dateTypes;
   final String selectType;
+  final String? selectDateRange;
 
-  DateSelectionSection({required this.onTap,required this.dateTypes, required this.selectType});
+  DateSelectionSection({required this.onTap,required this.dateTypes, required this.selectType, required this.onTapSelectTime, this.selectDateRange});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +24,7 @@ class DateSelectionSection extends StatelessWidget {
 
   Widget _buildView() {
     return Container(
+      key: dateSelectionSectionKey,
       height: 42.w,
       child: Row(
         children: [
@@ -35,8 +41,8 @@ class DateSelectionSection extends StatelessWidget {
               }).toList(),
             ),
           ),
-          SizedBox(width: 20.w,),
-          SizedBox(
+          SizedBox(width: 10.w,),
+          Expanded(
             child: Container(
               height: 42.w,
               decoration: BoxDecoration(
@@ -47,16 +53,18 @@ class DateSelectionSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '选择时间段',
-                      style: TextStyle(color: Color(0x33FFFFFF), fontSize: 12.sp, fontWeight: FontWeight.w400),
-                    ).marginOnly(left: 20.w),
+                      selectDateRange ?? '选择时间段',
+                      style: TextStyle(color: Color(0xA8FFFFFF), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                    ).marginOnly(left: 10.w),
                     Image.asset(
                         Assets.mineWalletSearch,
                         width: 29.w,
                         height: 29.w)
                         .marginOnly(right: 12.w),
                   ]),
-            ),
+            ).onTap(() {
+              this.onTapSelectTime.call();
+            }),
           )
         ],
       ),
@@ -67,7 +75,6 @@ class DateSelectionSection extends StatelessWidget {
     bool isSelected = selectType == datas.first;
     return InkWell(
       onTap: () {
-        // controller.onTapSwitchFundDetailDate(datas.first);
         onTap.call(datas.first);
       },
       child: Container(

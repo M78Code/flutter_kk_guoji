@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kkguoji/common/extension/index.dart';
-import 'package:kkguoji/pages/welfare_reward/welfare_list.dart';
+// import 'package:kkguoji/pages/welfare_reward/welfare_list.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import '../../../generated/assets.dart';
 import '../../routes/routes.dart';
@@ -297,7 +297,7 @@ class ListWidget extends StatelessWidget {
           itemCount: 13,
           itemBuilder: (context, index) {
             return Container(
-              child: WelfareList(),
+              // child: WelfareList(),
             );
           }),
     );
