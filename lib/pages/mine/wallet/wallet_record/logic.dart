@@ -7,9 +7,7 @@ import '../../../../common/models/mine_wallet/user_money_details_model.dart';
 import '../../../../common/models/mine_wallet/user_recharge_list_respond_model.dart';
 import '../../../../common/models/mine_wallet/user_withdraw_list_respond_model.dart';
 import 'state.dart';
-
-
-
+import 'package:intl/intl.dart';
 
 class WalletRecordLogic extends GetxController {
   late PageController pageController = PageController(initialPage: 0);
@@ -38,18 +36,39 @@ class WalletRecordLogic extends GetxController {
         toIndex
     );
   }
-  // 资产明细日期切换
-  onTapSwitchlDate(String dateType) async {
+  // 日期切换
+  onTapSwitchDate(String dateType) async {
     if (currentIndex == 0) {
       userWithdrawState.dateType = dateType;
+      userWithdrawState.startDate = null;
+      userWithdrawState.endDate = null;
       update(['withdrawDateSelector']);
     }
     else {
       userRechargeState.dateType = dateType;
+      userRechargeState.startDate = null;
+      userRechargeState.endDate = null;
       update(['rechargeDateSelector']);
     }
 
     await onRefresh();
+  }
+
+  switchDate(DateTime startDate, DateTime endDate) async {
+    if (currentIndex == 0) {
+      userWithdrawState.dateType = null;
+      userWithdrawState.startDate = startDate;
+      userWithdrawState.endDate = endDate;
+      update(['withdrawDateSelector']);
+      await onRefresh();
+    }
+    else {
+      userRechargeState.dateType = null;
+      userRechargeState.startDate = startDate;
+      userRechargeState.endDate = endDate;
+      update(['rechargeDateSelector']);
+      await onRefresh();
+    }
   }
 
   switchIndex(int index) {
@@ -125,7 +144,16 @@ class WalletRecordLogic extends GetxController {
     else {
       ++userWithdrawState.page;
     }
-    UserWithdrawListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserWithdrawList(userWithdrawState.dateType, this.userWithdrawState.page, "");
+    String dateRange;
+    if (userWithdrawState.startDate != null && userWithdrawState.endDate != null) {
+      var startText = DateFormat('yyyy-MM-dd').format(userWithdrawState.startDate!);
+      var endText = DateFormat('yyyy-MM-dd').format(userWithdrawState.endDate!);
+      dateRange = startText + " - " + endText;
+    }
+    else {
+      dateRange = userWithdrawState.dateType ?? "";
+    }
+    UserWithdrawListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserWithdrawList(dateRange, this.userWithdrawState.page, "");
     if (userMoneyDetailsSearchListModel != null) {
       if (isrefresh) {
         this.userWithdrawState.userWithdrawModels = userMoneyDetailsSearchListModel.list ?? [];
@@ -145,7 +173,16 @@ class WalletRecordLogic extends GetxController {
     else {
       ++userRechargeState.page;
     }
-    UserRechargeListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserRechargeList(userRechargeState.dateType, this.userRechargeState.page, "");
+    String dateRange;
+    if (userRechargeState.startDate != null && userRechargeState.endDate != null) {
+      var startText = DateFormat('yyyy-MM-dd').format(userRechargeState.startDate!);
+      var endText = DateFormat('yyyy-MM-dd').format(userRechargeState.endDate!);
+      dateRange = startText + " - " + endText;
+    }
+    else {
+      dateRange = userRechargeState.dateType ?? "";
+    }
+    UserRechargeListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserRechargeList(dateRange, this.userRechargeState.page, "");
     if (userMoneyDetailsSearchListModel != null) {
       if (isrefresh) {
         this.userRechargeState.userRechargeModels = userMoneyDetailsSearchListModel.list ?? [];
