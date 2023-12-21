@@ -4,6 +4,7 @@ import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/app_util.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 
 import 'cache_key.dart';
 
@@ -35,6 +36,9 @@ class HttpService extends GetxService {
       Response response = await _dio.request(url, queryParameters: params, options: options);
       return response.data;
     } on DioError catch (e) {
+      Response errResponse = e.response!;
+      final msg = errResponse.data["message"];
+      ShowToast.showToast(msg);
       return Future.error(e);
     }
   }
@@ -54,7 +58,7 @@ class RequestInterceptors extends Interceptor {
     if (APPUtil().getAppVersion() != null) {
       options.queryParameters["app_version"] = APPUtil().getAppVersion()!;
     }
-    if(Get.find<SqliteService>().getString(CacheKey.apiToken) != null) {
+    if (Get.find<SqliteService>().getString(CacheKey.apiToken) != null) {
       options.headers["Authorization"] = "Bearer ${Get.find<SqliteService>().getString(CacheKey.apiToken)!}";
     }
     // print(options.queryParameters);
@@ -81,7 +85,7 @@ class RequestInterceptors extends Interceptor {
     //   Get.find<GlobalStateController>().isLogin.value = false;
     //   return;
     // }else {
-      return handler.next(err);
+    return handler.next(err);
 
     // }
   }

@@ -125,14 +125,40 @@ class WithdrawLogic extends GetxController {
       ShowToast.showToast("请输入${coinName.value}提现地址");
       return;
     }
-    // var result = await HttpRequest.request(HttpConfig.withdraw);
-    //
-    // if (result["code"] == 200) {
-    //   final json = result["data"];
-    //   json.forEach((v) {
-    //     options.add(CategoryModel.fromJson(v));
-    //   });
-    // }
+    if (amountController.text.isEmpty) {
+      ShowToast.showToast("请输入提款金额");
+      return;
+    }
+    double useMoney = double.parse(UserService.to.userMoneyModel?.money ?? "0.00");
+    if (double.parse(amountController.text) > useMoney) {
+      ShowToast.showToast("余额不足");
+      return;
+    }
+    if (withdrawPsdController.text.isEmpty) {
+      ShowToast.showToast("请输入提现密码");
+      return;
+    }
+
+    final map = {
+      "currency_code": coinName.value,
+      "type": coinNet,
+      "money": amountController.text.trim(),
+      "account": nameController.text,
+      "account_number": addressController.text,
+      "real_money": withTotalAmount.value,
+      "withdraw_pwd": withdrawPsdController.text
+    };
+
+    var result = await HttpRequest.request(HttpConfig.withdraw, method: "post", params: map);
+    if (result["code"] == 200) {
+      ShowToast.showToast("提现已提交");
+      final service =UserService.to;
+      service.fetchUserMoney().then((value) => service.fetchUserInfo().then((value){
+        RouteUtil.popView();
+      }));
+    } else {
+      ShowToast.showToast(result["message"]);
+    }
   }
 
   @override

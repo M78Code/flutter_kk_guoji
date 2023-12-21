@@ -5,9 +5,15 @@ import 'package:kkguoji/services/user_service.dart';
 
 class RouteUtil {
   static void pushToView(String pageName, {dynamic arguments, bool offAll = false, bool offLast = false, ValueChanged<dynamic>? onBack}) {
-
+    if (!UserService.to.isLogin) {
+      Get.toNamed(pageName == Routes.registerPage ? pageName : Routes.loginPage, arguments: arguments)?.then((value) {
+        if (onBack != null) {
+          onBack(value);
+        }
+      });
+      return;
+    }
     if (offAll == true) {
-      print("打印前: ${Get}");
       Get.offAllNamed(pageName, arguments: arguments)?.then((value) {
         if (onBack != null) {
           onBack(value);
