@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/model/home/jcp_game_socket_model.dart';
@@ -32,39 +33,48 @@ class HomeLogic extends GetxController {
   Map imageMap = {
     "XGLHC": {
       "bg_icon": "assets/images/home_xianggangliuhecai.png",
-      "logo_icon": "assets/images/home_liuhecai_icon.png"
+      "logo_icon": "assets/images/home_liuhecai_icon.png",
+      'ball_color': [const Color(0xFFFF5D3A), const Color(0xFFB70000), const Color(0xFFB70000)]
     },
     "PCNN": {
       "bg_icon": "assets/images/home_pcniuniu.png",
-      "logo_icon": "assets/images/home_pcniuniu_icon.png"
+      "logo_icon": "assets/images/home_pcniuniu_icon.png",
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF1D0EC9), const Color(0xFF4E2DD1)]
     },
     "PCBJL": {
       "bg_icon": "assets/images/home_pcbaijiale.png",
-      "logo_icon": "assets/images/home_pcbaijiale_icon.png"
+      "logo_icon": "assets/images/home_pcbaijiale_icon.png",
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF831AD7), const Color(0xFFA32FFF)]
     },
     "JNDSI": {
       "bg_icon": "assets/images/home_jianada42.png",
-      "logo_icon": "assets/images/home_jianada42_icon.png"
+      "logo_icon": "assets/images/home_jianada42_icon.png",
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFFA21111), const Color(0xFFE32D2D)]
     },
     "JNDWU": {
       "bg_icon": "assets/images/home_jianada5.png",
-      "logo_icon": "assets/images/home_jianada50_icon.png"
+      "logo_icon": "assets/images/home_jianada50_icon.png",
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFFA21111), const Color(0xFFE32D2D)]
     },
     "JNDWP": {
       "bg_icon": "assets/images/home_jianadawangpan.png",
-      "logo_icon": "assets/images/home_jianadawangpan_icon.png"
+      "logo_icon": "assets/images/home_jianadawangpan_icon.png",
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF831AD7), const Color(0xFFA32FFF)]
     },
     "JNDEB": {
       "bg_icon": "assets/images/home_jianada28.png",
-      "logo_icon": "assets/images/home_jianada28_icon.png"
+      "logo_icon": "assets/images/home_jianada28_icon.png",
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFFA21111), const Color(0xFFE32D2D)]
     },
     "JNDSSC": {
       "bg_icon": "assets/images/home_jianadashishicai.png",
-      "logo_icon": "assets/images/home_jianadashishicai_icon.png"
+      "logo_icon": "assets/images/home_jianadashishicai_icon.png",
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFFA21111), const Color(0xFFE32D2D)]
     },
     "JNDLHC": {
       "bg_icon": "assets/images/home_xianggangliuhecai.png",
-      "logo_icon": "assets/images/home_liuhecai_icon.png"
+      "logo_icon": "assets/images/home_liuhecai_icon.png",
+      'ball_color': [const Color(0xFFFF5D3A), const Color(0xFFB70000), const Color(0xFFB70000)]
     },
   };
   Map statesMap = {"0": "未开奖", "2": "已开奖", "4": "封盘中", "9": "未开盘"};
@@ -130,10 +140,16 @@ class HomeLogic extends GetxController {
       Datum? item =
           gameList.firstWhereOrNull((p0) => (p0.lotteryCode??'') == key);
       if (item != null) {
+        item.current?.isOpen=true;
         Future.delayed(const Duration(seconds: 5), () {
           item.isValidity=int.parse(socketModel.isValidity ?? '1');
+          item.last?.periodsNumber++;
+          item.last?.drawingResult=socketModel.drawingResult;
+
+          item.current?.periodsNumber++;
           item.current?.autoCloseDate=num.parse(socketModel.autoCloseDate ?? '0');
           item.current?.autoDrawingDate=num.parse(socketModel.autoDrawingDate ?? '0');
+          item.current?.isOpen=false;
         });
       }
     });
