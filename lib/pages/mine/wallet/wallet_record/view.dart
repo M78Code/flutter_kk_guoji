@@ -17,7 +17,7 @@ class WalletRecordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: _buildSwitchMenu(), //.marginOnly(top: 14.w),
+          title: _buildSwitchMenu(),
           leading:  IconButton(
             icon: Image.asset(
                 Assets.systemIconBack,

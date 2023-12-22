@@ -6,6 +6,7 @@ import '../../../common/api/games_api.dart';
 import '../../../common/models/bet_list_response_model.dart';
 import '../../../common/models/game/game_list_response_model.dart';
 import '../../../common/models/game_type_list_response_model.dart';
+import '../../../services/user_service.dart';
 import 'state.dart';
 import 'package:intl/intl.dart';
 
@@ -79,6 +80,7 @@ class BetListController extends GetxController {
   }
 
   initData() {
+    UserService.to.fetchUserMoney();
     fetchGameTypeList();
     fetchGameList();
     fetchBetList(true);

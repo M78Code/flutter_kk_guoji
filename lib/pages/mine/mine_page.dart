@@ -38,7 +38,7 @@ class MinePage extends GetView<MineLogic> {
                     children: [
                       MyPurse().paddingSymmetric(horizontal: 12.w),
                       Expanded(flex: 1, child: _buildItems()),
-                      _buildLogOutBtn(context).marginOnly(top: 32.h, bottom: 36.h),
+                      _buildLogOutBtn(context).marginOnly(top: 30.h, bottom: 20.h),
                     ],
                   ),
                 ),
@@ -51,6 +51,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///头部背景
   Widget _buildTop() {
     return Container(
       height: 180.h,
@@ -70,6 +71,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///功能设置
   Widget _buildRightSetting() {
     return Positioned(
       top: 44.h,
@@ -107,6 +109,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///用户信息
   Widget _buildUserInfo() {
     return Positioned(
       top: 91.h,
@@ -179,12 +182,14 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///功能清单
   Widget _buildItems() {
     return SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: 20.h),
-          const SafeBoxWaitGridView(),
+          //功能未开放
+          // const SafeBoxWaitGridView(),
           const MyAccountInfo(),
           Container(
             height: 8.h,
@@ -194,17 +199,9 @@ class MinePage extends GetView<MineLogic> {
         ],
       ),
     );
-    return ListView(
-      children: [
-        //先不开发
-        const SafeBoxWaitGridView(),
-        const MyAccountInfo(),
-        Divider(height: 8.h, color: Colors.black),
-        const WelfareReward(),
-      ],
-    );
   }
 
+  ///退出按钮
   Widget _buildLogOutBtn(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 25, right: 25),
@@ -228,6 +225,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///退出弹框
   void _showDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -346,9 +344,7 @@ class AvatarWithVip extends StatelessWidget {
                   width: 15,
                   height: 15,
                 ),
-                const SizedBox(
-                  width: 3,
-                ),
+                const SizedBox(width: 3),
                 const Text(
                   '0',
                   style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
@@ -523,36 +519,6 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             print("返水");
           },
         ),
-        /*GestureDetector(
-          child: Container(
-            height: 40,
-            width: 100,
-            decoration: BoxDecoration(
-              color: const Color(0xFF2D374E),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  Assets.imagesIconWithdraw,
-                  width: 25,
-                  height: 25,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Text(
-                  '返水',
-                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
-          onTap: () {
-            print('返水');
-          },
-        ),*/
       ],
     );
   }
@@ -578,7 +544,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             children: [
               // 保险箱
-              GestureDetector(
+              InkWellView(
                 child: Column(
                   children: [
                     Image.asset(
@@ -592,13 +558,11 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('保险箱');
-                },
+                onPressed: () {},
               ),
-
               // VIP
-              GestureDetector(
+              InkWellView(
+                onPressed: () {},
                 child: Column(
                   children: [
                     Image.asset(
@@ -612,13 +576,9 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('VIP');
-                },
               ),
-
               // 返水
-              GestureDetector(
+              InkWellView(
                 child: Column(
                   children: [
                     Image.asset(
@@ -632,12 +592,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('返水');
-                },
+                onPressed: () {},
               ),
               // 推广赚钱
-              GestureDetector(
+              InkWellView(
                 child: Column(
                   children: [
                     Image.asset(
@@ -651,10 +609,8 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('推广赚钱');
-                },
-              )
+                onPressed: () {},
+              ),
             ],
           ),
         ),
@@ -762,26 +718,26 @@ class WelfareReward extends StatelessWidget {
       margin: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
-          ListTile(
-            leading: Image.asset(
-              Assets.imagesIconAward,
-              width: 18,
-              height: 18.5,
-              fit: BoxFit.cover,
-            ),
-            title: const Text(
-              '福利奖励',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
-            ),
-            trailing: Image.asset(
-              Assets.imagesIconArrowsEnter,
-              width: 16,
-              height: 16,
-            ),
-            onTap: () {
-              print('福利奖励');
-            },
-          ),
+          // ListTile(
+          //   leading: Image.asset(
+          //     Assets.imagesIconAward,
+          //     width: 18,
+          //     height: 18.5,
+          //     fit: BoxFit.cover,
+          //   ),
+          //   title: const Text(
+          //     '福利奖励',
+          //     style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+          //   ),
+          //   trailing: Image.asset(
+          //     Assets.imagesIconArrowsEnter,
+          //     width: 16,
+          //     height: 16,
+          //   ),
+          //   onTap: () {
+          //     print('福利奖励');
+          //   },
+          // ),
           const Divider(
             color: Color.fromRGBO(255, 255, 255, 0.06),
             height: 1,
