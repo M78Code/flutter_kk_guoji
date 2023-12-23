@@ -2,6 +2,8 @@
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/account/register/session.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
@@ -176,6 +178,12 @@ class RegisterLogic extends GetxController {
       }
     }
 
+}
+
+
+void loginWithTg()  async{
+  Get.toNamed(Routes.tgWebView, arguments: "https://testh502.759pc.com/pages/tg-auth/tg-auth");
+  // RouteUtil.pushToView(Routes.webView, arguments:"https://testh502.759pc.com/pages/tg-auth/tg-auth" );
 }
 
 

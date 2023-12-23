@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -10,6 +12,10 @@ class KKWebViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WebViewController controller = WebViewController()..loadRequest(Uri.parse(Get.arguments));
+
+    controller.addJavaScriptChannel("flutter", onMessageReceived: (JavaScriptMessage jsMessage){
+
+    });
     return Scaffold(
       appBar: AppBar(
         leading: SizedBox(
@@ -23,4 +29,5 @@ class KKWebViewPage extends StatelessWidget {
       body: WebViewWidget(controller: controller,),
     );
   }
+
 }
