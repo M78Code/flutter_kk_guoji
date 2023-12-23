@@ -45,6 +45,7 @@ class Datum {
   int? isValidity;
   String? remark;
   int? maxReward;
+  int? defaultAmount;
   bool? cancelOrder;
   Current? current;
   Last? last;
@@ -99,18 +100,20 @@ class Datum {
 class Current {
   String? lotteryCode;
   String? lotteryName;
-  num? periodsNumber;
+  num periodsNumber;
   num? autoCloseDate;
   num? autoDrawingDate;
   int? status;
+  bool? isOpen=false;
 
   Current({
     this.lotteryCode,
     this.lotteryName,
-    this.periodsNumber,
+    required this.periodsNumber,
     this.autoCloseDate,
     this.autoDrawingDate,
     this.status,
+     this.isOpen,
   });
 
   factory Current.fromJson(Map<String, dynamic> json) => Current(
@@ -120,6 +123,7 @@ class Current {
     autoCloseDate: json["autoCloseDate"],
     autoDrawingDate: json["autoDrawingDate"],
     status: json["status"],
+    isOpen: false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -134,7 +138,7 @@ class Current {
 
 class Last {
   String? lotteryName;
-  int? periodsNumber;
+  int periodsNumber;
   String? drawingResult;
   String? drawingUrl;
   String? drawingHash;
@@ -142,7 +146,7 @@ class Last {
 
   Last({
     this.lotteryName,
-    this.periodsNumber,
+    required this.periodsNumber,
     this.drawingResult,
     this.drawingUrl,
     this.drawingHash,
@@ -209,7 +213,7 @@ class Play {
 class CachePlayList {
   String? playName;
   String? playCode;
-  PlayTypeCode? playTypeCode;
+  String? playTypeCode;
   String? sonPlayTypeCode;
   double? odds;
   double? maxOdds;
@@ -217,7 +221,7 @@ class CachePlayList {
   int? singleMaxLimit;
   int? singleMinLimit;
   List<ListElement>? list;
-  bool? isSelect=false;
+  bool? isSelect;
 
   CachePlayList({
     this.playName,
@@ -236,7 +240,7 @@ class CachePlayList {
   factory CachePlayList.fromJson(Map<String, dynamic> json) => CachePlayList(
     playName: json["playName"],
     playCode: json["playCode"],
-    playTypeCode: playTypeCodeValues.map[json["playTypeCode"]]!,
+    playTypeCode: json["playTypeCode"],
     sonPlayTypeCode: json["sonPlayTypeCode"],
     odds: json["odds"]?.toDouble(),
     maxOdds: json["maxOdds"]?.toDouble(),
@@ -263,9 +267,9 @@ class CachePlayList {
 class ListElement {
   String? awardsCode;
   String? awardsName;
-  int? odds;
-  int? maxOdds;
-  int? orderNum;
+  num? odds;
+  num? maxOdds;
+  num? orderNum;
 
   ListElement({
     this.awardsCode,

@@ -1,17 +1,23 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:kkguoji/utils/json_util.dart';
 
+import '../../../common/models/jcp_bet_model.dart';
 import '../../../model/home/jcp_game_model.dart';
+import '../../../routes/routes.dart';
+import '../../../services/user_service.dart';
+import '../../../utils/route_util.dart';
 
 class KKHomeTicketItem extends StatefulWidget {
   final String bgImageStr;
   final String logoImageStr;
   final Datum tickInfo;
+  final List<Color> ballColors;
 
-  const KKHomeTicketItem(@required this.bgImageStr, @required this.logoImageStr, @required this.tickInfo, {super.key});
+  const KKHomeTicketItem(@required this.bgImageStr, @required this.logoImageStr, @required this.ballColors, @required this.tickInfo, {super.key});
 
   @override
   State<KKHomeTicketItem> createState() => _KKHomeTicketItemState();
@@ -22,16 +28,17 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   num endTime = 0;
   bool isShowStatus = false;
   List<String> timeList = ["0", "0", "0", "0", "0", "0"];
+  late TextEditingController _numberController;
+  List<JcpBetModel> betList=[];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.tickInfo == null) {
-      periodsNumber = widget.tickInfo.current!.periodsNumber.toString();
-      endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
-      isShowStatus = widget.tickInfo.current?.status != 4;
-    }
+    _numberController = TextEditingController(text: getDefaultAmount());
+    periodsNumber = widget.tickInfo.current!.periodsNumber.toString();
+    endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
+    isShowStatus = widget.tickInfo.current?.status != 4;
     if (endTime * 1000 > DateTime.now().millisecondsSinceEpoch) {
       Timer.periodic(const Duration(seconds: 1), (Timer timer) {
         startEndTime();
@@ -81,7 +88,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                           style: TextStyle(color: Colors.white, fontSize: 11.0),
                         ),
                         TextSpan(
-                          text: periodsNumber,
+                          text: widget.tickInfo.current!.periodsNumber.toString(),
                           style: const TextStyle(color: Color(0xFFF4B81C), fontSize: 11),
                         ),
                         const TextSpan(
@@ -96,15 +103,18 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Container(
-                        color: const Color(0xFFFF563F),
-                        child: Offstage(
-                          offstage: true,
-                          child: const Text(
-                            "封盘中",
-                            style: TextStyle(color: Colors.white, fontSize: 11),
-                          ),
-                        )),
+                    Visibility(
+                      visible: getTicketState(),
+                      child: Container(
+                          color: const Color(0xFFFF563F),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2),
+                            child: Text(
+                              getTicketStateString(),
+                              style: TextStyle(color: Colors.white, fontSize: 11),
+                            ),
+                          )),
+                    ),
                     const SizedBox(
                       height: 5,
                     ),
@@ -163,7 +173,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
           ),
           Container(
             height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 35),
             decoration: const ShapeDecoration(
               gradient: LinearGradient(
                 begin: Alignment(0.04, -1.00),
@@ -223,12 +233,15 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
                             width: 30,
                             child: TextButton(
                               style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
-                              onPressed: () {},
+                              onPressed: () {
+                                decrementNumber();
+                              },
                               child: Image.asset(
                                 "assets/images/home_sub_icon.png",
                                 width: 12,
@@ -238,12 +251,17 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                           ),
                           Container(
                             width: 35,
-                            height: 22,
+                            height: 24,
                             decoration: BoxDecoration(color: const Color(0xFF30298B), borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xFF9FC1EA))),
-                            child: const TextField(
+                            child: TextField(
+                              controller: _numberController,
                               textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
                               style: TextStyle(color: Colors.white, fontSize: 12),
                               cursorColor: Colors.white,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none, // 设置为 none 去掉下划线
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -251,7 +269,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                             height: 31,
                             child: TextButton(
                               style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero), alignment: Alignment.center),
-                              onPressed: () {},
+                              onPressed: () {
+                                incrementNumber();
+                              },
                               child: Image.asset(
                                 "assets/images/home_add_icon.png",
                                 width: 12.5,
@@ -268,9 +288,17 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                     Container(
                       width: 90,
                       height: 31,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.5), gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)])),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.5), gradient: widget.tickInfo.current!.status == 0 ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) : const LinearGradient(colors: [Color(0xFF686F83), Color(0xFF686F83)])),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if(widget.tickInfo.current!.status == 0){
+                            if (UserService.to.isLogin == false) {
+                              RouteUtil.pushToView(Routes.loginPage);
+                              return;
+                            }
+
+                          }
+                        },
                         style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
                         child: const Text(
                           "快捷投注",
@@ -317,12 +345,12 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
       return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(modifiedList.length , (index) {
-              if (index % 2 == 0) {
-                return _buildItemBall(modifiedList[index], [const Color(0xFFFF5D3A), const Color(0xFFB70000)]);
-              } else {
-                return _buildSymbolView(modifiedList[index]);
-              }
+          children: List.generate(modifiedList.length, (index) {
+            if (index % 2 == 0) {
+              return _buildItemBall(modifiedList[index], widget.ballColors);
+            } else {
+              return _buildSymbolView(modifiedList[index]);
+            }
           }));
     }
   }
@@ -332,24 +360,45 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   }
 
   Widget _buildLhcBall(String numString) {
-    return Container();
+    return Container(
+      width: 28,
+      height: 28,
+      child: Stack(
+        children: [
+          Image.asset(
+            getLhcBallIcon(numString),
+            width: 28,
+            height: 28,
+          ),
+          Center(
+            child: Text(
+              numString,
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildItemBall(String numString, List<Color> colors) {
     return Container(
-      width: 26,
-      height: 26,
-      decoration: BoxDecoration(
+      width: 28,
+      height: 28,
+      decoration: ShapeDecoration(
         gradient: LinearGradient(
-          colors: colors,
+          begin: Alignment(0.00, -1.00),
+          end: Alignment(0, 1),
+          colors: [Colors.white, colors[0]],
         ),
-        border: Border.all(color: Colors.white),
-        shape: BoxShape.circle,
+        shape: OvalBorder(
+          side: BorderSide(width: 2, color: colors[1]),
+        ),
       ),
       child: Center(
         child: Text(
           numString,
-          style: TextStyle(color: Colors.white, fontSize: 16),
+          style: TextStyle(color: colors[2], fontSize: 16),
         ),
       ),
     );
@@ -387,6 +436,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
 
   Widget _buildOddsItem(CachePlayList playInfo) {
     bool isPCNN = widget.tickInfo.lotteryCode == "PCNN";
+    bool isSelect = playInfo.isSelect ?? false;
     String content = "";
     // print('xiaoan 赔率选项：$isPCNN${widget.tickInfo.lotteryCode}');
     if (isPCNN) {
@@ -395,18 +445,34 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
     } else {
       content = "${playInfo.playName}: ${playInfo.odds}";
     }
-    return Container(
-      width: 67,
-      height: 38,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: const Color(0xFF2E374E),
-      ),
-      child: Center(
-        child: Text(
-          content,
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+    return GestureDetector(
+      onTap: (){
+        if(!isSelect){
+          playInfo.isSelect=true;
+          betList.add(JcpBetModel(lotteryCode: widget.tickInfo.lotteryCode ?? '', playTypeCode: playInfo.playTypeCode ?? '', sonPlayTypeCode: playInfo.sonPlayTypeCode ?? '', playCode: playInfo.playCode ?? '', betContent: playInfo.playCode ?? '', betAmount: _numberController.text));
+        }else{
+          playInfo.isSelect=false;
+          betList.removeWhere((element) => element.playCode==playInfo.playCode);
+        }
+        setState(() {
+
+        });
+        print('以选中选项：${JsonUtil.encodeObj(betList)}');
+      },
+      child: Container(
+        width: 67,
+        height: 38,
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          color: const Color(0xFF2E374E),
+          border: Border.all(width:2,color: playInfo.isSelect??false ? Color(0xFF755EFF): Color(0xFF2E374E))
+        ),
+        child: Center(
+          child: Text(
+            content,
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
         ),
       ),
     );
@@ -448,5 +514,98 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
     if (mounted) {
       setState(() {});
     }
+  }
+
+  bool getTicketState() {
+    print('开奖状态：${widget.tickInfo.current!.isOpen}${widget.tickInfo.current!.status}');
+    if (widget.tickInfo.current!.isOpen ?? false) {
+      return true;
+    } else {
+      if (widget.tickInfo.current!.status == 4 || widget.tickInfo.current!.status == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  String getTicketStateString() {
+    if (widget.tickInfo.current!.isOpen ?? false) {
+      return '开奖中';
+    } else {
+      if (widget.tickInfo.current!.status == 4 || widget.tickInfo.current!.status == 1) {
+        return '已封盘';
+      } else {
+        return '';
+      }
+    }
+  }
+
+  void incrementNumber() {
+    int currentValue = int.tryParse(_numberController.text) ?? 0;
+    int newValue = currentValue + 1;
+    _numberController.text = newValue.toString();
+  }
+
+  void decrementNumber() {
+    int currentValue = int.tryParse(_numberController.text) ?? 0;
+    int newValue = currentValue - 1;
+
+    // Ensure the new value is at least 0
+    if (newValue >= 0) {
+      _numberController.text = newValue.toString();
+    }
+  }
+
+  String getDefaultAmount() {
+    if (widget.tickInfo.lotteryCode == "PCNN") {
+      return '1';
+    } else if (widget.tickInfo.lotteryCode == "PCBJL") {
+      return '10';
+    } else {
+      return '2';
+    }
+  }
+
+  String getLhcBallIcon(String numberString) {
+    int number = int.parse(numberString);
+    switch (number) {
+      case 1:
+      case 2:
+      case 7:
+      case 8:
+      case 12:
+      case 13:
+      case 18:
+      case 19:
+      case 23:
+      case 24:
+      case 29:
+      case 30:
+      case 34:
+      case 35:
+      case 40:
+      case 45:
+      case 46:
+        return 'assets/images/home/ball_red.png';
+      case 3:
+      case 4:
+      case 9:
+      case 10:
+      case 14:
+      case 15:
+      case 20:
+      case 25:
+      case 26:
+      case 31:
+      case 36:
+      case 37:
+      case 41:
+      case 42:
+      case 47:
+      case 48:
+        return 'assets/images/home/ball_purple.png';
+    }
+    return 'assets/images/home/ball_green.png';
   }
 }
