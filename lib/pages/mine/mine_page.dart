@@ -841,6 +841,7 @@ class WelfareReward extends StatelessWidget {
             ),
             onTap: () {
               print('信息设置');
+              RouteUtil.pushToView(Routes.informationSettingsPage);
             },
           ),
           const Divider(

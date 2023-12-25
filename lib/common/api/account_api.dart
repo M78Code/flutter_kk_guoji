@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:kkguoji/common/models/mine_wallet/user_money_details_model.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/common/models/user_money_model.dart';
@@ -29,6 +31,20 @@ class AccountApi {
     }
     return null;
   }
+
+  static Future<Map<String, dynamic>?>? updateContact(
+      String? wechat,
+      String? qq,
+      String? skype,
+      String? telegram,
+      String? whatsapp) async {
+    var params = {"wechat": wechat ?? "","qq": qq ?? "","skype": skype ?? "","telegram": telegram ?? "","whatsapp": whatsapp ?? ""};
+    var result = await HttpRequest.request(HttpConfig.updateContact, method: "post", params: params);
+    if(result["code"] == 200) {
+      return result;
+    }
+  }
+
   static Future<UserMoneyDetailsModel?> getUserMoneyDetails() async {
     var result = await HttpRequest.request(HttpConfig.getUserMoneyDetails, method: "post");
     if(result["code"] == 200) {
