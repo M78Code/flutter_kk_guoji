@@ -98,7 +98,7 @@ abstract class Routes {
     GetPage(name: mainPage, page: () => const KKMainPage()),
     GetPage(name: informationSettingsPage, page: () => const InformationSettingsPage()),
     GetPage(name: game, page: () => const KKGamesPage()),
-    GetPage(name: tgWebView, page: () => const TGWebview()),
+    GetPage(name: tgWebView, page: () => TGWebview()),
 
   ];
 
