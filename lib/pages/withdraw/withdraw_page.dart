@@ -172,7 +172,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           Image.asset(Assets.imagesIconRefresh, width: 14.w, height: 12.h),
           const Spacer(),
           Text(
-            "100.00 ¥",
+            "${UserService.to.userMoneyModel?.money ?? 0.00} ¥",
             style: TextStyle(color: Colors.white, fontSize: 14.sp),
           )
         ],
@@ -212,6 +212,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
         inputTextEdit(
           hintText: "请输入USDT钱包提现地址",
           hintTextSize: 15,
+          maxLength: 200,
           editController: controller.addressController,
         ),
       ],
@@ -249,22 +250,19 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 14.h),
-        Obx(
-          () => inputTextEdit(
-            hintText: "请输入提现金额",
-            hintTextSize: 15,
-            keyboardType: TextInputType.number,
-            editController: controller.amountController,
-            callback: (value) => controller.calcAmount(value),
-            rightWidget: IconButton(
-              padding: EdgeInsets.zero, // 设置内边距为零
-              visualDensity: VisualDensity.compact,
-              onPressed: () => controller.showPsd.value = !controller.showPsd.value,
-              icon: Image.asset(
-                controller.showPsd.value ? Assets.imagesPasswordOff : Assets.imagesPasswordOn,
-                width: 24.w,
-                height: 24.h,
-              ),
+        inputTextEdit(
+          hintText: "请输入提现密码",
+          hintTextSize: 15,
+          keyboardType: TextInputType.number,
+          editController: controller.withdrawPsdController,
+          rightWidget: IconButton(
+            padding: EdgeInsets.zero, // 设置内边距为零
+            visualDensity: VisualDensity.compact,
+            onPressed: () => controller.showPsd.value = !controller.showPsd.value,
+            icon: Image.asset(
+              controller.showPsd.value ? Assets.imagesPasswordOff : Assets.imagesPasswordOn,
+              width: 24.w,
+              height: 24.h,
             ),
           ),
         ),
@@ -310,7 +308,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
             SizedBox(width: 5.w),
             Text(
-              "最低充值金额不低于5.0 ¥",
+              "最低提现金额不低于5.0 ¥",
               style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
             ),
           ],
@@ -321,7 +319,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
             SizedBox(width: 5.w),
             Text(
-              "最高充值金额不低于80000.0 ¥",
+              "最高提现金额不低于80000.0 ¥",
               style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
             ),
           ],

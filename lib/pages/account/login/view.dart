@@ -7,7 +7,6 @@ import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/account/login/logic.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
-
 import '../../../routes/routes.dart';
 import '../../../utils/route_util.dart';
 import '../../../widget/custom_input_field.dart';
@@ -38,8 +37,10 @@ class _KKLoginPageState extends State<KKLoginPage> {
       child: Scaffold(
         body: Container(
           height: double.infinity,
+          width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
+              fit: BoxFit.cover,
               image: AssetImage(Assets.imagesRegisterBg),
             ),
           ),

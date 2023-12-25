@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/games/games_page.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/main/logic/main_logic.dart';
@@ -28,19 +29,35 @@ class _KKMainPageState extends State<KKMainPage> {
     BottomNavigationBarItem(
         label: "首页",
         icon: Image.asset(
-          "assets/images/tabbar_home_normal.png",
+          Assets.imagesTabbarHomeNormal,
           width: 35,
           height: 35,
         ),
         activeIcon: Image.asset(
-          "assets/images/tabbar_home_selected.png",
+          Assets.imagesTabbarHomeSelected,
           width: 35,
           height: 35,
         )),
-    BottomNavigationBarItem(label: "游戏", icon: Image.asset("assets/images/tabbar_games_normal.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_games_selected.png", width: 35, height: 35)),
-    BottomNavigationBarItem(label: "充值", icon: Image.asset("assets/images/tabbar_rechange_icon.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_rechange_icon.png", width: 35, height: 35)),
-    BottomNavigationBarItem(label: "活动", icon: Image.asset("assets/images/tabbar_activity_normal.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_activity_selected.png", width: 35, height: 35)),
-    BottomNavigationBarItem(label: "我的", icon: Image.asset("assets/images/tabbar_mine_normal.png", width: 35, height: 35), activeIcon: Image.asset("assets/images/tabbar_mine_selected.png", width: 35, height: 35))
+    BottomNavigationBarItem(
+      label: "游戏",
+      icon: Image.asset(Assets.imagesTabbarGamesNormal, width: 35, height: 35),
+      activeIcon: Image.asset(Assets.imagesTabbarGamesSelected, width: 35, height: 35),
+    ),
+    BottomNavigationBarItem(
+      label: "充值",
+      icon: Image.asset(Assets.imagesTabbarRechangeIcon, width: 35, height: 35),
+      activeIcon: Image.asset(Assets.imagesTabbarRechangeIcon, width: 35, height: 35),
+    ),
+    BottomNavigationBarItem(
+      label: "活动",
+      icon: Image.asset(Assets.imagesTabbarActivityNormal, width: 35, height: 35),
+      activeIcon: Image.asset(Assets.imagesTabbarActivitySelected, width: 35, height: 35),
+    ),
+    BottomNavigationBarItem(
+      label: "我的",
+      icon: Image.asset(Assets.imagesTabbarMineNormal, width: 35, height: 35),
+      activeIcon: Image.asset(Assets.imagesTabbarMineSelected, width: 35, height: 35),
+    )
   ];
   final controller = Get.find<MainPageLogic>();
   final userService = Get.find<UserService>();
