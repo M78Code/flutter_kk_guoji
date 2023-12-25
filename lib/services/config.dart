@@ -17,6 +17,7 @@ class HttpConfig {
 
   // 用户
   static const getUserInfo = "/api/user/getInfo"; //获取用户信息
+  static const updateContact = "/api/user/updateContact"; //修改联系方式
   static const getUserMoney = "/api/user/getUserMoney"; // 用户余额
   static const getUserMoneyDetails = "/api/user/getUserMoneyDetails"; // 用户资金明细
   static const getUserMoneyDetailsSearch = "/api/user/getUserMoneyDetailsSearch"; // 获取用户资金明细-筛选

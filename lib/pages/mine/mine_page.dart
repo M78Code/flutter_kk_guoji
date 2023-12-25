@@ -646,7 +646,6 @@ class MyAccountInfo extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              // print("kkk账号:${}");
               RouteUtil.pushToView(Routes.myAccountPage);
             },
           ),
@@ -762,6 +761,7 @@ class WelfareReward extends StatelessWidget {
             ),
             onTap: () {
               print('信息设置');
+              RouteUtil.pushToView(Routes.informationSettingsPage);
             },
           ),
           const Divider(
