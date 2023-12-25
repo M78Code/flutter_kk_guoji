@@ -71,12 +71,28 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                       children: [
                         Image.asset("assets/images/regist_top_logo.png", width: 163, height: 45,),
                         const SizedBox(height: 30,),
-                        Obx(() {
-                          return SegmentControlView((value) {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            controller.setRegisterType(value);
-                          }, controller.isAccount.value);
-                        }),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(child: Container(
+                              height:35,
+                              decoration: BoxDecoration(
+                                // color: const Color.fromRGBO(10, 11, 34, 0.12),
+                                gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) ,
+                                borderRadius: BorderRadius.circular(17.5),
+                              ),
+                              child: TextButton(onPressed: (){
+                              }, child: const Text("用户名注册", style: TextStyle(fontSize: 14, color: Colors.white )),),
+                            ))
+                          ],
+                        ),
+                        // Obx(() {
+                        //   return SegmentControlView((value) {
+                        //     FocusScope.of(context).requestFocus(FocusNode());
+                        //     controller.setRegisterType(value);
+                        //   }, controller.isAccount.value);
+                        // }),
                         const SizedBox(height: 30,),
                         Obx(() {
                           return CustomInputField("assets/images/account_icon.png", controller.isAccount.value?"请输入8-12位字母+数字用户名":"请输入电子邮箱", valueChanged: (value){
@@ -234,10 +250,12 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TextButton(onPressed: (){}, child:Image.asset("assets/images/facebook.png", width: 40, height: 40,) ),
-                            TextButton(onPressed: (){}, child:Image.asset("assets/images/whatapp.png", width: 40, height: 40,) ),
-                            TextButton(onPressed: (){}, child:Image.asset("assets/images/gmail.png", width: 40, height: 40,) ),
-                            TextButton(onPressed: (){}, child:Image.asset("assets/images/telegram.png", width: 40, height: 40,) )
+                            // TextButton(onPressed: (){}, child:Image.asset("assets/images/facebook.png", width: 40, height: 40,) ),
+                            // TextButton(onPressed: (){}, child:Image.asset("assets/images/whatapp.png", width: 40, height: 40,) ),
+                            // TextButton(onPressed: (){}, child:Image.asset("assets/images/gmail.png", width: 40, height: 40,) ),
+                            TextButton(onPressed: (){
+                             controller.loginWithTg();
+                            }, child:Image.asset("assets/images/telegram.png", width: 40, height: 40,) )
 
                           ],
                         ),

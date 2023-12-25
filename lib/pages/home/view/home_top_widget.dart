@@ -45,7 +45,8 @@ class KKHomeTopWidget extends StatelessWidget {
                         padding: MaterialStatePropertyAll(EdgeInsets.zero),
                       ),
                         onPressed: (){
-                          RouteUtil.pushToView(Routes.loginPage);
+                        RouteUtil.pushToView(Routes.customer);
+                          // RouteUtil.pushToView(Routes.loginPage);
                         },child: Image.asset("assets/images/home_top_msg.png", width: 33, height: 33,),),
                     )
                 ),
