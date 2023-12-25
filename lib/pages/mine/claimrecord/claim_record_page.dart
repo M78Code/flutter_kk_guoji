@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/mine/claimrecord/claim_record.logic.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../activity/list/widgets/item_widget.dart';
 
