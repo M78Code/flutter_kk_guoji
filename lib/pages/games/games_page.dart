@@ -14,9 +14,7 @@ class KKGamesPage extends StatefulWidget {
   State<KKGamesPage> createState() => _KKGamesPageState();
 }
 
-class _KKGamesPageState extends State<KKGamesPage>
-    with AutomaticKeepAliveClientMixin {
-
+class _KKGamesPageState extends State<KKGamesPage> with AutomaticKeepAliveClientMixin {
   final GamesLogic controller = Get.find<GamesLogic>();
 
   @override
@@ -28,34 +26,28 @@ class _KKGamesPageState extends State<KKGamesPage>
     super.build(context);
     return pageGetx;
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (UserService.to.isLogin) {
       UserService.to.fetchUserMoney();
+    }
   }
 }
 
 class _KKGamesPageGetX extends GetView<GamesLogic> {
-
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
-        body:Stack(
+        body: Stack(
           children: [
             _buildView(),
             Positioned(
               bottom: 16.w,
               right: 20.w,
-              child:Container(
-                width: 46.w,
-                height: 46.w,
-                child: Image.asset(Assets.gamesSupport)
-                    .onTap(() {
-
-                })
-              ),
+              child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport).onTap(() {})),
             ),
           ],
         ),
@@ -69,9 +61,11 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
       child: Column(
         children: [
           KKGamesTopWidget(),
-          Divider(color: Color(0xFFFFFFFF).withOpacity(0.06),height: 1),
+          Divider(color: Color(0xFFFFFFFF).withOpacity(0.06), height: 1),
           KKGamesMenuWidget(),
-          SizedBox(height: 10.w,),
+          SizedBox(
+            height: 10.w,
+          ),
           Expanded(
             child: GamesItemsWidget(),
           )
@@ -81,8 +75,6 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
   }
 
   Widget _buildBalanceWidget() {
-    return Container(
-
-    );
+    return Container();
   }
 }

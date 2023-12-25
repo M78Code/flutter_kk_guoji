@@ -13,7 +13,7 @@ class KKGamesTopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 46.w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

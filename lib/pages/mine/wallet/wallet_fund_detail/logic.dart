@@ -6,6 +6,7 @@ import 'package:kkguoji/common/api/account_api.dart';
 
 import '../../../../common/models/mine_wallet/user_money_details_model.dart';
 import '../../../../common/models/mine_wallet/user_money_details_search_respond_model.dart';
+import 'package:intl/intl.dart';
 
 class WalletFundDetailLogic extends GetxController {
 
@@ -13,7 +14,9 @@ class WalletFundDetailLogic extends GetxController {
   UserMoneyDetailsModel? userMoneyDetailsModel;
   List<UserMoneyDetailsSearchModel> userMoneyDetailsSearchList = [];
   final List<List<String>> dateTypes = [["today","今天"], ["yesterday","昨天" ], ["month","本月"], ["last_month","上月"],];
-  var dateType = "today";
+  String? dateType = "today";
+  DateTime? startDate;
+  DateTime? endDate;
   int page = 1;
   bool isNoMoreData = false;
   EasyRefreshController _refreshController = EasyRefreshController(
@@ -43,12 +46,22 @@ class WalletFundDetailLogic extends GetxController {
     this.isWithdrawCheck = isWithdrawCheck ;
   }
   // 资产明细日期切换
-  onTapSwitchFundDetailDate(String dateType) async {
+  onTapSwitchDate(String dateType) async {
     this.dateType = dateType;
+    this.startDate = null;
+    this.endDate = null;
     update(['dateSelector']);
-    // _refreshController.resetNoData();
     await onRefresh();
   }
+
+  switchDate(DateTime startDate, DateTime endDate) async {
+    this.dateType = null;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    update(['dateSelector']);
+    await onRefresh();
+  }
+
   fetchUserMoneyDetails() async {
     UserMoneyDetailsModel? userMoneyDetailsModel = await AccountApi.getUserMoneyDetails();
     if (userMoneyDetailsModel != null) {
@@ -56,6 +69,7 @@ class WalletFundDetailLogic extends GetxController {
       update(["userMoneyDetails"]);
     }
   }
+
   Future<void> getUserMoneyDetailsSearch(bool isrefresh) async {
     if (isrefresh) {
       page = 1;
@@ -63,7 +77,16 @@ class WalletFundDetailLogic extends GetxController {
     else {
       ++page;
     }
-    UserMoneyDetailsSearchListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserMoneyDetailsSearch(dateType, this.page, "");
+    String dateRange;
+    if (startDate != null && endDate != null) {
+      var startText = DateFormat('yyyy-MM-dd').format(startDate!);
+      var endText = DateFormat('yyyy-MM-dd').format(endDate!);
+      dateRange = startText + " - " + endText;
+    }
+    else {
+      dateRange = dateType ?? "";
+    }
+    UserMoneyDetailsSearchListModel? userMoneyDetailsSearchListModel = await AccountApi.getUserMoneyDetailsSearch(dateRange, this.page, "");
     if (userMoneyDetailsSearchListModel != null) {
       if (isrefresh) {
         this.userMoneyDetailsSearchList = userMoneyDetailsSearchListModel.list ?? [];

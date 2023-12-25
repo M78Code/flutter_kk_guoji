@@ -3,6 +3,7 @@ import 'package:kkguoji/common/models/group_game_list_model.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 
+import '../models/game/game_list_response_model.dart';
 import '../models/game_type_list_response_model.dart';
 import '../models/get_game_model.dart';
 
@@ -40,6 +41,13 @@ class GamesApi {
     var result = await HttpRequest.request(HttpConfig.getGameTypeList, method: "post");
     if (result["code"] == 200 && result["data"] != null ) {
       return GameTypeListResponseModel.fromJson(result).data;
+    }
+  }
+  static Future<GameListModel?> getGameList(int? type) async {
+    var result = await HttpRequest.request(HttpConfig.getGameList,
+        method: "post",params: type != null ? {"type":type, "page":1,"limit":1000} : {"page":1,"limit":1000});
+    if (result["code"] == 200 && result["data"] != null ) {
+      return GameListResponseModel.fromJson(result).data;
     }
   }
 }

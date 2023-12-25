@@ -8,7 +8,6 @@ import '../pages/main/logic/main_logic.dart';
 import '../utils/websocket_util.dart';
 import 'cache_key.dart';
 
-
 class UserService extends GetxService {
   static UserService get to => Get.find();
 
@@ -37,19 +36,18 @@ class UserService extends GetxService {
     super.onInit();
   }
 
-  fetchUserMoney() async {
+  Future<void> fetchUserMoney() async {
     UserMoneyModel? userMoney = await AccountApi.getUserMoney();
     _userMoneyModel.value = userMoney;
   }
 
-  fetchUserInfo() async {
+  Future<void> fetchUserInfo() async {
     UserInfoModel? userInfo = await AccountApi.getUserInfo();
     userInfoModel.value = userInfo;
     isBindEmail = null != userInfo?.email;
   }
 
   void logout() async {
-
     isLogin = false;
     Get.find<SqliteService>().remove(CacheKey.apiToken);
     WebSocketUtil().closeSocket();

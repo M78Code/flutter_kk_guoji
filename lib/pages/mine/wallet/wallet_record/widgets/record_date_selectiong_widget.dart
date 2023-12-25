@@ -74,7 +74,7 @@ class RecordDateSelectionWidget extends StatelessWidget {
     controller.userWithdrawState.dateType == datas.first : controller.userRechargeState.dateType == datas.first;
     return InkWell(
       onTap: () {
-        controller.onTapSwitchlDate(datas.first);
+        controller.onTapSwitchDate(datas.first);
       },
       child: Container(
         decoration: BoxDecoration(

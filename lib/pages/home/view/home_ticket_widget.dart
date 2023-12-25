@@ -73,7 +73,7 @@ class KKHomeTicketWidget extends StatelessWidget {
         print('xiaoan 合并数据结果：${JsonUtil.encodeObj(item)}');
         return Column(
           children: [
-            KKHomeTicketItem(bgInfo["bg_icon"], bgInfo["logo_icon"], item),
+            KKHomeTicketItem(bgInfo["bg_icon"], bgInfo["logo_icon"], bgInfo["ball_color"], item),
             const SizedBox(height: 15,)
           ],
         );
