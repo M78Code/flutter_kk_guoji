@@ -788,7 +788,6 @@ class WelfareReward extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              print('分享');
             },
           ),
         ],

@@ -31,8 +31,7 @@ class HttpConfig {
   //客服中心
   static const getCustomer = "/api/public/customer";
 
-  //我的推广
-  static const getAgentTeam = "/api/agent/team";
+  static const getAgentTeam = "/api/agent/team";    //我的推广
   static const getMessageList = '/api/notice/list'; //公告信息查询
   //获取自动返佣
   static const getAutoRecord = '/api/userRebate/getAutoRecord';
@@ -52,4 +51,7 @@ class HttpConfig {
   static const currency = "/api/withdrawal/currency"; //获取提现币种
   static const withdraw = "/api/withdrawal/apply"; //申请提现
 // static const feeConfig = "/api/withdrawal/config"; //获取提现配置信息
+
+//第三方登录
+  static const register_third = "/api/public/register_third";
 }

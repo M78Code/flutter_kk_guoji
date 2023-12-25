@@ -23,6 +23,7 @@ import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
 import 'package:kkguoji/pages/rebate/bindings/binding.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
+import 'package:kkguoji/pages/webView/tg_webview.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
 import 'package:kkguoji/services/user_service.dart';
@@ -44,6 +45,7 @@ abstract class Routes {
   static const String activity = '/activity';
   static const String activityDetail = "/activityDetail";
   static const String webView = "/webView";
+  static const String tgWebView = "/tg_webview";
   static const String walletPage = "/walletPage";
   static const String walletFundDetailPage = "/walletFundDetailPage";
   static const String walletRecordPage = "/walletRecordPage";
@@ -96,6 +98,7 @@ abstract class Routes {
     GetPage(name: mainPage, page: () => const KKMainPage()),
     GetPage(name: informationSettingsPage, page: () => const InformationSettingsPage()),
     GetPage(name: game, page: () => const KKGamesPage()),
+    GetPage(name: tgWebView, page: () => TGWebview()),
   ];
 
   static Widget getPage(String pageName) {

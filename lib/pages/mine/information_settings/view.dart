@@ -19,6 +19,7 @@ class InformationSettingsPage extends StatefulWidget {
 class _InformationSettingsPageState extends State<InformationSettingsPage> {
   final logic = Get.put(InformationSettingsLogic());
   final state = Get.find<InformationSettingsLogic>().state;
+  late MyListView _myListView;
 
   @override
 
@@ -27,7 +28,6 @@ class _InformationSettingsPageState extends State<InformationSettingsPage> {
     return _buildView();
   }
   Widget _buildView() {
-    late MyListView _myListView;
     return Scaffold(
       appBar: AppBar(
         title: Text('信息设置'),
@@ -41,58 +41,70 @@ class _InformationSettingsPageState extends State<InformationSettingsPage> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Obx((){
-              UserInfoModel? userInfoModel = UserService.to.userInfoModel.value;
-              _myListView = MyListView(userInfoModel: userInfoModel,);
-              return _myListView;
-            }),
-          ),
-          _buildLogOutBtn(() async {
-            var contacts = _myListView.getContacts();
-            bool result = await logic.updateContact(contacts[0], contacts[1],contacts[2],contacts[3],contacts[4]);
-            if (result) {
-              ShowToast.showToast("更新成功");
-            }
-          }),
-          SizedBox(height: 20.w)
-        ],
+      body: Container(
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx((){
+                UserInfoModel? userInfoModel = UserService.to.userInfoModel.value;
+                _myListView = MyListView(userInfoModel: userInfoModel,);
+                return _myListView;
+              }),
+            ),
+            _buildLogOutBtn(btnOntap),
+            SizedBox(height: 20.w)
+          ],
+        ),
       ),
     );
   }
 
+  btnOntap() async {
+    if(logic.isChanged == false) return;
+    var contacts = _myListView.getContacts();
+    bool result = await logic.updateContact(contacts[0], contacts[1],contacts[2],contacts[3],contacts[4]);
+    if (result) {
+      ShowToast.showToast("更新成功");
+    }
+  }
 
   Widget _buildLogOutBtn(void Function() onTap) {
-    return Container(
-      margin: const EdgeInsets.only(left: 25, right: 25),
-      height: 40,
-      decoration: ShapeDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF3D35C6), // 起始颜色
-              Color(0xFF6C4FE0), // 结束颜色
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+    return GetBuilder<InformationSettingsLogic>(
+      id: 'updateBtn',
+      builder: (_) {
+        return Opacity(
+          opacity: logic.isChanged ? 1 : 0.5,
+          child: Container(
+            margin: const EdgeInsets.only(left: 25, right: 25),
+            height: 40,
+            decoration: ShapeDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF3D35C6), // 起始颜色
+                    Color(0xFF6C4FE0), // 结束颜色
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
+            child: TextButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    '保存',
+                    style: TextStyle(color: Colors.white, fontSize: 13),
+                  )
+                ],
+              ),
+              onPressed: () {
+                onTap.call();
+              },
+            ),
           ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
-      child: TextButton(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              '保存',
-              style: TextStyle(color: Colors.white, fontSize: 13),
-            )
-          ],
-        ),
-        onPressed: () {
-          onTap.call();
-        },
-      ),
-    );//.opacity(0.5);
+        );
+      },
+    );
   }
 }
 
@@ -133,6 +145,7 @@ class MyListView extends StatelessWidget {
 
 class MyListItem extends StatelessWidget {
 
+  final logic = Get.put(InformationSettingsLogic());
   late String imageN;
   late String title;
   late String defaultText;
@@ -161,6 +174,9 @@ class MyListItem extends StatelessWidget {
             height: 42.w,
             child: TextField(
               controller: textEditingController,
+              onChanged: (value) {
+                logic.setIsChanged(true);
+              },
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 22.w),
                 hintText: defaultText,

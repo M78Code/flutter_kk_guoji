@@ -1,7 +1,10 @@
 
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/account/register/session.dart';
+import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
@@ -177,6 +180,31 @@ class RegisterLogic extends GetxController {
     }
 
 }
+
+
+void loginWithTg()  async{
+  Get.toNamed(Routes.tgWebView);
+  // RouteUtil.pushToView(Routes.webView, arguments:"https://testh502.759pc.com/pages/tg-auth/tg-auth" );
+}
+
+ Future<bool> registerWithTg(Map tgInfo, String tgStr) async{
+    Map<String, dynamic> params = {"username":tgInfo["id"]??"",
+     "user_nick":tgInfo["first_name"]??"" + " " +tgInfo["last_name"]??"",
+      "portrait":tgInfo["photo_url"]??"",
+      "way":"8","third_info":tgStr
+    };
+    var result = await HttpRequest.request(
+        HttpConfig.register_third, method: "post", params: params);
+    if (result["code"] == 200) {
+      ShowToast.showToast("注册成功");
+      sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
+      return true;
+      // SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
+    } else {
+      ShowToast.showToast(result["message"]);
+      return false;
+    }
+  }
 
 
 }
