@@ -6,6 +6,7 @@ import 'state.dart';
 
 class InformationSettingsLogic extends GetxController {
   final InformationSettingsState state = InformationSettingsState();
+  bool isChanged = false;
 
   @override
   void onReady() {
@@ -18,6 +19,11 @@ class InformationSettingsLogic extends GetxController {
   void onClose() {
     // TODO: implement onClose
     super.onClose();
+  }
+
+  setIsChanged(bool isChanged) {
+    this.isChanged = isChanged;
+    if (isChanged) update(['updateBtn']);
   }
 
   Future<bool> updateContact(String? wechat,

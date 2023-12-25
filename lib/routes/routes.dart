@@ -95,7 +95,7 @@ abstract class Routes {
     GetPage(name: setLoginPsdPage, page: () => const SetLoginPsdPage()),
     GetPage(name: mainPage, page: () => const KKMainPage()),
     GetPage(name: informationSettingsPage, page: () => const InformationSettingsPage()),
-    GetPage(name: game, page: () => const KKGamesPage()),
+    GetPage(name: game, page: () =>  KKGamesPage()),
   ];
 
   static Widget getPage(String pageName) {
