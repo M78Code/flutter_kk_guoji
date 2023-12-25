@@ -33,6 +33,7 @@ import '../pages/activity/list/activity_binding.dart';
 import '../pages/activity/list/activity_page.dart';
 import '../pages/mine/claimrecord/claim_record_page.dart';
 import '../pages/mine/data/person_data_building.dart';
+import '../pages/mine/information_settings/view.dart';
 import '../pages/mine/wallet/wallet_fund_detail/view.dart';
 import '../pages/mine/wallet/wallet_record/view.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
@@ -66,6 +67,7 @@ abstract class Routes {
   static const String myAccountPage = "/mine/myaccount";
   static const String setLoginPsdPage = "/mine/setLoginPsdPage";
   static const String mainPage = "/main/view/mainPage";
+  static const String informationSettingsPage = "/mine/informationSettingsPage";
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -94,6 +96,7 @@ abstract class Routes {
     GetPage(name: myAccountPage, page: () => const MyAccountPage()),
     GetPage(name: setLoginPsdPage, page: () => const SetLoginPsdPage()),
     GetPage(name: mainPage, page: () => const KKMainPage()),
+    GetPage(name: informationSettingsPage, page: () => const InformationSettingsPage()),
     GetPage(name: game, page: () => const KKGamesPage()),
     GetPage(name: tgWebView, page: () => const TGWebview()),
 
