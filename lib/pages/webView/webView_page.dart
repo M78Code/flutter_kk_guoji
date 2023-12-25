@@ -26,7 +26,7 @@ class KKWebViewPage extends StatelessWidget {
           }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
         ),
       ),
-      body: WebViewWidget(controller: controller,),
+      body: WebViewWidget(controller: controller),
     );
   }
 

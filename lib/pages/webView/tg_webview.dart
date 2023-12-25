@@ -26,7 +26,22 @@ class TGWebview extends StatelessWidget {
       //   allowsInlineMediaPlayback: true,
       // ),
     );
-    WebViewController controller = WebViewController()..loadRequest(Uri.parse(Get.arguments));
+
+    WebViewController controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)..setNavigationDelegate(NavigationDelegate(
+      onProgress: (int progress) {
+
+      },
+        onUrlChange: (change) {
+
+        },
+
+        onPageFinished: (url) {
+
+        },
+      onNavigationRequest: (NavigationRequest request) {
+        return NavigationDecision.navigate;
+      }
+    ))..loadRequest(Uri.parse(Get.arguments));
 
     controller.addJavaScriptChannel("flutter", onMessageReceived: (JavaScriptMessage jsMessage){
 
@@ -41,16 +56,7 @@ class TGWebview extends StatelessWidget {
           }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
         ),
       ),
-      body: InAppWebView(
-        initialOptions: options,
-        shouldOverrideUrlLoading: (controller, action) async{
-          return NavigationActionPolicy.ALLOW;
-        },
-        initialUrlRequest: URLRequest(url: Uri.parse(Get.arguments),
-
-
-        ),
-      )
+      body: WebViewWidget(controller: controller,)
     );
   }
 
