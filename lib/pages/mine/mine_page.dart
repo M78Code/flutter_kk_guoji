@@ -646,7 +646,6 @@ class MyAccountInfo extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              // print("kkk账号:${}");
               RouteUtil.pushToView(Routes.myAccountPage);
             },
           ),
