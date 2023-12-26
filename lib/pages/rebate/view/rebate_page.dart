@@ -42,7 +42,7 @@ class KKRebatePage extends StatelessWidget {
                               Map bannerInfo = controller.bannerList.value[index];
                               if (bannerInfo.isNotEmpty) {
                                 return Image.network(
-                                  bannerInfo["image"],
+                                  bannerInfo["image"]??bannerInfo["h5_image"],
                                   fit: BoxFit.cover,
                                 );
                               } else {
