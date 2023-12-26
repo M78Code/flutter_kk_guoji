@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/mine_logic.dart';
+import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
@@ -36,7 +37,6 @@ class MinePage extends GetView<MineLogic> {
                   bottom: 0,
                   child: Column(
                     children: [
-                      MyPurse().paddingSymmetric(horizontal: 12.w),
                       Expanded(flex: 1, child: _buildItems()),
                       _buildLogOutBtn(context).marginOnly(top: 30.h, bottom: 20.h),
                     ],
@@ -80,12 +80,8 @@ class MinePage extends GetView<MineLogic> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           IconButton(
-              //信息
-              onPressed: () {
-                //进入消息界面
-                RouteUtil.pushToView(Routes.messageCenter);
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageCenterPage()));
-              },
+              //进入消息界面
+              onPressed: () => RouteUtil.pushToView(Routes.messageCenter),
               icon: Image.asset(
                 Assets.imagesIconInform,
                 width: 30,
@@ -154,7 +150,7 @@ class MinePage extends GetView<MineLogic> {
                         ),
                         onPressed: () => StringUtil.clipText('${controller.userInfoModel?.uuid}')),
                   ],
-                )
+                ),
               ],
             ),
             const SizedBox(width: 22),
@@ -174,7 +170,7 @@ class MinePage extends GetView<MineLogic> {
                   ),
                 ),
               ),
-              onTap: () => RouteUtil.pushToView(Routes.personalInfoPage),
+              onTap: () => RouteUtil.pushToView(Routes.personalInfoPage, arguments: controller.userInfoModel?.userNick),
             ),
           ],
         ),
@@ -187,6 +183,7 @@ class MinePage extends GetView<MineLogic> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          MyPurse().paddingSymmetric(horizontal: 12.w),
           SizedBox(height: 20.h),
           //功能未开放
           // const SafeBoxWaitGridView(),
@@ -477,9 +474,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               ),
             ],
           ),
-          onPressed: () {
-            print("充值");
-          },
+          onPressed: () => RouteUtil.pushToView(Routes.recharge, arguments: true),
         ),
         InkWellView(
           height: 40.h,
@@ -496,9 +491,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               ),
             ],
           ),
-          onPressed: () {
-            print("提现");
-          },
+          onPressed: () => RouteUtil.pushToView(Routes.withdraw, arguments: true),
         ),
         InkWellView(
           height: 40.h,
@@ -786,8 +779,7 @@ class WelfareReward extends StatelessWidget {
               width: 16,
               height: 16,
             ),
-            onTap: () {
-            },
+            onTap: () {},
           ),
         ],
       ),
