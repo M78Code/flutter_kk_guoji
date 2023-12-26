@@ -87,10 +87,12 @@ class MyAccountLogic extends GetxController {
     update();
   }
 
-  void modifyNickNameSubmit(){
-    if(nickController.text.isEmpty){
-      ShowToast.showToast("请输入修改后的昵称");
-    }
+  void modifyNickNameSubmit() async {
+    final aws3 = await postAWSS3();
+    final map = {
+      "user_nick": nickController.text,
+      "portrait": "",
+    };
   }
 
   void getVerCode() async {
@@ -154,6 +156,12 @@ class MyAccountLogic extends GetxController {
     String imagePath,
     String imageName,
   ) async {
+    // var url = "https://s3.us-east-1.amzzonaws.com/testing-presigned-upload";
+    // final request = http.MultipartRequest("POST", Uri.parse(url));
+    // request.files.add(await MultipartFile.fromPath("file"), imagePath);
+    // request.fileds.addAll({"key": imagePath.split("/").last, "acl": "public-read"});
+    // await request.send();
+    print("The request is send");
     // String uploadedImageUrl = await AmazonS3Cognito.uploadImage(
     //     _image.path, BUCKET_NAME, IDENTITY_POOL_ID);
     //Use the below code to upload an image to amazon s3 server
@@ -167,6 +175,7 @@ class MyAccountLogic extends GetxController {
     //   AwsRegion.AP_SOUTHEAST_1,
     // );
     final aws3 = await postAWSS3();
+
     // AmazonS3Cognito.upload(bucket, identity, region, subRegion, imageData)
   }
 
