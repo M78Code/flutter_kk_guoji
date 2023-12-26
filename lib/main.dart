@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:kkguoji/pages/main/binding/bindings.dart';
 import 'package:kkguoji/pages/main/view/main_page.dart';
 import 'package:kkguoji/routes/routes.dart';
-import 'package:kkguoji/utils/websocket_util.dart';
 
 import 'generated/l10n.dart';
 import '../utils/app_util.dart';
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
             supportedLocales: S.delegate.supportedLocales,
             getPages: Routes.routePage,
             initialBinding: mainBinding(),
-            home: KKMainPage(),
+            home: const KKMainPage(),
           );
         });
   }

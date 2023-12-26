@@ -11,6 +11,7 @@ import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/main/view/main_page.dart';
 import 'package:kkguoji/pages/mine/data/personal_data_page.dart';
 import 'package:kkguoji/pages/mine/bet_list/view.dart';
+import 'package:kkguoji/pages/mine/myaccount/my_account_binding.dart';
 import 'package:kkguoji/pages/mine/myaccount/page/switch_avatar_page.dart';
 import 'package:kkguoji/pages/mine/myaccount/page/set_login_psd_page.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
@@ -92,14 +93,13 @@ abstract class Routes {
     GetPage(name: bindEmail, page: () => const BindEmailPage()),
     GetPage(name: mine, page: () => const MinePage()),
     GetPage(name: settingPage, page: () => const SettingPage()),
-    GetPage(name: personalInfoPage, page: () => const PersonalPage()),
+    GetPage(name: personalInfoPage, page: () => const SwitchAvatarPage()),
     GetPage(name: myAccountPage, page: () => const MyAccountPage()),
     GetPage(name: setLoginPsdPage, page: () => const SetLoginPsdPage()),
     GetPage(name: mainPage, page: () => const KKMainPage()),
     GetPage(name: informationSettingsPage, page: () => const InformationSettingsPage()),
     GetPage(name: game, page: () => const KKGamesPage()),
     GetPage(name: tgWebView, page: () => TGWebview()),
-
   ];
 
   static Widget getPage(String pageName) {

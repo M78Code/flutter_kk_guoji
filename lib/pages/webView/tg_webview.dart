@@ -5,7 +5,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/register/logic.dart';
 import 'package:kkguoji/routes/routes.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../utils/route_util.dart';
 
