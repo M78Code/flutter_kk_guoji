@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/pair.dart';
@@ -22,12 +23,15 @@ class MyAccountLogic extends GetxController {
   final RxBool psdObscure1 = true.obs;
   final RxBool psdObscure2 = true.obs;
   final RxBool psdObscure3 = true.obs;
+  final RxBool isModifyNickName = false.obs; //修改昵称
+  bool setModifyNice = false;
   String passwordText = "";
   String newPsdText = "";
   String confirmPsdText = "";
   String verCodeText = "";
   String codeValue = "";
   final RxList<int> verCodeImageBytes = RxList<int>();
+  final nickController = TextEditingController();
 
   //用于观察选择的图片
   RxString selectedImg = Assets.myaccountAvatar1.obs;
@@ -76,6 +80,17 @@ class MyAccountLogic extends GetxController {
   inputVerCodeValue(String code) {
     verCodeText = code;
     // checkCanLogin();
+  }
+
+  void modifyNiceName() {
+    setModifyNice = !setModifyNice;
+    update();
+  }
+
+  void modifyNickNameSubmit(){
+    if(nickController.text.isEmpty){
+      ShowToast.showToast("请输入修改后的昵称");
+    }
   }
 
   void getVerCode() async {
@@ -261,5 +276,12 @@ class MyAccountLogic extends GetxController {
       }
     }
     return false;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nickController.dispose();
+    super.dispose();
   }
 }

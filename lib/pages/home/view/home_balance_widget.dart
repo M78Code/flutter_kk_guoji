@@ -118,23 +118,23 @@ class KKHomeBalanceWidget extends StatelessWidget {
                   RouteUtil.pushToView(Routes.withdraw, arguments: true);
                 },
               ),
-              GestureDetector(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      Assets.imagesHomeVipIcon,
-                      width: 27,
-                      height: 25,
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      "VIP",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    )
-                  ],
-                ),
-              ),
+              // GestureDetector(
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Image.asset(
+              //         Assets.imagesHomeVipIcon,
+              //         width: 27,
+              //         height: 25,
+              //       ),
+              //       const SizedBox(height: 10),
+              //       const Text(
+              //         "VIP",
+              //         style: TextStyle(color: Colors.white, fontSize: 16),
+              //       )
+              //     ],
+              //   ),
+              // ),
               GestureDetector(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +146,7 @@ class KKHomeBalanceWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      "单住",
+                      "注单",
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     )
                   ],

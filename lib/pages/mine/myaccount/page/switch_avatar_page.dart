@@ -8,17 +8,50 @@ import 'package:kkguoji/utils/image_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
-class PersonalPage extends GetView<MyAccountLogic> {
-  const PersonalPage({super.key});
+class SwitchAvatarPage extends GetView<MyAccountLogic> {
+  const SwitchAvatarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    // Get.put(MyAccountLogic());
+    // return KeyboardDissmissable(
+    //   child: Scaffold(
+    //     resizeToAvoidBottomInset: false,
+    //     appBar: AppBar(
+    //       leading: IconButton(
+    //         onPressed: () => Navigator.pop(context),
+    //         icon: Image.asset(
+    //           Assets.imagesBackNormal,
+    //           width: 20.w,
+    //           height: 20.h,
+    //         ),
+    //       ),
+    //       title: Text(
+    //         "修改图像",
+    //         style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
+    //       ),
+    //     ),
+    //     // body: Center(),
+    //     body: Center(
+    //       child: Column(
+    //         children: [
+    //           _buildAvatar(),
+    //           SizedBox(height: 40.h),
+    //           _buildAvatarList(context),
+    //           _buildConfirm(),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
+
     return GetBuilder(
       init: MyAccountLogic(),
       builder: (controller) {
         return KeyboardDissmissable(
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () => Navigator.pop(context),
@@ -68,7 +101,7 @@ class PersonalPage extends GetView<MyAccountLogic> {
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  "用户昵称",
+                  "${Get.arguments}",
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.white,
@@ -83,10 +116,29 @@ class PersonalPage extends GetView<MyAccountLogic> {
                 width: 24.w,
                 height: 24.h,
               ),
-              onPressed: () {},
+              onPressed: () => controller.modifyNiceName(),
+              // onPressed: () => controller.isModifyNickName.value = !controller.isModifyNickName.value,
             )
           ],
         ),
+        SizedBox(height: 10.h),
+        Visibility(
+          visible: controller.setModifyNice,
+          child: inputTextEdit(
+            editController: controller.nickController,
+            hintText: "${Get.arguments}",
+            hintTextSize: 14.sp,
+          ).paddingSymmetric(horizontal: 30.h),
+        )
+        // Obx(
+        //   () => Visibility(
+        //     visible: controller.isModifyNickName.value,
+        //     child: inputTextEdit(
+        //       hintText: "修改用户昵称",
+        //       hintTextSize: 14.sp,
+        //     ).paddingSymmetric(horizontal: 30.h),
+        //   ),
+        // )
       ],
     );
   }
@@ -144,9 +196,8 @@ class PersonalPage extends GetView<MyAccountLogic> {
         height: 55,
         hPadding: 25.w,
         onPressed: () {
-          // controller.recharge();
-          // controller.postAWSS3();
-          // RouteUtil.pushToView(Routes.myAccountPage);
+
+          print("nick : ${controller.nickController.text}");
         },
       ),
     );
