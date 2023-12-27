@@ -46,7 +46,7 @@ class KKCustomerServicePage extends StatelessWidget {
              children: [
                Text(content, style: const TextStyle(color: Colors.white, fontSize: 14),),
                TextButton(onPressed: (){
-
+                 controller.telegramLaunch();
                }, child:const Text("立即沟通", style: TextStyle(color: Color(0xFF5D5FEF), fontSize: 14),) )
              ],
           ),

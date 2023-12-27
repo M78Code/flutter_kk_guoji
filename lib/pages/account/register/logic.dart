@@ -13,6 +13,7 @@ import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 import '../../../services/user_service.dart';
+import '../../main/logic/main_logic.dart';
 
 class RegisterLogic extends GetxController {
 
@@ -172,8 +173,11 @@ class RegisterLogic extends GetxController {
           HttpConfig.registerByEmail, method: "post", params: params);
       if (result["code"] == 200) {
         ShowToast.showToast("注册成功");
+        globalController.isLogin = true;
+        globalController.fetchUserMoney();
+        globalController.fetchUserInfo();
         sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
-        // SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
+        Get.find<MainPageLogic>().currentIndex.value = 0;
       } else {
         ShowToast.showToast(result["message"]);
       }
@@ -196,8 +200,12 @@ void loginWithTg()  async{
     var result = await HttpRequest.request(
         HttpConfig.register_third, method: "post", params: params);
     if (result["code"] == 200) {
-      ShowToast.showToast("注册成功");
       sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
+      globalController.isLogin = true;
+      globalController.fetchUserMoney();
+      globalController.fetchUserInfo();
+      sqliteService.setString(CacheKey.accountKey, accountText);
+      sqliteService.setString(CacheKey.passwordKey, passwordText);
       return true;
       // SqliteUtil().setString(CacheKey.apiToken, result["data"]["token"]);
     } else {

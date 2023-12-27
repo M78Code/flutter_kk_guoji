@@ -67,7 +67,7 @@ class KKRebateLogic extends GetxController {
         });
       }
     }
-    autoRecordList.value = modelList.obs;
+    autoRecordList.value = modelList;
   }
 
   void getTotalMoney() async {
@@ -87,13 +87,15 @@ class KKRebateLogic extends GetxController {
   }
 
   void getRatio(int gameType) async {
+    List modelList = [];
     var result = await HttpRequest.request(HttpConfig.getRatio, params: {"page": 1, "limit": 30, "game_type": gameType});
     if (result["code"] == 200) {
       List list = result["data"]["list"];
       if (list.isNotEmpty) {
         list.forEach((element) {
-          recordRateList.add(KKRecordRateModel.fromJson(element));
+          modelList.add(KKRecordRateModel.fromJson(element));
         });
+        recordRateList.value = modelList;
       }
     }
   }

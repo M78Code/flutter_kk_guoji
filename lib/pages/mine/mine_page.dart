@@ -509,7 +509,8 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            print("返水");
+            // print("返水");
+            RouteUtil.pushToView(Routes.rebate);
           },
         ),
       ],
