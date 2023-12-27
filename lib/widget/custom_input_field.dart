@@ -69,7 +69,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
     return Container(
       decoration: BoxDecoration(
           color: const Color(0x3D6C7A8F),
-          borderRadius: const BorderRadius.all(Radius.circular(21)),
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
           border: Border.all(color: isOnTap ? const Color(0xFF5D5FEF) : const Color(0x1AFFFFFF), width: 1.0)),
       height: 42,
       child: Row(
