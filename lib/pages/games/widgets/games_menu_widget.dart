@@ -38,7 +38,7 @@ class KKGamesMenuWidget extends GetView<GamesLogic> {
         }
 
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.w),
+          margin: EdgeInsets.symmetric(horizontal: 12.w),
           padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.0),
