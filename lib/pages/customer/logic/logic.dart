@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:kkguoji/services/http_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../services/config.dart';
 
@@ -23,4 +24,11 @@ class CustomerLogic extends GetxController {
     }
 
   }
+
+  Future<void> telegramLaunch() async {
+    if (!await launchUrl(Uri.parse(customerMap.value["site_telegram_url"]), mode: LaunchMode.externalApplication,)) {
+      throw 'Could not launch Telegram';
+    }
+  }
+
 }

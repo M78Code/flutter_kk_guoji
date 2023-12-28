@@ -26,36 +26,28 @@ class GamesLogic extends GetxController {
 
 
   final List<List<String>> hotList = [
-    [Assets.gamesLotteryLiuhe, "香港六合彩", "JCP","XGLHC"],
-    [Assets.gamesLotteryTixincai, "七星彩", "JCP","QXC"],
-    [Assets.gamesLotteryPcBaijiale, "PC百家乐", "JCP", "PCBJL"],
-    [Assets.gamesLotteryPcNuinui, "PC牛牛", "JCP", "PCNN"],
+    [Assets.gamesRealClassicBaijiale,"视讯百家乐", "COG", ""],
     [Assets.gamesCanadaShishicai, "加拿大时时彩", "JCP", "JNDSSC"],
+    [Assets.gamesCanada50, "加拿大5.0", "JCP", "JNDWU"],
+    [Assets.gamesLotteryJndlhc, "加拿大六合彩", "JCP", "JNDLHC"],
+    [Assets.gamesLotteryPcNuinui, "PC牛牛", "JCP", "PCNN"],
     [Assets.gamesCanada28, "加拿大2.8", "JCP", "JNDEB"],
-    [Assets.gamesCanada50, "加拿大5.0", "JCP", "XGLHC"],
-    [Assets.gamesCanada4246, "加拿大4.2-4.6", "JCP", "JNDSI"],
-    [Assets.gamesCanadaWanpan, "加拿大网盘赔率", "JCP", "JNDWP"],
-    [Assets.gamesBaijialeVideo, "主播百家乐", "COG", ""],
-    [Assets.gamesBaijialeQuick, "极速百家乐", "COG", ""],
-    [Assets.gamesBaijialeOm, "欧美百家乐", "COG", ""],
   ];
   final List<List<String>> lotteryList = [
     [Assets.gamesLotteryLiuhe, "香港六合彩", "JCP","XGLHC"],
     [Assets.gamesLotteryTixincai, "七星彩", "JCP","QXC"],
-    [Assets.gamesLotteryPcBaijiale, "PC百家乐", "JCP", "PCBJL"],
     [Assets.gamesLotteryPcNuinui, "PC牛牛", "JCP", "PCNN"],
+    [Assets.gamesCanada50, "加拿大5.0", "JCP", "JNDWU"],
     [Assets.gamesCanadaShishicai, "加拿大时时彩", "JCP", "JNDSSC"],
-    [Assets.gamesCanada28, "加拿大2.8", "JCP", "JNDEB"],
-    [Assets.gamesCanada50, "加拿大5.0", "JCP", "XGLHC"],
+    [Assets.gamesCanadaWanpan, "加拿大网盘赔率", "JCP", "JNDWP"],
     [Assets.gamesCanada4246, "加拿大4.2-4.6", "JCP", "JNDSI"],
-    [Assets.gamesCanadaWanpan, "加拿大网盘赔率", "JCP", "JNDWP"]
+    [Assets.gamesLotteryJndlhc, "加拿大六合彩", "JCP", "JNDLHC"],
+    [Assets.gamesLotteryPcBaijiale, "PC百家乐", "JCP", "PCBJL"],
+    [Assets.gamesCanada28, "加拿大2.8", "JCP", "JNDEB"],
   ];
 
   final List<List<String>> realList = [
-    [Assets.gamesRealClassicBaijiale,"经典百家乐", "COG", ""],
-    [Assets.gamesRealQuickBaijale, "", "COG", ""],
-    [Assets.gamesRealWheelBaijiale, "", "COG", ""],
-    [Assets.gamesRealOmBaijiale, "", "COG", ""],
+    [Assets.gamesRealClassicBaijiale,"视讯百家乐", "COG", ""],
   ];
   final List<List<String>> sportList = [
     [Assets.gamesSport1,"", "FbSports", ""],

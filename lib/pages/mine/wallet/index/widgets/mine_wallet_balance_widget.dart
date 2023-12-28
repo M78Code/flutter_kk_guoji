@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:kkguoji/common/extension/index.dart';
 
 import '../../../../../generated/assets.dart';
+import '../../../../../routes/routes.dart';
 import '../../../../../services/user_service.dart';
+import '../../../../../utils/route_util.dart';
 
 
 class MineWalletBalanceWidget extends StatelessWidget {
@@ -58,11 +61,11 @@ class MineWalletBalanceWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildButton('存款', Assets.mineWalletSaving, () {
-
+                RouteUtil.pushToView(Routes.recharge, arguments: true);
               }),
               SizedBox(width: 10.w),
               _buildButton('提现', Assets.mineWalletWithdraw, () {
-
+                RouteUtil.pushToView(Routes.withdraw, arguments: true);
               }),
               SizedBox(width: 15.w),
             ],
@@ -71,7 +74,8 @@ class MineWalletBalanceWidget extends StatelessWidget {
       ),
     );
   }
-  Container _buildButton(String title,String image, Function onTap) {
+
+  Widget _buildButton(String title,String image, Function onTap) {
     return Container(
       height: 40.w,
       width: 86.w,
@@ -99,6 +103,8 @@ class MineWalletBalanceWidget extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ).onTap(() {
+      onTap.call();
+    });
   }
 }

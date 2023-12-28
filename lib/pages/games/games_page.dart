@@ -65,10 +65,10 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
       child: Column(
         children: [
           KKGamesTopWidget(),
-          Divider(color: Color(0xFFFFFFFF).withOpacity(0.06), height: 1),
+
           KKGamesMenuWidget(),
           SizedBox(
-            height: 10.w,
+            height: 20.w,
           ),
           Expanded(
             child: GamesItemsWidget(),

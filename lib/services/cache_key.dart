@@ -10,4 +10,5 @@ class CacheKey {
   static const String BUCKET_NAME = "BUCKET_NAME";
   static const String IDENTITY_POOL_ID = "IDENTITY_POOL_ID";
   static const String defaultNickName = "default_nick_name";
+  static const String balanceHidden = "balanceHidden";
 }
