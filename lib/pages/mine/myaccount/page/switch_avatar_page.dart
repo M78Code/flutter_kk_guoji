@@ -195,7 +195,7 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
         text: "确定",
         height: 55,
         hPadding: 25.w,
-        onPressed: () => controller.modifyNickNameSubmit(),
+        onPressed: () => controller.uploadAWS3(),
       ),
     );
   }
