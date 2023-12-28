@@ -37,77 +37,93 @@ class KKGamesMenuWidget extends GetView<GamesLogic> {
           if (viewModel != null) viewModels.add(viewModel);
         }
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            for (var i = 0; i < viewModels.length; i++)
-              _buildItem(
-                  viewModels[i],
-                  i == controller.currentIndex ? 1 : 0.6,
-                      () {  controller.menuOntap(i); },
-                  i == controller.currentIndex).marginOnly(left: i == 0 ? 0 : 20.w),
-          ],
-        ).marginOnly(top: 18.w,left: 32.w);
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.w),
+          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6.0),
+              color: Color(0xFF202138)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              for (var i = 0; i < viewModels.length; i++)
+                Expanded(
+                  child: _buildItem(
+                      viewModels[i],
+                      i == controller.currentIndex ? 1 : 0.6,
+                          () {  controller.menuOntap(i); },
+                      i == controller.currentIndex),
+                ),
+            ],
+          ),
+        );
       },
     );
   }
-  Widget _buildViewFormApi() {
-    return GetBuilder<GamesLogic>(
-      id: "menu",
-      builder: (controller) {
+  // Widget _buildViewFormApi() {
+  //   return GetBuilder<GamesLogic>(
+  //     id: "menu",
+  //     builder: (controller) {
+  //
+  //       List<GamesMenuViewModel> viewModels = [];
+  //       for (var i = 0; i < controller.gameModels.length; i++) {
+  //         GroupGameData game = controller.gameModels[i];
+  //         GamesMenuViewModel? viewModel;
+  //         switch (game.name ?? "") {
+  //           case "热门" :
+  //             viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"热门");
+  //             break;
+  //           case "电子" :
+  //             viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"电子");
+  //             break;
+  //           case "彩票" :
+  //             viewModel = GamesMenuViewModel(image: Assets.gamesGamesLottery, arrow: Assets.gamesGamesLotteryArrow,title :"彩票");
+  //             break;
+  //           case "视讯" :
+  //             viewModel = GamesMenuViewModel(image: Assets.gamesGamesVideo, arrow: Assets.gamesGamesVideoArrow,title :"视讯");
+  //             break;
+  //           case "体育" :
+  //             viewModel = GamesMenuViewModel(image: Assets.gamesGamesSports, arrow: Assets.gamesGamesSportsArrow,title :"体育");
+  //             break;
+  //         }
+  //         if (viewModel != null) viewModels.add(viewModel);
+  //       }
+  //
+  //       return Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           for (var i = 0; i < viewModels.length; i++)
+  //             _buildItem(
+  //                 viewModels[i],
+  //                 i == controller.currentIndex ? 1 : 0.6,
+  //                     () {  controller.menuOntap(i); },
+  //                 i == controller.currentIndex).marginOnly(left: i == 0 ? 0 : 20.w),
+  //         ],
+  //       ).marginOnly(top: 18.w,left: 32.w);
+  //     },
+  //   );
+  // }
 
-        List<GamesMenuViewModel> viewModels = [];
-        for (var i = 0; i < controller.gameModels.length; i++) {
-          GroupGameData game = controller.gameModels[i];
-          GamesMenuViewModel? viewModel;
-          switch (game.name ?? "") {
-            case "热门" :
-              viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"热门");
-              break;
-            case "电子" :
-              viewModel = GamesMenuViewModel(image: Assets.gamesGamesHot, arrow: Assets.gamesGamesHotArrow,title :"电子");
-              break;
-            case "彩票" :
-              viewModel = GamesMenuViewModel(image: Assets.gamesGamesLottery, arrow: Assets.gamesGamesLotteryArrow,title :"彩票");
-              break;
-            case "视讯" :
-              viewModel = GamesMenuViewModel(image: Assets.gamesGamesVideo, arrow: Assets.gamesGamesVideoArrow,title :"视讯");
-              break;
-            case "体育" :
-              viewModel = GamesMenuViewModel(image: Assets.gamesGamesSports, arrow: Assets.gamesGamesSportsArrow,title :"体育");
-              break;
-          }
-          if (viewModel != null) viewModels.add(viewModel);
-        }
-
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            for (var i = 0; i < viewModels.length; i++)
-              _buildItem(
-                  viewModels[i],
-                  i == controller.currentIndex ? 1 : 0.6,
-                      () {  controller.menuOntap(i); },
-                  i == controller.currentIndex).marginOnly(left: i == 0 ? 0 : 20.w),
-          ],
-        ).marginOnly(top: 18.w,left: 32.w);
-      },
-    );
-  }
-
-  GestureDetector _buildItem(GamesMenuViewModel model, double opacity, GestureTapCallback tap, bool arrowVisible) {
-    return GestureDetector(
-      child: Column(
+  Widget _buildItem(GamesMenuViewModel model, double opacity, GestureTapCallback tap, bool arrowVisible) {
+    return Container(
+      height: 35.w,
+      decoration: arrowVisible ? BoxDecoration(
+          borderRadius: BorderRadius.circular(6.0),
+          gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) ,
+      ) : null,
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (model.image != null) Image.asset(model.image!, width: 49.w, height: 49.w,),
-          if (model.title != null) Text(model.title ?? "",style: TextStyle(color: Colors.white)),
-          if (model.title != null) Image.asset(model.arrow!, width: 8.w, height: 4.w,)
-                .marginOnly(top: 10.w)
-                .opacity(arrowVisible ? 1 : 0),
-          ],
-        ).opacity(opacity),
-      onTap: tap,
-    );
+          if (model.image != null) Image.asset(model.image!, width: 23.w, height: 22.w,),
+          SizedBox(width: 7.w,),
+          if (model.title != null) Text(model.title ?? "",style: TextStyle(color: Colors.white, fontSize: 13.sp, fontWeight: arrowVisible ? FontWeight.w500 : FontWeight.w400)),
+        ],
+      ),
+    )
+        .opacity(arrowVisible ? 1 : 0.5)
+        .onTap(() {
+          tap.call();
+        });
   }
 }
