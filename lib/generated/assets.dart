@@ -37,6 +37,9 @@ class Assets {
   static const String gamesSport3 = 'assets/images/games/sport_3.png';
   static const String gamesSport4 = 'assets/images/games/sport_4.png';
   static const String gamesSupport = 'assets/images/games/support.png';
+  static const String homeBallGreen = 'assets/images/home/ball_green.png';
+  static const String homeBallPurple = 'assets/images/home/ball_purple.png';
+  static const String homeBallRed = 'assets/images/home/ball_red.png';
   static const String homeHomeBjlIcon = 'assets/images/home/home_bjl_icon.png';
   static const String homeHomeJndsscIcon = 'assets/images/home/home_jndssc_icon.png';
   static const String homeHomeJsbjlIcon = 'assets/images/home/home_jsbjl_icon.png';
@@ -139,7 +142,7 @@ class Assets {
   static const String imagesPasswordOn = 'assets/images/password_on.png';
   static const String imagesPrivacyBtnNormal = 'assets/images/privacy_btn_normal.png';
   static const String imagesPrivacyBtnSelected = 'assets/images/privacy_btn_selected.png';
-  static const String imagesRegistTopLogo = 'assets/images/regist_top_logo.png';
+  static const String imagesRegistTopLogo = 'assets/images/myaccount/account_new_logo.png';
   static const String imagesRegisterBg = 'assets/images/register_bg.png';
   static const String imagesTabbarActivityNormal = 'assets/images/tabbar_activity_normal.png';
   static const String imagesTabbarActivitySelected = 'assets/images/tabbar_activity_selected.png';
@@ -171,6 +174,7 @@ class Assets {
   static const String mineWalletSearch = 'assets/images/mine/wallet_search.png';
   static const String mineWalletTransactionRecords = 'assets/images/mine/wallet_transaction_records.png';
   static const String mineWalletWithdraw = 'assets/images/mine/wallet_withdraw.png';
+  static const String myaccountAccountNewLogo = 'assets/images/myaccount/account_new_logo.png';
   static const String myaccountAvatar1 = 'assets/images/myaccount/avatar1.png';
   static const String myaccountAvatar2 = 'assets/images/myaccount/avatar2.png';
   static const String myaccountAvatar3 = 'assets/images/myaccount/avatar3.png';

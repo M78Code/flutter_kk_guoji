@@ -74,7 +74,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
                           children: [
-                            Image.asset("assets/images/regist_top_logo.png", width: 163, height: 45,),
+                            Image.asset("assets/images/myaccount/account_new_logo.png", width: 163, height: 45,),
                             const SizedBox(height: 30,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
