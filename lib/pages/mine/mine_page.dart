@@ -423,25 +423,32 @@ class MyPurse extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 0),
-          Padding(
-            padding: const EdgeInsets.only(left: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "¥${userService.userMoneyModel?.money}",
-                  style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+          GetBuilder<MineLogic>(
+            id: 'balance',
+            builder: (controller){
+              return Padding(
+                padding: const EdgeInsets.only(left: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      controller.isHiddenBalance ? "****" : "¥${userService.userMoneyModel?.money}",
+                      style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          controller.toggleHiddenBalance();
+                        },
+                        icon: Image.asset(
+                          controller.isHiddenBalance ? Assets.imagesIconEyeClose : Assets.imagesIconEyeOpen,
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.cover,
+                        ))
+                  ],
                 ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      Assets.imagesIconEyeClose,
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.cover,
-                    ))
-              ],
-            ),
+              );
+            },
           ),
           const TopUpWithdrawBackwater(),
         ],

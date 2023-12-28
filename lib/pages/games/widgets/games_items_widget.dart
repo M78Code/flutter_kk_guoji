@@ -29,6 +29,7 @@ class GamesItemsWidget extends GetView<GamesLogic> {
     return GetBuilder<GamesLogic>(
       id: "games",
       builder: (controller) {
+        controller.pageController = PageController(initialPage: controller.currentIndex);;
         return Column(
           children: [
             _buildTitleView().marginOnly(top: 18.w, left: 19.w),
