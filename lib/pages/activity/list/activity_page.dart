@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
 import 'activity_logic.dart';
 
@@ -18,7 +19,7 @@ class ActivityPage extends GetView<ActivityLogic> {
               SizedBox(
                   width: 30.w,
                   height: 5.w,
-                  child: Divider(
+                  child: const Divider(
                     height: 1,
                     color: Color(0xFF3D35C6),
                   ))
@@ -35,11 +36,20 @@ class ActivityPage extends GetView<ActivityLogic> {
         Expanded(
             child: controller.activities.isEmpty
                 ? Center(
-                    child: Text(
-                      "暂无数据",
-                      style: TextStyle(color: Colors.white, fontSize: 16.sp),
-                    ),
-                  )
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        Assets.activityImgComingSoon,
+                        width: 83.w,
+                        height: 90.h,
+                      ),
+                      Text(
+                        "敬请期待",
+                        style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                      ).marginOnly(top: 10.h),
+                    ],
+                  ))
                 : _buildItemsView()),
       ],
     );
@@ -49,7 +59,7 @@ class ActivityPage extends GetView<ActivityLogic> {
     return GetBuilder<ActivityLogic>(
       id: "categoryView",
       builder: (controller) {
-        return Container(
+        return SizedBox(
           height: 30,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,

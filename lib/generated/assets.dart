@@ -4,6 +4,7 @@ class Assets {
 
   static const String activityActivity = 'assets/images/activity/activity.png';
   static const String activityActivityDetail = 'assets/images/activity/activity_detail.png';
+  static const String activityImgComingSoon = 'assets/images/activity/img_coming_soon.png';
   static const String fontsDINPro = 'assets/fonts/DIN-Pro.otf';
   static const String fontsDINProBold = 'assets/fonts/DINPro-Bold.otf';
   static const String fontsDINProMedium = 'assets/fonts/DINPro-Medium.otf';
@@ -144,7 +145,7 @@ class Assets {
   static const String imagesPasswordOn = 'assets/images/password_on.png';
   static const String imagesPrivacyBtnNormal = 'assets/images/privacy_btn_normal.png';
   static const String imagesPrivacyBtnSelected = 'assets/images/privacy_btn_selected.png';
-  static const String imagesRegistTopLogo = 'assets/images/myaccount/account_new_logo.png';
+  static const String imagesRegistTopLogo = 'assets/images/regist_top_logo.png';
   static const String imagesRegisterBg = 'assets/images/register_bg.png';
   static const String imagesTabbarActivityNormal = 'assets/images/tabbar_activity_normal.png';
   static const String imagesTabbarActivitySelected = 'assets/images/tabbar_activity_selected.png';
