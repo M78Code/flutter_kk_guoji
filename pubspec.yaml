@@ -48,6 +48,7 @@ dependencies:
   webview_flutter: ^4.4.2
   flutter_widget_from_html: ^0.14.9
   easy_refresh: ^3.3.3+1
+  flutter_html: 
   image_picker: ^1.0.5
   flutter_inappwebview: ^5.8.0
   flutter_localizations:

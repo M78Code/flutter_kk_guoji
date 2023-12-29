@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unused_field
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import '../../../services/http_service.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class MessageCenterPage extends StatefulWidget {
   const MessageCenterPage({super.key});
@@ -177,6 +179,7 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
         itemBuilder: (context, index) {
           if (index < messageList.length) {
             MessageListModel? model = messageList[index];
+            print(model.content);
             return Container(
               margin: const EdgeInsets.only(left: 0, right: 0, bottom: 15),
               clipBehavior: Clip.antiAlias,
@@ -218,22 +221,23 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
                                 : SizedBox(height: 0)),
                         const SizedBox(height: 5),
                         Positioned(
-                          child: model.isShow
-                              ? HtmlWidget(
-                                  model.content,
-                                  textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
-                                )
-                              : HtmlWidget(
-                                  model.content.substring(0),
-                                  textStyle: TextStyle(
-                                      color: Color(0xFF686F83),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
+                            child: Column(
+                          children: [
+                            Html(
+                              data: model.content,
+                              style: {
+                                '#': Style(
+                                  color: model.isShow
+                                      ? Colors.white
+                                      : Color(0xFF686F83),
+                                  fontSize: FontSize(12),
+                                  maxLines: model.isShow ? 100000 : 1,
+                                  textOverflow: TextOverflow.ellipsis,
                                 ),
-                        ),
+                              },
+                            )
+                          ],
+                        )),
                         const SizedBox(height: 10),
                         Positioned(
                           child: GestureDetector(
@@ -301,8 +305,10 @@ class _MessageCenterPageState extends State<MessageCenterPage> {
                               ],
                             ),
                             onTap: () {
-                              RouteUtil.pushToView(Routes.webView,
-                                  arguments: model.linkTitle);
+                              if (!model.linkTitle.isEmpty) {
+                                RouteUtil.pushToView(Routes.webView,
+                                    arguments: model.linkTitle);
+                              }
                             },
                           ),
                         ),
