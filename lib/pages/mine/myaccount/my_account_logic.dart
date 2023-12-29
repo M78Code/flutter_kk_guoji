@@ -1,13 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:amazon_cognito_identity_dart_2/sig_v4.dart';
-import 'package:aws_s3_upload/aws_s3_upload.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as lDio;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/_http/_io/_file_decoder_io.dart';
 import 'package:kkguoji/common/models/pair.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
@@ -17,19 +14,11 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/user_service.dart';
-import 'package:kkguoji/utils/aws_policy.dart';
-import 'package:kkguoji/utils/image_util.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
-
-import 'dart:convert';
-
-import 'package:path/path.dart' as path;
-import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 
 class MyAccountLogic extends GetxController {
   //选中的下标
@@ -132,15 +121,30 @@ class MyAccountLogic extends GetxController {
       SqliteUtil().setString(CacheKey.defaultAvatar, result);
       selectedImg.value = result;
       selectedIndex.value = -1;
-      print("result = $result");
-      final bytes = await rootBundle.load(result);
-      String dir = (await getApplicationDocumentsDirectory()).path;
-      print("dir = $dir");
-      File file = await ImageUtil.writeToFile(bytes, result);
+      // print("result = $result");
 
-      final params = {"type": "", "img": file};
-      // final response = HttpRequest.request("post", params: params);
-      // print("response: $response");
+      // final bytes = await rootBundle.load(result);
+
+      // String dir = (await getApplicationDocumentsDirectory()).path;
+      // print("dir = $dir");
+      // File file = await ImageUtil.writeToFile(bytes, result);
+      Map<String, dynamic> map = {};
+      map["type"] = "image/*";
+      map["img"] = await lDio.MultipartFile.fromFile(
+        result,
+        filename: "new_avatar.png",
+        contentType: MediaType.parse("multipart/form-data"),
+      );
+      //发送post
+      final response = await HttpService.uploadImage(HttpConfig.uploadImage, map);
+      // final params = {"type": "image/*", "img": file};
+      // final response = await HttpRequest.request(
+      //   HttpConfig.uploadImage,
+      //   method: "post",
+      //   params: params,
+      //   contentType: "multipart/form-data"
+      // );
+      print("response: $response");
     }
   }
 
@@ -175,36 +179,36 @@ class MyAccountLogic extends GetxController {
     // request.files.add(await http.MultipartFile.fromPath("file", imagePath!), imagePath);
     // request.fileds.addAll({"key": imagePath.split("/").last, "acl": "public-read"});
     // await request.send();
-    const _accessKeyId = 'AKXXXXXXXXXXXXXXXXXX';
-    const _secretKeyId = 'xxxxxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxx';
-    const _region = 'ap-southeast-1';
-    const _s3Endpoint = 'https://bucketname.s3-ap-southeast-1.amazonaws.com';
-    final rBundle = await rootBundle.loadString(Assets.gamesGamesLotteryArrow);
-    final file = File(rBundle);
-    final stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
-    final length = await file.length();
-    final uri = Uri.parse(_s3Endpoint);
-    final req = http.MultipartRequest("POST", uri);
-    final multipartFile = http.MultipartFile('file', stream, length, filename: path.basename(file.path));
-    final policy = AwsPolicy.fromS3PresignedPost('uploaded/square-cinnamon.jpg', 'bucketname', _accessKeyId, 15, length, region: _region);
-    final key = SigV4.calculateSigningKey(_secretKeyId, policy.datetime, _region, 's3');
-    final signature = SigV4.calculateSignature(key, policy.encode());
-    req.files.add(multipartFile);
-    req.fields['key'] = policy.key;
-    req.fields['acl'] = 'public-read';
-    req.fields['X-Amz-Credential'] = policy.credential;
-    req.fields['X-Amz-Algorithm'] = 'AWS4-HMAC-SHA256';
-    req.fields['X-Amz-Date'] = policy.datetime;
-    req.fields['Policy'] = policy.encode();
-    req.fields['X-Amz-Signature'] = signature;
-    try {
-      final res = await req.send();
-      await for (var value in res.stream.transform(utf8.decoder)) {
-        print(value);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
+    // const _accessKeyId = 'AKXXXXXXXXXXXXXXXXXX';
+    // const _secretKeyId = 'xxxxxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxx';
+    // const _region = 'ap-southeast-1';
+    // const _s3Endpoint = 'https://bucketname.s3-ap-southeast-1.amazonaws.com';
+    // final rBundle = await rootBundle.loadString(Assets.gamesGamesLotteryArrow);
+    // final file = File(rBundle);
+    // final stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
+    // final length = await file.length();
+    // final uri = Uri.parse(_s3Endpoint);
+    // final req = http.MultipartRequest("POST", uri);
+    // final multipartFile = http.MultipartFile('file', stream, length, filename: path.basename(file.path));
+    // final policy = AwsPolicy.fromS3PresignedPost('uploaded/square-cinnamon.jpg', 'bucketname', _accessKeyId, 15, length, region: _region);
+    // final key = SigV4.calculateSigningKey(_secretKeyId, policy.datetime, _region, 's3');
+    // final signature = SigV4.calculateSignature(key, policy.encode());
+    // req.files.add(multipartFile);
+    // req.fields['key'] = policy.key;
+    // req.fields['acl'] = 'public-read';
+    // req.fields['X-Amz-Credential'] = policy.credential;
+    // req.fields['X-Amz-Algorithm'] = 'AWS4-HMAC-SHA256';
+    // req.fields['X-Amz-Date'] = policy.datetime;
+    // req.fields['Policy'] = policy.encode();
+    // req.fields['X-Amz-Signature'] = signature;
+    // try {
+    //   final res = await req.send();
+    //   await for (var value in res.stream.transform(utf8.decoder)) {
+    //     print(value);
+    //   }
+    // } catch (e) {
+    //   print(e.toString());
+    // }
 
     // AmazonS3Cognito.upload(bucket, identity, region, subRegion, imageData)
   }
