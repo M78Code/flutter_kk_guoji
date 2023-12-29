@@ -111,7 +111,7 @@ class GamesItemsWidget extends GetView<GamesLogic> {
 
   GridView _buildItemsGridView3(List<List<String>> items) {
     return GridView.builder(
-      padding: EdgeInsets.only(top: 14.w, left: 15.w, right: 15.w),
+      padding: EdgeInsets.only( left: 15.w, right: 15.w, bottom: 10.w),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
