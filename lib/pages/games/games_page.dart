@@ -5,6 +5,8 @@ import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/games/games_logic.dart';
 import 'package:kkguoji/services/user_service.dart';
+import '../../routes/routes.dart';
+import '../../utils/route_util.dart';
 import './widgets/index.dart';
 
 class KKGamesPage extends StatefulWidget {
@@ -41,16 +43,7 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Stack(
-          children: [
-            _buildView(),
-            Positioned(
-              bottom: 16.w,
-              right: 20.w,
-              child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport).onTap(() {})),
-            ),
-          ],
-        ),
+        body: _buildView(),
       ),
     );
   }
@@ -61,14 +54,10 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
       child: Column(
         children: [
           KKGamesTopWidget(),
-          Divider(color: Color(0xFFFFFFFF).withOpacity(0.06), height: 1),
+          SizedBox(  height: 20.w),
           KKGamesMenuWidget(),
-          SizedBox(
-            height: 10.w,
-          ),
-          Expanded(
-            child: GamesItemsWidget(),
-          )
+          SizedBox(  height: 20.w),
+          Expanded(child: GamesItemsWidget())
         ],
       ),
     );

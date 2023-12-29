@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/mine_logic.dart';
+import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
+import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 
@@ -36,7 +38,6 @@ class MinePage extends GetView<MineLogic> {
                   bottom: 0,
                   child: Column(
                     children: [
-                      MyPurse().paddingSymmetric(horizontal: 12.w),
                       Expanded(flex: 1, child: _buildItems()),
                       _buildLogOutBtn(context).marginOnly(top: 30.h, bottom: 20.h),
                     ],
@@ -51,6 +52,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///头部背景
   Widget _buildTop() {
     return Container(
       height: 180.h,
@@ -70,6 +72,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///功能设置
   Widget _buildRightSetting() {
     return Positioned(
       top: 44.h,
@@ -78,12 +81,8 @@ class MinePage extends GetView<MineLogic> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           IconButton(
-              //信息
-              onPressed: () {
-                //进入消息界面
-                RouteUtil.pushToView(Routes.messageCenter);
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => const MessageCenterPage()));
-              },
+              //进入消息界面
+              onPressed: () => RouteUtil.pushToView(Routes.messageCenter),
               icon: Image.asset(
                 Assets.imagesIconInform,
                 width: 30,
@@ -107,6 +106,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///用户信息
   Widget _buildUserInfo() {
     return Positioned(
       top: 91.h,
@@ -151,7 +151,7 @@ class MinePage extends GetView<MineLogic> {
                         ),
                         onPressed: () => StringUtil.clipText('${controller.userInfoModel?.uuid}')),
                   ],
-                )
+                ),
               ],
             ),
             const SizedBox(width: 22),
@@ -171,7 +171,7 @@ class MinePage extends GetView<MineLogic> {
                   ),
                 ),
               ),
-              onTap: () => RouteUtil.pushToView(Routes.personalInfoPage),
+              onTap: () => RouteUtil.pushToView(Routes.personalInfoPage, arguments: controller.userInfoModel?.userNick),
             ),
           ],
         ),
@@ -179,12 +179,15 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///功能清单
   Widget _buildItems() {
     return SingleChildScrollView(
       child: Column(
         children: [
+          MyPurse().paddingSymmetric(horizontal: 12.w),
           SizedBox(height: 20.h),
-          const SafeBoxWaitGridView(),
+          //功能未开放
+          // const SafeBoxWaitGridView(),
           const MyAccountInfo(),
           Container(
             height: 8.h,
@@ -196,6 +199,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///退出按钮
   Widget _buildLogOutBtn(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 25, right: 25),
@@ -219,6 +223,7 @@ class MinePage extends GetView<MineLogic> {
     );
   }
 
+  ///退出弹框
   void _showDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -300,6 +305,7 @@ class AvatarWithVip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final avatar = SqliteUtil().getString(CacheKey.selectAvatarIndex);
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -337,9 +343,7 @@ class AvatarWithVip extends StatelessWidget {
                   width: 15,
                   height: 15,
                 ),
-                const SizedBox(
-                  width: 3,
-                ),
+                const SizedBox(width: 3),
                 const Text(
                   '0',
                   style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
@@ -421,25 +425,32 @@ class MyPurse extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 0),
-          Padding(
-            padding: const EdgeInsets.only(left: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "¥${userService.userMoneyModel?.money}",
-                  style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+          GetBuilder<MineLogic>(
+            id: 'balance',
+            builder: (controller){
+              return Padding(
+                padding: const EdgeInsets.only(left: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      controller.isHiddenBalance ? "****" : "¥${userService.userMoneyModel?.money}",
+                      style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          controller.toggleHiddenBalance();
+                        },
+                        icon: Image.asset(
+                          controller.isHiddenBalance ? Assets.imagesIconEyeClose : Assets.imagesIconEyeOpen,
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.cover,
+                        ))
+                  ],
                 ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      Assets.imagesIconEyeClose,
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.cover,
-                    ))
-              ],
-            ),
+              );
+            },
           ),
           const TopUpWithdrawBackwater(),
         ],
@@ -472,9 +483,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               ),
             ],
           ),
-          onPressed: () {
-            print("充值");
-          },
+          onPressed: () => RouteUtil.pushToView(Routes.recharge, arguments: true),
         ),
         InkWellView(
           height: 40.h,
@@ -491,9 +500,7 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               ),
             ],
           ),
-          onPressed: () {
-            print("提现");
-          },
+          onPressed: () => RouteUtil.pushToView(Routes.withdraw, arguments: true),
         ),
         InkWellView(
           height: 40.h,
@@ -511,40 +518,10 @@ class TopUpWithdrawBackwater extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            print("返水");
+            // print("返水");
+            RouteUtil.pushToView(Routes.rebate);
           },
         ),
-        /*GestureDetector(
-          child: Container(
-            height: 40,
-            width: 100,
-            decoration: BoxDecoration(
-              color: const Color(0xFF2D374E),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  Assets.imagesIconWithdraw,
-                  width: 25,
-                  height: 25,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Text(
-                  '返水',
-                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
-          onTap: () {
-            print('返水');
-            RouteUtil.pushToView(Routes.recharge);
-          },
-        ),*/
       ],
     );
   }
@@ -570,7 +547,7 @@ class SafeBoxWaitGridView extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             children: [
               // 保险箱
-              GestureDetector(
+              InkWellView(
                 child: Column(
                   children: [
                     Image.asset(
@@ -584,13 +561,11 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('保险箱');
-                },
+                onPressed: () {},
               ),
-
               // VIP
-              GestureDetector(
+              InkWellView(
+                onPressed: () {},
                 child: Column(
                   children: [
                     Image.asset(
@@ -604,13 +579,9 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('VIP');
-                },
               ),
-
               // 返水
-              GestureDetector(
+              InkWellView(
                 child: Column(
                   children: [
                     Image.asset(
@@ -624,13 +595,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('返水');
-
-                },
+                onPressed: () {},
               ),
               // 推广赚钱
-              GestureDetector(
+              InkWellView(
                 child: Column(
                   children: [
                     Image.asset(
@@ -644,10 +612,8 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  print('推广赚钱');
-                },
-              )
+                onPressed: () {},
+              ),
             ],
           ),
         ),
@@ -683,7 +649,6 @@ class MyAccountInfo extends StatelessWidget {
               height: 16,
             ),
             onTap: () {
-              // print("kkk账号:${}");
               RouteUtil.pushToView(Routes.myAccountPage);
             },
           ),
@@ -755,26 +720,26 @@ class WelfareReward extends StatelessWidget {
       margin: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
-          ListTile(
-            leading: Image.asset(
-              Assets.imagesIconAward,
-              width: 18,
-              height: 18.5,
-              fit: BoxFit.cover,
-            ),
-            title: const Text(
-              '福利奖励',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
-            ),
-            trailing: Image.asset(
-              Assets.imagesIconArrowsEnter,
-              width: 16,
-              height: 16,
-            ),
-            onTap: () {
-              print('福利奖励');
-            },
-          ),
+          // ListTile(
+          //   leading: Image.asset(
+          //     Assets.imagesIconAward,
+          //     width: 18,
+          //     height: 18.5,
+          //     fit: BoxFit.cover,
+          //   ),
+          //   title: const Text(
+          //     '福利奖励',
+          //     style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+          //   ),
+          //   trailing: Image.asset(
+          //     Assets.imagesIconArrowsEnter,
+          //     width: 16,
+          //     height: 16,
+          //   ),
+          //   onTap: () {
+          //     print('福利奖励');
+          //   },
+          // ),
           const Divider(
             color: Color.fromRGBO(255, 255, 255, 0.06),
             height: 1,
@@ -824,9 +789,7 @@ class WelfareReward extends StatelessWidget {
               width: 16,
               height: 16,
             ),
-            onTap: () {
-              print('分享');
-            },
+            onTap: () {},
           ),
         ],
       ),

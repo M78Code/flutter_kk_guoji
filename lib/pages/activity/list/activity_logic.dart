@@ -12,10 +12,10 @@ class ActivityLogic extends GetxController {
 
 // 假设的活动数据，格式为 ActivityModel 类型的列表
   List<ActivityModel> activities = [
-    ActivityModel(id: 0, imageUrl: Assets.activityActivity),
-    ActivityModel(id: 1, imageUrl: Assets.activityActivity),
-    ActivityModel(id: 2, imageUrl: Assets.activityActivity),
-    ActivityModel(id: 3, imageUrl: Assets.activityActivity),
+    // ActivityModel(id: 0, imageUrl: Assets.activityActivity),
+    // ActivityModel(id: 1, imageUrl: Assets.activityActivity),
+    // ActivityModel(id: 2, imageUrl: Assets.activityActivity),
+    // ActivityModel(id: 3, imageUrl: Assets.activityActivity),
     // 添加更多活动项
   ];
 

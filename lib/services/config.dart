@@ -24,6 +24,7 @@ class HttpConfig {
   static const getUserRechargeList = "/api/userRecharge/list"; // 充值信息查询
   static const getUserWithdrawList = "/api/userWithdraw/list"; // 提现信息查询
   static const getUserbetList = "/api/user/betList"; // 注单信息查询
+  static const updateUserInfo = "/api/user/updateUserInfo"; //修改用户头像和昵称
   // 游戏
   static const getGroupGameList = "/api/game/getGroupGameList"; // 所有游戏分组数据
   static const getGameTypeList = '/api/game/getGameTypeList'; //获取游戏类型分类列表
@@ -31,8 +32,7 @@ class HttpConfig {
   //客服中心
   static const getCustomer = "/api/public/customer";
 
-  //我的推广
-  static const getAgentTeam = "/api/agent/team";
+  static const getAgentTeam = "/api/agent/team";    //我的推广
   static const getMessageList = '/api/notice/list'; //公告信息查询
   //获取自动返佣
   static const getAutoRecord = '/api/userRebate/getAutoRecord';
@@ -52,4 +52,7 @@ class HttpConfig {
   static const currency = "/api/withdrawal/currency"; //获取提现币种
   static const withdraw = "/api/withdrawal/apply"; //申请提现
 // static const feeConfig = "/api/withdrawal/config"; //获取提现配置信息
+
+//第三方登录
+  static const register_third = "/api/public/register_third";
 }

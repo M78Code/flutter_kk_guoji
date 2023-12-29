@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:kkguoji/widget/show_toast.dart';
+import 'package:path_provider/path_provider.dart';
 
 class StringUtil {
   StringUtil._();
@@ -33,6 +35,19 @@ class StringUtil {
   static void clipText(String? text) {
     Clipboard.setData(ClipboardData(text: text ?? "")).then((value) => ShowToast.showToast("复制成功"));
   }
+
+  ///获取应用程序目录文件
+  static Future<File> getLocalSupportFile(String path) async {
+    final dir = await getApplicationDocumentsDirectory();
+
+    print("dir = ${dir.path}");
+    return File('${dir.path}/$path');
+  }
+
+
+  // static Future<File> getAbsolutePath() async{
+  //   final flutterAbsolutePath = await FlutterAbsolutePath
+  // }
 
   ///正则验证邮箱格式
 // static bool isEmail(String text) {
