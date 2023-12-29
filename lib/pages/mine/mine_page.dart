@@ -8,6 +8,7 @@ import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
+import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 
@@ -304,6 +305,7 @@ class AvatarWithVip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final avatar = SqliteUtil().getString(CacheKey.selectAvatarIndex);
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [

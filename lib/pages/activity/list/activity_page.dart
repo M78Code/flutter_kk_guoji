@@ -5,27 +5,27 @@ import 'package:kkguoji/pages/activity/list/widgets/item_widget.dart';
 import 'activity_logic.dart';
 
 class ActivityPage extends GetView<ActivityLogic> {
-
   const ActivityPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     Get.put(ActivityLogic());
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          children: [
-            const Text(
-                "优惠活动",
-                style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
-            SizedBox(
-                width: 30.w,
-                height: 5.w,
-                child: Divider(height: 1,color: Color(0xFF3D35C6),))
-          ],
+        appBar: AppBar(
+          title: Column(
+            children: [
+              const Text("优惠活动", style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
+              SizedBox(
+                  width: 30.w,
+                  height: 5.w,
+                  child: Divider(
+                    height: 1,
+                    color: Color(0xFF3D35C6),
+                  ))
+            ],
+          ),
         ),
-      ),
-      body: _buildView());
+        body: _buildView());
   }
 
   Column _buildView() {
@@ -33,8 +33,14 @@ class ActivityPage extends GetView<ActivityLogic> {
       children: [
         _buildCategoryView(),
         Expanded(
-            child: _buildItemsView()
-        ),
+            child: controller.activities.isEmpty
+                ? Center(
+                    child: Text(
+                      "暂无数据",
+                      style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                    ),
+                  )
+                : _buildItemsView()),
       ],
     );
   }
@@ -42,7 +48,7 @@ class ActivityPage extends GetView<ActivityLogic> {
   Widget _buildCategoryView() {
     return GetBuilder<ActivityLogic>(
       id: "categoryView",
-      builder: (controller){
+      builder: (controller) {
         return Container(
           height: 30,
           child: ListView.builder(
@@ -74,16 +80,14 @@ class ActivityPage extends GetView<ActivityLogic> {
                 itemBuilder: (context, index) {
                   return FittedBox(
                     child: ActivityItem(
-                        activity: controller.activities[index],
-                      onTap:  (activityId) {
+                      activity: controller.activities[index],
+                      onTap: (activityId) {
                         controller.onActivityTap(activityId);
                       },
                     ),
                   );
-                }
-            ),
+                }),
           );
         });
   }
-
 }

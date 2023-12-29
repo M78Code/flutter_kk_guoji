@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -36,38 +39,43 @@ class ImageUtil {
     }
   }
 
+  //将图片写入file
+  static Future<File> writeToFile(ByteData data, String path) async {
+    final buffer = data.buffer;
+    return File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+  }
+
   static void requestCamera(BuildContext context, {Function(String? result)? callback}) {
     final firstOpenCamera = SqliteUtil().getBool(CacheKey.firstOpenCamera) ?? true;
     if (firstOpenCamera) {
       showDialog(
         context: context,
-        builder: (context) =>
-            CupertinoAlertDialog(
-              title: const Text("当前应用想访问相机功能"),
-              content: const Column(
-                children: [
-                  SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment(0, 0),
-                    child: Text("使用相机获取照片"),
-                  ),
-                ],
+        builder: (context) => CupertinoAlertDialog(
+          title: const Text("当前应用想访问相机功能"),
+          content: const Column(
+            children: [
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment(0, 0),
+                child: Text("使用相机获取照片"),
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("不允许"),
-                ),
-                TextButton(
-                  onPressed: () {
-                    SqliteUtil().setBool(CacheKey.firstOpenCamera, false); //首次打开后，保存到本地
-                    Navigator.pop(context);
-                    _showActionSheet(context, callback: callback);
-                  },
-                  child: const Text("好"),
-                ),
-              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("不允许"),
             ),
+            TextButton(
+              onPressed: () {
+                SqliteUtil().setBool(CacheKey.firstOpenCamera, false); //首次打开后，保存到本地
+                Navigator.pop(context);
+                _showActionSheet(context, callback: callback);
+              },
+              child: const Text("好"),
+            ),
+          ],
+        ),
       );
     } else {
       _showActionSheet(context, callback: callback);
@@ -77,33 +85,31 @@ class ImageUtil {
   static void _showActionSheet(BuildContext context, {Function(String? result)? callback}) {
     showCupertinoModalPopup(
       context: context,
-      builder: (context) =>
-          CupertinoActionSheet(
-            actions: [
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  ImageUtil.captureCamera().then((value) => callback?.call(value));
-                  Navigator.pop(context);
-                },
-                child: const Text("打开相机"),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                  ImageUtil.openGallery().then((value) => callback?.call(value));
-                },
-                child: const Text("打开相册"),
-              ),
-              CupertinoActionSheetAction(
-                isDestructiveAction: true,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('取消'),
-              ),
-            ],
+      builder: (context) => CupertinoActionSheet(
+        actions: [
+          CupertinoActionSheetAction(
+            onPressed: () {
+              ImageUtil.captureCamera().then((value) => callback?.call(value));
+              Navigator.pop(context);
+            },
+            child: const Text("打开相机"),
           ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              ImageUtil.openGallery().then((value) => callback?.call(value));
+            },
+            child: const Text("打开相册"),
+          ),
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('取消'),
+          ),
+        ],
+      ),
     );
   }
-
 }

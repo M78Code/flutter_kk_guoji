@@ -24,6 +24,7 @@ class HttpConfig {
   static const getUserRechargeList = "/api/userRecharge/list"; // 充值信息查询
   static const getUserWithdrawList = "/api/userWithdraw/list"; // 提现信息查询
   static const getUserbetList = "/api/user/betList"; // 注单信息查询
+  static const updateUserInfo = "/api/user/updateUserInfo"; //修改用户头像和昵称
   // 游戏
   static const getGroupGameList = "/api/game/getGroupGameList"; // 所有游戏分组数据
   static const getGameTypeList = '/api/game/getGameTypeList'; //获取游戏类型分类列表

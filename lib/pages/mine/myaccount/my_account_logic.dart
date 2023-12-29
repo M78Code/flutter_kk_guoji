@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:amazon_cognito_identity_dart_2/sig_v4.dart';
+import 'package:aws_s3_upload/aws_s3_upload.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/_http/_io/_file_decoder_io.dart';
 import 'package:kkguoji/common/models/pair.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
@@ -12,10 +17,19 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/user_service.dart';
+import 'package:kkguoji/utils/aws_policy.dart';
+import 'package:kkguoji/utils/image_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
+
+import 'dart:convert';
+
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class MyAccountLogic extends GetxController {
   //选中的下标
@@ -79,18 +93,11 @@ class MyAccountLogic extends GetxController {
 
   inputVerCodeValue(String code) {
     verCodeText = code;
-    // checkCanLogin();
   }
 
   void modifyNiceName() {
     setModifyNice = !setModifyNice;
     update();
-  }
-
-  void modifyNickNameSubmit(){
-    if(nickController.text.isEmpty){
-      ShowToast.showToast("请输入修改后的昵称");
-    }
   }
 
   void getVerCode() async {
@@ -119,12 +126,21 @@ class MyAccountLogic extends GetxController {
   }
 
   ///通过相册选择图像
-  void updateCamera(String? result) {
+  void updateCamera(String? result) async {
     if (null != result) {
       SqliteUtil().remove(CacheKey.selectAvatarIndex);
       SqliteUtil().setString(CacheKey.defaultAvatar, result);
       selectedImg.value = result;
       selectedIndex.value = -1;
+      print("result = $result");
+      final bytes = await rootBundle.load(result);
+      String dir = (await getApplicationDocumentsDirectory()).path;
+      print("dir = $dir");
+      File file = await ImageUtil.writeToFile(bytes, result);
+
+      final params = {"type": "", "img": file};
+      // final response = HttpRequest.request("post", params: params);
+      // print("response: $response");
     }
   }
 
@@ -151,56 +167,126 @@ class MyAccountLogic extends GetxController {
 
   ///图片上传
   void uploadImageFromAWSS3(
-    String imagePath,
-    String imageName,
+    String? imagePath,
+    String? imageName,
   ) async {
-    // String uploadedImageUrl = await AmazonS3Cognito.uploadImage(
-    //     _image.path, BUCKET_NAME, IDENTITY_POOL_ID);
-    //Use the below code to upload an image to amazon s3 server
-    //I advise using this method for image upload.
-    // String uploadedImageUrl = await AmazonS3Cognito.upload(
-    //   imagePath,
-    //   CacheKey.BUCKET_NAME,
-    //   CacheKey.IDENTITY_POOL_ID,
-    //   imageName,
-    //   AwsRegion.US_EAST_1,
-    //   AwsRegion.AP_SOUTHEAST_1,
-    // );
-    final aws3 = await postAWSS3();
+    // var url = "https://s3.us-east-1.amzzonaws.com/testing-presigned-upload";
+    // final request = http.MultipartRequest("POST", Uri.parse(url));
+    // request.files.add(await http.MultipartFile.fromPath("file", imagePath!), imagePath);
+    // request.fileds.addAll({"key": imagePath.split("/").last, "acl": "public-read"});
+    // await request.send();
+    const _accessKeyId = 'AKXXXXXXXXXXXXXXXXXX';
+    const _secretKeyId = 'xxxxxxxxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxx';
+    const _region = 'ap-southeast-1';
+    const _s3Endpoint = 'https://bucketname.s3-ap-southeast-1.amazonaws.com';
+    final rBundle = await rootBundle.loadString(Assets.gamesGamesLotteryArrow);
+    final file = File(rBundle);
+    final stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
+    final length = await file.length();
+    final uri = Uri.parse(_s3Endpoint);
+    final req = http.MultipartRequest("POST", uri);
+    final multipartFile = http.MultipartFile('file', stream, length, filename: path.basename(file.path));
+    final policy = AwsPolicy.fromS3PresignedPost('uploaded/square-cinnamon.jpg', 'bucketname', _accessKeyId, 15, length, region: _region);
+    final key = SigV4.calculateSigningKey(_secretKeyId, policy.datetime, _region, 's3');
+    final signature = SigV4.calculateSignature(key, policy.encode());
+    req.files.add(multipartFile);
+    req.fields['key'] = policy.key;
+    req.fields['acl'] = 'public-read';
+    req.fields['X-Amz-Credential'] = policy.credential;
+    req.fields['X-Amz-Algorithm'] = 'AWS4-HMAC-SHA256';
+    req.fields['X-Amz-Date'] = policy.datetime;
+    req.fields['Policy'] = policy.encode();
+    req.fields['X-Amz-Signature'] = signature;
+    try {
+      final res = await req.send();
+      await for (var value in res.stream.transform(utf8.decoder)) {
+        print(value);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+
     // AmazonS3Cognito.upload(bucket, identity, region, subRegion, imageData)
   }
 
-// void deleteImageFromAWSS3(String imageName) {
-//   String result = AmazonS3Cognito.delete(
-//     CacheKey.BUCKET_NAME,
-//     CacheKey.IDENTITY_POOL_ID,
-//     imageName,
-//     folderInBucketWhereImgIsUploaded,
-//     AwsRegion.US_EAST_1,
-//     AwsRegion.AP_SOUTHEAST_1,
-//   );
-// }
+  void uploadAWS3() async {
+    // const url = "https://s3.us-east-1.amzzonaws.com/testing-presigned-upload";
+    // ByteData imageData = await rootBundle.load(Assets.activityActivity);
+    // Uint8List bytes = imageData.buffer.asUint8List();
 
-  void uploadSingleImage() async {
-    String bucketName = "test";
-    String cognitoPoolId = "your pool id";
-    String bucketRegion = "imageUploadRegion";
-    String bucketSubRegion = "Sub region of bucket";
+    //创建一个临时文件来存储图片数据
+    // final result = await AwsS3.uploadFile(
+    //   accessKey: "AKxxxxxxxxxxxxx",
+    //   secretKey: "xxxxxxxxxxxxxxxxxxxxxxxxxx",
+    //   bucket: "bucket_name",
+    //   file: File("/Users/lind/LeonProject/kkguoji/assets/images/activity/activity.png"),
+    // );
+    // print("result = $result");
+    // String tempPath = await getTemporaryDirectory();
+    // DefaultAssetBundle.of(context).loadString(Assets.activityActivity);
+    // File f2 = File(rBundle);
+    // final f2f = await f2.exists();
+    // print("f2f = $bytes");
 
-    //fileUploadFolder - this is optional parameter
-    String fileUploadFolder = "folder inside bucket where we want file to be uploaded";
+    //  File file = File("/Users/lind/LeonProject/kkguoji/assets/images/activity/activity.png");
+    //  final form = leonForm.FormData.fromMap(
+    //    {
+    //      "file": leonFile.MultipartFile.fromString(file.path, filename: "avatar.jpg"),
+    //    },
+    //  );
+    // final response = await Dio().post(url, data: form);
+    //  print("response : $response");
+    // final file = await StringUtil.getLocalSupportFile(Assets.activityActivity);
 
-    String filePath = ""; //path of file you want to upload
-    // ImageData imageData = ImageData("uniqueFileName", filePath,
-    //     uniqueId: "uniqueIdToTrackImage", imageUploadFolder: fileUploadFolder);
-
-    //result is either amazon s3 url or failure reason
-    // String? result = await AmazonS3Cognito.upload(
-    //     bucketName, cognitoPoolId, bucketRegion, bucketSubRegion, imageData,
-    //     needMultipartUpload: true);
-    // //once upload is success or failure update the ui accordingly
-    // print(result);
+    // File file = File(rBundle);
+    // final isExist = await file.exists();
+    // print("isExist = $isExist");
+    // final request = http.MultipartRequest("POST", Uri.parse(url));
+    // //添加图片作为文件
+    // final stream = http.ByteStream(file.openRead());
+    // print("stream ---stream");
+    // final length = await file.length();
+    // final multipartFile = http.MultipartFile(
+    //   "nickAvatar", stream, length, filename: path.basename(file.path), //文件名
+    // );
+    // //添加文件到请求中
+    // request.files.add(multipartFile);
+    // //发送请求
+    // final response = await http.Response.fromStream(await request.send());
+    // if (response.statusCode == 200) {
+    //   print("上传成功");
+    // } else {
+    //   print("上传失败: ${response.statusCode}");
+    // }
   }
+
+  /*Future uploadMultipleImage(List<File> img) async {
+    var uri = Uri.parse("https://s3.us-east-1.amzzonaws.com/testing-presigned-upload");
+    http.MultipartRequest request = http.MultipartRequest('POST', uri);
+    //multipartFile = new http.MultipartFile("imagefile", stream, length, filename: basename(imageFile.path));
+    // List<MultipartFile> newList = [];
+    for (int i = 0; i < img.length; i++) {
+      File imageFile = File(img[i].path);
+      var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+      var length = await imageFile.length();
+      var multipartFile = http.MultipartFile("file", stream, length, filename: path.basename(imageFile.path));
+      print(imageFile.path);
+      // newList.add(multipartFile);
+      request.files.add(multipartFile);
+    }
+    // request.files.addAll(newList);
+    // print(newList);
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print("Image Uploaded");
+    } else {
+      print("Upload Failed");
+    }
+
+    response.stream.transform(utf8.decoder).listen((value) {
+      print(value);
+    });
+  }*/
 
   String clipText(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((value) {
