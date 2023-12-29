@@ -11,7 +11,6 @@ import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/main/view/main_page.dart';
 import 'package:kkguoji/pages/mine/data/personal_data_page.dart';
 import 'package:kkguoji/pages/mine/bet_list/view.dart';
-import 'package:kkguoji/pages/mine/myaccount/my_account_binding.dart';
 import 'package:kkguoji/pages/mine/myaccount/page/switch_avatar_page.dart';
 import 'package:kkguoji/pages/mine/myaccount/page/set_login_psd_page.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
@@ -24,7 +23,6 @@ import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
 import 'package:kkguoji/pages/rebate/bindings/binding.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
-import 'package:kkguoji/pages/webView/tg_webview.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
 import 'package:kkguoji/services/user_service.dart';
@@ -32,12 +30,15 @@ import '../pages/activity/detail/binding.dart';
 import '../pages/activity/detail/view.dart';
 import '../pages/activity/list/activity_binding.dart';
 import '../pages/activity/list/activity_page.dart';
+import '../pages/award/binding.dart';
+import '../pages/award/view.dart';
 import '../pages/mine/claimrecord/claim_record_page.dart';
 import '../pages/mine/data/person_data_building.dart';
 import '../pages/mine/information_settings/view.dart';
 import '../pages/mine/wallet/wallet_fund_detail/view.dart';
 import '../pages/mine/wallet/wallet_record/view.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
+import '../pages/webView/tg_webview.dart';
 
 abstract class Routes {
   static const String loginPage = '/login';
@@ -46,7 +47,6 @@ abstract class Routes {
   static const String activity = '/activity';
   static const String activityDetail = "/activityDetail";
   static const String webView = "/webView";
-  static const String tgWebView = "/tg_webview";
   static const String walletPage = "/walletPage";
   static const String walletFundDetailPage = "/walletFundDetailPage";
   static const String walletRecordPage = "/walletRecordPage";
@@ -69,6 +69,8 @@ abstract class Routes {
   static const String setLoginPsdPage = "/mine/setLoginPsdPage";
   static const String mainPage = "/main/view/mainPage";
   static const String informationSettingsPage = "/mine/informationSettingsPage";
+  static const String tgWebView = "/tg_webview";
+  static const String awardPage = "/award_page";
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -100,6 +102,7 @@ abstract class Routes {
     GetPage(name: informationSettingsPage, page: () => const InformationSettingsPage()),
     GetPage(name: game, page: () => const KKGamesPage()),
     GetPage(name: tgWebView, page: () => TGWebview()),
+    GetPage(name: awardPage, page: () => AwardPage(), binding: AwardBinding()),
   ];
 
   static Widget getPage(String pageName) {

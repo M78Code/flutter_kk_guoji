@@ -21,14 +21,14 @@ class HomeLogic extends GetxController {
   var gameList = <Datum>[].obs;
   var margeGameList=<List<Datum>>[].obs;
   var recommendGameList=[
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_lhc_icon.png',gameName: '香港六合彩',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_qxc_icon.png',gameName: '七星彩',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_bjl_icon.png',gameName: 'PC百家乐',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_sxbjl_icon.png',gameName: '视讯百家乐',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jnassc_icon.png',gameName: '加拿大时时彩',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jndwu_icon.png',gameName: '加拿大5.0',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_xglhc_icon.png',gameName: '香港六合彩',),
     JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_pcnn_icon.png',gameName: 'PC牛牛',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jndssc_icon.png',gameName: '加拿大时时彩',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_zbbjl_icon.png',gameName: '主播百家乐',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jsbjl_icon.png',gameName: '极速百家乐',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_ombjl_icon.png',gameName: '欧美百家乐',),
+    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jndeb_icon.png',gameName: '加拿大2.8',),
+    // JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jsbjl_icon.png',gameName: '极速百家乐',),
+    // JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_ombjl_icon.png',gameName: '欧美百家乐',),
   ];
   Map imageMap = {
     "XGLHC": {

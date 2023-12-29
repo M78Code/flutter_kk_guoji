@@ -60,36 +60,45 @@ class KKHomeGamesWidget extends StatelessWidget {
         ),
         SizedBox(
           width: double.infinity,
-          height: 236,
+          height: 300,
           child: GridView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: 8,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 108 / 78.0, crossAxisSpacing: 10, mainAxisSpacing: 15),
+              itemCount: 6,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 145 / 114.0, crossAxisSpacing: 10, mainAxisSpacing: 15),
               itemBuilder: (context, index) {
                 return GestureDetector(
                   child: Container(
-                    height: 118,
+                    height: 145,
                     decoration: ShapeDecoration(
                       color: const Color(0xFF24262F),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Stack(
                       children: [
-                        Image.asset(
-                          controller.recommendGameList[index].gameIcon,
-                          height: 80,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0), // 设置圆角半径
+                          child: Image.asset(
+                            controller.recommendGameList[index].gameIcon,
+                            height: 145,
+                            width: 115,
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                        Container(
-                            height: 30,
-                            alignment: Alignment.center,
-                            child: Text(
-                              controller.recommendGameList[index].gameName,
-                              style: const TextStyle(color: Colors.white, fontSize: 12),
-                            ))
+                        Positioned(
+                          bottom: 0,
+                          child: Container(
+                              height: 30,
+                              width: 115,
+                              alignment: Alignment.center,
+                              child: Text(
+                                controller.recommendGameList[index].gameName,
+                                style: const TextStyle(color: Colors.white, fontSize: 14,fontFamily: 'PingFang SC',
+                                  fontWeight: FontWeight.w500,),
+                              )),
+                        )
                       ],
                     ),
                   ),
