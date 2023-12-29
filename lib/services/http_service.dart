@@ -7,7 +7,6 @@ import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
-import 'package:kkguoji/widget/show_toast.dart';
 
 import '../utils/sqlite_util.dart';
 import 'cache_key.dart';
@@ -28,8 +27,15 @@ class HttpService extends GetxService {
     _dio.interceptors.add(DioLogInterceptor());
   }
 
-  Future<T> fetch<T>(String url, {String method = "get", Map<String, dynamic>? params, FormData? data, Interceptor? inter}) async {
-    final options = Options(method: method, contentType: "application/x-www-form-urlencoded");
+  Future<T> fetch<T>(
+    String url, {
+    String method = "get",
+    Map<String, dynamic>? params,
+    FormData? data,
+    Interceptor? inter,
+    String contentType = "application/x-www-form-urlencoded",
+  }) async {
+    final options = Options(method: method, contentType: contentType);
 
     if (inter != null) {
       _dio.interceptors.add(inter);
@@ -40,13 +46,13 @@ class HttpService extends GetxService {
       Response response = await _dio.request(url, queryParameters: params, data: data, options: options);
       return response.data;
     } on DioError catch (e) {
-      Response errResponse = e.response!;
-      final msg = errResponse.data["message"];
-      final code = errResponse.data["code"];
+      Response? errResponse = e.response;
+      final msg = errResponse?.data["message"];
+      final code = errResponse?.data["code"];
       if (code == 1001) {
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
       } else {
-        ShowToast.showToast(msg);
+        // ShowToast.showToast(msg);
       }
       return Future.error(e);
     }
@@ -56,9 +62,15 @@ class HttpService extends GetxService {
     return HttpService.to.fetch(url, method: method, params: params, inter: inter);
   }
 
-// static Future<T> uploadImage<T>(String url, {String method = "post", Map<String, dynamic>? params, Interceptor? inter}) async {
-//   return  Dio().post(url, data: params);
-// }
+  static Future<Response<T>> uploadImage<T>(String url, Map<String, dynamic> map) async {
+    //通过FormData
+    FormData formData = FormData.fromMap(map);
+    return HttpService.to._dio.post(
+      url,
+      data: formData,
+      // options: Options(contentType: "multipart/form-data"),
+    );
+  }
 }
 
 class RequestInterceptors extends Interceptor {
@@ -82,7 +94,7 @@ class RequestInterceptors extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     final data = response.data!;
-    if (data["code"] == 401) {
+    if (data["code"] == "401") {
       SqliteUtil().remove(CacheKey.apiToken);
       Get.find<UserService>().isLogin = false;
       // RouteUtil.pushToView(Routes.loginPage);
@@ -117,7 +129,12 @@ class HttpRequest {
     Map<String, dynamic>? params,
     FormData? data,
     Interceptor? inter,
+    String contentType = "application/x-www-form-urlencoded",
   }) async {
-    return HttpService.to.fetch(url, method: method, params: params, data: data, inter: inter);
+    return HttpService.to.fetch(url, method: method, params: params, contentType: contentType, data: data, inter: inter);
   }
+
+// static Future<Response<T>> uploadFile<T>(String url, File file) async {
+//   return HttpService.uploadImage(url, file);
+// }
 }
