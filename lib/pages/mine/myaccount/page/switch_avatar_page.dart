@@ -45,7 +45,6 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
     //     ),
     //   ),
     // );
-
     return GetBuilder(
       init: MyAccountLogic(),
       builder: (controller) {
@@ -93,15 +92,11 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
           children: [
             Column(
               children: [
-                Obx(
-                  () => CircleAvatar(
-                    radius: 40.r,
-                    backgroundImage: AssetImage(controller.selectedImg.value),
-                  ),
-                ),
+                Obx(() => _selectAvatar()),
                 SizedBox(height: 8.h),
                 Text(
-                  "${Get.arguments}",
+                  Get.arguments["nick"],
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.white,
@@ -126,7 +121,7 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
           visible: controller.setModifyNice,
           child: inputTextEdit(
             editController: controller.nickController,
-            hintText: "${Get.arguments}",
+            hintText: Get.arguments["nick"],
             hintTextSize: 14.sp,
           ).paddingSymmetric(horizontal: 30.h),
         )
@@ -140,6 +135,32 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
         //   ),
         // )
       ],
+    );
+  }
+
+  Widget _selectAvatar() {
+    // Obx(
+    //   () => null == urlPath
+    //       ? CircleAvatar(
+    //           radius: 40.r,
+    //           backgroundImage: AssetImage(controller.selectedImg.value),
+    //         )
+    //       : CircleAvatar(
+    //           radius: 40.r,
+    //           backgroundImage: NetworkImage(urlPath),
+    //         ),
+    // ),
+    String urlPath = Get.arguments["urlPath"];
+    ImageProvider imgProvider;
+    if (urlPath.startsWith("http")) {
+      controller.selectedImg.value = urlPath;
+      imgProvider = NetworkImage(controller.selectedImg.value);
+    } else {
+      imgProvider = AssetImage(controller.selectedImg.value);
+    }
+    return CircleAvatar(
+      radius: 40.r,
+      backgroundImage: imgProvider,
     );
   }
 
@@ -195,7 +216,7 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
         text: "确定",
         height: 55,
         hPadding: 25.w,
-        onPressed: () => controller.uploadAWS3(),
+        onPressed: () => controller.updateNickAndAvatar(),
       ),
     );
   }

@@ -9,6 +9,7 @@ import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
 import '../utils/sqlite_util.dart';
+import '../widget/show_toast.dart';
 import 'cache_key.dart';
 
 class HttpService extends GetxService {
@@ -44,7 +45,16 @@ class HttpService extends GetxService {
     // 2.发送网络请求
     try {
       Response response = await _dio.request(url, queryParameters: params, data: data, options: options);
-      return response.data;
+      final responseData = response.data;
+      if (responseData["code"] == 401) {
+        ShowToast.showToast(responseData["message"]);
+        SqliteUtil().remove(CacheKey.apiToken);
+        Get.find<UserService>().isLogin = false;
+        RouteUtil.pushToView(Routes.loginPage, offAll: true);
+        return Future.error("");
+        // return Future.error(error);
+      }
+      return responseData;
     } on DioError catch (e) {
       Response? errResponse = e.response;
       final msg = errResponse?.data["message"];
@@ -62,14 +72,21 @@ class HttpService extends GetxService {
     return HttpService.to.fetch(url, method: method, params: params, inter: inter);
   }
 
-  static Future<Response<T>> uploadImage<T>(String url, Map<String, dynamic> map) async {
-    //通过FormData
-    FormData formData = FormData.fromMap(map);
-    return HttpService.to._dio.post(
-      url,
-      data: formData,
-      // options: Options(contentType: "multipart/form-data"),
-    );
+  // static Future<Response<T>> uploadImage<T>(
+  //   String url,
+  //   FormData formData,
+  // ) async {
+  //   //通过FormData
+  //   return HttpService.to._dio.post(
+  //     url,
+  //     data: formData,
+  //     options: Options(contentType: "multipart/form-data"),
+  //   );
+  // }
+
+  /// 封装form-data数据的方法
+  static Future<T> uploadImage<T>(String path, params) async {
+    return HttpService.to.fetch(path, method: "POST", data: params, contentType: "multipart/form-data");
   }
 }
 
@@ -93,12 +110,16 @@ class RequestInterceptors extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    final data = response.data!;
-    if (data["code"] == "401") {
-      SqliteUtil().remove(CacheKey.apiToken);
-      Get.find<UserService>().isLogin = false;
-      // RouteUtil.pushToView(Routes.loginPage);
-    } else {
+    try {
+      final data = response.data!;
+      if (data["code"] == 401) {
+        SqliteUtil().remove(CacheKey.apiToken);
+        Get.find<UserService>().isLogin = false;
+        // RouteUtil.pushToView(Routes.loginPage);
+      } else {
+        return handler.next(response);
+      }
+    } catch (e) {
       return handler.next(response);
     }
   }
