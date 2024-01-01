@@ -22,7 +22,6 @@ import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
-
 class MyAccountLogic extends GetxController {
   //选中的下标
   RxInt selectedIndex = 99.obs;
@@ -199,6 +198,8 @@ class MyAccountLogic extends GetxController {
       return;
     }
 
+    //测试代码
+
     try {
       bool response;
       if (selectedImg.value.startsWith("http")) {
@@ -207,22 +208,9 @@ class MyAccountLogic extends GetxController {
           "portrait": selectedImg.value,
         });
       } else {
-        // final path = "${await getApplicationDocumentsDirectory()}/${selectedImg.value}";
-        // final tmpFile = File(path);
-        // final file = tmpFile.readAs
-        // var data = await rootBundle.load(selectedImg.value);
-        // Uint8List bytes = data.buffer.asUint8List();
-        // print("data = $data, bytes = ${bytes.lengthInBytes}");
-        // final file = File.fromRawPath(bytes);
-        // final file = File(selectedImg.value);
-        // var f = await rootBundle.load(selectedImg.value);
-        //
-        // print("通过loadString方法获取的:$f");
-        final file = File(selectedImg.value);
-
+        final file = await ImageUtil.getImageFileFileFromAssets(selectedImg.value);
         final compressFile = await ImageUtil.compressAndSaveImage(file);
         final value = await AccountApi.uploadImage(compressFile.path);
-        // final value = await AccountApi.uploadImage(file.path);
         response = await AccountApi.updateUserInfo({
           "user_nick": Get.arguments["nick"],
           "portrait": value?.url,

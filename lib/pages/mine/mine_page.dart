@@ -109,8 +109,10 @@ class MinePage extends GetView<MineLogic> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            AvatarWithVip(
-              urlPath: controller.userInfoModel?.portrait,
+            Obx(
+              () => AvatarWithVip(
+                urlPath: controller.userInfoModel?.getAvatar().value,
+              ),
             ),
             const SizedBox(
               width: 10,
@@ -309,6 +311,7 @@ class AvatarWithVip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("AvatarWithVip---urlPath = $urlPath");
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [

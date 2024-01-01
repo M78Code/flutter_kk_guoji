@@ -1,3 +1,5 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 class UserInfoModel {
   int? id;
   int? uuid;
@@ -93,4 +95,6 @@ class UserInfoModel {
     data["url"] = this.url;
     return data;
   }
+
+  Rx<String?> getAvatar() => portrait.obs;
 }

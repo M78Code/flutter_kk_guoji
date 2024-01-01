@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kkguoji/services/cache_key.dart';
@@ -251,5 +252,15 @@ class ImageUtil {
     } else {
       throw Exception('无法解码图像');
     }
+  }
+
+  //https://stackoverflow.com/questions/52353764/how-do-i-get-the-assets-file-path-in-flutter
+  static Future<File> getImageFileFileFromAssets(String path) async {
+    final byteData = await rootBundle.load(path);
+    final buffer = byteData.buffer;
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    var filePath = "$tempPath/file_01.tmp";
+    return File(filePath).writeAsBytes(buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
   }
 }
