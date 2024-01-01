@@ -94,9 +94,9 @@ class RequestInterceptors extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     final data = response.data!;
-    if (data["code"] == "401") {
+    if (data["code"] == "401" || data["code"] == 401) {
       SqliteUtil().remove(CacheKey.apiToken);
-      Get.find<UserService>().isLogin = false;
+      UserService.to.isLogin = false;
       // RouteUtil.pushToView(Routes.loginPage);
     } else {
       return handler.next(response);
@@ -114,7 +114,7 @@ class RequestInterceptors extends Interceptor {
     // int? code = err.response?.data["code"];
     if (code == 401 || code == 1001) {
       SqliteUtil().remove(CacheKey.apiToken);
-      Get.find<UserService>().isLogin = false;
+      UserService.to.isLogin = false;
       RouteUtil.pushToView(Routes.loginPage, offAll: true);
     } else {
       return handler.next(err);

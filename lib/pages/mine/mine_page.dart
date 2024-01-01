@@ -12,9 +12,6 @@ import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 
-import '../../services/sqlite_service.dart';
-import 'package:kkguoji/services/cache_key.dart';
-
 class MinePage extends GetView<MineLogic> {
   const MinePage({super.key});
 

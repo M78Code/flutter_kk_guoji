@@ -5,6 +5,9 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/services/user_service.dart';
 
+import '../../routes/routes.dart';
+import '../../utils/route_util.dart';
+
 
 class MineLogic extends GetxController {
   final userService = Get.find<UserService>();
