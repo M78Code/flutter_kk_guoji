@@ -54,7 +54,7 @@ class DateSelectionSection extends StatelessWidget {
                   children: [
                     Text(
                       selectDateRange ?? '选择时间段',
-                      style: TextStyle(color: Color(0xA8FFFFFF), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                      style: TextStyle(color: selectDateRange == null ? Color(0xA8FFFFFF) : Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w400),
                     ).marginOnly(left: 10.w),
                     Image.asset(
                         Assets.mineWalletSearch,

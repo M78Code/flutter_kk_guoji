@@ -57,15 +57,11 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
               SliverToBoxAdapter(
                 child: MineWalletBalanceWidget(),
               ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 20.w,)
-              ),
+              SliverToBoxAdapter(  child: SizedBox(height: 20.w,)  ),
               SliverToBoxAdapter(
                 child: RechargeSection(),
               ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 20.w,)
-              ),
+              SliverToBoxAdapter( child: SizedBox(height: 20.w,) ),
               SliverToBoxAdapter(
                 child: GetBuilder<WalletFundDetailLogic>(
                   id: 'dateSelector',
@@ -89,13 +85,7 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
                   },
                 ),
               ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 15.w,)
-              ),
               SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-              controller.userMoneyDetailsSearchList.isEmpty ? SliverToBoxAdapter(child: Center(
-                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
-              )) :
               TransactionListSection(),
             ],
           ),
