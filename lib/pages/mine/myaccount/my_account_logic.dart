@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dio/dio.dart' as lDio;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/api/account_api.dart';
 import 'package:kkguoji/common/models/pair.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
@@ -14,15 +14,16 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/user_service.dart';
-import 'package:http_parser/http_parser.dart';
+import 'package:kkguoji/utils/image_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MyAccountLogic extends GetxController {
   //选中的下标
-  RxInt selectedIndex = 0.obs;
+  RxInt selectedIndex = 99.obs;
   final RxBool psdObscure1 = true.obs;
   final RxBool psdObscure2 = true.obs;
   final RxBool psdObscure3 = true.obs;
@@ -47,19 +48,19 @@ class MyAccountLogic extends GetxController {
     super.onInit();
     userInfoModel = userService.userInfoModel.value;
     getVerCode();
-    final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
-    if (null != saveAvatar) {
-      selectedImg.value = saveAvatar;
-    }
-    final saveIndex = SqliteUtil().getInt(CacheKey.selectAvatarIndex);
-    if (null != saveIndex) {
-      selectedIndex.value = saveIndex;
-    } else {
-      selectedIndex.value = -1;
-    }
-    if (null == saveIndex && null == saveAvatar) {
-      selectedIndex = 0.obs;
-    }
+    // final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
+    // if (null != saveAvatar) {
+    //   selectedImg.value = saveAvatar;
+    // }
+    // final saveIndex = SqliteUtil().getInt(CacheKey.selectAvatarIndex);
+    // if (null != saveIndex) {
+    //   selectedIndex.value = saveIndex;
+    // } else {
+    //   selectedIndex.value = -1;
+    // }
+    // if (null == saveIndex && null == saveAvatar) {
+    //   selectedIndex = 0.obs;
+    // }
   }
 
   showPassword(RxBool b) {
@@ -108,43 +109,20 @@ class MyAccountLogic extends GetxController {
 
   ///通过默认图片列表选择图像
   void updateIndex(int index) {
+    Get.arguments["urlPath"] = "";
     selectedIndex.value = index;
     selectedImg.value = avatarList[index].third;
-    SqliteUtil().setInt(CacheKey.selectAvatarIndex, index);
-    SqliteUtil().setString(CacheKey.defaultAvatar, avatarList[index].third);
+    // SqliteUtil().setInt(CacheKey.selectAvatarIndex, index);
+    // SqliteUtil().setString(CacheKey.defaultAvatar, avatarList[index].third);
   }
 
   ///通过相册选择图像
   void updateCamera(String? result) async {
     if (null != result) {
       SqliteUtil().remove(CacheKey.selectAvatarIndex);
-      SqliteUtil().setString(CacheKey.defaultAvatar, result);
+      // SqliteUtil().setString(CacheKey.defaultAvatar, result);
       selectedImg.value = result;
       selectedIndex.value = -1;
-      // print("result = $result");
-
-      // final bytes = await rootBundle.load(result);
-
-      // String dir = (await getApplicationDocumentsDirectory()).path;
-      // print("dir = $dir");
-      // File file = await ImageUtil.writeToFile(bytes, result);
-      Map<String, dynamic> map = {};
-      map["type"] = "image/*";
-      map["img"] = await lDio.MultipartFile.fromFile(
-        result,
-        filename: "new_avatar.png",
-        contentType: MediaType.parse("multipart/form-data"),
-      );
-      //发送post
-      final response = await HttpService.uploadImage(HttpConfig.uploadImage, map);
-      // final params = {"type": "image/*", "img": file};
-      // final response = await HttpRequest.request(
-      //   HttpConfig.uploadImage,
-      //   method: "post",
-      //   params: params,
-      //   contentType: "multipart/form-data"
-      // );
-      print("response: $response");
     }
   }
 
@@ -213,7 +191,54 @@ class MyAccountLogic extends GetxController {
     // AmazonS3Cognito.upload(bucket, identity, region, subRegion, imageData)
   }
 
-  void uploadAWS3() async {
+  void updateNickAndAvatar() async {
+    if (setModifyNice && nickController.text.isEmpty) {
+      ShowToast.showToast("请设置用户昵称");
+      return;
+    }
+
+    try {
+      bool response;
+      if (selectedImg.value.startsWith("http")) {
+        response = await AccountApi.updateUserInfo({
+          "user_nick": Get.arguments["nick"],
+          "portrait": selectedImg.value,
+        });
+      } else {
+        // final path = "${await getApplicationDocumentsDirectory()}/${selectedImg.value}";
+        // final tmpFile = File(path);
+        // final file = tmpFile.readAs
+        // var data = await rootBundle.load(selectedImg.value);
+        // Uint8List bytes = data.buffer.asUint8List();
+        // print("data = $data, bytes = ${bytes.lengthInBytes}");
+        // final file = File.fromRawPath(bytes);
+        // final file = File(selectedImg.value);
+        // var f = await rootBundle.load(selectedImg.value);
+        //
+        // print("通过loadString方法获取的:$f");
+        final file = File(selectedImg.value);
+
+        final compressFile = await ImageUtil.compressAndSaveImage(file);
+        final value = await AccountApi.uploadImage(compressFile.path);
+        // final value = await AccountApi.uploadImage(file.path);
+        response = await AccountApi.updateUserInfo({
+          "user_nick": Get.arguments["nick"],
+          "portrait": value?.url,
+        });
+      }
+
+      if (response) {
+        ShowToast.showToast("更新成功");
+        AccountApi.getUserInfo();
+      } else {
+        ShowToast.showToast("更新失败");
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    // updateUserInfo
+
     // const url = "https://s3.us-east-1.amzzonaws.com/testing-presigned-upload";
     // ByteData imageData = await rootBundle.load(Assets.activityActivity);
     // Uint8List bytes = imageData.buffer.asUint8List();
