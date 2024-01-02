@@ -96,5 +96,4 @@ class UserInfoModel {
     return data;
   }
 
-  Rx<String?> getAvatar() => portrait.obs;
 }
