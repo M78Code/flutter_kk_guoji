@@ -16,7 +16,24 @@ class MineLogic extends GetxController {
     // TODO: implement onInit
     userInfoModel = userService.userInfoModel.value;
     super.onInit();
+    print("MineLogic---onInit");
   }
+
+  @override
+  void onReady(){
+    // TODO: implement onReady
+    print("onReady");
+    super.onReady();
+  }
+
+  @override
+  void onClose(){
+    // TODO: implement onClose
+    print("onClose");
+    super.onClose();
+
+  }
+
 
   toggleHiddenBalance() {
     isHiddenBalance = !isHiddenBalance;

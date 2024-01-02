@@ -1,3 +1,4 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class UserInfoModel {
   int? id;
@@ -20,6 +21,7 @@ class UserInfoModel {
   int? boxStatus;
   int? boxPwd;
   int? withdrawPwdStatus;
+  String? url;
 
   UserInfoModel(
       {this.id,
@@ -41,7 +43,8 @@ class UserInfoModel {
       this.level,
       this.boxStatus,
       this.boxPwd,
-      this.withdrawPwdStatus});
+      this.withdrawPwdStatus,
+      this.url});
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -64,6 +67,7 @@ class UserInfoModel {
     boxStatus = json['box_status'];
     boxPwd = json['box_pwd'];
     withdrawPwdStatus = json['withdraw_pwd_status'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -88,6 +92,9 @@ class UserInfoModel {
     data['box_status'] = this.boxStatus;
     data['box_pwd'] = this.boxPwd;
     data['withdraw_pwd_status'] = this.withdrawPwdStatus;
+    data["url"] = this.url;
     return data;
   }
+
+  Rx<String?> getAvatar() => portrait.obs;
 }
