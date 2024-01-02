@@ -4,11 +4,9 @@ import 'package:get/get.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/mine_logic.dart';
-import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
-import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 
@@ -112,7 +110,11 @@ class MinePage extends GetView<MineLogic> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const AvatarWithVip(),
+            Obx(
+              () => AvatarWithVip(
+                urlPath: controller.portraitUrl.value,
+              ),
+            ),
             const SizedBox(
               width: 10,
               height: 5,
@@ -153,23 +155,32 @@ class MinePage extends GetView<MineLogic> {
             ),
             const SizedBox(width: 22),
             GestureDetector(
-              child: //编辑
-                  Container(
-                width: 67,
-                height: 25,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconEditBg))),
-                child: const Center(
-                  //文字居中
-                  child: Text(
-                    '编辑',
-                    style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
+                child: //编辑
+                    Container(
+                  width: 67,
+                  height: 25,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconEditBg))),
+                  child: const Center(
+                    //文字居中
+                    child: Text(
+                      '编辑',
+                      style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
-              onTap: () => RouteUtil.pushToView(Routes.personalInfoPage, arguments: controller.userInfoModel?.userNick),
-            ),
+                onTap: () async {
+                  final data = await Get.toNamed(
+                    Routes.personalInfoPage,
+                    arguments: {
+                      "nick": controller.userInfoModel?.userNick,
+                      "urlPath": controller.userInfoModel?.portrait,
+                    },
+                  );
+                  controller.userInfoModel = data;
+                  controller.portraitUrl.value = (data as UserInfoModel).portrait ?? "";
+                }),
           ],
         ),
       ),
@@ -298,11 +309,12 @@ class MinePage extends GetView<MineLogic> {
 }
 
 class AvatarWithVip extends StatelessWidget {
-  const AvatarWithVip({super.key});
+  final String? urlPath;
+
+  const AvatarWithVip({super.key, this.urlPath});
 
   @override
   Widget build(BuildContext context) {
-    // final avatar = SqliteUtil().getString(CacheKey.selectAvatarIndex);
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -310,13 +322,20 @@ class AvatarWithVip extends StatelessWidget {
           // 头像
           width: 50,
           height: 50,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage(Assets.imagesIconHeaderDefault),
-              fit: BoxFit.cover,
-            ),
-          ),
+          decoration: null == urlPath
+              ? const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(Assets.imagesIconHeaderDefault),
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(urlPath!),
+                    fit: BoxFit.cover,
+                  ),
+                ),
         ),
         Positioned(
           bottom: 0, // 负数表示往上移动
@@ -424,7 +443,7 @@ class MyPurse extends StatelessWidget {
           const SizedBox(height: 0),
           GetBuilder<MineLogic>(
             id: 'balance',
-            builder: (controller){
+            builder: (controller) {
               return Padding(
                 padding: const EdgeInsets.only(left: 25),
                 child: Row(
@@ -759,10 +778,7 @@ class WelfareReward extends StatelessWidget {
               width: 16,
               height: 16,
             ),
-            onTap: () {
-              print('信息设置');
-              RouteUtil.pushToView(Routes.informationSettingsPage);
-            },
+            onTap: () => RouteUtil.pushToView(Routes.informationSettingsPage),
           ),
           const Divider(
             color: Color.fromRGBO(255, 255, 255, 0.06),

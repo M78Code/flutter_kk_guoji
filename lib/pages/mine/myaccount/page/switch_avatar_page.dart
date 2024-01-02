@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/myaccount/my_account_logic.dart';
 import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/utils/image_util.dart';
+import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
@@ -45,7 +47,6 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
     //     ),
     //   ),
     // );
-
     return GetBuilder(
       init: MyAccountLogic(),
       builder: (controller) {
@@ -54,7 +55,7 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               leading: IconButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Get.back(result: controller.userInfoModel),
                 icon: Image.asset(
                   Assets.imagesBackNormal,
                   width: 20.w,
@@ -93,15 +94,11 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
           children: [
             Column(
               children: [
-                Obx(
-                  () => CircleAvatar(
-                    radius: 40.r,
-                    backgroundImage: AssetImage(controller.selectedImg.value),
-                  ),
-                ),
+                Obx(() => _selectAvatar()),
                 SizedBox(height: 8.h),
                 Text(
-                  "${Get.arguments}",
+                  Get.arguments["nick"],
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.white,
@@ -126,20 +123,26 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
           visible: controller.setModifyNice,
           child: inputTextEdit(
             editController: controller.nickController,
-            hintText: "${Get.arguments}",
+            hintText: Get.arguments["nick"],
             hintTextSize: 14.sp,
           ).paddingSymmetric(horizontal: 30.h),
         )
-        // Obx(
-        //   () => Visibility(
-        //     visible: controller.isModifyNickName.value,
-        //     child: inputTextEdit(
-        //       hintText: "修改用户昵称",
-        //       hintTextSize: 14.sp,
-        //     ).paddingSymmetric(horizontal: 30.h),
-        //   ),
-        // )
       ],
+    );
+  }
+
+  Widget _selectAvatar() {
+    String urlPath = Get.arguments["urlPath"];
+    ImageProvider imgProvider;
+    if (urlPath.startsWith("http")) {
+      controller.selectedImg.value = urlPath;
+      imgProvider = NetworkImage(controller.selectedImg.value);
+    } else {
+      imgProvider = AssetImage(controller.selectedImg.value);
+    }
+    return CircleAvatar(
+      radius: 40.r,
+      backgroundImage: imgProvider,
     );
   }
 
@@ -195,7 +198,7 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
         text: "确定",
         height: 55,
         hPadding: 25.w,
-        onPressed: () => controller.uploadAWS3(),
+        onPressed: () => controller.updateNickAndAvatar(),
       ),
     );
   }
