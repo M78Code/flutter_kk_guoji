@@ -94,7 +94,7 @@ class RequestInterceptors extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     final data = response.data!;
-    if (data["code"] == "401") {
+    if (data["code"].toString() == "401") {
       SqliteUtil().remove(CacheKey.apiToken);
       Get.find<UserService>().isLogin = false;
       // RouteUtil.pushToView(Routes.loginPage);
