@@ -42,20 +42,20 @@ class KKHomePage extends GetView<HomeLogic> {
                                       autoplayDisableOnInteraction:false,
                                       autoplay: true,
                                       itemCount: controller.bannerList.length, itemBuilder: (BuildContext context, int index) {
-                                    Map bannerInfo = controller.bannerList.value[index];
-                                    if(bannerInfo.isNotEmpty) {
-                                      return Image.network(bannerInfo["image"], fit: BoxFit.cover);
-                                    }else {
-                                      return Container();
-                                    }
-                                  },
+                                        Map bannerInfo = controller.bannerList.value[index];
+                                        if(bannerInfo.isNotEmpty) {
+                                          return Image.network(bannerInfo["image"], fit: BoxFit.cover);
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
                                       pagination: const SwiperPagination()
                                   ),
                                 ),
                               );
                   }),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child:  Column(
                       children: [
                         Obx(() => KKHomeMarqueeWidget(controller.marqueeStr.value),),
