@@ -99,9 +99,11 @@ class GamesItemsWidget extends GetView<GamesLogic> {
         return Container(
           child: Image.asset(items[index].first, width: 78.w, height: 78.w),
         ).onTap(() {
-          if (UserService.to.isLogin == false) {
-            RouteUtil.pushToView(Routes.loginPage);
-            return;
+          if(items[index][2] != "JCP") {
+            if (UserService.to.isLogin == false) {
+              RouteUtil.pushToView(Routes.loginPage);
+              return;
+            }
           }
           controller.gamesOnTap(items[index]);
         }); // Passing index + 1 as item number
