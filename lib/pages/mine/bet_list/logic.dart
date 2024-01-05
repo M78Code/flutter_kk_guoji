@@ -30,6 +30,7 @@ class BetListController extends GetxController {
     controlFinishLoad: true,
   );
   EasyRefreshController get refreshController => _refreshController;
+  var gameSearchKey = "";
 
   @override
   void onReady() {
@@ -71,12 +72,17 @@ class BetListController extends GetxController {
     await onRefresh();
   }
 
-  onTapSwitchGame(int index) async {
-    if (this.selectedGameModel.id == gameModels[index].id) { return; }
-    this.selectedGameModel = gameModels[index];
+  onTapSwitchGame(GameModel gameModel) async {
+    if (this.selectedGameModel.id == gameModel.id) { return; }
+    this.selectedGameModel = gameModel;
     update(['gameMenu']);
     update(['menu']);
     await onRefresh();
+  }
+
+  gameSearchKeyChange(String searchKey) {
+    this.gameSearchKey = searchKey;
+    update(['gameMenu']);
   }
 
   initData() {
