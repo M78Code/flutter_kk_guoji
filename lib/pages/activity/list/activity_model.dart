@@ -1,3 +1,5 @@
+import 'package:kkguoji/generated/assets.dart';
+
 class CategoryModel {
   int? index;
   String? name;
@@ -13,6 +15,9 @@ class CategoryModel {
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     currencyCode = json['currency_code'];
+    if (currencyCode?.toUpperCase() == "USDT") {
+      imgPath = Assets.imagesIconUsdt;
+    }
     name = currencyCode;
   }
 

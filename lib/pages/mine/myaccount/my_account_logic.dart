@@ -345,10 +345,10 @@ class MyAccountLogic extends GetxController {
         ShowToast.showToast("请输入新密码");
         return false;
       }
-      if (!StringUtil.checkPsdRule(newPsdText)) {
-        ShowToast.showToast("密码由数字、字母、构成,长度8-20");
-        return false;
-      }
+      // if (!StringUtil.checkPsdRule(newPsdText)) {
+      //   ShowToast.showToast("密码由数字、字母、构成,长度8-20");
+      //   return false;
+      // }
       if (confirmPsdText.isEmpty) {
         ShowToast.showToast("请确认新密码");
         return false;
