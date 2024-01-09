@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'dart:math';
 
-import 'package:dio/dio.dart' as lDio;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -15,7 +13,6 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/user_service.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:kkguoji/utils/image_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
@@ -35,6 +32,7 @@ class MyAccountLogic extends GetxController {
   String confirmPsdText = "";
   String verCodeText = "";
   String codeValue = "";
+
   final RxList<int> verCodeImageBytes = RxList<int>();
   final nickController = TextEditingController();
 
@@ -53,12 +51,12 @@ class MyAccountLogic extends GetxController {
     // if (null != saveAvatar) {
     //   selectedImg.value = saveAvatar;
     // }
-    // final saveIndex = SqliteUtil().getInt(CacheKey.selectAvatarIndex);
-    // if (null != saveIndex) {
-    //   selectedIndex.value = saveIndex;
-    // } else {
-    //   selectedIndex.value = -1;
-    // }
+    final saveIndex = SqliteUtil().getInt(CacheKey.selectAvatarIndex);
+    if (null != saveIndex) {
+      selectedIndex.value = saveIndex;
+    } else {
+      selectedIndex.value = -1;
+    }
     // if (null == saveIndex && null == saveAvatar) {
     //   selectedIndex = 0.obs;
     // }
@@ -113,7 +111,7 @@ class MyAccountLogic extends GetxController {
     Get.arguments["urlPath"] = "";
     selectedIndex.value = index;
     selectedImg.value = avatarList[index].third;
-    // SqliteUtil().setInt(CacheKey.selectAvatarIndex, index);
+    SqliteUtil().setInt(CacheKey.selectAvatarIndex, index);
     // SqliteUtil().setString(CacheKey.defaultAvatar, avatarList[index].third);
   }
 
@@ -198,8 +196,6 @@ class MyAccountLogic extends GetxController {
       return;
     }
 
-    //测试代码
-
     try {
       bool response;
       if (selectedImg.value.startsWith("http")) {
@@ -219,7 +215,7 @@ class MyAccountLogic extends GetxController {
 
       if (response) {
         ShowToast.showToast("更新成功");
-        AccountApi.getUserInfo();
+        userInfoModel = await AccountApi.getUserInfo();
       } else {
         ShowToast.showToast("更新失败");
       }

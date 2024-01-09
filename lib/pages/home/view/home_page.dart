@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/pages/home/logic/logic.dart';
 import 'package:kkguoji/pages/home/view/home_balance_widget.dart';
 import 'package:kkguoji/pages/home/view/home_games_widget.dart';
@@ -27,25 +29,33 @@ class KKHomePage extends GetView<HomeLogic> {
               child: Column(
                 children: [
                   Obx(() {
-                    return SizedBox(
-                      height: 280,
-                      width: double.infinity,
-                      child: Swiper(
-                        autoplayDisableOnInteraction:false,
-                        autoplay: true,
-                        itemCount: controller.bannerList.length, itemBuilder: (BuildContext context, int index) {
-                        Map bannerInfo = controller.bannerList.value[index];
-                        if(bannerInfo.isNotEmpty) {
-                          return Image.network(bannerInfo["image"], fit: BoxFit.cover,);
-                        }else {
-                          return Container();
-                        }
-                      },
-                        pagination: const SwiperPagination(), ),
-                    );
+                    return Container(
+                                height: 160.w,
+                                width: double.infinity,
+                                margin: EdgeInsets.only(left: 12.w, right: 12.w, top: KKHomeTopWidget.kHeight+6.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.w),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6.w),
+                                   child: Swiper(
+                                      autoplayDisableOnInteraction:false,
+                                      autoplay: true,
+                                      itemCount: controller.bannerList.length, itemBuilder: (BuildContext context, int index) {
+                                        Map bannerInfo = controller.bannerList.value[index];
+                                        if(bannerInfo.isNotEmpty) {
+                                          return Image.network(bannerInfo["image"], fit: BoxFit.cover);
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                      pagination: const SwiperPagination()
+                                  ),
+                                ),
+                              );
                   }),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child:  Column(
                       children: [
                         Obx(() => KKHomeMarqueeWidget(controller.marqueeStr.value),),
@@ -166,6 +176,6 @@ class KKHomePage extends GetView<HomeLogic> {
           }),),
         ],
       ),
-    );
+    ).safeArea();
   }
 }

@@ -9,4 +9,5 @@
             android:gravity="fill"
             android:src="@mipmap/img_splash" />
     </item>
+
 </layer-list>

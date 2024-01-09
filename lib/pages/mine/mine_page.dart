@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/mine_logic.dart';
 import 'package:kkguoji/routes/routes.dart';
@@ -111,7 +112,7 @@ class MinePage extends GetView<MineLogic> {
           children: [
             Obx(
               () => AvatarWithVip(
-                urlPath: controller.userInfoModel?.getAvatar().value,
+                urlPath: controller.portraitUrl.value,
               ),
             ),
             const SizedBox(
@@ -154,29 +155,32 @@ class MinePage extends GetView<MineLogic> {
             ),
             const SizedBox(width: 22),
             GestureDetector(
-              child: //编辑
-                  Container(
-                width: 67,
-                height: 25,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconEditBg))),
-                child: const Center(
-                  //文字居中
-                  child: Text(
-                    '编辑',
-                    style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
+                child: //编辑
+                    Container(
+                  width: 67,
+                  height: 25,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconEditBg))),
+                  child: const Center(
+                    //文字居中
+                    child: Text(
+                      '编辑',
+                      style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
-              onTap: () => RouteUtil.pushToView(
-                Routes.personalInfoPage,
-                arguments: {
-                  "nick": controller.userInfoModel?.userNick,
-                  "urlPath": controller.userInfoModel?.portrait,
-                },
-              ),
-            ),
+                onTap: () async {
+                  final data = await Get.toNamed(
+                    Routes.personalInfoPage,
+                    arguments: {
+                      "nick": controller.userInfoModel?.userNick,
+                      "urlPath": controller.userInfoModel?.portrait,
+                    },
+                  );
+                  controller.userInfoModel = data;
+                  controller.portraitUrl.value = (data as UserInfoModel).portrait ?? "";
+                }),
           ],
         ),
       ),
@@ -311,7 +315,6 @@ class AvatarWithVip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("AvatarWithVip---urlPath = $urlPath");
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -775,10 +778,7 @@ class WelfareReward extends StatelessWidget {
               width: 16,
               height: 16,
             ),
-            onTap: () {
-              print('信息设置');
-              RouteUtil.pushToView(Routes.informationSettingsPage);
-            },
+            onTap: () => RouteUtil.pushToView(Routes.informationSettingsPage),
           ),
           const Divider(
             color: Color.fromRGBO(255, 255, 255, 0.06),
