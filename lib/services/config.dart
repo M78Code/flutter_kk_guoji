@@ -2,6 +2,7 @@ class HttpConfig {
   static const String baseURL = "https://testh5.759pc.com";
   static const int timeout = 1000;
 
+  static const publicInit = "/api/public/init";
   static const getCode = "/api/public/captcha";
   static const registerByAccount = "/api/public/register_account";
   static const sendCodeToEmail = "/api/public/sendEmailCode";
