@@ -30,6 +30,7 @@ class WebSocketUtil {
   WebSocketChannel? _webSocket;
   SocketStatus _socketStatus = SocketStatus.socketStatusClosed;
   ListenMessageCallback? _ticketMsgCallback;
+  ListenMessageCallback? _noticeMsgCallback;
 
   get socketStatus => _socketStatus;
   final sqliteService = Get.find<SqliteService>();
@@ -99,6 +100,12 @@ class WebSocketUtil {
               ),
             ),
           ));
+    }else if(msgInfo["event"] == "get_big_win_recent"){
+      if (_noticeMsgCallback != null) {
+        Map value = msgInfo["data"] as Map;
+        _noticeMsgCallback!(value);
+        // _ticketMsgCallback!(value.values.first);
+      }
     }
   }
 
@@ -114,6 +121,10 @@ class WebSocketUtil {
 
   void listenTicketMessage(ListenMessageCallback tickMsgCallback) {
     _ticketMsgCallback = tickMsgCallback;
+  }
+
+  void listenNoticeMessage(ListenMessageCallback tickMsgCallback) {
+    _noticeMsgCallback = tickMsgCallback;
   }
 
   void closeSocket() {

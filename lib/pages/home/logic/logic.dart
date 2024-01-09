@@ -79,6 +79,7 @@ class HomeLogic extends GetxController {
   };
   Map statesMap = {"0": "未开奖", "2": "已开奖", "4": "封盘中", "9": "未开盘"};
   final RxMap ticketInfo = {}.obs;
+  final RxMap noticeInfo = {}.obs;
   final RxMap haveTimeMap = {}.obs;
 
   @override
@@ -130,6 +131,10 @@ class HomeLogic extends GetxController {
     WebSocketUtil().listenTicketMessage((msg) {
       ticketInfo.value = msg;
       updateTicketInfo();
+    });
+    WebSocketUtil().listenNoticeMessage((msg) {
+      noticeInfo.value=msg;
+      print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
     });
   }
 
