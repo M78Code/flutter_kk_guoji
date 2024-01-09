@@ -23,7 +23,7 @@ class KKHomeTopWidget extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [Color.fromRGBO(17, 22, 60, 1.0), Color.fromRGBO(5, 8, 32, 0.0)],
+          colors: [Color.fromRGBO(17, 22, 60, 1.0), Color.fromRGBO(5, 8, 32, 0.8)],
         )
       ),
       child: Container(
@@ -32,6 +32,7 @@ class KKHomeTopWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(Assets.imagesHomeTopLogo, width: 116.w, height: 33.w,),
+            Image.asset(Assets.imagesHomeTopAd,height: 22,),
             Row(
               mainAxisAlignment:MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
