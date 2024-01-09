@@ -52,6 +52,7 @@ class LoginLogic extends GetxController {
     if(!isHiddenVerCode.value) {
       getVerCode();
     }
+    checkCanLogin();
 
   }
 
