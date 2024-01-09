@@ -241,17 +241,23 @@ class MinePage extends GetView<MineLogic> {
             content: Stack(
               alignment: Alignment.center,
               children: [
-                Image.asset(
-                  Assets.imagesIconShowDiaBg,
-                  fit: BoxFit.cover,
+                AspectRatio(
+                  aspectRatio: 2 / 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      Assets.imagesIconShowDiaBg,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 const Positioned(
-                    top: 60,
+                    top: 30,
                     left: 35,
                     right: 35,
                     child: Center(
                       child: Text(
-                        '这将使您需要重新登录才能使用我们的服务！确定要退出吗?',
+                        '确定要退出吗?',
                         softWrap: true,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                       ),
@@ -259,7 +265,7 @@ class MinePage extends GetView<MineLogic> {
                 Positioned(
                   left: 20,
                   right: 20,
-                  bottom: 23,
+                  bottom: 20,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -267,10 +273,10 @@ class MinePage extends GetView<MineLogic> {
                         width: 102,
                         height: 40,
                         decoration: ShapeDecoration(
-                            gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )),
+                          side: const BorderSide(width: 2, color: Color(0xFF3D35C6)),
+                          borderRadius: BorderRadius.circular(20),
+                        )),
                         child: TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
