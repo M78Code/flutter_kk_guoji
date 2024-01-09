@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomInputField extends StatefulWidget {
-  final String imageStr;
+  final String? imageStr;
   final String hintText;
   ValueChanged<String>? valueChanged;
   Function? onTap;
@@ -72,14 +73,16 @@ class _CustomInputFieldState extends State<CustomInputField> {
       height: 42,
       child: Row(
         children: [
-          SizedBox(
-            width: 40,
-            child: Image.asset(
-              widget.imageStr,
-              width: 25,
-              height: 25,
+          if (null != widget.imageStr && widget.imageStr!.isNotEmpty)
+            SizedBox(
+              width: 40,
+              child: Image.asset(
+                widget.imageStr!,
+                width: 25,
+                height: 25,
+              ),
             ),
-          ),
+          if (null == widget.imageStr || widget.imageStr!.isEmpty) SizedBox(width: 15.w),
           Expanded(
               child: TextField(
             controller: _textEditingController,

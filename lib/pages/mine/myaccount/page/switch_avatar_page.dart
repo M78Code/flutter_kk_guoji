@@ -196,7 +196,6 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
       margin: EdgeInsets.only(top: 35.h),
       child: buttonSubmit(
         text: "确定",
-        height: 55,
         hPadding: 25.w,
         onPressed: () => controller.updateNickAndAvatar(),
       ),

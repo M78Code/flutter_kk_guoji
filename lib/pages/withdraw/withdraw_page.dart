@@ -55,14 +55,14 @@ class WithdrawPage extends GetView<WithdrawLogic> {
         _buildInputCoinAddress().marginOnly(bottom: 20.h),
         _buildInputAmount().marginOnly(bottom: 20.h),
         _buildWithdrawPsd(),
-        _buildTip(),
-        _buildWithdrawInfo(),
+        _buildWarning().marginOnly(top: 10.h, bottom: 10.h),
+        // _buildTip(),
+        // _buildWithdrawInfo(),
         buttonSubmit(
           height: 50.h,
           text: "确认提现",
           onPressed: () => controller.withdrawSubmit(),
-        ),
-        _buildWarning(),
+        ).marginSymmetric(vertical: 20.h),
       ],
     ).paddingSymmetric(horizontal: 20.w);
   }
@@ -261,7 +261,6 @@ class WithdrawPage extends GetView<WithdrawLogic> {
     return Column(
       children: [
         Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               Assets.rechargeIconTip,
@@ -277,9 +276,12 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               ),
             ),
             InkWellView(
-              onPressed: () => RouteUtil.pushToView(Routes.setLoginPsdPage, arguments: true),
+              onPressed: () => RouteUtil.pushToView(
+                Routes.withdrawPsd,
+                arguments: false, //controller.userInfoModel?.withdrawPwdStatus == 0
+              ),
               child: Text(
-                "更新提现密码",
+                controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: const Color(0xff5D5FEF),
@@ -387,6 +389,6 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           style: TextStyle(color: const Color(0xffFF8A00), fontSize: 12.sp),
         ),
       ],
-    ).marginSymmetric(vertical: 30.h);
+    );
   }
 }
