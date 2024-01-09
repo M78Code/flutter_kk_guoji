@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/pages/recharge/widgets/recharge_radio.dart';
+import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 import '../activity/list/activity_model.dart';
@@ -10,6 +13,9 @@ class RechargeLogic extends GetxController {
 
   /// 充值控制器
   final TextEditingController rechargeController = TextEditingController();
+
+  RxString tg = "".obs;
+  String tgUrl = "";
 
   ///选择的值默认50¥
   RxInt selectedValue = 0.obs;
@@ -21,27 +27,27 @@ class RechargeLogic extends GetxController {
     CategoryModel(index: 5, name: "500 ¥"),
   ];
 
-  void onCategoryTap(int categoryId){
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    getTgAccount();
+    super.onInit();
+  }
+
+  void onCategoryTap(int categoryId) {
     selectedValue.value = categoryId;
     update(["_buildRechargeCategoryView", "itemsView"]);
   }
 
-  ///充值
-  void recharge() async {
-   final amount = rechargeController.value.text;
-   if(amount.isEmpty){
-     ShowToast.showToast("请输入充值金额");
-     return;
-   }
-   print("amount:$amount");
-  }
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-    print("Getx---GetxController---onReady方法");
-    super.onReady();
-    print("传参值+${Get.arguments}");
+  void getTgAccount() async {
+    final response = await HttpService.request(HttpConfig.rechargeCustomer);
+    if (response["code"] == 200) {
+      final json = response["data"];
+      final model = UserInfoModel.fromJson(json);
+      tg.value = model.siteRechargeTelegram ?? "";
+      tgUrl = model.siteRechargeTelegramUrl ?? "";
+    }
+    print("response = $response");
   }
 
   @override

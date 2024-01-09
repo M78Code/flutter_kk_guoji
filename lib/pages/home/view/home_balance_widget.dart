@@ -189,6 +189,9 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                         )
                       ],
                     ),
+                    onTap: (){
+                      RouteUtil.pushToView(Routes.betListPage);
+                    },
                   ),
                 ],
               ))

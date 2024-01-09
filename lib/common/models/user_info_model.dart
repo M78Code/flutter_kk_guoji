@@ -22,29 +22,34 @@ class UserInfoModel {
   int? boxPwd;
   int? withdrawPwdStatus;
   String? url;
+  String? siteRechargeTelegram;
+  String? siteRechargeTelegramUrl;
 
-  UserInfoModel(
-      {this.id,
-      this.uuid,
-      this.username,
-      this.money,
-      this.portrait,
-      this.userGroupId,
-      this.userNick,
-      this.email,
-      this.mobile,
-      this.qq,
-      this.weixin,
-      this.skype,
-      this.telegram,
-      this.whatsapp,
-      this.strongBoxAmount,
-      this.strongBoxStatus,
-      this.level,
-      this.boxStatus,
-      this.boxPwd,
-      this.withdrawPwdStatus,
-      this.url});
+  UserInfoModel({
+    this.id,
+    this.uuid,
+    this.username,
+    this.money,
+    this.portrait,
+    this.userGroupId,
+    this.userNick,
+    this.email,
+    this.mobile,
+    this.qq,
+    this.weixin,
+    this.skype,
+    this.telegram,
+    this.whatsapp,
+    this.strongBoxAmount,
+    this.strongBoxStatus,
+    this.level,
+    this.boxStatus,
+    this.boxPwd,
+    this.withdrawPwdStatus,
+    this.url,
+    this.siteRechargeTelegram,
+    this.siteRechargeTelegramUrl,
+  });
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -68,6 +73,8 @@ class UserInfoModel {
     boxPwd = json['box_pwd'];
     withdrawPwdStatus = json['withdraw_pwd_status'];
     url = json['url'];
+    siteRechargeTelegram = json["site_recharge_telegram"];
+    siteRechargeTelegramUrl = json["site_recharge_telegram_url"];
   }
 
   Map<String, dynamic> toJson() {
@@ -93,7 +100,8 @@ class UserInfoModel {
     data['box_pwd'] = this.boxPwd;
     data['withdraw_pwd_status'] = this.withdrawPwdStatus;
     data["url"] = this.url;
+    data["site_recharge_telegram"] = siteRechargeTelegram;
+    data["site_recharge_telegram_url"] = siteRechargeTelegramUrl;
     return data;
   }
-
 }

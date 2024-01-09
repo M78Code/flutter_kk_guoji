@@ -68,9 +68,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0x3D6C7A8F),
-          borderRadius: const BorderRadius.all(Radius.circular(6)),
-          border: Border.all(color: isOnTap ? const Color(0xFF5D5FEF) : const Color(0x1AFFFFFF), width: 1.0)),
+          color: const Color(0x3D6C7A8F), borderRadius: const BorderRadius.all(Radius.circular(6)), border: Border.all(color: isOnTap ? const Color(0xFF5D5FEF) : const Color(0x1AFFFFFF), width: 1.0)),
       height: 42,
       child: Row(
         children: [
@@ -86,8 +84,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
               child: TextField(
             controller: _textEditingController,
             keyboardType: widget.keybordType,
-            // maxLength: widget.maxLength,
+            maxLength: widget.maxLength,
             decoration: InputDecoration(
+              counterText: "",
               contentPadding: const EdgeInsets.all(0),
               hintText: widget.hintText,
               border: const OutlineInputBorder(borderSide: BorderSide.none),
@@ -95,7 +94,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
               hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
             ),
             textAlign: TextAlign.start,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              height: 1.2,
+            ),
             cursorColor: Colors.white,
             focusNode: focusNode,
             onChanged: (value) {
