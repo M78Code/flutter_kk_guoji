@@ -1,11 +1,14 @@
 import 'package:kkguoji/common/models/game_login.dart';
 import 'package:kkguoji/common/models/group_game_list_model.dart';
+import 'package:kkguoji/model/home/base_model.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
+import 'package:kkguoji/utils/json_util.dart';
 
 import '../models/game/game_list_response_model.dart';
 import '../models/game_type_list_response_model.dart';
 import '../models/get_game_model.dart';
+import '../models/jcp_bet_model.dart';
 
 
 class GamesApi {
@@ -49,5 +52,11 @@ class GamesApi {
     if (result["code"] == 200 && result["data"] != null ) {
       return GameListResponseModel.fromJson(result).data;
     }
+  }
+
+
+  static Future<BaseModel?>? betGame(List<JcpBetModel> betModel,String gameId) async {
+    var result = await HttpRequest.request(HttpConfig.betGame, method: "post",params: {"game_id":gameId, "betInfo": JsonUtil.encodeObj(betModel)});
+    return BaseModel.fromJson(result);
   }
 }
