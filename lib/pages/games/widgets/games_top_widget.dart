@@ -19,6 +19,7 @@ class KKGamesTopWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(Assets.imagesHomeTopLogo, width: 116.w, height: 33.w,).marginOnly(left: 17.w),
+          Image.asset(Assets.imagesHomeTopAd,height: 22,),
           Obx(() {
             if (UserService.to.isLogin == false) {
               return Row(

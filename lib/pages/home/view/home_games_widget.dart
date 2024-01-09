@@ -20,21 +20,23 @@ class KKHomeGamesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 10.w),
+        SizedBox(height: 15.w),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "KK游戏",
-                  style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 13.sp),
-                ),
-                Text(
-                  "KK推荐",
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w700),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/home/huojian.png',width: 24,height: 21,),
+                    SizedBox(width: 5,),
+                    Text("推荐游戏", style: TextStyle(color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),),
+                  ],
                 ),
               ],
             ),

@@ -115,24 +115,27 @@ class _KKLoginPageState extends State<KKLoginPage> {
                               height: 20,
                             ),
                             Obx(() {
-                              return CustomInputField(Assets.imagesVerCode, "请输入验证码", valueChanged: (value) {
-                                controller.inputVerCodeValue(value);
-                              },
-                                  rightWidget: GestureDetector(
-                                    child: SizedBox(
-                                        width: 80,
-                                        child: Center(
-                                          child: controller.verCodeImageBytes.value.isEmpty
-                                              ? Container()
-                                              : Image.memory(
-                                            Uint8List.fromList(controller.verCodeImageBytes.value),
-                                            width: 60,
-                                          ),
-                                        )),
-                                    onTap: () {
-                                      controller.getVerCode();
-                                    },
-                                  ));
+                              return Offstage(
+                                offstage: controller.isNeedVerCode.value,
+                                child: CustomInputField(Assets.imagesVerCode, "请输入验证码", valueChanged: (value) {
+                                  controller.inputVerCodeValue(value);
+                                },
+                                    rightWidget: GestureDetector(
+                                      child: SizedBox(
+                                          width: 80,
+                                          child: Center(
+                                            child: controller.verCodeImageBytes.value.isEmpty
+                                                ? Container()
+                                                : Image.memory(
+                                              Uint8List.fromList(controller.verCodeImageBytes.value),
+                                              width: 60,
+                                            ),
+                                          )),
+                                      onTap: () {
+                                        controller.getVerCode();
+                                      },
+                                    )),
+                              );
                             }),
                             const SizedBox(
                               height: 15,
@@ -182,7 +185,10 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                   );
                                 }),
                                 TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      // RouteUtil.pushToView(Routes.customer);
+                                      Get.toNamed(Routes.customer);
+                                    },
                                     child: const Text(
                                       "忘记密码?",
                                       style: TextStyle(color: Colors.white, fontSize: 12),

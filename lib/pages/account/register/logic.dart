@@ -36,15 +36,27 @@ class RegisterLogic extends GetxController {
 
   int registerType = 1;
   String code_value = "";
-
+  final isNeedVerCode = true.obs;
+  final isShowInvite = true.obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getVerCode();
+    getPublicInit();
   }
 
+  void getPublicInit() async{
+    var result = await HttpRequest.request(HttpConfig.publicInit);
+    print(result);
+    Map map = result["data"]["config"];
+    isShowInvite.value = map["invite_register"].toString() == "0";
+    isNeedVerCode.value = map["login_verification_code"].toString() == "0";
+    if(isNeedVerCode.value) {
+      getVerCode();
+    }
+
+  }
 
   void getVerCode() async{
     code_value = getVerify(6);

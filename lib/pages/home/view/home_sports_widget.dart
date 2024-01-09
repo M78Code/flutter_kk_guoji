@@ -13,15 +13,18 @@ class KKHomeSportsWidget extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 10,),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("KK体育", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 13),),
-                Text("热门赛事推荐", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
+                Image.asset('assets/images/home/sportsaishi.png',width: 24,height: 21,),
+                SizedBox(width: 5,),
+                Text("体育赛事", style: TextStyle(color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700),),
               ],
             ),
             Row(
