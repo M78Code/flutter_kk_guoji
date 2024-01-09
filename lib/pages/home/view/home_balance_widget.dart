@@ -13,12 +13,12 @@ class KKHomeBalanceWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _KKHomeBalanceState();
 
-  final userService = Get.find<UserService>();
 }
 
 class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerProviderStateMixin{
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
+  final userService = Get.find<UserService>();
 
   @override
   void initState() {
@@ -56,10 +56,15 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Obx(() {
-                return Text(
-                  widget.userService.userInfoModel.value == null ? "请登录" : widget.userService.userInfoModel.value!.userNick!,
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                );
+                return userService.userInfoModel.value == null? GestureDetector(
+                  child: const Text(
+                    "请登录",
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                  onTap: (){
+                    RouteUtil.pushToView(Routes.loginPage);
+                  },
+                ):Text(userService.userInfoModel.value!.userNick!,style: const TextStyle(color: Colors.white, fontSize: 14),);
               }),
               const SizedBox(
                 height: 5,
@@ -70,7 +75,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                 children: [
                   Obx(
                         () => Text(
-                      "¥${widget.userService.userInfoModel.value?.money ?? 0.0}",
+                      "${userService.userInfoModel.value?.money ?? 0.0}",
                       style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900, fontFamily: "DINPro-Bold"),
                     ),
                   ),
