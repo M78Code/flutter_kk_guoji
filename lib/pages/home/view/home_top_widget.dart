@@ -32,6 +32,7 @@ class KKHomeTopWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(Assets.imagesHomeTopLogo, width: 116.w, height: 33.w,),
+            Image.asset(Assets.imagesHomeTopAd,height: 22,),
             Row(
               mainAxisAlignment:MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
