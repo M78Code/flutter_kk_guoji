@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
@@ -46,7 +48,9 @@ class HttpService extends GetxService {
     try {
       Response response = await _dio.request(url, queryParameters: params, data: data, options: options);
       final responseData = response.data;
-      if (responseData["code"] == 401) {
+      if(responseData is Uint8List) {
+
+      } else if (responseData["code"] == 401) {
         ShowToast.showToast(responseData["message"]);
         SqliteUtil().remove(CacheKey.apiToken);
         Get.find<UserService>().isLogin = false;

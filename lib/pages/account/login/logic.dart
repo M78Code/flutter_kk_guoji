@@ -23,6 +23,8 @@ class LoginLogic extends GetxController {
   final sqliteService = Get.find<SqliteService>();
 
   final RxList<int> verCodeImageBytes = RxList<int>();
+  final isNeedVerCode = true.obs;
+  final isShowInvite = true.obs;
 
   String code_value = "";
   String verCodeText = "";
@@ -33,11 +35,24 @@ class LoginLogic extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getVerCode();
+    getPublicInit();
+    //
     accountText = sqliteService.getString(CacheKey.accountKey) ?? "";
     accountObs.value = accountText;
     passwordText = sqliteService.getString(CacheKey.passwordKey) ?? "";
     passwordObs.value = passwordText;
+  }
+
+
+  void getPublicInit() async{
+    var result = await HttpRequest.request(HttpConfig.publicInit);
+    print(result);
+    Map map = result["data"]["config"];
+    isNeedVerCode.value = map["login_verification_code"].toString() == "0";
+    if(isNeedVerCode.value) {
+      getVerCode();
+    }
+
   }
 
   void getVerCode() async {

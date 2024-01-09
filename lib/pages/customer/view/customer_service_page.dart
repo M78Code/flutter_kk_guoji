@@ -17,7 +17,7 @@ class KKCustomerServicePage extends StatelessWidget {
         color: const Color(0xFF171A26),
         margin: const EdgeInsets.symmetric(horizontal: 15),
         child: Obx(() {
-          return _buildItem("Telegrame", controller.customerMap.value["site_telegram"] ?? "", "assets/images/service/service_Telegrame.png");
+          return _buildItem("Telegram", controller.customerMap.value["site_telegram"] ?? "", "assets/images/service/service_Telegrame.png");
         })
       ),
     );

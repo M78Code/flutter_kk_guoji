@@ -2,6 +2,7 @@ class HttpConfig {
   static const String baseURL = "https://testh5.759pc.com";
   static const int timeout = 1000;
 
+  static const publicInit = "/api/public/init";
   static const getCode = "/api/public/captcha";
   static const registerByAccount = "/api/public/register_account";
   static const sendCodeToEmail = "/api/public/sendEmailCode";
@@ -29,6 +30,7 @@ class HttpConfig {
   static const getGroupGameList = "/api/game/getGroupGameList"; // 所有游戏分组数据
   static const getGameTypeList = '/api/game/getGameTypeList'; //获取游戏类型分类列表
   static const getGameList = '/api/game/getGameList'; //获取游戏列表
+  static const betGame = '/api/game/doJCPGameBet'; //彩票下注
   //客服中心
   static const getCustomer = "/api/public/customer";
 
