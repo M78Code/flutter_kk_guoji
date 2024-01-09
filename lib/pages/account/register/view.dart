@@ -152,7 +152,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                             const SizedBox(height: 20,),
                             Obx(() {
                               return Offstage(
-                                offstage: controller.isNeedVerCode.value,
+                                offstage: controller.isHiddenVerCode.value,
                                 child: CustomInputField(
                                     "assets/images/ver_code.png",
                                     "请输入验证码",
