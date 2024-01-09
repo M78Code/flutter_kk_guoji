@@ -89,12 +89,13 @@ class _KKLoginPageState extends State<KKLoginPage> {
                             const SizedBox(
                               height: 60,
                             ),
-                            CustomInputField(Assets.imagesAccountIcon, "请输入用户名", valueChanged: (value) => controller.inputAccountValue(value)),
+                            CustomInputField(Assets.imagesAccountIcon, "请输入用户名", valueChanged: (value) => controller.inputAccountValue(value), text: controller.accountObs.value,),
                             const SizedBox(
                               height: 20,
                             ),
                             Obx(() {
                               return CustomInputField(Assets.imagesPasswordIcon, "请输入密码",
+                                  text: controller.passwordObs.value,
                                   isObscureText: controller.psdObscure.value,
                                   rightWidget: GestureDetector(
                                     child: SizedBox(
@@ -116,7 +117,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
                             ),
                             Obx(() {
                               return Offstage(
-                                offstage: controller.isNeedVerCode.value,
+                                offstage: controller.isHiddenVerCode.value,
                                 child: CustomInputField(Assets.imagesVerCode, "请输入验证码", valueChanged: (value) {
                                   controller.inputVerCodeValue(value);
                                 },

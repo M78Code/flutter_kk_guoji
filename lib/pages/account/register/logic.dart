@@ -36,7 +36,7 @@ class RegisterLogic extends GetxController {
 
   int registerType = 1;
   String code_value = "";
-  final isNeedVerCode = true.obs;
+  final isHiddenVerCode = true.obs;
   final isShowInvite = true.obs;
 
   @override
@@ -51,8 +51,8 @@ class RegisterLogic extends GetxController {
     print(result);
     Map map = result["data"]["config"];
     isShowInvite.value = map["invite_register"].toString() == "0";
-    isNeedVerCode.value = map["login_verification_code"].toString() == "0";
-    if(isNeedVerCode.value) {
+    isHiddenVerCode.value = map["login_verification_code"].toString() == "0";
+    if(!isHiddenVerCode.value) {
       getVerCode();
     }
 
@@ -106,7 +106,16 @@ class RegisterLogic extends GetxController {
     if(accountText.isEmpty || passwordText.isEmpty || verPsdText.isEmpty || isAgree.value == false) {
       isCanRegister.value = false;
     }else {
-      isCanRegister.value = true;
+      if(isHiddenVerCode.value) {
+        isCanRegister.value = true;
+      }else {
+        if(verCodeText.isEmpty) {
+          isCanRegister.value = true;
+        }else {
+          isCanRegister.value = false;
+        }
+
+      }
     }
   }
 
@@ -128,7 +137,9 @@ class RegisterLogic extends GetxController {
   }
   inputVerCodeValue(String code) {
     verCodeText = code;
-    checkCanRegister();
+    if(!isHiddenVerCode.value) {
+      checkCanRegister();
+    }
   }
 
   void sendCodeToEmail() async {
@@ -153,10 +164,13 @@ class RegisterLogic extends GetxController {
       Map<String, dynamic> params = {
         "username": accountText,
         "password": passwordText,
-        "code": verCodeText,
-        "code_value": code_value,
-        "invite_code": inviteText
+        "invite_code":inviteText
       };
+      if(!isHiddenVerCode.value) {
+        params["code"] = verCodeText;
+        params["code_value"] = code_value;
+      }
+
 
       var result = await HttpRequest.request(
           HttpConfig.registerByAccount, method: "post", params: params);
