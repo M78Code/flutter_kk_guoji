@@ -60,7 +60,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildButton('存款', Assets.mineWalletSaving, () {
+              _buildButton('充值', Assets.mineWalletSaving, () {
                 RouteUtil.pushToView(Routes.recharge, arguments: true);
               }),
               SizedBox(width: 10.w),
