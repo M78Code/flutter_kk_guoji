@@ -249,4 +249,13 @@ class HomeLogic extends GetxController {
       margeGameList.add(pair);
     }
   }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+  }
+
+
+
 }

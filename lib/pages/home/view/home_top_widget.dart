@@ -31,7 +31,7 @@ class KKHomeTopWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(Assets.imagesHomeTopLogo, width: 116.w, height: 33.w,),
+            Image.asset(Assets.imagesHomeTopLogo, width: 106.w, height: 33.w,),
             Image.asset(Assets.imagesHomeTopAd,height: 22,),
             Row(
               mainAxisAlignment:MainAxisAlignment.start,
@@ -71,26 +71,26 @@ class KKHomeTopWidget extends StatelessWidget {
                         },child: Image.asset("assets/images/home_top_alert.png", width: 33.w, height: 33.w),),
                     )
                 ),
-                const SizedBox(width: 10,),
-                SizedBox(
-                    width: 33.w,
-                    height: 33.w,
-                    // decoration: BoxDecoration(
-                    //   color: const Color.fromRGBO(255, 255, 255, 0.2),
-                    //   borderRadius: BorderRadius.circular(4),
-                    // ),
-                    child: Center(
-                      child: TextButton(style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                      ),
-                        onPressed: (){
-
-                        },child: Image.asset("assets/images/home_top_guoqi.png", width: 33.w, height: 33.w),),
-                    )
-                ),
+                // const SizedBox(width: 10,),
+                // SizedBox(
+                //     width: 33.w,
+                //     height: 33.w,
+                //     // decoration: BoxDecoration(
+                //     //   color: const Color.fromRGBO(255, 255, 255, 0.2),
+                //     //   borderRadius: BorderRadius.circular(4),
+                //     // ),
+                //     child: Center(
+                //       child: TextButton(style: const ButtonStyle(
+                //         padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                //       ),
+                //         onPressed: (){
+                //
+                //         },child: Image.asset("assets/images/home_top_guoqi.png", width: 33.w, height: 33.w),),
+                //     )
+                // ),
               ]:[
                 Container(
-                  width: 64.w,
+                  width: 54.w,
                   height: 27.w,
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(255, 255, 255, 0.2),
