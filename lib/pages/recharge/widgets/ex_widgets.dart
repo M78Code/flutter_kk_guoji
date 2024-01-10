@@ -37,6 +37,7 @@ Widget inputTextEdit({
             autofocus: autofocus,
             controller: editController,
             keyboardType: keyboardType,
+            obscureText: isPassword,
             onChanged: (value) => callback?.call(value),
             maxLength: maxLength,
             style: const TextStyle(
@@ -133,13 +134,15 @@ Widget buttonSubmit({
 // color: controller.canLogin.value
 //     ? Colors.white
 //     : const Color(0xFFB2B3BD)),
-        ),
+            ),
       ),
     ),
   ).marginSymmetric(horizontal: hPadding);
 }
 
-Widget textField(TextEditingController controller,) {
+Widget textField(
+  TextEditingController controller,
+) {
   return Container(
     alignment: Alignment.center,
     padding: EdgeInsets.symmetric(horizontal: 19.w),
@@ -187,14 +190,14 @@ Widget textField(TextEditingController controller,) {
             ),
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(
-              icon: const Icon(
-                Icons.cancel,
-                size: 16,
-              ),
-              onPressed: () {
-                controller.text = '';
-              },
-            )
+                    icon: const Icon(
+                      Icons.cancel,
+                      size: 16,
+                    ),
+                    onPressed: () {
+                      controller.text = '';
+                    },
+                  )
                 : null),
       ),
     ),
@@ -229,20 +232,20 @@ class CategoryRadioWidget extends StatelessWidget {
       ),
       child: null == category.imgPath
           ? Text(
-        category.name ?? "",
-        style: TextStyle(fontSize: 16.sp, color: Colors.white),
-      )
+              category.name ?? "",
+              style: TextStyle(fontSize: 16.sp, color: Colors.white),
+            )
           : Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(category.imgPath!, width: 12.w, height: 12.h),
-          SizedBox(width: 5.w),
-          Text(
-            category.name ?? "",
-            style: TextStyle(fontSize: 16.sp, color: Colors.white),
-          ),
-        ],
-      ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(category.imgPath!, width: 12.w, height: 12.h),
+                SizedBox(width: 5.w),
+                Text(
+                  category.name ?? "",
+                  style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                ),
+              ],
+            ),
     ).onTap(() => onTap?.call(category));
   }
 }

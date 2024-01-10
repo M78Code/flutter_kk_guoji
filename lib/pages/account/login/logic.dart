@@ -23,6 +23,8 @@ class LoginLogic extends GetxController {
   final sqliteService = Get.find<SqliteService>();
 
   final RxList<int> verCodeImageBytes = RxList<int>();
+  final isHiddenVerCode = true.obs;
+  final isShowInvite = true.obs;
 
   String code_value = "";
   String verCodeText = "";
@@ -33,11 +35,25 @@ class LoginLogic extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getVerCode();
+    getPublicInit();
+    //
     accountText = sqliteService.getString(CacheKey.accountKey) ?? "";
     accountObs.value = accountText;
     passwordText = sqliteService.getString(CacheKey.passwordKey) ?? "";
     passwordObs.value = passwordText;
+  }
+
+
+  void getPublicInit() async{
+    var result = await HttpRequest.request(HttpConfig.publicInit);
+    print(result);
+    Map map = result["data"]["config"];
+    isHiddenVerCode.value = map["login_verification_code"].toString() == "0";
+    if(!isHiddenVerCode.value) {
+      getVerCode();
+    }
+    checkCanLogin();
+
   }
 
   void getVerCode() async {
@@ -77,14 +93,26 @@ class LoginLogic extends GetxController {
 
   inputVerCodeValue(String code) {
     verCodeText = code;
-    checkCanLogin();
+    if(isHiddenVerCode.value) {
+      checkCanLogin();
+    }
   }
 
   void checkCanLogin() {
-    if (accountText.isEmpty || passwordText.isEmpty || verCodeText.isEmpty) {
+    if (accountText.isEmpty || passwordText.isEmpty) {
       canLogin.value = false;
     } else {
-      canLogin.value = true;
+      if(isHiddenVerCode.value) {
+        canLogin.value = true;
+      }else {
+        if(verCodeText.isEmpty) {
+          canLogin.value = true;
+        }else {
+          canLogin.value = false;
+        }
+
+      }
+
     }
   }
 
@@ -92,9 +120,12 @@ class LoginLogic extends GetxController {
     Map<String, dynamic> params = {
       "username": accountText,
       "password": passwordText,
-      "code": verCodeText,
-      "code_value": code_value,
     };
+
+    if(!isHiddenVerCode.value) {
+      params["code"] = verCodeText;
+      params["code_value"] = code_value;
+    }
 
     var result = await HttpRequest.request(HttpConfig.login, method: "post", params: params);
     if (result["code"] == 200) {

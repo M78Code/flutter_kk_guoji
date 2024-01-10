@@ -39,9 +39,9 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             fontWeight: FontWeight.w500,
             fontSize: 14.sp,
           ),
-        ).marginOnly(top: 20.h, bottom: 15.h),
+        ).marginSymmetric(vertical: 10.h),
         _buildCoinCategory(),
-        _buildUsableMoney().marginOnly(top: 18.h, bottom: 25.h),
+        _buildUsableMoney().marginSymmetric(vertical: 15.h),
         Text(
           "选择网络",
           style: TextStyle(
@@ -50,19 +50,19 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             fontSize: 14.sp,
           ),
         ),
-        _buildSelectCategory().marginOnly(top: 18.h, bottom: 25.h),
-        _buildInputName().marginOnly(bottom: 25.h),
-        _buildInputCoinAddress().marginOnly(bottom: 25.h),
-        _buildInputAmount().marginOnly(bottom: 25.h),
+        _buildSelectCategory().marginOnly(top: 18.h, bottom: 20.h),
+        _buildInputName().marginOnly(bottom: 20.h),
+        _buildInputCoinAddress().marginOnly(bottom: 20.h),
+        _buildInputAmount().marginOnly(bottom: 20.h),
         _buildWithdrawPsd(),
-        _buildTip(),
-        _buildWithdrawInfo(),
+        _buildWarning().marginOnly(top: 10.h, bottom: 10.h),
+        // _buildTip(),
+        // _buildWithdrawInfo(),
         buttonSubmit(
           height: 50.h,
           text: "确认提现",
           onPressed: () => controller.withdrawSubmit(),
-        ),
-        _buildWarning(),
+        ).marginSymmetric(vertical: 20.h),
       ],
     ).paddingSymmetric(horizontal: 20.w);
   }
@@ -84,26 +84,13 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 25.w),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                "¥",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Text(
-                UserService.to.userMoneyModel?.money ?? "0.00",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              )
-            ],
+          child: Text(
+            UserService.to.userMoneyModel?.money ?? "0.00",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ],
@@ -117,7 +104,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
         List<CategoryModel> selectOptions = controller.typeOptions;
         return Wrap(
           spacing: 20.w,
-          runSpacing: 15.h,
+          runSpacing: 10.h,
           children: List.generate(
             selectOptions.length,
             (index) => CategoryRadioWidget(
@@ -146,7 +133,6 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             isSelected: controller.coinCategoryIndex.value == controller.options[index].name,
             onTap: (category) {
               controller.onCoinCategoryUpdate(category);
-              print("充值中选择的值:${category.name}");
             },
           ),
         ),
@@ -189,7 +175,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           "收款人姓名",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 14.h),
+        SizedBox(height: 10.h),
         inputTextEdit(
           hintText: "请输入收款人姓名（选填）",
           hintTextSize: 15,
@@ -208,7 +194,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           "提币地址",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 14.h),
+        SizedBox(height: 10.h),
         inputTextEdit(
           hintText: "请输入USDT钱包提现地址",
           hintTextSize: 15,
@@ -228,7 +214,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           "提款金额",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 14.h),
+        SizedBox(height: 10.h),
         inputTextEdit(
           hintText: "请输入提款金额",
           hintTextSize: 15,
@@ -249,20 +235,24 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           "提现密码",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 14.h),
-        inputTextEdit(
-          hintText: "请输入提现密码",
-          hintTextSize: 15,
-          keyboardType: TextInputType.number,
-          editController: controller.withdrawPsdController,
-          rightWidget: IconButton(
-            padding: EdgeInsets.zero, // 设置内边距为零
-            visualDensity: VisualDensity.compact,
-            onPressed: () => controller.showPsd.value = !controller.showPsd.value,
-            icon: Image.asset(
-              controller.showPsd.value ? Assets.imagesPasswordOff : Assets.imagesPasswordOn,
-              width: 24.w,
-              height: 24.h,
+        SizedBox(height: 10.h),
+        Obx(
+          () => inputTextEdit(
+            hintText: "请输入提现密码",
+            hintTextSize: 15,
+            maxLength: 6,
+            isPassword: controller.showPsd.value,
+            keyboardType: TextInputType.number,
+            editController: controller.withdrawPsdController,
+            rightWidget: IconButton(
+              padding: EdgeInsets.zero, // 设置内边距为零
+              visualDensity: VisualDensity.compact,
+              onPressed: () => controller.showPsd.value = !controller.showPsd.value,
+              icon: Image.asset(
+                controller.showPsd.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                width: 24.w,
+                height: 24.h,
+              ),
             ),
           ),
         ),
@@ -275,7 +265,6 @@ class WithdrawPage extends GetView<WithdrawLogic> {
     return Column(
       children: [
         Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               Assets.rechargeIconTip,
@@ -291,9 +280,12 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               ),
             ),
             InkWellView(
-              onPressed: () => RouteUtil.pushToView(Routes.setLoginPsdPage, arguments: true),
+              onPressed: () => RouteUtil.pushToView(
+                Routes.withdrawPsd,
+                arguments: false, //controller.userInfoModel?.withdrawPwdStatus == 0
+              ),
               child: Text(
-                "更新提现密码",
+                controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: const Color(0xff5D5FEF),
@@ -319,7 +311,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
             SizedBox(width: 5.w),
             Text(
-              "最高提现金额不低于80000.0 ¥",
+              "最高提现金额不高于80000.0 ¥",
               style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
             ),
           ],
@@ -388,26 +380,43 @@ class WithdrawPage extends GetView<WithdrawLogic> {
   }
 
   Widget _buildWarning() {
-    return RichText(
-      text: const TextSpan(
-        style: TextStyle(),
-        children: [
-          TextSpan(
-            text: "*注意\n",
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWellView(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+          ),
+          width: 100,
+          height: 32,
+          borderRadius: 16.0,
+          onPressed: () => RouteUtil.pushToView(
+            Routes.withdrawPsd,
+            arguments: false, //controller.userInfoModel?.withdrawPwdStatus == 0
+          ),
+          child: Text(
+            controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
             style: TextStyle(
-              color: Color(0xffFF8A00),
-              height: 1.5,
+              fontSize: 12.sp,
+              color: Colors.white,
             ),
           ),
-          TextSpan(
-            style: TextStyle(
-              color: Color(0xffA6ACC0),
-              height: 1.5,
+        ).marginOnly(top: 5, bottom: 10),
+        Row(
+          children: [
+            Image.asset(
+              Assets.rechargeIconTip,
+              width: 14.w,
+              height: 14.h,
             ),
-            text: "参考汇率 1R\$=1¥汇率以实际付款时为准0R\$存入您的 私人账户。出于安全考虑，大额或可疑提款可能需要 1-6小时进行审核过程。感谢您的耐心等待！",
-          ),
-        ],
-      ),
-    ).marginSymmetric(vertical: 30.h);
+            SizedBox(width: 5.w),
+            Text(
+              "为了您的账号安全，请设置提现密码！",
+              style: TextStyle(color: const Color(0xffFF8A00), fontSize: 12.sp),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }

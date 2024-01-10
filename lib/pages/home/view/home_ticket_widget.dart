@@ -19,18 +19,18 @@ class KKHomeTicketWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 10,),
-        const Row(
+        const SizedBox(height: 15,),
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("KK游戏",
-                  style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 13),),
-                Text("KK推荐", style: TextStyle(color: Colors.white,
-                    fontSize: 18,
+                Image.asset('assets/images/home/hotcaizhong.png',width: 24,height: 21,),
+                SizedBox(width: 5,),
+                Text("热门彩种", style: TextStyle(color: Colors.white,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700),),
               ],
             ),

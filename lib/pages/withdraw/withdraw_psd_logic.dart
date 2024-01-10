@@ -18,7 +18,7 @@ import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
-class MyAccountLogic extends GetxController {
+class WithdrawPsdLogic extends GetxController {
   //选中的下标
   RxInt selectedIndex = 99.obs;
   final RxBool psdObscure1 = true.obs;
@@ -44,7 +44,6 @@ class MyAccountLogic extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getDefaultAvatars();
     userInfoModel = userService.userInfoModel.value;
     getVerCode();
     // final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
@@ -67,16 +66,15 @@ class MyAccountLogic extends GetxController {
     // psdObscure.value = !psdObscure.value;
   }
 
-  inputPasswordValue(String password) {
-    passwordText = password;
-    // checkCanLogin();
-  }
-
-  inputConfirmPsdValue(String confirmText, bool isConfirm) {
-    if (isConfirm) {
-      confirmPsdText = confirmText;
+  inputPasswordValue(String password, int flag) {
+    if (flag == 0) {
+      passwordText = password;
+    } else if (flag == 1) {
+      newPsdText = password;
+    } else if (flag == 2) {
+      confirmPsdText = password;
     } else {
-      newPsdText = confirmText;
+      passwordText = password;
     }
   }
 
@@ -108,9 +106,9 @@ class MyAccountLogic extends GetxController {
 
   ///通过默认图片列表选择图像
   void updateIndex(int index) {
-    // Get.arguments["urlPath"] = "";
-    // selectedIndex.value = index;
-    selectedImg.value = avatarList[index];
+    Get.arguments["urlPath"] = "";
+    selectedIndex.value = index;
+    selectedImg.value = avatarList[index].third;
     SqliteUtil().setInt(CacheKey.selectAvatarIndex, index);
     // SqliteUtil().setString(CacheKey.defaultAvatar, avatarList[index].third);
   }
@@ -125,25 +123,16 @@ class MyAccountLogic extends GetxController {
     }
   }
 
-  // List<TPair<int, bool, String>> avatarList = [
-  //   TPair(0, true, Assets.myaccountAvatar1),
-  //   TPair(1, false, Assets.myaccountAvatar2),
-  //   TPair(2, false, Assets.myaccountAvatar3),
-  //   TPair(3, false, Assets.myaccountAvatar4),
-  //   TPair(4, false, Assets.myaccountAvatar5),
-  //   TPair(5, false, Assets.myaccountAvatar6),
-  //   TPair(6, false, Assets.myaccountAvatar7),
-  //   TPair(7, false, Assets.myaccountIconCamera),
-  // ];
-  RxList avatarList = [].obs;
-
-  void getDefaultAvatars() async {
-    final response = await HttpService.request(HttpConfig.getDefaultAvatar);
-    if (response["code"] == 200) {
-      avatarList.value = response["data"];
-      avatarList.add(Assets.myaccountIconCamera);
-    }
-  }
+  List<TPair<int, bool, String>> avatarList = [
+    TPair(0, true, Assets.myaccountAvatar1),
+    TPair(1, false, Assets.myaccountAvatar2),
+    TPair(2, false, Assets.myaccountAvatar3),
+    TPair(3, false, Assets.myaccountAvatar4),
+    TPair(4, false, Assets.myaccountAvatar5),
+    TPair(5, false, Assets.myaccountAvatar6),
+    TPair(6, false, Assets.myaccountAvatar7),
+    TPair(7, false, Assets.myaccountIconCamera),
+  ];
 
   Future<AwsS3Model?> postAWSS3() async {
     final response = await HttpRequest.request(
@@ -322,22 +311,22 @@ class MyAccountLogic extends GetxController {
   //设置登录密码提交
   Future<bool> setPsdSubmit(bool isWithdrawPsd) async {
     if (isWithdrawPsd) {
-      if (passwordText.isEmpty) {
+      if (newPsdText.isEmpty) {
         ShowToast.showToast("请输入提现密码");
         return false;
       }
-      if (newPsdText.isEmpty) {
+      if (confirmPsdText.isEmpty) {
         ShowToast.showToast("请再次输入提现密码");
         return false;
       }
-      if (passwordText != newPsdText) {
+      if (newPsdText != confirmPsdText) {
         ShowToast.showToast("两次密码不一致");
         return false;
       }
       var result = await HttpRequest.request(
         HttpConfig.setWithDrawPassword,
         method: "post",
-        params: {"password": passwordText},
+        params: {"password": newPsdText},
       );
       if (result["code"] == 200) {
         ShowToast.showToast("设置提现密码成功");
@@ -347,17 +336,13 @@ class MyAccountLogic extends GetxController {
       }
     } else {
       if (passwordText.isEmpty) {
-        ShowToast.showToast("请输入原密码");
+        ShowToast.showToast("请输入旧密码");
         return false;
       }
       if (newPsdText.isEmpty) {
         ShowToast.showToast("请输入新密码");
         return false;
       }
-      // if (!StringUtil.checkPsdRule(newPsdText)) {
-      //   ShowToast.showToast("密码由数字、字母、构成,长度8-20");
-      //   return false;
-      // }
       if (confirmPsdText.isEmpty) {
         ShowToast.showToast("请确认新密码");
         return false;
@@ -366,21 +351,14 @@ class MyAccountLogic extends GetxController {
         ShowToast.showToast("新密码不一致");
         return false;
       }
-      if (verCodeText.isEmpty) {
-        ShowToast.showToast("请输入验证码");
-        return false;
-      }
       Map<String, dynamic> params = {
         "old_password": passwordText,
         "password": newPsdText,
-        "code": verCodeText,
-        "code_value": codeValue,
       };
-      var result = await HttpRequest.request(HttpConfig.modifyPassword, method: "post", params: params);
+      var result = await HttpRequest.request(HttpConfig.modifyWDPassword, method: "post", params: params);
       if (result["code"] == 200) {
-        ShowToast.showToast("更新登录密码成功");
-        SqliteUtil().clean();
-        RouteUtil.pushToView(Routes.loginPage, offAll: true);
+        ShowToast.showToast("更新提现密码成功");
+        RouteUtil.popView();
       } else {
         ShowToast.showToast(result["message"]);
       }

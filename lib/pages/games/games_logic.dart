@@ -29,7 +29,7 @@ class GamesLogic extends GetxController {
     [Assets.gamesRealClassicBaijiale,"视讯百家乐", "COG", ""],
     [Assets.gamesCanadaShishicai, "加拿大时时彩", "JCP", "JNDSSC"],
     [Assets.gamesCanada50, "加拿大5.0", "JCP", "JNDWU"],
-    [Assets.gamesLotteryJndlhc, "加拿大六合彩", "JCP", "JNDLHC"],
+    [Assets.gamesLotteryLiuhe, "香港六合彩", "JCP","XGLHC"],
     [Assets.gamesLotteryPcNuinui, "PC牛牛", "JCP", "PCNN"],
     [Assets.gamesCanada28, "加拿大2.8", "JCP", "JNDEB"],
   ];

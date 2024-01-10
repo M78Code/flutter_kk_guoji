@@ -18,8 +18,7 @@ class KKHomeRealWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("KK真人", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 13),),
-                Text("热门视讯台桌", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
+                Text("风采展示", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
               ],
             ),
             Row(
@@ -33,18 +32,16 @@ class KKHomeRealWidget extends StatelessWidget {
         ),
         const SizedBox(height: 15,),
         SizedBox(
-          height: 420,
+          height: 300,
           width: double.infinity,
           child: Swiper(
             autoplayDisableOnInteraction:false,
             itemCount: 5, itemBuilder: (BuildContext context, int index) {
             return Column(
               children: [
-                _buildItem("assets/images/home_jingdianbaijiale.png", "经典百家乐", "120人在玩"),
+                _buildItem("assets/images/home/fengcaione.png", "", ""),
                 const SizedBox(height: 10,),
-                _buildItem("assets/images/home_jingdianbaijiale.png", "经典百家乐", "120人在玩"),
-                const SizedBox(height: 10,),
-                _buildItem("assets/images/home_jingdianbaijiale.png", "经典百家乐", "120人在玩"),
+                _buildItem("assets/images/home/fengcaitwo.png", "", ""),
               ],
             );
           },

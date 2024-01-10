@@ -49,7 +49,12 @@ class KKHomePage extends GetView<HomeLogic> {
                                           return Container();
                                         }
                                       },
-                                      pagination: const SwiperPagination()
+                                      pagination: SwiperPagination(
+                                        builder: DotSwiperPaginationBuilder(
+                                          activeColor: Color(0xFF6C4FE0), // 选中的圆点颜色
+                                          color: Color(0xFFFFF3F3),       // 未选中的圆点颜色
+                                        ),
+                                      )
                                   ),
                                 ),
                               );
