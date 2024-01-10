@@ -84,7 +84,7 @@ class KKGamesTopWidget extends StatelessWidget {
                     ),
                   ],
                 )).marginOnly(right: 14.sp),
-                Image.asset(Assets.gamesGamesCurrenceCn, width: 33.sp, height: 33.sp,).marginOnly(right: 12.w),
+                // Image.asset(Assets.gamesGamesCurrenceCn, width: 33.sp, height: 33.sp,).marginOnly(right: 12.w),
               ],
             );
           })

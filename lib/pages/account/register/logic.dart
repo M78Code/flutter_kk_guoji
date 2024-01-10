@@ -13,6 +13,7 @@ import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 import '../../../services/user_service.dart';
+import '../../../utils/websocket_util.dart';
 import '../../main/logic/main_logic.dart';
 
 class RegisterLogic extends GetxController {
@@ -180,6 +181,7 @@ class RegisterLogic extends GetxController {
         globalController.isLogin = true;
         globalController.fetchUserMoney();
         globalController.fetchUserInfo();
+        WebSocketUtil().connetSocket();
         sqliteService.setString(CacheKey.accountKey, accountText);
         sqliteService.setString(CacheKey.passwordKey, passwordText);
         RouteUtil.popView();
@@ -202,6 +204,7 @@ class RegisterLogic extends GetxController {
         globalController.isLogin = true;
         globalController.fetchUserMoney();
         globalController.fetchUserInfo();
+        WebSocketUtil().connetSocket();
         sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
         Get.find<MainPageLogic>().currentIndex.value = 0;
       } else {
@@ -230,6 +233,7 @@ void loginWithTg()  async{
       globalController.isLogin = true;
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
+      WebSocketUtil().connetSocket();
       sqliteService.setString(CacheKey.accountKey, accountText);
       sqliteService.setString(CacheKey.passwordKey, passwordText);
       return true;

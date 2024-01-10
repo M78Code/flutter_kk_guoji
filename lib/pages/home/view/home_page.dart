@@ -183,4 +183,6 @@ class KKHomePage extends GetView<HomeLogic> {
       ),
     ).safeArea();
   }
+
+
 }
