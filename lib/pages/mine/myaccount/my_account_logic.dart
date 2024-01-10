@@ -44,6 +44,7 @@ class MyAccountLogic extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    getDefaultAvatars();
     userInfoModel = userService.userInfoModel.value;
     getVerCode();
     // final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
@@ -107,9 +108,9 @@ class MyAccountLogic extends GetxController {
 
   ///通过默认图片列表选择图像
   void updateIndex(int index) {
-    Get.arguments["urlPath"] = "";
-    selectedIndex.value = index;
-    selectedImg.value = avatarList[index].third;
+    // Get.arguments["urlPath"] = "";
+    // selectedIndex.value = index;
+    selectedImg.value = avatarList[index];
     SqliteUtil().setInt(CacheKey.selectAvatarIndex, index);
     // SqliteUtil().setString(CacheKey.defaultAvatar, avatarList[index].third);
   }
@@ -124,16 +125,25 @@ class MyAccountLogic extends GetxController {
     }
   }
 
-  List<TPair<int, bool, String>> avatarList = [
-    TPair(0, true, Assets.myaccountAvatar1),
-    TPair(1, false, Assets.myaccountAvatar2),
-    TPair(2, false, Assets.myaccountAvatar3),
-    TPair(3, false, Assets.myaccountAvatar4),
-    TPair(4, false, Assets.myaccountAvatar5),
-    TPair(5, false, Assets.myaccountAvatar6),
-    TPair(6, false, Assets.myaccountAvatar7),
-    TPair(7, false, Assets.myaccountIconCamera),
-  ];
+  // List<TPair<int, bool, String>> avatarList = [
+  //   TPair(0, true, Assets.myaccountAvatar1),
+  //   TPair(1, false, Assets.myaccountAvatar2),
+  //   TPair(2, false, Assets.myaccountAvatar3),
+  //   TPair(3, false, Assets.myaccountAvatar4),
+  //   TPair(4, false, Assets.myaccountAvatar5),
+  //   TPair(5, false, Assets.myaccountAvatar6),
+  //   TPair(6, false, Assets.myaccountAvatar7),
+  //   TPair(7, false, Assets.myaccountIconCamera),
+  // ];
+  RxList avatarList = [].obs;
+
+  void getDefaultAvatars() async {
+    final response = await HttpService.request(HttpConfig.getDefaultAvatar);
+    if (response["code"] == 200) {
+      avatarList.value = response["data"];
+      avatarList.add(Assets.myaccountIconCamera);
+    }
+  }
 
   Future<AwsS3Model?> postAWSS3() async {
     final response = await HttpRequest.request(

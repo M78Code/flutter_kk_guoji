@@ -27,6 +27,7 @@ class HttpConfig {
   static const getUserbetList = "/api/user/betList"; // 注单信息查询
   static const updateUserInfo = "/api/user/updateUserInfo"; //修改用户头像和昵称
   static const rechargeCustomer = "/api/public/rechargeCustomer"; //充值客服中心
+  static const getDefaultAvatar = "/api/user/getDefaultAvatar"; //获取默认头像
   // 游戏
   static const getGroupGameList = "/api/game/getGroupGameList"; // 所有游戏分组数据
   static const getGameTypeList = '/api/game/getGameTypeList'; //获取游戏类型分类列表

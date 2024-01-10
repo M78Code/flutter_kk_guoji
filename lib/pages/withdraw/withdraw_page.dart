@@ -236,19 +236,23 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 10.h),
-        inputTextEdit(
-          hintText: "请输入提现密码",
-          hintTextSize: 15,
-          keyboardType: TextInputType.number,
-          editController: controller.withdrawPsdController,
-          rightWidget: IconButton(
-            padding: EdgeInsets.zero, // 设置内边距为零
-            visualDensity: VisualDensity.compact,
-            onPressed: () => controller.showPsd.value = !controller.showPsd.value,
-            icon: Image.asset(
-              controller.showPsd.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
-              width: 24.w,
-              height: 24.h,
+        Obx(
+          () => inputTextEdit(
+            hintText: "请输入提现密码",
+            hintTextSize: 15,
+            maxLength: 6,
+            isPassword: controller.showPsd.value,
+            keyboardType: TextInputType.number,
+            editController: controller.withdrawPsdController,
+            rightWidget: IconButton(
+              padding: EdgeInsets.zero, // 设置内边距为零
+              visualDensity: VisualDensity.compact,
+              onPressed: () => controller.showPsd.value = !controller.showPsd.value,
+              icon: Image.asset(
+                controller.showPsd.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                width: 24.w,
+                height: 24.h,
+              ),
             ),
           ),
         ),
@@ -376,18 +380,42 @@ class WithdrawPage extends GetView<WithdrawLogic> {
   }
 
   Widget _buildWarning() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          Assets.rechargeIconTip,
-          width: 14.w,
-          height: 14.h,
-        ),
-        SizedBox(width: 5.w),
-        Text(
-          "为了您的账号安全，请设置提现密码！",
-          style: TextStyle(color: const Color(0xffFF8A00), fontSize: 12.sp),
-        ),
+        InkWellView(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+          ),
+          width: 100,
+          height: 32,
+          borderRadius: 16.0,
+          onPressed: () => RouteUtil.pushToView(
+            Routes.withdrawPsd,
+            arguments: false, //controller.userInfoModel?.withdrawPwdStatus == 0
+          ),
+          child: Text(
+            controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: Colors.white,
+            ),
+          ),
+        ).marginOnly(top: 5, bottom: 10),
+        Row(
+          children: [
+            Image.asset(
+              Assets.rechargeIconTip,
+              width: 14.w,
+              height: 14.h,
+            ),
+            SizedBox(width: 5.w),
+            Text(
+              "为了您的账号安全，请设置提现密码！",
+              style: TextStyle(color: const Color(0xffFF8A00), fontSize: 12.sp),
+            ),
+          ],
+        )
       ],
     );
   }

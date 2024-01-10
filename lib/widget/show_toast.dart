@@ -8,7 +8,7 @@ class ShowToast {
         toastLength: Toast.LENGTH_SHORT,
         timeInSecForIosWeb: 1,
         gravity: ToastGravity.CENTER,
-        backgroundColor: const Color.fromRGBO(108, 122, 143, 0.24),
+        backgroundColor: const Color.fromRGBO(108, 122, 143, 0.8),
         textColor: Colors.white,
         fontSize: 15.0);
   }
