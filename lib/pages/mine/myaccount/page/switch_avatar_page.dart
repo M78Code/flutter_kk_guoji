@@ -16,37 +16,6 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    // Get.put(MyAccountLogic());
-    // return KeyboardDissmissable(
-    //   child: Scaffold(
-    //     resizeToAvoidBottomInset: false,
-    //     appBar: AppBar(
-    //       leading: IconButton(
-    //         onPressed: () => Navigator.pop(context),
-    //         icon: Image.asset(
-    //           Assets.imagesBackNormal,
-    //           width: 20.w,
-    //           height: 20.h,
-    //         ),
-    //       ),
-    //       title: Text(
-    //         "修改图像",
-    //         style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
-    //       ),
-    //     ),
-    //     // body: Center(),
-    //     body: Center(
-    //       child: Column(
-    //         children: [
-    //           _buildAvatar(),
-    //           SizedBox(height: 40.h),
-    //           _buildAvatarList(context),
-    //           _buildConfirm(),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
     return GetBuilder(
       init: MyAccountLogic(),
       builder: (controller) {
@@ -94,7 +63,7 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
           children: [
             Column(
               children: [
-                Obx(() => _selectAvatar()),
+                Obx(() => _selectAvatar(40, controller.selectedImg.value)),
                 SizedBox(height: 8.h),
                 Text(
                   Get.arguments["nick"],
@@ -131,44 +100,42 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
     );
   }
 
-  Widget _selectAvatar() {
-    String urlPath = Get.arguments["urlPath"];
+  Widget _selectAvatar(double radius, String urlPath) {
     ImageProvider imgProvider;
     if (urlPath.startsWith("http")) {
-      controller.selectedImg.value = urlPath;
-      imgProvider = NetworkImage(controller.selectedImg.value);
+      imgProvider = NetworkImage(urlPath);
     } else {
-      imgProvider = AssetImage(controller.selectedImg.value);
+      imgProvider = AssetImage(urlPath);
     }
     return CircleAvatar(
-      radius: 40.r,
+      radius: radius.r,
       backgroundImage: imgProvider,
     );
   }
 
   Widget _buildAvatarList(BuildContext context) {
-    return Wrap(
-      spacing: 20.w,
-      runSpacing: 15.h,
-      children: List.generate(
-        controller.avatarList.length,
-        (index) {
-          final pair = controller.avatarList[index];
-          return Obx(
-            () => Container(
-              width: 60.w,
-              height: 60.h,
+    return Obx(() {
+      return Wrap(
+        spacing: 20.w,
+        runSpacing: 10.h,
+        children: List.generate(
+          controller.avatarList.length,
+          (index) {
+            String pair = controller.avatarList[index];
+            return Container(
+              width: 65.w,
+              height: 65.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                    color: controller.selectedIndex.value == pair.first ? const Color(0xff70BAFF) : Colors.transparent, //圆环颜色
+                    color: controller.selectedIndex.value == pair ? const Color(0xff70BAFF) : Colors.transparent, //圆环颜色
                     width: 1),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: InkWell(
                   onTap: () {
-                    if (pair.first == 7) {
+                    if (pair == Assets.myaccountIconCamera) {
                       //打开摄像头
                       ImageUtil.requestCamera(
                         context,
@@ -178,17 +145,47 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
                       controller.updateIndex(index);
                     }
                   },
-                  child: CircleAvatar(
-                    radius: 32.r,
-                    backgroundImage: AssetImage(pair.third),
-                  ),
+                  child: _selectAvatar(30, pair),
                 ),
               ),
-            ),
-          );
-        },
-      ),
-    );
+            );
+            /*return Obx(
+                  () =>
+                  Container(
+                    width: 60.w,
+                    height: 60.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: controller.selectedIndex.value == pair.first ? const Color(0xff70BAFF) : Colors.transparent, //圆环颜色
+                          width: 1),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: InkWell(
+                        onTap: () {
+                          if (pair.first == 7) {
+                            //打开摄像头
+                            ImageUtil.requestCamera(
+                              context,
+                              callback: (result) => controller.updateCamera(result),
+                            );
+                          } else {
+                            controller.updateIndex(index);
+                          }
+                        },
+                        child: CircleAvatar(
+                          radius: 32.r,
+                          backgroundImage: AssetImage(pair.third),
+                        ),
+                      ),
+                    ),
+                  ),
+            );*/
+          },
+        ),
+      );
+    });
   }
 
   Widget _buildConfirm() {

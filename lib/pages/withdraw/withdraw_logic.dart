@@ -30,7 +30,7 @@ class WithdrawLogic extends GetxController {
 
   ///提现密码
   TextEditingController withdrawPsdController = TextEditingController();
-  final RxBool showPsd = false.obs;
+  final RxBool showPsd = true.obs;
   UserInfoModel? userInfoModel; //用户信息类
 
   RxInt coinCategoryIndex = 1.obs;

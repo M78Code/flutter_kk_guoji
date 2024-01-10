@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class InkWellView extends StatelessWidget {
   final Widget child;
   final void Function()? onPressed;
-  final BorderRadius borderRadius;
+  final double borderRadius;
   final Color splashColor;
   final Color highlightColor;
   final Color? backColor;
@@ -16,7 +16,7 @@ class InkWellView extends StatelessWidget {
     super.key,
     required this.child,
     this.onPressed,
-    this.borderRadius = const BorderRadius.all(Radius.circular(4)),
+    this.borderRadius = 4,
     this.splashColor = const Color(0xffFEFEFE),
     this.highlightColor = const Color(0xffFEFEFE),
     this.borderColor = Colors.transparent,
@@ -37,7 +37,7 @@ class InkWellView extends StatelessWidget {
         border: Border.all(color: borderColor, width: borderWidth ?? 1),
         gradient: gradient,
         color: backColor,
-        borderRadius: borderRadius,
+        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       ),
       child: Stack(
         alignment: AlignmentDirectional.center,
@@ -47,7 +47,7 @@ class InkWellView extends StatelessWidget {
           Positioned.fill(
             child: Material(
               type: MaterialType.transparency,
-              borderRadius: borderRadius,
+              borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
               child: Ink(
                 height: width,
                 width: width,
@@ -55,7 +55,7 @@ class InkWellView extends StatelessWidget {
                 child: InkWell(
                   splashColor: splashColor.withOpacity(0.1),
                   highlightColor: Colors.transparent,
-                  borderRadius: borderRadius,
+                  borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
                   onTap: onPressed,
                 ),
               ),

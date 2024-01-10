@@ -161,7 +161,7 @@ class RechargePage extends GetView<RechargeLogic> {
             SizedBox(width: 6.w),
             const Expanded(
               child: Text(
-                "更换财务Telegram账号前，我们将提前通过弹窗公告公示三天，请留意公告，并认准官方唯一财务账号，達防上当受骗！",
+                "更换财务Telegram账号前，我们将提前通过弹窗公告公示三天，请留意公告，并认准官方唯一财务账号，谨防上当受骗！",
                 style: TextStyle(color: Colors.white, height: 1.2),
               ),
             ),
