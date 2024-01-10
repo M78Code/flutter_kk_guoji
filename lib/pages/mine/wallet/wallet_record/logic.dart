@@ -75,6 +75,7 @@ class WalletRecordLogic extends GetxController {
     if (currentIndex == index) return;
     currentIndex = index;
     update(["menu"]);
+    initData();
   }
 
   Future<void> onRefresh() async{
@@ -162,7 +163,7 @@ class WalletRecordLogic extends GetxController {
         this.userWithdrawState.userWithdrawModels.addAll(userMoneyDetailsSearchListModel.list ?? []);
       }
       this.userWithdrawState.isNoMoreData = (userMoneyDetailsSearchListModel.total ?? 0) <= this.userWithdrawState.userWithdrawModels.length;
-      update(["searchList"]);
+      update(["withdrawPage"]);
     }
     return;
   }
@@ -191,7 +192,7 @@ class WalletRecordLogic extends GetxController {
         this.userRechargeState.userRechargeModels.addAll(userMoneyDetailsSearchListModel.list ?? []);
       }
       this.userRechargeState.isNoMoreData = (userMoneyDetailsSearchListModel.total ?? 0) <= this.userRechargeState.userRechargeModels.length;
-      update(["searchList"]);
+      update([ "chargePage"]);
     }
     return;
   }

@@ -16,7 +16,6 @@ class WalletRecordList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<WalletRecordLogic>(
-      id: 'searchList',
       builder: (controller) {
         return SliverList(
           delegate: SliverChildBuilderDelegate(

@@ -56,6 +56,7 @@ class _WalletPageGetx extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('我的钱包'),
+        centerTitle: true,
         leading:  IconButton(
           icon: Image.asset(
               Assets.systemIconBack,

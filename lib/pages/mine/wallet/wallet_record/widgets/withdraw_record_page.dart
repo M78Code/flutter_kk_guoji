@@ -19,7 +19,12 @@ class WithdrawRecordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildView(context);
+    return  GetBuilder<WalletRecordLogic>(
+      id: "withdrawPage",
+      builder: (_) {
+        return _buildView(context);
+      },
+    );
   }
   Widget _buildView(BuildContext context) {
     return Scaffold(
