@@ -20,7 +20,7 @@ class UserInfoModel {
   int? level;
   int? boxStatus;
   int? boxPwd;
-  int? withdrawPwdStatus;
+  int? withdrawPwdStatus;//1已设置 0未设置
   String? url;
   String? siteRechargeTelegram;
   String? siteRechargeTelegramUrl;

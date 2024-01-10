@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
 import 'package:kkguoji/pages/recharge/widgets/recharge_radio.dart';
@@ -30,6 +31,7 @@ class WithdrawLogic extends GetxController {
   ///提现密码
   TextEditingController withdrawPsdController = TextEditingController();
   final RxBool showPsd = false.obs;
+  UserInfoModel? userInfoModel; //用户信息类
 
   RxInt coinCategoryIndex = 1.obs;
   RxString coinName = "USDT".obs;
@@ -71,6 +73,7 @@ class WithdrawLogic extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
+    userInfoModel = Get.find<UserService>().userInfoModel.value;
     getCurrency();
     super.onInit();
   }
