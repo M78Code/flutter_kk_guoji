@@ -12,6 +12,7 @@ import 'package:kkguoji/utils/websocket_util.dart';
 
 import '../../../model/home/jcp_game_model.dart';
 import '../../../model/home/kk_home_game_model.dart';
+import '../../../model/home/recommend_game_model.dart';
 import '../../../services/http_service.dart';
 
 class HomeLogic extends GetxController {
@@ -19,6 +20,7 @@ class HomeLogic extends GetxController {
   final RxList bannerList = [].obs;
   final RxList ticketList = [].obs;
   var gameList = <Datum>[].obs;
+  var recommendGameListNew = <RecommendList>[].obs;
   var margeGameList=<List<Datum>>[].obs;
   var recommendGameList=[
     JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_sxbjl_icon.png',gameName: '视讯百家乐',),
@@ -87,6 +89,8 @@ class HomeLogic extends GetxController {
     // TODO: implement onInit
     super.onInit();
 
+    getRecommendGameList();
+
     var result = await HttpRequest.request(HttpConfig.getMarqueeNotice, method: "get");
     if (result["code"] == 200) {
       List marquees = result["data"];
@@ -136,6 +140,20 @@ class HomeLogic extends GetxController {
       noticeInfo.value=msg;
       print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
     });
+  }
+
+  getRecommendGameList() async {
+    Map<String, dynamic> params = {"is_hot": "1",'is_mobile':'1','limit':'6'};
+    var gameResult = await HttpRequest.request(HttpConfig.getGameList,
+        params: params, method: "post");
+    print('xiaoan 首页推荐列表 ${JsonUtil.encodeObj(gameResult)}');
+    if (gameResult["code"] == 200) {
+      RecommendGameModel recommendGameModel=RecommendGameModel.fromJson(gameResult);
+      if(recommendGameModel.data.list!=null){
+        recommendGameListNew.clear();
+        recommendGameListNew.addAll(recommendGameModel.data.list);
+      }
+    }
   }
 
   updateTicketInfo() {
