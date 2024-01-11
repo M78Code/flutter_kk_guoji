@@ -34,12 +34,12 @@ class HomeLogic extends GetxController {
     "PCNN": {
       "bg_icon": "assets/images/home_pcniuniu.png",
       "logo_icon": "assets/images/home_pcniuniu_icon.png",
-      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF1D0EC9), const Color(0xFF4E2DD1)]
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF06873A), const Color(0xFF06873A)]
     },
     "PCBJL": {
       "bg_icon": "assets/images/home_pcbaijiale.png",
       "logo_icon": "assets/images/home_pcbaijiale_icon.png",
-      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF831AD7), const Color(0xFFA32FFF)]
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF1A8BD7), const Color(0xFF1A8BD7)]
     },
     "JNDSI": {
       "bg_icon": "assets/images/home_jianada42.png",
