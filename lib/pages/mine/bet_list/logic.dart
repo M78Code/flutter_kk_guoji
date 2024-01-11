@@ -129,9 +129,8 @@ class BetListController extends GetxController {
         this.betModels.addAll(betListModel.list ?? []);
       }
       this.isNoMoreData = (betListModel.total ?? 0) <= this.betModels.length;
-      update(["betList"]);
-      print(betListModel);
-    }
+      update(["betListPage"]);
+     }
     return;
   }
 

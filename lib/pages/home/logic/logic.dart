@@ -21,17 +21,8 @@ class HomeLogic extends GetxController {
   final RxList ticketList = [].obs;
   var gameList = <Datum>[].obs;
   var recommendGameListNew = <RecommendList>[].obs;
+  var recommendSportList = <RecommendList>[].obs;
   var margeGameList=<List<Datum>>[].obs;
-  var recommendGameList=[
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_sxbjl_icon.png',gameName: '视讯百家乐',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jnassc_icon.png',gameName: '加拿大时时彩',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jndwu_icon.png',gameName: '加拿大5.0',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_xglhc_icon.png',gameName: '香港六合彩',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_pcnn_icon.png',gameName: 'PC牛牛',),
-    JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jndeb_icon.png',gameName: '加拿大2.8',),
-    // JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_jsbjl_icon.png',gameName: '极速百家乐',),
-    // JcpRecommendGameModel(gameId: '',gameIcon: 'assets/images/home/home_ombjl_icon.png',gameName: '欧美百家乐',),
-  ];
   Map imageMap = {
     "XGLHC": {
       "bg_icon": "assets/images/home_xianggangliuhecai.png",
@@ -90,6 +81,7 @@ class HomeLogic extends GetxController {
     super.onInit();
 
     getRecommendGameList();
+    getRecommendSportList();
 
     var result = await HttpRequest.request(HttpConfig.getMarqueeNotice, method: "get");
     if (result["code"] == 200) {
@@ -150,10 +142,40 @@ class HomeLogic extends GetxController {
     if (gameResult["code"] == 200) {
       RecommendGameModel recommendGameModel=RecommendGameModel.fromJson(gameResult);
       if(recommendGameModel.data.list!=null){
+        ///数据重新排序
+        List<RecommendList> newList=sortDataList(recommendGameModel.data.list,3);
         recommendGameListNew.clear();
-        recommendGameListNew.addAll(recommendGameModel.data.list);
+        recommendGameListNew.addAll(newList);
       }
     }
+  }
+
+  getRecommendSportList() async {
+    Map<String, dynamic> params = {"type": "4",'is_mobile':'1','limit':'4'};
+    var gameResult = await HttpRequest.request(HttpConfig.getGameList,
+        params: params, method: "post");
+    if (gameResult["code"] == 200) {
+      RecommendGameModel recommendGameModel=RecommendGameModel.fromJson(gameResult);
+      if(recommendGameModel.data.list!=null){
+        ///数据重新排序
+        recommendSportList.clear();
+        recommendSportList.addAll(recommendGameModel.data.list);
+        print('xiaoan 首页体育列表 ${JsonUtil.encodeObj(gameResult)}');
+      }
+    }
+  }
+
+  // 将数据列表按照纵向滚动指定列数的顺序进行排序
+  List<RecommendList> sortDataList(List<RecommendList> dataList, int columns) {
+    List<RecommendList> sortedList = [];
+    for (int i = 0; i < dataList.length; i++) {
+      sortedList.add(dataList[i]);
+      int nextIndex = i + columns;
+      if (nextIndex < dataList.length) {
+        sortedList.add(dataList[nextIndex]);
+      }
+    }
+    return sortedList;
   }
 
   updateTicketInfo() {

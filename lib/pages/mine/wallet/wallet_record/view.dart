@@ -28,7 +28,7 @@ class WalletRecordPage extends StatelessWidget {
             },
           ),
         ),
-        body:  Container(
+        body: Container(
           child: Expanded(
               child: PageView(
                 controller: controller.pageController,

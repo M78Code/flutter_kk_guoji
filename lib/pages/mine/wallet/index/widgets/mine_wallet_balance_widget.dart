@@ -43,12 +43,12 @@ class MineWalletBalanceWidget extends StatelessWidget {
               Obx(() {
                 return RichText(text: TextSpan(
                   children: [
+                    // TextSpan(
+                    //   text: "¥",
+                    //   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
+                    // ),
                     TextSpan(
-                      text: "¥",
-                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: UserService.to.userMoneyModel?.betMoney ?? "0.00",
+                      text: UserService.to.userMoneyModel?.money ?? "0.00",
                       style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -60,7 +60,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildButton('存款', Assets.mineWalletSaving, () {
+              _buildButton('充值', Assets.mineWalletSaving, () {
                 RouteUtil.pushToView(Routes.recharge, arguments: true);
               }),
               SizedBox(width: 10.w),

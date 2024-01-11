@@ -459,7 +459,11 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
       content = "${playInfo.playName}:${playInfo.odds}-${playInfo.maxOdds}";
       print('xiaoan 赔率选项：$content');
     } else {
-      content = "${playInfo.playName}: ${playInfo.odds}";
+      if(widget.tickInfo.lotteryCode=='JNDEB'||widget.tickInfo.lotteryCode=='JNDSI'||widget.tickInfo.lotteryCode=='JNDWU'){
+        content = "${playInfo.playName}: ${playInfo.maxOdds}";
+      }else{
+        content = "${playInfo.playName}: ${playInfo.odds}";
+      }
     }
     return GestureDetector(
       onTap: (){
