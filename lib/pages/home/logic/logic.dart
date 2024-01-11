@@ -10,6 +10,9 @@ import 'dart:core';
 
 import 'package:kkguoji/utils/websocket_util.dart';
 
+import '../../../common/api/games_api.dart';
+import '../../../common/models/game_login.dart';
+import '../../../common/models/get_game_model.dart';
 import '../../../model/home/jcp_game_model.dart';
 import '../../../model/home/kk_home_game_model.dart';
 import '../../../model/home/recommend_game_model.dart';
@@ -265,6 +268,14 @@ class HomeLogic extends GetxController {
     var result = await HttpRequest.request(HttpConfig.loginGame, method: "post", params: params);
     if(result["code"] == 200) {
       RouteUtil.pushToView(Routes.webView, arguments: result["data"]["url"]);
+    }
+  }
+
+  gamesOnTap(String type,String lotteryId) async {
+    GetGameModel? getGameModel = await GamesApi.getGameByCompanyCode(type, lotteryId);
+    GameLogin? gameLogin = await GamesApi.gameLogin(getGameModel?.gameCompanyCode ?? "", (getGameModel?.id ?? "").toString());
+    if (gameLogin?.url != null) {
+      RouteUtil.pushToView(Routes.webView, arguments: gameLogin?.url ?? "");
     }
   }
 

@@ -13,6 +13,7 @@ import '../../../model/home/base_model.dart';
 import '../../../model/home/jcp_game_model.dart';
 import '../../../routes/routes.dart';
 import '../../../services/user_service.dart';
+import '../../../utils/function.dart';
 import '../../../utils/route_util.dart';
 import '../../../widget/show_toast.dart';
 
@@ -21,8 +22,9 @@ class KKHomeTicketItem extends StatefulWidget {
   final String logoImageStr;
   final Datum tickInfo;
   final List<Color> ballColors;
+  final ParamSingleCallback<String> openGame;
 
-  const KKHomeTicketItem(@required this.bgImageStr, @required this.logoImageStr, @required this.ballColors, @required this.tickInfo, {super.key});
+   KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors, this.tickInfo,this.openGame, {super.key});
 
   @override
   State<KKHomeTicketItem> createState() => _KKHomeTicketItemState();
@@ -36,6 +38,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   late TextEditingController _numberController;
   List<JcpBetModel> betList=[];
   final userService = Get.find<UserService>();
+
 
   @override
   void initState() {
@@ -158,6 +161,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                   ],
                 ),
                 GestureDetector(
+                  onTap: (){
+                    widget.openGame(widget.tickInfo.lotteryCode ?? '');
+                  },
                     child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
@@ -305,6 +311,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                               if(_numberController.text.isNotEmpty){
                                 betGame();
                               }
+                            }else{
+                              ShowToast.showToast('请选择下注类型');
                             }
                           }
                         },
@@ -523,7 +531,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
     return Container(
       width: 70,
       height: 38,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         color: const Color(0xFF2E374E),
