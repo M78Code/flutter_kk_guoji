@@ -14,6 +14,7 @@ import '../../../model/home/jcp_game_model.dart';
 import '../../../model/home/kk_home_game_model.dart';
 import '../../../model/home/recommend_game_model.dart';
 import '../../../services/http_service.dart';
+import '../../../services/user_service.dart';
 
 class HomeLogic extends GetxController {
   final RxString marqueeStr = "".obs;
@@ -23,6 +24,7 @@ class HomeLogic extends GetxController {
   var recommendGameListNew = <RecommendList>[].obs;
   var recommendSportList = <RecommendList>[].obs;
   var margeGameList=<List<Datum>>[].obs;
+  final globalController = Get.find<UserService>();
   Map imageMap = {
     "XGLHC": {
       "bg_icon": "assets/images/home_xianggangliuhecai.png",
@@ -132,6 +134,10 @@ class HomeLogic extends GetxController {
       noticeInfo.value=msg;
       print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
     });
+  }
+
+  updateMoney(){
+    globalController.fetchUserMoney();
   }
 
   getRecommendGameList() async {

@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:kkguoji/common/api/games_api.dart';
 import 'package:kkguoji/utils/json_util.dart';
 
@@ -34,6 +35,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   List<String> timeList = ["0", "0", "0", "0", "0", "0"];
   late TextEditingController _numberController;
   List<JcpBetModel> betList=[];
+  final userService = Get.find<UserService>();
 
   @override
   void initState() {
@@ -327,9 +329,13 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   }
   
   betGame () async{
+    betList.forEach((element) {
+      element.betAmount=_numberController.text;
+    });
     BaseModel? baseModel=await GamesApi.betGame(betList,widget.tickInfo.lotteryCode ?? '');
     if(baseModel?.code==200){
       ShowToast.showToast('下注成功');
+      userService.fetchUserMoney();
     }else{
       ShowToast.showToast(baseModel!.message);
     }
@@ -451,18 +457,26 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   }
 
   Widget _buildOddsItem(CachePlayList playInfo) {
+    String odds=playInfo.odds.toString();
+    odds = odds.contains('.')
+        ? (odds.endsWith('0') ? odds.replaceAll(RegExp(r'\.0*$'), '') : odds)
+        : odds;
+    String maxOdds=playInfo.maxOdds.toString();
+    maxOdds = maxOdds.contains('.')
+        ? (maxOdds.endsWith('0') ? maxOdds.replaceAll(RegExp(r'\.0*$'), '') : maxOdds)
+        : maxOdds;
     bool isPCNN = widget.tickInfo.lotteryCode == "PCNN";
     bool isSelect = playInfo.isSelect ?? false;
     String content = "";
     // print('xiaoan 赔率选项：$isPCNN${widget.tickInfo.lotteryCode}');
     if (isPCNN) {
-      content = "${playInfo.playName}:${playInfo.odds}-${playInfo.maxOdds}";
+      content = "${playInfo.playName}:${playInfo.odds.toString()}-${playInfo.maxOdds.toString()}";
       print('xiaoan 赔率选项：$content');
     } else {
       if(widget.tickInfo.lotteryCode=='JNDEB'||widget.tickInfo.lotteryCode=='JNDSI'||widget.tickInfo.lotteryCode=='JNDWU'){
-        content = "${playInfo.playName}: ${playInfo.maxOdds}";
+        content = "${playInfo.playName}: ${maxOdds}";
       }else{
-        content = "${playInfo.playName}: ${playInfo.odds}";
+        content = "${playInfo.playName}: ${odds}";
       }
     }
     return GestureDetector(
@@ -504,7 +518,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
     if (isPCNN) {
       content = "${playInfo.cachePlayList?[0].playName}:${playInfo.cachePlayList?[0].odds?.toInt()}-${playInfo.cachePlayList?[0].maxOdds?.toInt()}";
     } else {
-      content = "${playInfo.cachePlayList?[0].playName}: ${playInfo.cachePlayList?[0].odds}";
+      content = "${playInfo.cachePlayList?[0].playName}: ${playInfo.cachePlayList?[0].odds.toString()}";
     }
     return Container(
       width: 70,
