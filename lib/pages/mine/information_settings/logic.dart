@@ -26,13 +26,15 @@ class InformationSettingsLogic extends GetxController {
     if (isChanged) update(['updateBtn']);
   }
 
-  Future<bool> updateContact(String? wechat,
+  Future<bool> updateContact(
+      String? wechat,
       String? qq,
       String? skype,
       String? telegram,
       String? whatsapp) async {
      var result = await AccountApi.updateContact(wechat,qq,skype,telegram,whatsapp);
      if(result?["success"] == true) {
+       await UserService.to.fetchUserInfo();
        return true;
      }
      return false;
