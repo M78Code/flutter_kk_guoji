@@ -158,7 +158,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           Image.asset(Assets.imagesIconRefresh, width: 14.w, height: 12.h),
           const Spacer(),
           Text(
-            "${UserService.to.userMoneyModel?.money ?? 0.00} ¥",
+            "${UserService.to.userMoneyModel?.money ?? 0.00}",
             style: TextStyle(color: Colors.white, fontSize: 14.sp),
           )
         ],
@@ -392,7 +392,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           borderRadius: 16.0,
           onPressed: () => RouteUtil.pushToView(
             Routes.withdrawPsd,
-            arguments: false, //controller.userInfoModel?.withdrawPwdStatus == 0
+            arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
           ),
           child: Text(
             controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
