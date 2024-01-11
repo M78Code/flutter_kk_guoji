@@ -137,49 +137,49 @@ class _MySetingState extends State<MySeting> {
             height: 8,
             color: Colors.black, // 黑色背景view
           ),
-          const SizedBox(height: 25), // 黑色背景view和语言设置的间距
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Text(
-                  '语言设置',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20), // 语言设置和清除缓存的间距
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 30),
-                  child: Text('中文',
-                      style: TextStyle(
-                          color: Color.fromRGBO(104, 112, 131, 1),
-                          fontSize: 15)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Image.asset(
-                    Assets.imagesIconArrowsEnter,
-                    width: 16,
-                    height: 16,
-                  ),
-                ),
-              ],
-            ),
-            onTap: () {
-              _showModalBottomSheet(context);
-            },
-          ),
+          // const SizedBox(height: 25), // 黑色背景view和语言设置的间距
+          // const Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Padding(
+          //       padding: EdgeInsets.only(left: 10),
+          //       child: Text(
+          //         '语言设置',
+          //         style: TextStyle(
+          //             color: Colors.white,
+          //             fontSize: 14,
+          //             fontWeight: FontWeight.bold),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 20), // 语言设置和清除缓存的间距
+          // GestureDetector(
+          //   behavior: HitTestBehavior.translucent,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       const Padding(
+          //         padding: EdgeInsets.only(left: 30),
+          //         child: Text('中文',
+          //             style: TextStyle(
+          //                 color: Color.fromRGBO(104, 112, 131, 1),
+          //                 fontSize: 15)),
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.only(right: 10),
+          //         child: Image.asset(
+          //           Assets.imagesIconArrowsEnter,
+          //           width: 16,
+          //           height: 16,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          //   onTap: () {
+          //     _showModalBottomSheet(context);
+          //   },
+          // ),
 
           const SizedBox(height: 20), // 分割线
           const Divider(

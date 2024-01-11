@@ -39,8 +39,12 @@ class _BetListPageState extends State<BetListPage> {
   }
   @override
   Widget build(BuildContext context) {
-
-    return _buildView();
+    return GetBuilder<BetListController>(
+      id: 'betListPage',
+      builder: (controller){
+        return _buildView();
+      },
+    );
   }
   Widget _buildView() {
     return Scaffold(

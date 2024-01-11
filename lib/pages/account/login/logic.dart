@@ -11,6 +11,7 @@ import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 import '../../../services/sqlite_service.dart';
+import '../../../utils/websocket_util.dart';
 
 class LoginLogic extends GetxController {
   final RxBool psdObscure = true.obs;
@@ -133,6 +134,7 @@ class LoginLogic extends GetxController {
       globalController.isLogin = true;
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
+      WebSocketUtil().connetSocket();
       sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
       if (savePassword.value) {
         sqliteService.setString(CacheKey.accountKey, accountText);

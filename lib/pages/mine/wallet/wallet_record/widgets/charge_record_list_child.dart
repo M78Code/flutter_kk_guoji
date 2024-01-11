@@ -46,7 +46,7 @@ class ChargeRecordListChild extends StatelessWidget {
               '订单号：${rowData.orderN ?? ""}',
               style: TextStyle(color: Color(0x66FFFFFF),fontSize: 12.sp,fontWeight: FontWeight.w500)),
             Text(
-              rowData.payName ?? "",
+              rowData.status_name ?? "",
               style: TextStyle(color: moneyColor,fontSize: 12.sp,fontWeight: FontWeight.w600)),// 失败 FFEE5D5D 处理中#FF687083
           ],
         ),

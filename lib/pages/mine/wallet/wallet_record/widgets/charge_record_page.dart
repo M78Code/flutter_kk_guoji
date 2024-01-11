@@ -20,7 +20,12 @@ class ChargeRecordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildView(context);
+    return  GetBuilder<WalletRecordLogic>(
+      id: "chargePage",
+      builder: (_) {
+        return _buildView(context);
+      },
+    );
   }
   Widget _buildView(BuildContext context) {
     return Scaffold(
@@ -39,9 +44,7 @@ class ChargeRecordPage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: WalletRecordBalanceWidget().marginOnly(top: 10.w),
               ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 20.w,)
-              ),
+              SliverToBoxAdapter( child: SizedBox(height: 20.w,)),
               SliverToBoxAdapter(
                 child: GetBuilder<WalletRecordLogic>(
                   id: 'rechargeDateSelector',
@@ -71,8 +74,8 @@ class ChargeRecordPage extends StatelessWidget {
               controller.userRechargeState.userRechargeModels.isEmpty ? SliverToBoxAdapter(child: Center(
                 child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
               )) :
-              WalletRecordList(isWithDrawRecord: false),
-              SliverToBoxAdapter(
+            WalletRecordList(isWithDrawRecord: false),
+            SliverToBoxAdapter(
                   child: SizedBox(height: 10.w,)
               ),
             ],
