@@ -57,7 +57,9 @@ dependencies:
 #  http: ^1.1.2
   amazon_cognito_identity_dart_2: ^1.0.3
   aws_s3_upload: ^1.5.0
-#  amazon_s3_cognito:
+  qr_flutter: ^4.1.0
+  image_gallery_saver: '^2.0.3'
+  #  amazon_s3_cognito:
 #    git:
 #      url: https://github.com/zhihaozhang/amazon_s3_cognito.git
 
