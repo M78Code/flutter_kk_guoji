@@ -96,7 +96,7 @@ abstract class Routes {
     GetPage(name: betListPage, page: () => const BetListPage()),
     GetPage(name: messageCenter, page: () => const MessageCenterPage()),
     GetPage(name: bindEmail, page: () => const BindEmailPage()),
-    GetPage(name: mine, page: () => const MinePage()),
+    GetPage(name: mine, page: () => MinePage()),
     GetPage(name: settingPage, page: () => const SettingPage()),
     GetPage(name: personalInfoPage, page: () => const SwitchAvatarPage()),
     GetPage(name: myAccountPage, page: () => const MyAccountPage()),
