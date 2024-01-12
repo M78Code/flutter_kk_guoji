@@ -74,12 +74,12 @@ class KKGamesTopWidget extends StatelessWidget {
               children: [
                 RichText(text: TextSpan(
                   children: [
-                    // TextSpan(
-                    //   text: "¥",
-                    //   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
-                    // ),
                     TextSpan(
-                      text: UserService.to.userMoneyModel?.money ?? "0.00",
+                      text: "¥",
+                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: UserService.to.userMoneyModel?.betMoney ?? "0.00",
                       style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
                     ),
                   ],

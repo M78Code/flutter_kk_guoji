@@ -1,8 +1,11 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/home/view/notice_widget.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/model/home/jcp_game_socket_model.dart';
 import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/json_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/services/http_service.dart';
@@ -17,6 +20,8 @@ import '../../../model/home/jcp_game_model.dart';
 import '../../../model/home/kk_home_game_model.dart';
 import '../../../model/home/recommend_game_model.dart';
 import '../../../services/http_service.dart';
+import '../../../services/sqlite_service.dart';
+import '../../../services/sqlite_service.dart';
 import '../../../services/user_service.dart';
 
 class HomeLogic extends GetxController {
@@ -28,6 +33,7 @@ class HomeLogic extends GetxController {
   var recommendSportList = <RecommendList>[].obs;
   var margeGameList=<List<Datum>>[].obs;
   final globalController = Get.find<UserService>();
+  final sqliteService = SqliteService.to;
   Map imageMap = {
     "XGLHC": {
       "bg_icon": "assets/images/home_xianggangliuhecai.png",
@@ -84,7 +90,7 @@ class HomeLogic extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
-
+    getPopupNotice();
     getRecommendGameList();
     getRecommendSportList();
 
@@ -137,6 +143,27 @@ class HomeLogic extends GetxController {
       noticeInfo.value=msg;
       print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
     });
+  }
+
+  getPopupNotice() async{
+    var result = await HttpRequest.request(HttpConfig.getPopupNotice, method: "get");
+    if (result["code"] == 200) {
+      String dataStr = formatDate(DateTime.now(), [yyyy,"-",mm,"-",dd]);
+      bool? isHidden = sqliteService.getBool(dataStr);
+      if(isHidden == null) {
+        Get.dialog(NoticeWidget((result["data"] as List).first), barrierDismissible: false).then((value) {
+          sqliteService.setBool(dataStr, value as bool);
+        });
+      }else {
+        if( isHidden! == false) {
+          Get.dialog(NoticeWidget((result["data"] as List).first), barrierDismissible: false).then((value){
+            sqliteService.setBool(dataStr, value as bool);
+
+          });
+        }
+      }
+
+    }
   }
 
   updateMoney(){

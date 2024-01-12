@@ -1,7 +1,7 @@
 class KKAutoRecordModel {
   int? gameType;
   String? gameTypeName;
-  int? rate;
+  double? rate;
   String? totalBet;
   String? totalMoney;
   // List<Null>? list;
@@ -17,7 +17,7 @@ class KKAutoRecordModel {
   KKAutoRecordModel.fromJson(Map<String, dynamic> json) {
     gameType = json['game_type'];
     gameTypeName = json['game_type_name'];
-    rate = json['rate'];
+    rate = double.tryParse(json['rate'].toString());
     totalBet = json['total_bet'];
     totalMoney = json['total_money'];
     // if (json['list'] != null) {
