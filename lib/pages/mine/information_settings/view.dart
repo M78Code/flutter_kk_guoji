@@ -31,6 +31,7 @@ class _InformationSettingsPageState extends State<InformationSettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('信息设置'),
+        centerTitle: true,
         leading:  IconButton(
           icon: Image.asset(
               Assets.systemIconBack,
@@ -178,7 +179,7 @@ class MyListItem extends StatelessWidget {
                 logic.setIsChanged(true);
               },
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 22.w),
+                contentPadding: EdgeInsets.symmetric(horizontal: 32.w),
                 hintText: defaultText,
                 hintStyle: TextStyle(color: Color(0xFFFFFFFF).withOpacity(0.2), fontSize: 15.sp, fontWeight: FontWeight.w400),
                 filled: true,

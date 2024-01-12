@@ -52,8 +52,8 @@ class AccountApi {
     return response["code"] == 200;
   }
 
-  static Future<Map<String, dynamic>?>? updateContact(String? wechat, String? qq, String? skype, String? telegram, String? whatsapp) async {
-    var params = {"wechat": wechat ?? "", "qq": qq ?? "", "skype": skype ?? "", "telegram": telegram ?? "", "whatsapp": whatsapp ?? ""};
+  static Future<Map<String, dynamic>?>? updateContact(String? wechat, String? qq, String? telegram, String? skype, String? whatsapp) async {
+    var params = {"wechat":  wechat, "qq": qq ?? "", "skype": skype ?? "", "telegram": telegram ?? "", "whatsapp": whatsapp ?? ""};
     var result = await HttpRequest.request(HttpConfig.updateContact, method: "post", params: params);
     if (result["code"] == 200) {
       return result;

@@ -89,7 +89,8 @@ class WithdrawPsdLogic extends GetxController {
 
   void getVerCode() async {
     codeValue = getVerify(6);
-    var result = await HttpRequest.request(HttpConfig.getCode, method: "get", params: {"code_value": codeValue});
+    var result = await HttpRequest.request(HttpConfig.getCode,
+        method: "get", params: {"code_value": codeValue});
     verCodeImageBytes.value = result;
   }
 
@@ -355,10 +356,13 @@ class WithdrawPsdLogic extends GetxController {
         "old_password": passwordText,
         "password": newPsdText,
       };
-      var result = await HttpRequest.request(HttpConfig.modifyWDPassword, method: "post", params: params);
+      var result =
+          await HttpRequest.request(HttpConfig.modifyWDPassword, method: "post", params: params);
       if (result["code"] == 200) {
         ShowToast.showToast("更新提现密码成功");
-        RouteUtil.popView();
+        UserService.to.fetchUserInfo().then((value) {
+          RouteUtil.popView();
+        });
       } else {
         ShowToast.showToast(result["message"]);
       }

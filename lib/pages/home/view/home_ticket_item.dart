@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:kkguoji/common/api/games_api.dart';
 import 'package:kkguoji/utils/json_util.dart';
 
@@ -12,6 +13,7 @@ import '../../../model/home/base_model.dart';
 import '../../../model/home/jcp_game_model.dart';
 import '../../../routes/routes.dart';
 import '../../../services/user_service.dart';
+import '../../../utils/function.dart';
 import '../../../utils/route_util.dart';
 import '../../../widget/show_toast.dart';
 
@@ -20,8 +22,9 @@ class KKHomeTicketItem extends StatefulWidget {
   final String logoImageStr;
   final Datum tickInfo;
   final List<Color> ballColors;
+  final ParamSingleCallback<String> openGame;
 
-  const KKHomeTicketItem(@required this.bgImageStr, @required this.logoImageStr, @required this.ballColors, @required this.tickInfo, {super.key});
+  KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors, this.tickInfo, this.openGame, {super.key});
 
   @override
   State<KKHomeTicketItem> createState() => _KKHomeTicketItemState();
@@ -33,14 +36,15 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   bool isShowStatus = false;
   List<String> timeList = ["0", "0", "0", "0", "0", "0"];
   late TextEditingController _numberController;
-  List<JcpBetModel> betList=[];
+  List<JcpBetModel> betList = [];
+  final userService = Get.find<UserService>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _numberController = TextEditingController(text: getDefaultAmount());
-    periodsNumber = widget.tickInfo.current!.periodsNumber.toString();
+    periodsNumber = widget.tickInfo.last!.periodsNumber.toString();
     endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
     isShowStatus = widget.tickInfo.current?.status != 4;
     if (endTime * 1000 > DateTime.now().millisecondsSinceEpoch) {
@@ -91,7 +95,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                           style: TextStyle(color: Colors.white, fontSize: 11.0),
                         ),
                         TextSpan(
-                          text: widget.tickInfo.current!.periodsNumber.toString(),
+                          text: widget.tickInfo.last!.periodsNumber.toString(),
                           style: const TextStyle(color: Color(0xFFF4B81C), fontSize: 11),
                         ),
                         const TextSpan(
@@ -156,21 +160,24 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                   ],
                 ),
                 GestureDetector(
+                    onTap: () {
+                      widget.openGame(widget.tickInfo.lotteryCode ?? '');
+                    },
                     child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                        color: Color.fromRGBO(255, 255, 255, 0.36),
-                      )),
-                  width: 48,
-                  height: 46,
-                  child: const Center(
-                    child: Text(
-                      "进入\n游戏",
-                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12),
-                    ),
-                  ),
-                )),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: Color.fromRGBO(255, 255, 255, 0.36),
+                          )),
+                      width: 48,
+                      height: 46,
+                      child: const Center(
+                        child: Text(
+                          "进入\n游戏",
+                          style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12),
+                        ),
+                      ),
+                    )),
               ],
             ),
           ),
@@ -294,15 +301,17 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.5), gradient: widget.tickInfo.current!.status == 0 ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) : const LinearGradient(colors: [Color(0xFF686F83), Color(0xFF686F83)])),
                       child: TextButton(
                         onPressed: () {
-                          if(widget.tickInfo.current!.status == 0){
+                          if (widget.tickInfo.current!.status == 0) {
                             if (UserService.to.isLogin == false) {
                               RouteUtil.pushToView(Routes.loginPage);
                               return;
                             }
-                            if(betList.isNotEmpty){
-                              if(_numberController.text.isNotEmpty){
+                            if (betList.isNotEmpty) {
+                              if (_numberController.text.isNotEmpty) {
                                 betGame();
                               }
+                            } else {
+                              ShowToast.showToast('请选择下注类型');
                             }
                           }
                         },
@@ -325,12 +334,16 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
       ),
     );
   }
-  
-  betGame () async{
-    BaseModel? baseModel=await GamesApi.betGame(betList,widget.tickInfo.lotteryCode ?? '');
-    if(baseModel?.code==200){
+
+  betGame() async {
+    betList.forEach((element) {
+      element.betAmount = _numberController.text;
+    });
+    BaseModel? baseModel = await GamesApi.betGame(betList, widget.tickInfo.lotteryCode ?? '');
+    if (baseModel?.code == 200) {
       ShowToast.showToast('下注成功');
-    }else{
+      userService.fetchUserMoney();
+    } else {
       ShowToast.showToast(baseModel!.message);
     }
   }
@@ -451,43 +464,41 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   }
 
   Widget _buildOddsItem(CachePlayList playInfo) {
+    String odds = playInfo.odds.toString();
+    odds = odds.contains('.') ? (odds.endsWith('0') ? odds.replaceAll(RegExp(r'\.0*$'), '') : odds) : odds;
+    String maxOdds = playInfo.maxOdds.toString();
+    maxOdds = maxOdds.contains('.') ? (maxOdds.endsWith('0') ? maxOdds.replaceAll(RegExp(r'\.0*$'), '') : maxOdds) : maxOdds;
     bool isPCNN = widget.tickInfo.lotteryCode == "PCNN";
     bool isSelect = playInfo.isSelect ?? false;
     String content = "";
     // print('xiaoan 赔率选项：$isPCNN${widget.tickInfo.lotteryCode}');
     if (isPCNN) {
-      content = "${playInfo.playName}:${playInfo.odds}-${playInfo.maxOdds}";
+      content = "${playInfo.playName}:${playInfo.odds.toString()}-${playInfo.maxOdds.toString()}";
       print('xiaoan 赔率选项：$content');
     } else {
-      if(widget.tickInfo.lotteryCode=='JNDEB'||widget.tickInfo.lotteryCode=='JNDSI'||widget.tickInfo.lotteryCode=='JNDWU'){
-        content = "${playInfo.playName}: ${playInfo.maxOdds}";
-      }else{
-        content = "${playInfo.playName}: ${playInfo.odds}";
+      if (widget.tickInfo.lotteryCode == 'JNDEB' || widget.tickInfo.lotteryCode == 'JNDSI' || widget.tickInfo.lotteryCode == 'JNDWU') {
+        content = "${playInfo.playName}: ${maxOdds}";
+      } else {
+        content = "${playInfo.playName}: ${odds}";
       }
     }
     return GestureDetector(
-      onTap: (){
-        if(!isSelect){
-          playInfo.isSelect=true;
+      onTap: () {
+        if (!isSelect) {
+          playInfo.isSelect = true;
           betList.add(JcpBetModel(lotteryCode: widget.tickInfo.lotteryCode ?? '', playTypeCode: playInfo.playTypeCode ?? '', sonPlayTypeCode: playInfo.sonPlayTypeCode ?? '', playCode: playInfo.playCode ?? '', betContent: playInfo.playCode ?? '', betAmount: _numberController.text));
-        }else{
-          playInfo.isSelect=false;
-          betList.removeWhere((element) => element.playCode==playInfo.playCode);
+        } else {
+          playInfo.isSelect = false;
+          betList.removeWhere((element) => element.playCode == playInfo.playCode);
         }
-        setState(() {
-
-        });
+        setState(() {});
         print('以选中选项：${JsonUtil.encodeObj(betList)}');
       },
       child: Container(
         width: 67,
         height: 38,
         margin: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          color: const Color(0xFF2E374E),
-          border: Border.all(width:2,color: playInfo.isSelect??false ? Color(0xFF755EFF): Color(0xFF2E374E))
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xFF2E374E), border: Border.all(width: 2, color: playInfo.isSelect ?? false ? Color(0xFF755EFF) : Color(0xFF2E374E))),
         child: Center(
           child: Text(
             content,
@@ -499,25 +510,36 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   }
 
   Widget _buildOddsItemNN(Play playInfo) {
+    bool isSelect = playInfo.cachePlayList?[0].isSelect ?? false;
     bool isPCNN = widget.tickInfo.lotteryCode == "PCNN";
     String content = "";
     if (isPCNN) {
       content = "${playInfo.cachePlayList?[0].playName}:${playInfo.cachePlayList?[0].odds?.toInt()}-${playInfo.cachePlayList?[0].maxOdds?.toInt()}";
     } else {
-      content = "${playInfo.cachePlayList?[0].playName}: ${playInfo.cachePlayList?[0].odds}";
+      content = "${playInfo.cachePlayList?[0].playName}: ${playInfo.cachePlayList?[0].odds.toString()}";
     }
-    return Container(
-      width: 70,
-      height: 38,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: const Color(0xFF2E374E),
-      ),
-      child: Center(
-        child: Text(
-          content,
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+    return GestureDetector(
+      onTap: () {
+        if (!isSelect) {
+          playInfo.cachePlayList?[0].isSelect = true;
+          betList.add(JcpBetModel(lotteryCode: widget.tickInfo.lotteryCode ?? '', playTypeCode: playInfo.cachePlayList?[0].playTypeCode ?? '', sonPlayTypeCode: playInfo.cachePlayList?[0].sonPlayTypeCode ?? '', playCode: playInfo.cachePlayList?[0].playCode ?? '', betContent: playInfo.cachePlayList?[0].playCode ?? '', betAmount: _numberController.text));
+        } else {
+          playInfo.cachePlayList?[0].isSelect = false;
+          betList.removeWhere((element) => element.playCode == playInfo.cachePlayList?[0].playCode);
+        }
+        setState(() {});
+        print('以选中选项：${JsonUtil.encodeObj(betList)}');
+      },
+      child: Container(
+        width: 70,
+        height: 38,
+        margin: const EdgeInsets.symmetric(horizontal: 6),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xFF2E374E), border: Border.all(width: 2, color: playInfo.cachePlayList?[0].isSelect ?? false ? Color(0xFF755EFF) : Color(0xFF2E374E))),
+        child: Center(
+          child: Text(
+            content,
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
         ),
       ),
     );
@@ -526,14 +548,14 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   void startEndTime() {
     DateTime now = DateTime.now();
     int time = now.millisecondsSinceEpoch;
-    if(endTime*1000>time){
+    if (endTime * 1000 > time) {
       DateTime haveTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000 - time).toInt(), isUtc: true);
       String timestr = formatDate(haveTime, [HH, nn, ss]);
 
       timeList = timestr.split("");
-      widget.tickInfo.current!.isOpen=false;
-    }else{
-      widget.tickInfo.current!.isOpen=true;
+      widget.tickInfo.current!.isOpen = false;
+    } else {
+      widget.tickInfo.current!.isOpen = true;
     }
     if (mounted) {
       setState(() {});
