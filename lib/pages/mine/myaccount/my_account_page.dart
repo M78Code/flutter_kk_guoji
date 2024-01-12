@@ -33,6 +33,7 @@ class MyAccountPage extends GetView<MyAccountLogic> {
                 "我的账号",
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
+              centerTitle: true,
             ),
             // body: Center(),
             body: Center(

@@ -62,7 +62,7 @@ class _KKMainPageState extends State<KKMainPage> {
   final controller = Get.find<MainPageLogic>();
   final userService = Get.find<UserService>();
 
-  final List _pages = [KKHomePage(), const KKGamesPage(), const RechargePage(), const ActivityPage(), const MinePage()];
+  final List _pages = [KKHomePage(), const KKGamesPage(), const RechargePage(), const ActivityPage(), MinePage()];
 
   @override
   Widget build(BuildContext context) {

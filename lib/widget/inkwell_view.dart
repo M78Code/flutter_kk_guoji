@@ -9,8 +9,9 @@ class InkWellView extends StatelessWidget {
   final Color highlightColor;
   final Color? backColor;
   final double? width, height, borderWidth;
-  final LinearGradient? gradient;
+  final Gradient? gradient;
   final Color borderColor;
+  final BoxDecoration? boxDecoration;
 
   const InkWellView({
     super.key,
@@ -25,20 +26,23 @@ class InkWellView extends StatelessWidget {
     this.height,
     this.gradient,
     this.backColor,
+    this.boxDecoration,
   });
 
+//image: DecorationImage(image: AssetImage(bgImage)),
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       height: height,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: Border.all(color: borderColor, width: borderWidth ?? 1),
-        gradient: gradient,
-        color: backColor,
-        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-      ),
+      decoration: boxDecoration ??
+          BoxDecoration(
+            border: Border.all(color: borderColor, width: borderWidth ?? 1),
+            gradient: gradient,
+            color: backColor,
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          ),
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [

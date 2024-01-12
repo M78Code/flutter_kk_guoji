@@ -5,11 +5,16 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/services/user_service.dart';
 
+import '../../common/api/agent_api.dart';
+import '../promotion/model/promotion_model.dart';
+
 class MineLogic extends GetxController {
   final userService = Get.find<UserService>();
   UserInfoModel? userInfoModel; //用户信息类
   RxString portraitUrl = "".obs;
   bool isHiddenBalance = SqliteService.to.getBool(CacheKey.balanceHidden) ?? false;
+  bool isSharePopViewVisible = false;
+  KKPromotionModel? promotionModel;
 
   @override
   void onInit() {
@@ -24,6 +29,8 @@ class MineLogic extends GetxController {
     // TODO: implement onReady
     print("onReady");
     super.onReady();
+
+    fetchAgentTeam();
   }
 
   @override
@@ -37,5 +44,14 @@ class MineLogic extends GetxController {
     isHiddenBalance = !isHiddenBalance;
     SqliteService.to.setBool(CacheKey.balanceHidden, isHiddenBalance);
     update(['balance']);
+  }
+
+  fetchAgentTeam() async {
+    promotionModel = await AgentApi.getAgentTeam();
+  }
+
+  setIsSharePopViewVisible(bool isSharePopViewVisible) {
+    this.isSharePopViewVisible = isSharePopViewVisible;
+    update(["MinePage"]);
   }
 }
