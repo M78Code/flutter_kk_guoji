@@ -57,7 +57,10 @@ class HttpConfig {
   static const currency = "/api/withdrawal/currency"; //获取提现币种
   static const withdraw = "/api/withdrawal/apply"; //申请提现
 // static const feeConfig = "/api/withdrawal/config"; //获取提现配置信息
+  //领取返水
+  static const receiveRebate = "/api/userRebate/receive";
 
 //第三方登录
   static const register_third = "/api/public/register_third";
+
 }

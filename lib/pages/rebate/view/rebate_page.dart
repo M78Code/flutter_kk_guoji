@@ -84,7 +84,7 @@ class KKRebatePage extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       const Text(
-                                        "历史总金额",
+                                        "可领取返水金额",
                                         style: TextStyle(color: Colors.white, fontSize: 12),
                                       ),
                                       const SizedBox(
@@ -92,7 +92,7 @@ class KKRebatePage extends StatelessWidget {
                                       ),
                                       Obx(() {
                                         return Text(
-                                          "${controller.totalMoney.value} ¥",
+                                          "${controller.totalMoney.value}",
                                           style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
                                         );
                                       })
@@ -106,10 +106,12 @@ class KKRebatePage extends StatelessWidget {
                                 decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]), borderRadius: BorderRadius.circular(6), color: const Color(0xFF2E374E)),
                                 child: TextButton(
                                   child: const Text(
-                                    "全部领取",
+                                    "一键领取",
                                     style: TextStyle(color: Colors.white, fontSize: 12),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    controller.receiveRebate();
+                                  },
                                 ),
                               )
                             ],

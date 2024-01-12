@@ -104,7 +104,7 @@ class RegisterLogic extends GetxController {
   }
 
   checkCanRegister() {
-    if(accountText.isEmpty || passwordText.isEmpty || verPsdText.isEmpty || isAgree.value == false) {
+    if(accountText.isEmpty || passwordText.isEmpty || verPsdText.isEmpty) {
       isCanRegister.value = false;
     }else {
       if(isHiddenVerCode.value) {
@@ -158,7 +158,8 @@ class RegisterLogic extends GetxController {
   }
 
   void clickRegisterBtn() async{
-    if(!isCanRegister.value) {
+    if(isAgree.value == false) {
+      ShowToast.showToast("请阅读并同意相关条款");
       return;
     }
     if(isAccount.value) {
