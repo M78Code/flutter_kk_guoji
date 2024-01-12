@@ -39,7 +39,7 @@ class KKHomeTopWidget extends StatelessWidget {
               height: 33.w,
             ),
             Image.asset(
-              Assets.imagesHomeTopAd,
+              Assets.homeAdIcon,
               height: 22,
             ),
             Row(
@@ -81,7 +81,7 @@ class KKHomeTopWidget extends StatelessWidget {
                                     MaterialStatePropertyAll(EdgeInsets.zero),
                               ),
                               onPressed: () {
-                                RouteUtil.pushToView(Routes.messageCenter);
+                                RouteUtil.pushToView(Routes.messagePage);
                               },
                               child: Image.asset(
                                   "assets/images/home_top_alert.png",

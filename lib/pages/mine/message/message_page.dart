@@ -195,7 +195,7 @@ class _MessagePageState extends State<MessagePage> {
           if (_messageList.isEmpty) {
             return Center(
               child: Image.asset(
-                Assets.messageEmpty,
+                Assets.imagesIconEmptyh,
                 fit: BoxFit.contain,
               ),
             );
