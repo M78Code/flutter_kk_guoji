@@ -38,9 +38,9 @@ class WebSocketUtil {
   WebSocketUtil._initial() {}
 
   void connetSocket() {
-    if (_webSocket != null) {
-      closeSocket();
-    }
+    // if (_webSocket != null) {
+    //   closeSocket();
+    // }
 
     if (sqliteService.getString(CacheKey.apiToken) != null) {
       connectUrl += "?token=Bearer%20${sqliteService.getString(CacheKey.apiToken)!}";

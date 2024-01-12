@@ -33,6 +33,7 @@ class MyAccountPage extends GetView<MyAccountLogic> {
                 "我的账号",
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
+              centerTitle: true,
             ),
             // body: Center(),
             body: Center(
@@ -41,24 +42,29 @@ class MyAccountPage extends GetView<MyAccountLogic> {
                   SizedBox(height: 20.h),
                   Row(
                     children: [
-                      Image.asset(Assets.imagesIconAccount, width: 18, height: 18.5, fit: BoxFit.cover),
+                      Image.asset(Assets.imagesIconAccount,
+                          width: 18, height: 18.5, fit: BoxFit.cover),
                       SizedBox(width: 15.w),
                       Text("我的账号", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
                       const Spacer(),
                       InkWellView(
                           child: Row(
-                        children: [
-                          Text(controller.userInfoModel?.username ?? "", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
-                          SizedBox(width: 10.w),
-                          Image.asset(Assets.promotionCopy, width: 18.w, height: 18.h),
-                        ],
-                      ), onPressed: ()=> StringUtil.clipText(controller.userInfoModel?.username)),
+                            children: [
+                              Text(controller.userInfoModel?.username ?? "",
+                                  style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                              SizedBox(width: 10.w),
+                              Image.asset(Assets.promotionCopy, width: 18.w, height: 18.h),
+                            ],
+                          ),
+                          onPressed: () => StringUtil.clipText(controller.userInfoModel?.username)),
                     ],
                   ),
-                  Divider(height: 0.5.h, color: Colors.white.withOpacity(0.3)).marginSymmetric(vertical: 13.h),
+                  Divider(height: 0.5.h, color: Colors.white.withOpacity(0.3))
+                      .marginSymmetric(vertical: 13.h),
                   Row(
                     children: [
-                      Image.asset(Assets.imagesPasswordIcon, width: 20.w, height: 20.h, fit: BoxFit.cover),
+                      Image.asset(Assets.imagesPasswordIcon,
+                          width: 20.w, height: 20.h, fit: BoxFit.cover),
                       SizedBox(width: 15.w),
                       Text("登录密码", style: TextStyle(fontSize: 14.sp, color: Colors.white)),
                       const Spacer(),
@@ -70,7 +76,8 @@ class MyAccountPage extends GetView<MyAccountLogic> {
                             Image.asset(Assets.imagesIconArrowsEnter, width: 20.w, height: 20.h),
                           ],
                         ),
-                        onPressed: () => RouteUtil.pushToView(Routes.setLoginPsdPage, arguments: false),
+                        onPressed: () =>
+                            RouteUtil.pushToView(Routes.setLoginPsdPage, arguments: false),
                       ),
                     ],
                   ),

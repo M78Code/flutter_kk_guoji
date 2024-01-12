@@ -54,6 +54,7 @@ class HttpService extends GetxService {
         ShowToast.showToast(responseData["message"]);
         SqliteUtil().remove(CacheKey.apiToken);
         Get.find<UserService>().isLogin = false;
+        Get.find<UserService>().userInfoModel.value = null;
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
         return Future.error("");
         // return Future.error(error);
@@ -66,7 +67,7 @@ class HttpService extends GetxService {
       if (code == 1001) {
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
       } else {
-        // ShowToast.showToast(msg);
+        ShowToast.showToast(msg);
       }
       return Future.error(e);
     }

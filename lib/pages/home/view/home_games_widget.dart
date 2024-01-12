@@ -79,30 +79,43 @@ class KKHomeGamesWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.w),
                         ),
                       ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10.w), // 设置圆角半径
-                            child: Image.network(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.w),
+                        child: Stack(
+                          children: [
+                            Image.network(
                               controller.recommendGameListNew[index].image,
                               height: _calculateGridViewHeight(context),
                               fit: BoxFit.fill,
                             ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                                height: 30.w,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  controller.recommendGameListNew[index].name,
-                                  style: TextStyle(color: Colors.white, fontSize: 14.sp, fontFamily: 'PingFang SC',
-                                    fontWeight: FontWeight.w500,),
+                            Positioned(bottom: 0,
+                                left: 0,
+                                right: 0,child: Container(
+                                  width: 110,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment(-0.00, -1.00),
+                                      end: Alignment(0, 1),
+                                      colors: [Colors.black.withOpacity(0), Color(0xCC070B29)],
+                                    ),
+                                  ),
                                 )),
-                          )
-                        ],
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                  height: 30.w,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    controller.recommendGameListNew[index].name,
+                                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontFamily: 'PingFang SC',
+                                      fontWeight: FontWeight.w500,),
+                                  )),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     onTap: () {

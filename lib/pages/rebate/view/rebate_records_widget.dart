@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/extension/index.dart';
 
 import '../logic/logic.dart';
 
@@ -129,6 +130,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
+                            Map receiveM =
+                                controller.dateRecordList.value[index];
                             return Container(
                               height: 50,
                               padding:
@@ -142,7 +145,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     width: 55,
                                     child: Center(
                                       child: Text(
-                                        "2023-11-11 11:59:32",
+                                        receiveM["show_receive_time"]
+                                            .toString(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -191,7 +195,7 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               ),
                             );
                           },
-                          itemCount: 10,
+                          itemCount: controller.dateRecordList.value.length,
                         ))
                   ],
                 )

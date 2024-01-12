@@ -62,9 +62,12 @@ class Assets {
   static const String gamesSport3 = 'assets/images/games/sport_3.png';
   static const String gamesSport4 = 'assets/images/games/sport_4.png';
   static const String gamesSupport = 'assets/images/games/support.png';
+  static const String homeAdIcon = 'assets/images/home/ad_icon.png';
   static const String homeBallGreen = 'assets/images/home/ball_green.png';
   static const String homeBallPurple = 'assets/images/home/ball_purple.png';
   static const String homeBallRed = 'assets/images/home/ball_red.png';
+  static const String homeFengcaione = 'assets/images/home/fengcaione.png';
+  static const String homeFengcaitwo = 'assets/images/home/fengcaitwo.png';
   static const String homeHomeBjlIcon = 'assets/images/home/home_bjl_icon.png';
   static const String homeHomeJndsscIcon =
       'assets/images/home/home_jndssc_icon.png';
@@ -140,7 +143,6 @@ class Assets {
   static const String imagesHomeTopAlert = 'assets/images/home_top_alert.png';
   static const String imagesHomeTopGuoqi = 'assets/images/home_top_guoqi.png';
   static const String imagesHomeTopLogo = 'assets/images/home_top_logo.png';
-  static const String imagesHomeTopAd = 'assets/images/home/ad_icon.png';
   static const String imagesHomeTopMsg = 'assets/images/home_top_msg.png';
   static const String imagesHomeVipIcon = 'assets/images/home_vip_icon.png';
   static const String imagesHomeXianggangliuhecai =

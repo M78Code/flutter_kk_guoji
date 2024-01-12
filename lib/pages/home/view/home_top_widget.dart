@@ -12,6 +12,7 @@ import '../../../routes/routes.dart';
 class KKHomeTopWidget extends StatelessWidget {
   static var kHeight = 47.w;
   bool isLogin;
+
   KKHomeTopWidget(this.isLogin, {super.key});
 
   @override
@@ -80,7 +81,7 @@ class KKHomeTopWidget extends StatelessWidget {
                                     MaterialStatePropertyAll(EdgeInsets.zero),
                               ),
                               onPressed: () {
-                                RouteUtil.pushToView(Routes.messagePage);
+                                RouteUtil.pushToView(Routes.messageCenter);
                               },
                               child: Image.asset(
                                   "assets/images/home_top_alert.png",

@@ -30,30 +30,28 @@ class SetLoginPsdPage extends GetView {
                 ),
               ),
               title: Text(
-                Get.arguments ? "提现密码" : "登录密码",
+                "登录密码",
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
+              centerTitle: true,
             ),
             // body: Center(),
             body: Center(
               child: ListView(
                 children: [
                   SizedBox(height: 20.h),
-                  if (Get.arguments)
-                    Text(
-                      "请输入6位纯数字密码",
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
-                    ).marginOnly(bottom: 14.h),
                   Obx(() {
-                    return CustomInputField(Get.arguments ? Assets.myaccountIconFormInput : Assets.imagesPasswordIcon, Get.arguments ? "请输入6位纯数字密码" : "请输入新密码",
+                    return CustomInputField(Assets.imagesPasswordIcon, "请输入原密码",
                         isObscureText: controller.psdObscure1.value,
-                        keybordType: Get.arguments ? TextInputType.number : TextInputType.text,
-                        maxLength: Get.arguments ? 6 : 20,
+                        keybordType: TextInputType.text,
+                        maxLength: 20,
                         rightWidget: GestureDetector(
                           child: SizedBox(
                             width: 60,
                             child: Image.asset(
-                              controller.psdObscure1.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                              controller.psdObscure1.value
+                                  ? Assets.imagesPasswordOn
+                                  : Assets.imagesPasswordOff,
                               width: 30,
                               height: 30,
                             ),
@@ -64,22 +62,19 @@ class SetLoginPsdPage extends GetView {
                         ),
                         valueChanged: (value) => controller.inputPasswordValue(value));
                   }),
-                  SizedBox(height: Get.arguments ? 25.h : 20.h),
-                  if (Get.arguments)
-                    Text(
-                      "请再次输入6位纯数字密码",
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
-                    ).marginOnly(bottom: 14.h),
+                  SizedBox(height: 20.h),
                   Obx(() {
-                    return CustomInputField(Get.arguments ? Assets.myaccountIconFormInput : Assets.imagesPasswordIcon, Get.arguments ? "请再次输入6位纯数字密码" : "请输入新密码",
+                    return CustomInputField(Assets.imagesPasswordIcon, "请输入新密码",
                         isObscureText: controller.psdObscure2.value,
-                        keybordType: Get.arguments ? TextInputType.number : TextInputType.text,
-                        maxLength: Get.arguments ? 6 : 20,
+                        keybordType: TextInputType.text,
+                        maxLength: 20,
                         rightWidget: GestureDetector(
                           child: SizedBox(
                             width: 60,
                             child: Image.asset(
-                              controller.psdObscure2.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                              controller.psdObscure2.value
+                                  ? Assets.imagesPasswordOn
+                                  : Assets.imagesPasswordOff,
                               width: 30,
                               height: 30,
                             ),
@@ -93,13 +88,15 @@ class SetLoginPsdPage extends GetView {
                   if (!Get.arguments) ...[
                     const SizedBox(height: 20),
                     Obx(() {
-                      return CustomInputField(Get.arguments ? Assets.myaccountIconFormInput : Assets.imagesPasswordIcon, "请确认新密码",
+                      return CustomInputField(Assets.imagesPasswordIcon, "请确认新密码",
                           isObscureText: controller.psdObscure3.value,
                           rightWidget: GestureDetector(
                             child: SizedBox(
                               width: 60,
                               child: Image.asset(
-                                controller.psdObscure3.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                                controller.psdObscure3.value
+                                    ? Assets.imagesPasswordOn
+                                    : Assets.imagesPasswordOff,
                                 width: 30,
                                 height: 30,
                               ),
@@ -112,7 +109,8 @@ class SetLoginPsdPage extends GetView {
                     }),
                     const SizedBox(height: 20),
                     Obx(() {
-                      return CustomInputField(Assets.imagesVerCode, "请输入验证码", valueChanged: (value) {
+                      return CustomInputField(Assets.imagesVerCode, "请输入验证码",
+                          valueChanged: (value) {
                         controller.inputVerCodeValue(value);
                       },
                           rightWidget: GestureDetector(
@@ -134,7 +132,8 @@ class SetLoginPsdPage extends GetView {
                     SizedBox(height: 20.h),
                     Row(
                       children: [
-                        Image.asset(Assets.imagesTipStar, width: 9.w, height: 22.h).marginOnly(right: 5.w),
+                        Image.asset(Assets.imagesTipStar, width: 9.w, height: 22.h)
+                            .marginOnly(right: 5.w),
                         Text(
                           "注意: 如忘记原密码，请联系客服",
                           style: TextStyle(color: const Color(0xffA19DBD), fontSize: 14.sp),

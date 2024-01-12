@@ -1,8 +1,11 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/home/view/notice_widget.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/model/home/jcp_game_socket_model.dart';
 import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/json_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/services/http_service.dart';
@@ -10,10 +13,16 @@ import 'dart:core';
 
 import 'package:kkguoji/utils/websocket_util.dart';
 
+import '../../../common/api/games_api.dart';
+import '../../../common/models/game_login.dart';
+import '../../../common/models/get_game_model.dart';
 import '../../../model/home/jcp_game_model.dart';
 import '../../../model/home/kk_home_game_model.dart';
 import '../../../model/home/recommend_game_model.dart';
 import '../../../services/http_service.dart';
+import '../../../services/sqlite_service.dart';
+import '../../../services/sqlite_service.dart';
+import '../../../services/user_service.dart';
 
 class HomeLogic extends GetxController {
   final RxString marqueeStr = "".obs;
@@ -23,6 +32,8 @@ class HomeLogic extends GetxController {
   var recommendGameListNew = <RecommendList>[].obs;
   var recommendSportList = <RecommendList>[].obs;
   var margeGameList=<List<Datum>>[].obs;
+  final globalController = Get.find<UserService>();
+  final sqliteService = SqliteService.to;
   Map imageMap = {
     "XGLHC": {
       "bg_icon": "assets/images/home_xianggangliuhecai.png",
@@ -32,12 +43,12 @@ class HomeLogic extends GetxController {
     "PCNN": {
       "bg_icon": "assets/images/home_pcniuniu.png",
       "logo_icon": "assets/images/home_pcniuniu_icon.png",
-      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF1D0EC9), const Color(0xFF4E2DD1)]
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF06873A), const Color(0xFF06873A)]
     },
     "PCBJL": {
       "bg_icon": "assets/images/home_pcbaijiale.png",
       "logo_icon": "assets/images/home_pcbaijiale_icon.png",
-      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF831AD7), const Color(0xFFA32FFF)]
+      'ball_color': [const Color(0xFFF0F8FF), const Color(0xFF1A8BD7), const Color(0xFF1A8BD7)]
     },
     "JNDSI": {
       "bg_icon": "assets/images/home_jianada42.png",
@@ -79,7 +90,7 @@ class HomeLogic extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
-
+    getPopupNotice();
     getRecommendGameList();
     getRecommendSportList();
 
@@ -132,6 +143,31 @@ class HomeLogic extends GetxController {
       noticeInfo.value=msg;
       print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
     });
+  }
+
+  getPopupNotice() async{
+    var result = await HttpRequest.request(HttpConfig.getPopupNotice, method: "get");
+    if (result["code"] == 200) {
+      String dataStr = formatDate(DateTime.now(), [yyyy,"-",mm,"-",dd]);
+      bool? isHidden = sqliteService.getBool(dataStr);
+      if(isHidden == null) {
+        Get.dialog(NoticeWidget((result["data"] as List).first), barrierDismissible: false).then((value) {
+          sqliteService.setBool(dataStr, value as bool);
+        });
+      }else {
+        if( isHidden! == false) {
+          Get.dialog(NoticeWidget((result["data"] as List).first), barrierDismissible: false).then((value){
+            sqliteService.setBool(dataStr, value as bool);
+
+          });
+        }
+      }
+
+    }
+  }
+
+  updateMoney(){
+    globalController.fetchUserMoney();
   }
 
   getRecommendGameList() async {
@@ -259,6 +295,15 @@ class HomeLogic extends GetxController {
     var result = await HttpRequest.request(HttpConfig.loginGame, method: "post", params: params);
     if(result["code"] == 200) {
       RouteUtil.pushToView(Routes.webView, arguments: result["data"]["url"]);
+    }
+  }
+
+  gamesOnTap(String type,String lotteryId) async {
+    GetGameModel? getGameModel = await GamesApi.getGameByCompanyCode(type, lotteryId);
+    GameLogin? gameLogin = await GamesApi.gameLogin(getGameModel?.gameCompanyCode ?? "", (getGameModel?.id ?? "").toString());
+    if (gameLogin?.url != null) {
+      print('加载第三方url；${gameLogin?.url }');
+      RouteUtil.pushToView(Routes.webView, arguments: gameLogin?.url ?? "");
     }
   }
 

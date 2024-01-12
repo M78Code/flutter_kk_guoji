@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'package:kkguoji/pages/rebate/model/auto_record_model.dart';
 import 'package:kkguoji/pages/rebate/model/record_rate_model.dart';
+import 'package:kkguoji/widget/show_toast.dart';
 
 import '../../../services/http_service.dart';
 import '../../../services/config.dart';
@@ -23,6 +24,7 @@ class KKRebateLogic extends GetxController {
   final dateTotalCount = 0.obs;
   final dateRecordList = [].obs;
   final recordRateList = [].obs;
+  final gameIndex = 0.obs;
 
   changeRebateType(int index) {
     rebateType.value = index;
@@ -53,8 +55,15 @@ class KKRebateLogic extends GetxController {
 
   void getGameTypeList() async {
     var result = await HttpRequest.request(HttpConfig.getGameTypeList, method: "post");
-    if (result["code"] == 200) {}
+    if (result["code"] == 200) {
+      List gameInfos = result["data"];
+      getRatio(gameInfos.first["id"]);
+      gameList.value = result["data"];
+    }
   }
+
+
+
 
   void getAutoRecord() async {
     List modelList = [];
@@ -104,5 +113,15 @@ class KKRebateLogic extends GetxController {
     if (index == 0) {
       getRatio(0);
     } else {}
+  }
+
+  void receiveRebate() async{
+    var result = await HttpRequest.request(HttpConfig.receiveRebate, method: "post");
+    if (result["code"] == 200) {
+      ShowToast.showToast("领取成功");
+      getTotalMoney();
+    }else {
+      ShowToast.showToast(result["data"]["message"]);
+    }
   }
 }

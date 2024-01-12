@@ -7,8 +7,8 @@ class KKRebateRatioWidget extends StatelessWidget {
   KKRebateRatioWidget({super.key});
 
   final controller = Get.find<KKRebateLogic>();
-  final textList = ["全部", "电子", "视讯", "体育", "彩票"];
-  final imageList = ["assets/images/rebate/rebate_all_selected.png", "assets/images/rebate/rebate_dianzi_normal.png", "assets/images/rebate/rebate_shixun_normal.png", "assets/images/rebate/rebate_tiyu_normal.png", "assets/images/rebate/rebate_caipiao_normal.png"];
+  // final textList = ["全部", "电子", "视讯", "体育", "彩票"];
+  // final imageList = ["assets/images/rebate/rebate_all_selected.png", "assets/images/rebate/rebate_dianzi_normal.png", "assets/images/rebate/rebate_shixun_normal.png", "assets/images/rebate/rebate_tiyu_normal.png", "assets/images/rebate/rebate_caipiao_normal.png"];
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,8 @@ class KKRebateRatioWidget extends StatelessWidget {
           child: Obx(() {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: textList.asMap().entries.map((e) {
-                return _buildTextButton(textList[e.key], imageList[e.key], e.key == controller.ratioType.value, e.key);
+              children: controller.gameList.value.asMap().entries.map((e) {
+                return _buildTextButton(e.value, e.key);
               }).toList(),
             );
           }),
@@ -102,8 +102,10 @@ class KKRebateRatioWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTextButton(String text, String imagePath, bool isSelected, int index) {
+  Widget _buildTextButton(Map gameInfo, int index) {
+    bool isSelected = controller.gameIndex.value == index;
     return Expanded(
+       flex: index == 3?  2:1,
         child: Container(
       height: 30,
       decoration: BoxDecoration(
@@ -113,7 +115,8 @@ class KKRebateRatioWidget extends StatelessWidget {
       ),
       child: TextButton(
           onPressed: () {
-            controller.ratioType.value = index;
+            controller.gameIndex.value = index;
+            controller.getRatio(gameInfo["id"]);
           },
           style: const ButtonStyle(
             padding: MaterialStatePropertyAll(EdgeInsets.zero),
@@ -122,17 +125,19 @@ class KKRebateRatioWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                imagePath,
-                width: 16,
-                height: 16,
-              ),
+              // Image.asset(
+              //   imagePath,
+              //   width: 16,
+              //   height: 16,
+              // ),
+              Image.network(isSelected?gameInfo["icon_click"]:gameInfo["icon"], width: 16, height: 16,),
               const SizedBox(
                 width: 3,
               ),
-              Text(text, style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF707A8C), fontSize: 13)),
+              Text(gameInfo["name"], style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF707A8C), fontSize: 13)),
             ],
           )),
     ));
+
   }
 }

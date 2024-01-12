@@ -20,6 +20,7 @@ class RechargePage extends GetView<RechargeLogic> {
       id: "RechargePage",
       builder: (controller) => Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           leading: Get.arguments != null
               ? IconButton(
                   onPressed: () => Navigator.pop(context),
@@ -32,7 +33,11 @@ class RechargePage extends GetView<RechargeLogic> {
               : Container(),
           title: Text(
             "充值",
-            style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           actions: [
             Padding(
@@ -69,8 +74,11 @@ class RechargePage extends GetView<RechargeLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "账务账号:",
-            style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+            "财务账号:",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500),
           ),
           _buildClip(),
           _buildRechargeTip(),
@@ -97,7 +105,10 @@ class RechargePage extends GetView<RechargeLogic> {
           child: Obx(() {
             return Text(
               controller.tg.value,
-              style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500),
             );
           }),
         ),
@@ -106,18 +117,44 @@ class RechargePage extends GetView<RechargeLogic> {
           child: InkWellView(
             width: 90.w,
             height: 46.h,
-            borderWidth: 0.5,
-            borderColor: const Color(0xFF4E5AC5),
-            gradient: const LinearGradient(
-              colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+            boxDecoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Assets.rechargeCopyBtn),
+              ),
             ),
-            onPressed: (){
-              print("onPressed = ${controller.tgUrl}");
+            // bgImage: Assets.rechargeCopyBtn,
+            // borderWidth: 0.5,
+            // borderColor: const Color(0xFF4E5AC5),
+            // gradient: const LinearGradient(
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            //   colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+            // ),
+
+            // gradient: Gradient.lerp(
+            //     const RadialGradient(
+            //       center: Alignment(0.5, -0.33),
+            //       radius: 0.4745,
+            //       colors: [
+            //         Color(0xFFBBABFF),
+            //         Colors.transparent,
+            //       ],
+            //     ),
+            //     const LinearGradient(
+            //       begin: Alignment.topCenter,
+            //       end: Alignment.bottomCenter,
+            //       colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+            //     ),
+            //     0.5),
+            onPressed: () {
               StringUtil.clipText(controller.tgUrl);
             },
             child: Text(
               "复制",
-              style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500),
             ),
           ),
         )
@@ -129,7 +166,7 @@ class RechargePage extends GetView<RechargeLogic> {
     return Column(
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           // textDirection: ,
           children: [
             Image.asset(
@@ -149,7 +186,7 @@ class RechargePage extends GetView<RechargeLogic> {
         ),
         SizedBox(height: 10.h),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           // textDirection: ,
           children: [
             Image.asset(
@@ -162,7 +199,7 @@ class RechargePage extends GetView<RechargeLogic> {
             const Expanded(
               child: Text(
                 "更换财务Telegram账号前，我们将提前通过弹窗公告公示三天，请留意公告，并认准官方唯一财务账号，谨防上当受骗！",
-                style: TextStyle(color: Colors.white, height: 1.2),
+                style: TextStyle(color: Color(0xffF32A2A), height: 1.2),
               ),
             ),
           ],

@@ -2,6 +2,7 @@ class HttpConfig {
   static const String baseURL = "https://testh5.759pc.com";
   static const int timeout = 1000;
 
+  static const getPopupNotice = "/api/public/getPopupNotice";
   static const publicInit = "/api/public/init";
   static const getCode = "/api/public/captcha";
   static const registerByAccount = "/api/public/register_account";
@@ -58,7 +59,8 @@ class HttpConfig {
   static const currency = "/api/withdrawal/currency"; //获取提现币种
   static const withdraw = "/api/withdrawal/apply"; //申请提现
 // static const feeConfig = "/api/withdrawal/config"; //获取提现配置信息
-
+  //领取返水
+  static const receiveRebate = "/api/userRebate/receive";
 //第三方登录
   static const register_third = "/api/public/register_third";
   static const getNoticeSubType = "/api/public/subType";

@@ -21,6 +21,7 @@ class KKHomePage extends GetView<HomeLogic> {
 
   final controller = Get.find<HomeLogic>();
   final globalController = Get.find<UserService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
