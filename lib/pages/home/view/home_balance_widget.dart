@@ -75,7 +75,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                 children: [
                   Obx(
                         () => Text(
-                      "${userService.userInfoModel.value?.money ?? 0.0}",
+                          UserService.to.userMoneyModel?.money ?? "0.00",
                       style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900, fontFamily: "DINPro-Bold"),
                     ),
                   ),
@@ -84,6 +84,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                     height: 30,
                     child: TextButton(
                       onPressed: () {
+                        userService.fetchUserMoney();
                         _controller.reset();
                         _controller.forward();
                         final service = UserService.to;

@@ -13,7 +13,10 @@ class ActivityPage extends GetView<ActivityLogic> {
     Get.put(ActivityLogic());
     return Scaffold(
         appBar: AppBar(
-          title: const Text("优惠活动", style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
+          title: const Text(
+            "优惠活动",
+            style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
+          ),
           centerTitle: true,
         ),
         body: _buildView());
@@ -23,6 +26,10 @@ class ActivityPage extends GetView<ActivityLogic> {
     return Column(
       children: [
         _buildCategoryView(),
+        Divider(
+          height: 1,
+          color: Colors.white.withOpacity(0.06),
+        ),
         Expanded(
             child: controller.activities.isEmpty
                 ? Center(

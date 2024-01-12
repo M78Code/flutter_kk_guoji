@@ -37,23 +37,23 @@ class KKHomeTopWidget extends StatelessWidget {
               mainAxisAlignment:MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: isLogin ? [
-                SizedBox(
-                    width: 33.w,
-                    height: 33.w,
-                    // decoration: BoxDecoration(
-                    //   color: const Color.fromRGBO(255, 255, 255, 0.2),
-                    //   borderRadius: BorderRadius.circular(4),
-                    // ),
-                    child: Center(
-                      child: TextButton(style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                      ),
-                        onPressed: (){
-                        RouteUtil.pushToView(Routes.customer);
-                          // RouteUtil.pushToView(Routes.loginPage);
-                        },child: Image.asset("assets/images/home_top_msg.png", width: 33.w, height: 33.w,),),
-                    )
-                ),
+                // SizedBox(
+                //     width: 33.w,
+                //     height: 33.w,
+                //     // decoration: BoxDecoration(
+                //     //   color: const Color.fromRGBO(255, 255, 255, 0.2),
+                //     //   borderRadius: BorderRadius.circular(4),
+                //     // ),
+                //     child: Center(
+                //       child: TextButton(style: const ButtonStyle(
+                //         padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                //       ),
+                //         onPressed: (){
+                //         RouteUtil.pushToView(Routes.customer);
+                //           // RouteUtil.pushToView(Routes.loginPage);
+                //         },child: Image.asset("assets/images/home_top_msg.png", width: 33.w, height: 33.w,),),
+                //     )
+                // ),
                 const SizedBox(width: 10,),
                 SizedBox(
                     width: 33.w,

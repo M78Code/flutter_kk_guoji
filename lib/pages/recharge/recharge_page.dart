@@ -20,6 +20,7 @@ class RechargePage extends GetView<RechargeLogic> {
       id: "RechargePage",
       builder: (controller) => Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           leading: Get.arguments != null
               ? IconButton(
                   onPressed: () => Navigator.pop(context),
@@ -32,7 +33,11 @@ class RechargePage extends GetView<RechargeLogic> {
               : Container(),
           title: Text(
             "充值",
-            style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           actions: [
             Padding(
@@ -111,7 +116,7 @@ class RechargePage extends GetView<RechargeLogic> {
             gradient: const LinearGradient(
               colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
             ),
-            onPressed: (){
+            onPressed: () {
               print("onPressed = ${controller.tgUrl}");
               StringUtil.clipText(controller.tgUrl);
             },
