@@ -1,7 +1,4 @@
 // To parse this JSON data, do
-//
-//     final messageModel = messageModelFromMap(jsonString);
-// ignore_for_file: unnecessary_this
 
 import 'dart:convert';
 

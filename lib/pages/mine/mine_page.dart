@@ -43,7 +43,8 @@ class MinePage extends GetView<MineLogic> {
                   child: Column(
                     children: [
                       Expanded(flex: 1, child: _buildItems(context)),
-                      _buildLogOutBtn(context).marginOnly(top: 30.h, bottom: 20.h),
+                      _buildLogOutBtn(context)
+                          .marginOnly(top: 30.h, bottom: 20.h),
                     ],
                   ),
                 ),
@@ -87,7 +88,7 @@ class MinePage extends GetView<MineLogic> {
         children: [
           IconButton(
               //进入消息界面
-              onPressed: () => RouteUtil.pushToView(Routes.messageCenter),
+              onPressed: () => RouteUtil.pushToView(Routes.messagePage),
               icon: Image.asset(
                 Assets.imagesIconInform,
                 width: 30,
@@ -135,7 +136,10 @@ class MinePage extends GetView<MineLogic> {
                 Text(
                   //昵称
                   '${controller.userInfoModel?.userNick}',
-                  style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 5),
@@ -152,13 +156,16 @@ class MinePage extends GetView<MineLogic> {
                           children: [
                             Text(
                               '${controller.userInfoModel?.uuid}',
-                              style: TextStyle(fontSize: 12.sp, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 12.sp, color: Colors.white),
                             ),
                             SizedBox(width: 5.w),
-                            Image.asset(Assets.promotionCopy, width: 12.w, height: 12.h),
+                            Image.asset(Assets.promotionCopy,
+                                width: 12.w, height: 12.h),
                           ],
                         ),
-                        onPressed: () => StringUtil.clipText('${controller.userInfoModel?.uuid}')),
+                        onPressed: () => StringUtil.clipText(
+                            '${controller.userInfoModel?.uuid}')),
                   ],
                 ),
               ],
@@ -170,12 +177,17 @@ class MinePage extends GetView<MineLogic> {
                   width: 67,
                   height: 25,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconEditBg))),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(Assets.imagesIconEditBg))),
                   child: const Center(
                     //文字居中
                     child: Text(
                       '编辑',
-                      style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -189,7 +201,8 @@ class MinePage extends GetView<MineLogic> {
                     },
                   );
                   controller.userInfoModel = data;
-                  controller.portraitUrl.value = (data as UserInfoModel).portrait ?? "";
+                  controller.portraitUrl.value =
+                      (data as UserInfoModel).portrait ?? "";
                 }),
           ],
         ),
@@ -211,7 +224,7 @@ class MinePage extends GetView<MineLogic> {
             height: 8.h,
             color: Colors.black,
           ),
-          WelfareReward(shareOnTap: (){
+          WelfareReward(shareOnTap: () {
             controller.setIsSharePopViewVisible(true);
           }),
         ],
@@ -224,7 +237,10 @@ class MinePage extends GetView<MineLogic> {
     return Container(
       margin: const EdgeInsets.only(left: 25, right: 25),
       height: 40,
-      decoration: ShapeDecoration(color: const Color(0xFF686F83), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
+      decoration: ShapeDecoration(
+          color: const Color(0xFF686F83),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
       child: TextButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -271,7 +287,10 @@ class MinePage extends GetView<MineLogic> {
                       child: Text(
                         '确定要退出吗?',
                         softWrap: true,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       ),
                     )),
                 Positioned(
@@ -286,7 +305,8 @@ class MinePage extends GetView<MineLogic> {
                         height: 40,
                         decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
-                          side: const BorderSide(width: 2, color: Color(0xFF3D35C6)),
+                          side: const BorderSide(
+                              width: 2, color: Color(0xFF3D35C6)),
                           borderRadius: BorderRadius.circular(20),
                         )),
                         child: TextButton(
@@ -296,7 +316,10 @@ class MinePage extends GetView<MineLogic> {
                             },
                             child: const Text(
                               '确定',
-                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
                             )),
                       ),
                       Container(
@@ -304,7 +327,8 @@ class MinePage extends GetView<MineLogic> {
                         height: 40,
                         decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
-                          side: const BorderSide(width: 2, color: Color(0xFF3D35C6)),
+                          side: const BorderSide(
+                              width: 2, color: Color(0xFF3D35C6)),
                           borderRadius: BorderRadius.circular(20),
                         )),
                         child: TextButton(
@@ -313,7 +337,10 @@ class MinePage extends GetView<MineLogic> {
                             },
                             child: const Text(
                               '取消',
-                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
                             )),
                       )
                     ],
@@ -326,11 +353,12 @@ class MinePage extends GetView<MineLogic> {
   }
 
   List<Widget> _sharePopView() {
-    var url =  controller.promotionModel?.image?.first ?? 'https://kk-hongkong-hall.s3.ap-east-1.amazonaws.com/temps/images/2024/01/05/zvRTsdfZd397sCQZ.jpg';
+    var url = controller.promotionModel?.image?.first ??
+        'https://kk-hongkong-hall.s3.ap-east-1.amazonaws.com/temps/images/2024/01/05/zvRTsdfZd397sCQZ.jpg';
     return [
       Positioned.fill(
         child: GestureDetector(
-          onTap: ()  {
+          onTap: () {
             controller.setIsSharePopViewVisible(false);
           },
           child: Container(
@@ -341,13 +369,13 @@ class MinePage extends GetView<MineLogic> {
       Align(
           alignment: Alignment.center,
           child: Container(
-            padding:  EdgeInsets.symmetric(horizontal: 48.w),
+            padding: EdgeInsets.symmetric(horizontal: 48.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
                   width: double.infinity,
-                  padding:  EdgeInsets.all(10.w),
+                  padding: EdgeInsets.all(10.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18.w),
                     gradient: LinearGradient(
@@ -373,9 +401,11 @@ class MinePage extends GetView<MineLogic> {
                           bottom: 34.w,
                           right: 18.w,
                           child: QrImageView(
-                            padding :  EdgeInsets.all(8.w),
+                            padding: EdgeInsets.all(8.w),
                             backgroundColor: Colors.white,
-                            data: controller.promotionModel?.domain?.first?.url ?? "",
+                            data:
+                                controller.promotionModel?.domain?.first?.url ??
+                                    "",
                             version: QrVersions.auto,
                             size: 48.w,
                           ),
@@ -392,7 +422,8 @@ class MinePage extends GetView<MineLogic> {
                       height: 40.w,
                       decoration: BoxDecoration(
                         // color: const Color.fromRGBO(10, 11, 34, 0.12),
-                        gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
+                        gradient: const LinearGradient(
+                            colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
                         borderRadius: BorderRadius.circular(22.w),
                       ),
                       child: TextButton(
@@ -401,50 +432,62 @@ class MinePage extends GetView<MineLogic> {
                           },
                           child: const Text(
                             '保存海报',
-                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
                           )),
                     ).expanded(),
-                    SizedBox(width: 18.w,),
+                    SizedBox(
+                      width: 18.w,
+                    ),
                     Container(
                       height: 40.w,
                       decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(width: 1, color: Color(0xFF3D35C6)),
-                            borderRadius: BorderRadius.circular(22.w),
-                          )),
+                        side: const BorderSide(
+                            width: 1, color: Color(0xFF3D35C6)),
+                        borderRadius: BorderRadius.circular(22.w),
+                      )),
                       child: TextButton(
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: '123'));
-                            StringUtil.clipText(controller.promotionModel?.domain?.first?.url ?? "");
+                            StringUtil.clipText(
+                                controller.promotionModel?.domain?.first?.url ??
+                                    "");
                           },
                           child: const Text(
                             '复制链接',
-                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
                           )),
                     ).expanded(),
                   ],
                 ),
               ],
             ),
-          )
-      ),
+          )),
     ];
   }
 
   Future<void> captureAndSaveImage() async {
-    RenderRepaintBoundary boundary = _shareImageRepaintBoundaryKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary =
+        _shareImageRepaintBoundaryKey.currentContext!.findRenderObject()
+            as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
 
     saveImage(pngBytes);
   }
+
   Future<void> saveImage(Uint8List pngBytes) async {
     final result = await ImageGallerySaver.saveImage(pngBytes);
     if (result["isSuccess"] == true) {
       ShowToast.showToast("保存成功");
-    }
-    else {
+    } else {
       ShowToast.showToast("保存失败，没有访问权限");
     }
   }
@@ -504,7 +547,10 @@ class AvatarWithVip extends StatelessWidget {
                 const SizedBox(width: 3),
                 const Text(
                   '0',
-                  style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700),
                 )
               ],
             ),
@@ -526,7 +572,8 @@ class MyPurse extends StatelessWidget {
     return Container(
       height: 175,
       decoration: BoxDecoration(
-        image: const DecorationImage(image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
+        image: const DecorationImage(
+            image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
         borderRadius: BorderRadius.circular(6),
         border: Border.all(width: 1.0, color: Colors.white),
       ),
@@ -548,7 +595,10 @@ class MyPurse extends StatelessWidget {
                     children: [
                       const Text(
                         '进入钱包',
-                        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
                       ),
                       Image.asset(
                         Assets.imagesIconArrowsEnter,
@@ -577,7 +627,10 @@ class MyPurse extends StatelessWidget {
               children: [
                 Text(
                   '钱包余额',
-                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300),
                 ),
               ],
             ),
@@ -592,15 +645,22 @@ class MyPurse extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      controller.isHiddenBalance ? "****" : "¥${userService.userMoneyModel?.money}",
-                      style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                      controller.isHiddenBalance
+                          ? "****"
+                          : "${userService.userMoneyModel?.money}",
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700),
                     ),
                     IconButton(
                         onPressed: () {
                           controller.toggleHiddenBalance();
                         },
                         icon: Image.asset(
-                          controller.isHiddenBalance ? Assets.imagesIconEyeClose : Assets.imagesIconEyeOpen,
+                          controller.isHiddenBalance
+                              ? Assets.imagesIconEyeClose
+                              : Assets.imagesIconEyeOpen,
                           width: 30,
                           height: 30,
                           fit: BoxFit.cover,
@@ -637,11 +697,15 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               const SizedBox(width: 5),
               const Text(
                 '充值',
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
-          onPressed: () => RouteUtil.pushToView(Routes.recharge, arguments: true),
+          onPressed: () =>
+              RouteUtil.pushToView(Routes.recharge, arguments: true),
         ),
         InkWellView(
           height: 40.h,
@@ -654,11 +718,15 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               const SizedBox(width: 5),
               const Text(
                 '提现',
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
-          onPressed: () => RouteUtil.pushToView(Routes.withdraw, arguments: true),
+          onPressed: () =>
+              RouteUtil.pushToView(Routes.withdraw, arguments: true),
         ),
         InkWellView(
           height: 40.h,
@@ -671,7 +739,10 @@ class TopUpWithdrawBackwater extends StatelessWidget {
               const SizedBox(width: 5),
               const Text(
                 '返水',
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -696,7 +767,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 12, right: 12),
           height: 93,
-          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIconSafeboxBg), fit: BoxFit.cover)),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(Assets.imagesIconSafeboxBg),
+                  fit: BoxFit.cover)),
           child: GridView.count(
             physics: const NeverScrollableScrollPhysics(),
             //禁止滚动
@@ -715,7 +789,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       '保险箱',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -733,7 +810,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       'VIP',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -749,7 +829,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       '返水',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -766,7 +849,10 @@ class SafeBoxWaitGridView extends StatelessWidget {
                     ),
                     const Text(
                       '推广赚钱',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -799,7 +885,10 @@ class MyAccountInfo extends StatelessWidget {
             ),
             title: const Text(
               '账号',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               Assets.imagesIconArrowsEnter,
@@ -825,7 +914,10 @@ class MyAccountInfo extends StatelessWidget {
             ),
             title: const Text(
               '个人数据',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               Assets.imagesIconArrowsEnter,
@@ -851,7 +943,10 @@ class MyAccountInfo extends StatelessWidget {
             ),
             title: const Text(
               '游戏记录',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               Assets.imagesIconArrowsEnter,
@@ -871,7 +966,7 @@ class MyAccountInfo extends StatelessWidget {
 //福利奖励、信息设置、分享
 class WelfareReward extends StatelessWidget {
   void Function() shareOnTap;
-  WelfareReward({super.key,required this.shareOnTap});
+  WelfareReward({super.key, required this.shareOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -914,7 +1009,10 @@ class WelfareReward extends StatelessWidget {
             ),
             title: const Text(
               '信息设置',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               Assets.imagesIconArrowsEnter,
@@ -938,7 +1036,10 @@ class WelfareReward extends StatelessWidget {
             ),
             title: const Text(
               '分享',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
             ),
             trailing: Image.asset(
               Assets.imagesIconArrowsEnter,

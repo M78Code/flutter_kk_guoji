@@ -23,7 +23,10 @@ class KKHomeTopWidget extends StatelessWidget {
           gradient: LinearGradient(
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
-        colors: [Color.fromRGBO(17, 22, 60, 1.0), Color.fromRGBO(5, 8, 32, 0.8)],
+        colors: [
+          Color.fromRGBO(17, 22, 60, 1.0),
+          Color.fromRGBO(5, 8, 32, 0.8)
+        ],
       )),
       child: Container(
         padding: EdgeInsets.only(left: 17.w, right: 12.w),
@@ -36,7 +39,7 @@ class KKHomeTopWidget extends StatelessWidget {
               height: 33.w,
             ),
             Image.asset(
-              Assets.homeAdIcon,
+              Assets.imagesHomeTopAd,
               height: 22,
             ),
             Row(
@@ -44,6 +47,23 @@ class KKHomeTopWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: isLogin
                   ? [
+                      // SizedBox(
+                      //     width: 33.w,
+                      //     height: 33.w,
+                      //     // decoration: BoxDecoration(
+                      //     //   color: const Color.fromRGBO(255, 255, 255, 0.2),
+                      //     //   borderRadius: BorderRadius.circular(4),
+                      //     // ),
+                      //     child: Center(
+                      //       child: TextButton(style: const ButtonStyle(
+                      //         padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                      //       ),
+                      //         onPressed: (){
+                      //         RouteUtil.pushToView(Routes.customer);
+                      //           // RouteUtil.pushToView(Routes.loginPage);
+                      //         },child: Image.asset("assets/images/home_top_msg.png", width: 33.w, height: 33.w,),),
+                      //     )
+                      // ),
                       const SizedBox(
                         width: 10,
                       ),
@@ -57,15 +77,35 @@ class KKHomeTopWidget extends StatelessWidget {
                           child: Center(
                             child: TextButton(
                               style: const ButtonStyle(
-                                padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                                padding:
+                                    MaterialStatePropertyAll(EdgeInsets.zero),
                               ),
                               onPressed: () {
                                 RouteUtil.pushToView(Routes.messageCenter);
                               },
-                              child: Image.asset("assets/images/home_top_alert.png",
-                                  width: 33.w, height: 33.w),
+                              child: Image.asset(
+                                  "assets/images/home_top_alert.png",
+                                  width: 33.w,
+                                  height: 33.w),
                             ),
                           )),
+                      // const SizedBox(width: 10,),
+                      // SizedBox(
+                      //     width: 33.w,
+                      //     height: 33.w,
+                      //     // decoration: BoxDecoration(
+                      //     //   color: const Color.fromRGBO(255, 255, 255, 0.2),
+                      //     //   borderRadius: BorderRadius.circular(4),
+                      //     // ),
+                      //     child: Center(
+                      //       child: TextButton(style: const ButtonStyle(
+                      //         padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                      //       ),
+                      //         onPressed: (){
+                      //
+                      //         },child: Image.asset("assets/images/home_top_guoqi.png", width: 33.w, height: 33.w),),
+                      //     )
+                      // ),
                     ]
                   : [
                       Container(
@@ -78,14 +118,16 @@ class KKHomeTopWidget extends StatelessWidget {
                           child: Center(
                             child: TextButton(
                               style: const ButtonStyle(
-                                padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                                padding:
+                                    MaterialStatePropertyAll(EdgeInsets.zero),
                               ),
                               onPressed: () {
                                 RouteUtil.pushToView(Routes.loginPage);
                               },
                               child: Text(
                                 "登录",
-                                style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 13.sp),
                               ),
                             ),
                           )),
@@ -116,7 +158,8 @@ class KKHomeTopWidget extends StatelessWidget {
                           },
                           child: Text(
                             "注册",
-                            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14.sp),
                           ),
                         ),
                       )

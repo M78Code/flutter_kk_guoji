@@ -22,6 +22,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text(
             '安全设置',
             style: TextStyle(
@@ -86,7 +87,7 @@ class _MySetingState extends State<MySeting> {
           Column(
             children: [
               Image.asset(
-                Assets.imagesIconSetingLogo,
+                Assets.appLogo,
                 width: 70,
                 height: 70,
               ),
@@ -181,13 +182,13 @@ class _MySetingState extends State<MySeting> {
           //   },
           // ),
 
-          const SizedBox(height: 20), // 分割线
-          const Divider(
-            color: Color.fromRGBO(255, 255, 255, 0.06),
-            height: 1,
-            indent: 10,
-            endIndent: 10,
-          ),
+          // const SizedBox(height: 20), // 分割线
+          // const Divider(
+          //   color: Color.fromRGBO(255, 255, 255, 0.06),
+          //   height: 1,
+          //   indent: 10,
+          //   endIndent: 10,
+          // ),
 
           const SizedBox(height: 20), // 清除缓存和底部的间距
           const Row(

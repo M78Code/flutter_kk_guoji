@@ -22,7 +22,8 @@ class HttpConfig {
   static const updateContact = "/api/user/updateContact"; //修改联系方式
   static const getUserMoney = "/api/user/getUserMoney"; // 用户余额
   static const getUserMoneyDetails = "/api/user/getUserMoneyDetails"; // 用户资金明细
-  static const getUserMoneyDetailsSearch = "/api/user/getUserMoneyDetailsSearch"; // 获取用户资金明细-筛选
+  static const getUserMoneyDetailsSearch =
+      "/api/user/getUserMoneyDetailsSearch"; // 获取用户资金明细-筛选
   static const getUserRechargeList = "/api/userRecharge/list"; // 充值信息查询
   static const getUserWithdrawList = "/api/userWithdraw/list"; // 提现信息查询
   static const getUserbetList = "/api/user/betList"; // 注单信息查询
@@ -60,8 +61,7 @@ class HttpConfig {
 // static const feeConfig = "/api/withdrawal/config"; //获取提现配置信息
   //领取返水
   static const receiveRebate = "/api/userRebate/receive";
-
 //第三方登录
   static const register_third = "/api/public/register_third";
-
+  static const getNoticeSubType = "/api/public/subType";
 }
