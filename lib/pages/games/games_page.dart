@@ -7,6 +7,7 @@ import 'package:kkguoji/pages/games/games_logic.dart';
 import 'package:kkguoji/services/user_service.dart';
 import '../../routes/routes.dart';
 import '../../utils/route_util.dart';
+import '../home/view/home_top_widget.dart';
 import './widgets/index.dart';
 
 class KKGamesPage extends StatefulWidget {
@@ -53,7 +54,7 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
       color: const Color(0xFF171A26),
       child: Column(
         children: [
-          KKGamesTopWidget(),
+          KKGamesTopWidget(UserService.to.isLogin),
           SizedBox(  height: 20.w),
           KKGamesMenuWidget(),
           SizedBox(  height: 20.w),
