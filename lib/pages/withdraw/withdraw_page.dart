@@ -30,45 +30,57 @@ class WithdrawPage extends GetView<WithdrawLogic> {
   }
 
   Widget _buildView() {
-    return ListView(
-      children: [
-        Text(
-          "提现货币",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
-          ),
-        ).marginSymmetric(vertical: 10.h),
-        _buildCoinCategory(),
-        _buildUsableMoney().marginSymmetric(vertical: 15.h),
-        Text(
-          "选择网络",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(
+        top: BorderSide(
+          width: 1.h,
+          color: Colors.white.withOpacity(0.06),
         ),
-        _buildSelectCategory().marginOnly(top: 18.h, bottom: 20.h),
-        _buildInputName().marginOnly(bottom: 20.h),
-        _buildInputCoinAddress().marginOnly(bottom: 20.h),
-        _buildInputAmount().marginOnly(bottom: 20.h),
-        _buildWithdrawPsd(),
-        _buildWarning().marginOnly(top: 10.h, bottom: 10.h),
-        // _buildTip(),
-        // _buildWithdrawInfo(),
-        buttonSubmit(
-          height: 50.h,
-          text: "确认提现",
-          onPressed: () => controller.withdrawSubmit(),
-        ).marginSymmetric(vertical: 20.h),
-      ],
-    ).paddingSymmetric(horizontal: 20.w);
+      )),
+      child: ListView(
+        children: [
+          Text(
+            "提现货币",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
+          ).marginSymmetric(vertical: 10.h),
+          _buildCoinCategory(),
+          _buildUsableMoney().marginSymmetric(vertical: 15.h),
+          Text(
+            "选择网络",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
+          ),
+          _buildSelectCategory().marginOnly(top: 18.h, bottom: 20.h),
+          _buildInputName().marginOnly(bottom: 20.h),
+          _buildInputCoinAddress().marginOnly(bottom: 20.h),
+          _buildInputAmount().marginOnly(bottom: 20.h),
+          if (controller.userInfoModel?.withdrawPwdStatus == 1) ...[
+            _buildWithdrawPsd(),
+          ],
+          _buildWarning().marginOnly(top: 10.h, bottom: 10.h),
+          // _buildTip(),
+          // _buildWithdrawInfo(),
+          buttonSubmit(
+            height: 50.h,
+            text: "确认提现",
+            onPressed: () => controller.withdrawSubmit(),
+          ).marginSymmetric(vertical: 20.h),
+        ],
+      ).paddingSymmetric(horizontal: 20.w),
+    );
   }
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       leading: IconButton(
         onPressed: () => Navigator.pop(context),
         icon: Image.asset(
@@ -395,7 +407,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
           ),
           child: Text(
-            controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
+            controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "修改提现密码",
             style: TextStyle(
               fontSize: 12.sp,
               color: Colors.white,
@@ -408,11 +420,12 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               Assets.rechargeIconTip,
               width: 14.w,
               height: 14.h,
+              color: const Color(0xffFF8A00),
             ),
             SizedBox(width: 5.w),
             Text(
               "为了您的账号安全，请设置提现密码！",
-              style: TextStyle(color: const Color(0xffFF8A00), fontSize: 12.sp),
+              style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
             ),
           ],
         )
