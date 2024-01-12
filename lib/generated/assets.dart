@@ -236,5 +236,8 @@ class Assets {
   static const String systemIconBack = 'assets/images/system/icon_back.png';
   static const String systemIconShare = 'assets/images/system/icon_share.png';
   static const String withdrawIconCc = 'assets/images/withdraw/icon_cc.png';
+  static const String homeNoticeNormal = 'assets/images/home/home_notice_normal.png';
+  static const String homeNoticeSelected = 'assets/images/home/home_notice_selected.png';
+
 
 }

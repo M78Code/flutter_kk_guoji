@@ -54,7 +54,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(isSelected?Assets.homeNoticeSeleced: Assets.homeNoticeNormal, width: 22, height: 22,),
+                  Image.asset(isSelected?Assets.homeNoticeSelected: Assets.homeNoticeNormal, width: 22, height: 22,),
                   SizedBox(width: 5,),
                   const Text("今日不再弹出", style: TextStyle(color: Colors.blueGrey, fontSize: 14),)
 
