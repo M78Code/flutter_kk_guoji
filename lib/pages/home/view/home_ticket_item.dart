@@ -3,13 +3,17 @@ import 'dart:ffi';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kkguoji/common/api/games_api.dart';
 import 'package:kkguoji/utils/json_util.dart';
 
 import '../../../common/models/jcp_bet_model.dart';
+import '../../../model/home/base_model.dart';
 import '../../../model/home/jcp_game_model.dart';
 import '../../../routes/routes.dart';
 import '../../../services/user_service.dart';
 import '../../../utils/route_util.dart';
+import '../../../widget/show_toast.dart';
 
 class KKHomeTicketItem extends StatefulWidget {
   final String bgImageStr;
@@ -44,7 +48,6 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
         startEndTime();
       });
     }
-    print('xiaoan 赔率选项：${widget.tickInfo.lotteryCode}');
   }
 
   @override
@@ -296,7 +299,11 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
                               RouteUtil.pushToView(Routes.loginPage);
                               return;
                             }
-
+                            if(betList.isNotEmpty){
+                              if(_numberController.text.isNotEmpty){
+                                betGame();
+                              }
+                            }
                           }
                         },
                         style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
@@ -317,6 +324,15 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
         ],
       ),
     );
+  }
+  
+  betGame () async{
+    BaseModel? baseModel=await GamesApi.betGame(betList,widget.tickInfo.lotteryCode ?? '');
+    if(baseModel?.code==200){
+      ShowToast.showToast('下注成功');
+    }else{
+      ShowToast.showToast(baseModel!.message);
+    }
   }
 
   Widget _buildDrawingBall(String number) {
@@ -443,7 +459,11 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
       content = "${playInfo.playName}:${playInfo.odds}-${playInfo.maxOdds}";
       print('xiaoan 赔率选项：$content');
     } else {
-      content = "${playInfo.playName}: ${playInfo.odds}";
+      if(widget.tickInfo.lotteryCode=='JNDEB'||widget.tickInfo.lotteryCode=='JNDSI'||widget.tickInfo.lotteryCode=='JNDWU'){
+        content = "${playInfo.playName}: ${playInfo.maxOdds}";
+      }else{
+        content = "${playInfo.playName}: ${playInfo.odds}";
+      }
     }
     return GestureDetector(
       onTap: (){
@@ -506,11 +526,15 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
   void startEndTime() {
     DateTime now = DateTime.now();
     int time = now.millisecondsSinceEpoch;
+    if(endTime*1000>time){
+      DateTime haveTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000 - time).toInt(), isUtc: true);
+      String timestr = formatDate(haveTime, [HH, nn, ss]);
 
-    DateTime haveTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000 - time).toInt(), isUtc: true);
-    String timestr = formatDate(haveTime, [HH, nn, ss]);
-
-    timeList = timestr.split("");
+      timeList = timestr.split("");
+      widget.tickInfo.current!.isOpen=false;
+    }else{
+      widget.tickInfo.current!.isOpen=true;
+    }
     if (mounted) {
       setState(() {});
     }

@@ -16,7 +16,6 @@ class WalletRecordList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<WalletRecordLogic>(
-      id: 'searchList',
       builder: (controller) {
         return SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -37,8 +36,11 @@ class WalletRecordList extends StatelessWidget {
                   else {
                     UserRechargeModel userRechargeModel = controller.userRechargeState.userRechargeModels[index];
                     var viewModel = RechargeRecordListChildViewModel(
-                        orderN: userRechargeModel.sn, createTime: userRechargeModel.createTime,
-                      payName: userRechargeModel.payName,money: userRechargeModel.money
+                        orderN: userRechargeModel.sn,
+                        createTime: userRechargeModel.createTime,
+                        payName: userRechargeModel.payName,
+                        money: userRechargeModel.money,
+                        status_name:  userRechargeModel.statusName,
                     );
                     return  ChargeRecordListChild(viewModel);
                   }

@@ -90,6 +90,7 @@ class Assets {
   static const String imagesHomeTopAlert = 'assets/images/home_top_alert.png';
   static const String imagesHomeTopGuoqi = 'assets/images/home_top_guoqi.png';
   static const String imagesHomeTopLogo = 'assets/images/home_top_logo.png';
+  static const String imagesHomeTopAd = 'assets/images/home/ad_icon.png';
   static const String imagesHomeTopMsg = 'assets/images/home_top_msg.png';
   static const String imagesHomeVipIcon = 'assets/images/home_vip_icon.png';
   static const String imagesHomeXianggangliuhecai = 'assets/images/home_xianggangliuhecai.png';
@@ -145,7 +146,7 @@ class Assets {
   static const String imagesPasswordOn = 'assets/images/password_on.png';
   static const String imagesPrivacyBtnNormal = 'assets/images/privacy_btn_normal.png';
   static const String imagesPrivacyBtnSelected = 'assets/images/privacy_btn_selected.png';
-  static const String imagesRegistTopLogo = 'assets/images/regist_top_logo.png';
+  static const String imagesRegistTopLogo = 'assets/images/myaccount/account_new_logo.png';
   static const String imagesRegisterBg = 'assets/images/register_bg.png';
   static const String imagesTabbarActivityNormal = 'assets/images/tabbar_activity_normal.png';
   static const String imagesTabbarActivitySelected = 'assets/images/tabbar_activity_selected.png';

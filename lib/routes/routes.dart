@@ -39,6 +39,7 @@ import '../pages/mine/wallet/wallet_fund_detail/view.dart';
 import '../pages/mine/wallet/wallet_record/view.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
 import '../pages/webView/tg_webview.dart';
+import '../pages/withdraw/withdraw_psd_page.dart';
 
 abstract class Routes {
   static const String loginPage = '/login';
@@ -56,6 +57,7 @@ abstract class Routes {
   static const String rebate = '/rebate';
   static const String recharge = "/recharge";
   static const String withdraw = "/withdraw";
+  static const String withdrawPsd = "/withdrawPsd";
   static const String bindEmail = "/account/email";
   static const String mine = "/mine";
   static const String game = "/games";
@@ -87,6 +89,7 @@ abstract class Routes {
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
+    GetPage(name: withdrawPsd, page: () => const WithdrawPsdPage()),
     GetPage(name: claimRecordPage, page: () => const ClaimRecordPage()),
     GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
     GetPage(name: personalData, page: () => KKPersonalDataPage(), binding: PersonalDataBinding()),

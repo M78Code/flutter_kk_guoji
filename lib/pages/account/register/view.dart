@@ -137,36 +137,45 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                               },);
                             }),
                             const SizedBox(height: 20,),
-                            CustomInputField(
-                              "assets/images/invite_icon.png",
-                              "请输入邀请码（选填）",
-                              valueChanged: (value){
-                                controller.inputInviteCodeValue(value);
-                              },),
+                            Obx(() {
+                              return Offstage(
+                                offstage: controller.isShowInvite.value,
+                                child:  CustomInputField(
+                                  "assets/images/invite_icon.png",
+                                  "请输入邀请码（选填）",
+                                  valueChanged: (value){
+                                    controller.inputInviteCodeValue(value);
+                                  },),
+
+                              );
+                            }),
                             const SizedBox(height: 20,),
                             Obx(() {
-                              return CustomInputField(
-                                  "assets/images/ver_code.png",
-                                  "请输入验证码",
-                                  valueChanged: (value){
-                                    controller.inputVerCodeValue(value);
-                                  },
-                                  rightWidget: controller.isAccount.value ? GestureDetector(child: SizedBox(
-                                      width: 80,
-                                      child: Center(
-                                        child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
-                                      )
-                                  ), onTap: () {controller.getVerCode();},
-                                  ):GestureDetector(
-                                    child: const SizedBox(
-                                        width: 110,
+                              return Offstage(
+                                offstage: controller.isHiddenVerCode.value,
+                                child: CustomInputField(
+                                    "assets/images/ver_code.png",
+                                    "请输入验证码",
+                                    valueChanged: (value){
+                                      controller.inputVerCodeValue(value);
+                                    },
+                                    rightWidget: controller.isAccount.value ? GestureDetector(child: SizedBox(
+                                        width: 80,
                                         child: Center(
-                                          child: Text("发送验证码", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                          child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
                                         )
-                                    ), onTap: () {
-                                    controller.sendCodeToEmail();
-                                  },
-                                  ));
+                                    ), onTap: () {controller.getVerCode();},
+                                    ):GestureDetector(
+                                      child: const SizedBox(
+                                          width: 110,
+                                          child: Center(
+                                            child: Text("发送验证码", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                          )
+                                      ), onTap: () {
+                                      controller.sendCodeToEmail();
+                                    },
+                                    )),
+                              );
                             }),
                             const SizedBox(height: 25,),
                             Obx(() {

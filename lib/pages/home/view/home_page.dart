@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/pages/home/logic/logic.dart';
 import 'package:kkguoji/pages/home/view/home_balance_widget.dart';
 import 'package:kkguoji/pages/home/view/home_games_widget.dart';
@@ -10,6 +12,9 @@ import 'package:kkguoji/pages/home/view/home_sports_widget.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/home_top_widget.dart';
 import 'package:kkguoji/services/user_service.dart';
+
+import '../../../generated/assets.dart';
+import '../../../routes/routes.dart';
 
 
 class KKHomePage extends GetView<HomeLogic> {
@@ -27,25 +32,38 @@ class KKHomePage extends GetView<HomeLogic> {
               child: Column(
                 children: [
                   Obx(() {
-                    return SizedBox(
-                      height: 280,
-                      width: double.infinity,
-                      child: Swiper(
-                        autoplayDisableOnInteraction:false,
-                        autoplay: true,
-                        itemCount: controller.bannerList.length, itemBuilder: (BuildContext context, int index) {
-                        Map bannerInfo = controller.bannerList.value[index];
-                        if(bannerInfo.isNotEmpty) {
-                          return Image.network(bannerInfo["image"], fit: BoxFit.cover,);
-                        }else {
-                          return Container();
-                        }
-                      },
-                        pagination: const SwiperPagination(), ),
-                    );
+                    return Container(
+                                height: 160.w,
+                                width: double.infinity,
+                                margin: EdgeInsets.only(left: 12.w, right: 12.w, top: KKHomeTopWidget.kHeight+6.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.w),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6.w),
+                                   child: Swiper(
+                                      autoplayDisableOnInteraction:false,
+                                      autoplay: true,
+                                      itemCount: controller.bannerList.length, itemBuilder: (BuildContext context, int index) {
+                                        Map bannerInfo = controller.bannerList.value[index];
+                                        if(bannerInfo.isNotEmpty) {
+                                          return Image.network(bannerInfo["image"], fit: BoxFit.cover);
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                      pagination: SwiperPagination(
+                                        builder: DotSwiperPaginationBuilder(
+                                          activeColor: Color(0xFF6C4FE0), // 选中的圆点颜色
+                                          color: Color(0xFFFFF3F3),       // 未选中的圆点颜色
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              );
                   }),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child:  Column(
                       children: [
                         Obx(() => KKHomeMarqueeWidget(controller.marqueeStr.value),),
@@ -164,8 +182,19 @@ class KKHomePage extends GetView<HomeLogic> {
           Positioned(child:Obx((){
             return KKHomeTopWidget(globalController.isLogin);
           }),),
+          Positioned(
+            bottom: 30.w,
+            right: 20.w,
+            child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
+              // RouteUtil.pushToView(Routes.customer);
+              Get.toNamed(Routes.customer);
+            }),
+          ),
+
         ],
       ),
-    );
+    ).safeArea();
   }
+
+
 }

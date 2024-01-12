@@ -37,26 +37,13 @@ class RechargePage extends GetView<RechargeLogic> {
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 25.w),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "¥",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    UserService.to.userMoneyModel?.money ?? "0.00",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )
-                ],
+              child: Text(
+                UserService.to.userMoneyModel?.money ?? "0.00",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],
@@ -64,145 +51,6 @@ class RechargePage extends GetView<RechargeLogic> {
         body: _buildView(),
       ),
     );
-
-    // Get.put(RechargeLogic());
-    // return KeyboardDissmissable(
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       leading: Get.arguments != null
-    //           ? IconButton(
-    //               onPressed: () => Navigator.pop(context),
-    //               icon: Image.asset(
-    //                 Assets.imagesBackNormal,
-    //                 width: 20.w,
-    //                 height: 20.h,
-    //               ),
-    //             )
-    //           : Container(),
-    //       title: Text(
-    //         "充值",
-    //         style: TextStyle(
-    //             color: Colors.white,
-    //             fontSize: 18.sp,
-    //             fontWeight: FontWeight.w500),
-    //       ),
-    //       actions: [
-    //         Padding(
-    //           padding: EdgeInsets.only(right: 25.w),
-    //           child: Row(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               Text(
-    //                 "¥",
-    //                 style: TextStyle(
-    //                   color: Colors.white,
-    //                   fontSize: 12.sp,
-    //                   fontWeight: FontWeight.w700,
-    //                 ),
-    //               ),
-    //               Text(
-    //                 UserService.to.userMoneyModel?.money ?? "0.00",
-    //                 style: TextStyle(
-    //                   color: Colors.white,
-    //                   fontSize: 16.sp,
-    //                   fontWeight: FontWeight.w700,
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //     body: Container(
-    //       alignment: Alignment.centerLeft,
-    //       padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 17.h),
-    //       decoration: BoxDecoration(
-    //           border: Border(
-    //         top: BorderSide(
-    //           width: 1.h,
-    //           color: Colors.white.withOpacity(0.06),
-    //         ),
-    //       )),
-    //       child: ListView(
-    //         children: [
-    //           Text(
-    //             "充值货币",
-    //             style: TextStyle(
-    //                 color: Colors.white,
-    //                 fontSize: 14.sp,
-    //                 fontWeight: FontWeight.w500),
-    //           ),
-    //           SizedBox(height: 13.h),
-    //           Row(
-    //             children: [
-    //               RechargeRadio(
-    //                 activePath: Assets.rechargeImgRechargeSelected,
-    //                 defaultPath: Assets.rechargeImgRechargeDefault,
-    //                 isSelected: true,
-    //                 controller: controller.imageController,
-    //                 onChange: (v) => print("ImageRadio_1--->$v"),
-    //               ),
-    //               const SizedBox(width: 18),
-    //               RechargeRadio(
-    //                 activePath: Assets.rechargeImgRechargeSelected,
-    //                 defaultPath: Assets.rechargeImgRechargeDefault,
-    //                 isSelected: false,
-    //                 controller: controller.imageController,
-    //                 onChange: (v) => print("ImageRadio_2--->$v"),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(height: 35.h),
-    //           Text(
-    //             "充值金额",
-    //             style: TextStyle(
-    //                 color: Colors.white,
-    //                 fontSize: 14.sp,
-    //                 fontWeight: FontWeight.w500),
-    //           ),
-    //           inputTextEdit(
-    //             hintText: "请输入充值金额",
-    //             editController: controller.rechargeController,
-    //             keyboardType:
-    //                 const TextInputType.numberWithOptions(decimal: true),
-    //           ),
-    //           SizedBox(height: 20.h),
-    //           _buildRechargeCategoryView(),
-    //           SizedBox(height: 40.h),
-    //           Row(
-    //             children: [
-    //               Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
-    //               SizedBox(width: 5.w),
-    //               const Text(
-    //                 "最低充值金额不低于5.0 ¥",
-    //                 style: TextStyle(color: Color(0xffA6ACC0)),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(height: 11.h),
-    //           Row(
-    //             children: [
-    //               Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
-    //               SizedBox(width: 5.w),
-    //               const Text(
-    //                 "最高充值金额不低于80000.0 ¥",
-    //                 style: TextStyle(color: Color(0xffA6ACC0)),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(height: 55.h),
-    //           buttonSubmit(
-    //             text: "立即充值",
-    //             height: 55,
-    //             onPressed: () {
-    //               controller.recharge();
-    //             },
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   Widget _buildView() {
@@ -246,10 +94,12 @@ class RechargePage extends GetView<RechargeLogic> {
           ),
           height: 43.h,
           width: 230.w,
-          child: Text(
-            "@dj-hfdsjfg",
-            style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
-          ),
+          child: Obx(() {
+            return Text(
+              controller.tg.value,
+              style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+            );
+          }),
         ),
         Positioned(
           right: 0,
@@ -261,7 +111,10 @@ class RechargePage extends GetView<RechargeLogic> {
             gradient: const LinearGradient(
               colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
             ),
-            onPressed: () => StringUtil.clipText("@dj-hfdsjfg"),
+            onPressed: (){
+              print("onPressed = ${controller.tgUrl}");
+              StringUtil.clipText(controller.tgUrl);
+            },
             child: Text(
               "复制",
               style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
@@ -289,10 +142,7 @@ class RechargePage extends GetView<RechargeLogic> {
             const Expanded(
               child: Text(
                 "请复制 “财务账号”，并通过 Telegram 添加后进行充值。",
-                style: TextStyle(
-                  color: Colors.white,
-                  height: 1.2
-                ),
+                style: TextStyle(color: Colors.white, height: 1.2),
               ),
             ),
           ],
@@ -311,11 +161,8 @@ class RechargePage extends GetView<RechargeLogic> {
             SizedBox(width: 6.w),
             const Expanded(
               child: Text(
-                "更换财务Telegram账号前，我们将提前通过強窗公告公示三天，请留意公告，井认准官方唯一财务账号，達防上当受骗！",
-                style: TextStyle(
-                  color: Colors.white,
-                    height: 1.2
-                ),
+                "更换财务Telegram账号前，我们将提前通过弹窗公告公示三天，请留意公告，并认准官方唯一财务账号，谨防上当受骗！",
+                style: TextStyle(color: Colors.white, height: 1.2),
               ),
             ),
           ],

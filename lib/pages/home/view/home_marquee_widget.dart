@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:marquee/marquee.dart';
 
-class KKHomeMarqueeWidget extends StatelessWidget {
+import '../logic/logic.dart';
+
+class KKHomeMarqueeWidget extends GetView<HomeLogic> {
+  final controller = Get.find<HomeLogic>();
   final String marqueeContent;
-  const KKHomeMarqueeWidget(this.marqueeContent, {super.key});
+  KKHomeMarqueeWidget(this.marqueeContent, {super.key});
 
   @override
   Widget build(BuildContext context) {

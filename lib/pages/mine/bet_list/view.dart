@@ -39,8 +39,12 @@ class _BetListPageState extends State<BetListPage> {
   }
   @override
   Widget build(BuildContext context) {
-
-    return _buildView();
+    return GetBuilder<BetListController>(
+      id: 'betListPage',
+      builder: (controller){
+        return _buildView();
+      },
+    );
   }
   Widget _buildView() {
     return Scaffold(
@@ -163,33 +167,83 @@ class _BetListPageState extends State<BetListPage> {
   }
 
   void _gameMenuCli(BetListController controller) {
+
+    controller.gameSearchKey = "";
+    var searchWidget = Container(
+      height: 33.w,
+      margin: EdgeInsets.symmetric(horizontal: 8.w),
+      padding:  EdgeInsets.symmetric(horizontal: 10.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6.w),
+        color: Color(0xFF1A1E2A),
+      ),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: TextField(
+                style: TextStyle(color:Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w400),
+                decoration: InputDecoration(
+                  hintText: '搜索游戏',
+                  hintStyle: TextStyle(color:Color(0x33FFFFFF), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                  border: InputBorder.none, // 去掉外框
+                ),
+                onChanged: (text) {
+                    controller.gameSearchKeyChange(text);
+                },
+              ),
+            ),
+            Image.asset(
+                Assets.mineWalletSearch,
+                width: 29.w,
+                height: 29.w)
+                .marginOnly(right: 12.w),
+          ]),
+    );
+
     RenderBox renderBox = menuButtonKey2.currentContext!.findRenderObject() as RenderBox;
     final buttonSize = renderBox.size;
     var child = GetBuilder<BetListController>(
         id: 'gameMenu',
         builder: (controller){
+          var searchResult = controller.gameModels.where((element) => element.name?.contains(controller.gameSearchKey) ?? true).toList();
+          var widgets = searchResult.asMap().map((typeIndex, gameModel) {
+            var color = controller.selectedGameModel.id == gameModel.id ? Color(0xFF5D5FEF) : Color(0xFF687083);
+            return MapEntry(
+                typeIndex,
+                Container(
+                    height: 30.w,
+                    child: Text(gameModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
+                    )
+                ).onTap(() {
+                  controller.onTapSwitchGame(gameModel);
+                  overlayEntry.remove();
+                })
+            );
+          }).values.toList();
           return Material(
             color: Colors.transparent,
             child: Container(
               width: buttonSize.width,
               margin: EdgeInsets.only(top: 10.w),
-              padding:  EdgeInsets.symmetric(horizontal: 18.w, vertical: 22.w),
+              padding:  EdgeInsets.symmetric(vertical: 8.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.0),
                 color: Color(0xFF222633),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: controller.gameModels.asMap().map((typeIndex, gameModel) {
-                  var color = controller.selectedGameModel.id == gameModel.id ? Color(0xFF5D5FEF) : Color(0xFF687083);
-                  return MapEntry(typeIndex, Text(
-                      gameModel.name ?? "",
-                      style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400)
-                  ).onTap(() {
-                    controller.onTapSwitchGame(typeIndex);
-                    overlayEntry.remove();
-                  }));
-                }).values.toList(),
+                children: [
+                  searchWidget,
+                  SizedBox(height: 20.w,),
+                  Container(
+                    padding:  EdgeInsets.symmetric(horizontal: 18.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: widgets,
+                    ),
+                  )
+                ],
               ),
             ),
           );
@@ -219,9 +273,12 @@ class _BetListPageState extends State<BetListPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: controller.gameTypeModels.asMap().map((typeIndex, gameTypeModel) {
                   var color = controller.selectedGameTypeModel.id == gameTypeModel.id ? Color(0xFF5D5FEF) : Color(0xFF687083);
-                  return MapEntry(typeIndex, Text(
-                      gameTypeModel.name ?? '',
-                      style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400)
+                  return MapEntry(
+                      typeIndex,
+                      Container(
+                        height: 30.w,
+                        child: Text(gameTypeModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
+                      )
                   ).onTap(() {
                     controller.onTapSwitchGameTyp(typeIndex);
                     overlayEntry.remove();

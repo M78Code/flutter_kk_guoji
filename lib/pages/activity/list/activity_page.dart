@@ -13,18 +13,8 @@ class ActivityPage extends GetView<ActivityLogic> {
     Get.put(ActivityLogic());
     return Scaffold(
         appBar: AppBar(
-          title: Column(
-            children: [
-              const Text("优惠活动", style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
-              SizedBox(
-                  width: 30.w,
-                  height: 5.w,
-                  child: const Divider(
-                    height: 1,
-                    color: Color(0xFF3D35C6),
-                  ))
-            ],
-          ),
+          title: const Text("优惠活动", style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
+          centerTitle: true,
         ),
         body: _buildView());
   }

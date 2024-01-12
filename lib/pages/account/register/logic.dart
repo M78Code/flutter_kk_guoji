@@ -13,6 +13,7 @@ import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 import '../../../services/user_service.dart';
+import '../../../utils/websocket_util.dart';
 import '../../main/logic/main_logic.dart';
 
 class RegisterLogic extends GetxController {
@@ -36,15 +37,27 @@ class RegisterLogic extends GetxController {
 
   int registerType = 1;
   String code_value = "";
-
+  final isHiddenVerCode = true.obs;
+  final isShowInvite = true.obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getVerCode();
+    getPublicInit();
   }
 
+  void getPublicInit() async{
+    var result = await HttpRequest.request(HttpConfig.publicInit);
+    print(result);
+    Map map = result["data"]["config"];
+    isShowInvite.value = map["invite_register"].toString() == "0";
+    isHiddenVerCode.value = map["login_verification_code"].toString() == "0";
+    if(!isHiddenVerCode.value) {
+      getVerCode();
+    }
+
+  }
 
   void getVerCode() async{
     code_value = getVerify(6);
@@ -94,7 +107,16 @@ class RegisterLogic extends GetxController {
     if(accountText.isEmpty || passwordText.isEmpty || verPsdText.isEmpty || isAgree.value == false) {
       isCanRegister.value = false;
     }else {
-      isCanRegister.value = true;
+      if(isHiddenVerCode.value) {
+        isCanRegister.value = true;
+      }else {
+        if(verCodeText.isEmpty) {
+          isCanRegister.value = true;
+        }else {
+          isCanRegister.value = false;
+        }
+
+      }
     }
   }
 
@@ -116,7 +138,9 @@ class RegisterLogic extends GetxController {
   }
   inputVerCodeValue(String code) {
     verCodeText = code;
-    checkCanRegister();
+    if(!isHiddenVerCode.value) {
+      checkCanRegister();
+    }
   }
 
   void sendCodeToEmail() async {
@@ -141,10 +165,13 @@ class RegisterLogic extends GetxController {
       Map<String, dynamic> params = {
         "username": accountText,
         "password": passwordText,
-        "code": verCodeText,
-        "code_value": code_value,
-        "invite_code": inviteText
+        "invite_code":inviteText
       };
+      if(!isHiddenVerCode.value) {
+        params["code"] = verCodeText;
+        params["code_value"] = code_value;
+      }
+
 
       var result = await HttpRequest.request(
           HttpConfig.registerByAccount, method: "post", params: params);
@@ -154,6 +181,7 @@ class RegisterLogic extends GetxController {
         globalController.isLogin = true;
         globalController.fetchUserMoney();
         globalController.fetchUserInfo();
+        WebSocketUtil().connetSocket();
         sqliteService.setString(CacheKey.accountKey, accountText);
         sqliteService.setString(CacheKey.passwordKey, passwordText);
         RouteUtil.popView();
@@ -176,6 +204,7 @@ class RegisterLogic extends GetxController {
         globalController.isLogin = true;
         globalController.fetchUserMoney();
         globalController.fetchUserInfo();
+        WebSocketUtil().connetSocket();
         sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
         Get.find<MainPageLogic>().currentIndex.value = 0;
       } else {
@@ -204,6 +233,7 @@ void loginWithTg()  async{
       globalController.isLogin = true;
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
+      WebSocketUtil().connetSocket();
       sqliteService.setString(CacheKey.accountKey, accountText);
       sqliteService.setString(CacheKey.passwordKey, passwordText);
       return true;

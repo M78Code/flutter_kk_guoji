@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'dart:math';
 
-import 'package:dio/dio.dart' as lDio;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/api/account_api.dart';
 import 'package:kkguoji/common/models/pair.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
@@ -14,15 +13,14 @@ import 'package:kkguoji/services/cache_key.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/user_service.dart';
-import 'package:http_parser/http_parser.dart';
+import 'package:kkguoji/utils/image_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/sqlite_util.dart';
-import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 class MyAccountLogic extends GetxController {
   //选中的下标
-  RxInt selectedIndex = 0.obs;
+  RxInt selectedIndex = 99.obs;
   final RxBool psdObscure1 = true.obs;
   final RxBool psdObscure2 = true.obs;
   final RxBool psdObscure3 = true.obs;
@@ -33,6 +31,7 @@ class MyAccountLogic extends GetxController {
   String confirmPsdText = "";
   String verCodeText = "";
   String codeValue = "";
+
   final RxList<int> verCodeImageBytes = RxList<int>();
   final nickController = TextEditingController();
 
@@ -45,21 +44,22 @@ class MyAccountLogic extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    getDefaultAvatars();
     userInfoModel = userService.userInfoModel.value;
     getVerCode();
-    final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
-    if (null != saveAvatar) {
-      selectedImg.value = saveAvatar;
-    }
+    // final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
+    // if (null != saveAvatar) {
+    //   selectedImg.value = saveAvatar;
+    // }
     final saveIndex = SqliteUtil().getInt(CacheKey.selectAvatarIndex);
     if (null != saveIndex) {
       selectedIndex.value = saveIndex;
     } else {
       selectedIndex.value = -1;
     }
-    if (null == saveIndex && null == saveAvatar) {
-      selectedIndex = 0.obs;
-    }
+    // if (null == saveIndex && null == saveAvatar) {
+    //   selectedIndex = 0.obs;
+    // }
   }
 
   showPassword(RxBool b) {
@@ -108,56 +108,42 @@ class MyAccountLogic extends GetxController {
 
   ///通过默认图片列表选择图像
   void updateIndex(int index) {
-    selectedIndex.value = index;
-    selectedImg.value = avatarList[index].third;
+    // Get.arguments["urlPath"] = "";
+    // selectedIndex.value = index;
+    selectedImg.value = avatarList[index];
     SqliteUtil().setInt(CacheKey.selectAvatarIndex, index);
-    SqliteUtil().setString(CacheKey.defaultAvatar, avatarList[index].third);
+    // SqliteUtil().setString(CacheKey.defaultAvatar, avatarList[index].third);
   }
 
   ///通过相册选择图像
   void updateCamera(String? result) async {
     if (null != result) {
       SqliteUtil().remove(CacheKey.selectAvatarIndex);
-      SqliteUtil().setString(CacheKey.defaultAvatar, result);
+      // SqliteUtil().setString(CacheKey.defaultAvatar, result);
       selectedImg.value = result;
       selectedIndex.value = -1;
-      // print("result = $result");
-
-      // final bytes = await rootBundle.load(result);
-
-      // String dir = (await getApplicationDocumentsDirectory()).path;
-      // print("dir = $dir");
-      // File file = await ImageUtil.writeToFile(bytes, result);
-      Map<String, dynamic> map = {};
-      map["type"] = "image/*";
-      map["img"] = await lDio.MultipartFile.fromFile(
-        result,
-        filename: "new_avatar.png",
-        contentType: MediaType.parse("multipart/form-data"),
-      );
-      //发送post
-      final response = await HttpService.uploadImage(HttpConfig.uploadImage, map);
-      // final params = {"type": "image/*", "img": file};
-      // final response = await HttpRequest.request(
-      //   HttpConfig.uploadImage,
-      //   method: "post",
-      //   params: params,
-      //   contentType: "multipart/form-data"
-      // );
-      print("response: $response");
     }
   }
 
-  List<TPair<int, bool, String>> avatarList = [
-    TPair(0, true, Assets.myaccountAvatar1),
-    TPair(1, false, Assets.myaccountAvatar2),
-    TPair(2, false, Assets.myaccountAvatar3),
-    TPair(3, false, Assets.myaccountAvatar4),
-    TPair(4, false, Assets.myaccountAvatar5),
-    TPair(5, false, Assets.myaccountAvatar6),
-    TPair(6, false, Assets.myaccountAvatar7),
-    TPair(7, false, Assets.myaccountIconCamera),
-  ];
+  // List<TPair<int, bool, String>> avatarList = [
+  //   TPair(0, true, Assets.myaccountAvatar1),
+  //   TPair(1, false, Assets.myaccountAvatar2),
+  //   TPair(2, false, Assets.myaccountAvatar3),
+  //   TPair(3, false, Assets.myaccountAvatar4),
+  //   TPair(4, false, Assets.myaccountAvatar5),
+  //   TPair(5, false, Assets.myaccountAvatar6),
+  //   TPair(6, false, Assets.myaccountAvatar7),
+  //   TPair(7, false, Assets.myaccountIconCamera),
+  // ];
+  RxList avatarList = [].obs;
+
+  void getDefaultAvatars() async {
+    final response = await HttpService.request(HttpConfig.getDefaultAvatar);
+    if (response["code"] == 200) {
+      avatarList.value = response["data"];
+      avatarList.add(Assets.myaccountIconCamera);
+    }
+  }
 
   Future<AwsS3Model?> postAWSS3() async {
     final response = await HttpRequest.request(
@@ -213,7 +199,41 @@ class MyAccountLogic extends GetxController {
     // AmazonS3Cognito.upload(bucket, identity, region, subRegion, imageData)
   }
 
-  void uploadAWS3() async {
+  void updateNickAndAvatar() async {
+    if (setModifyNice && nickController.text.isEmpty) {
+      ShowToast.showToast("请设置用户昵称");
+      return;
+    }
+
+    try {
+      bool response;
+      if (selectedImg.value.startsWith("http")) {
+        response = await AccountApi.updateUserInfo({
+          "user_nick": Get.arguments["nick"],
+          "portrait": selectedImg.value,
+        });
+      } else {
+        final file = await ImageUtil.getImageFileFileFromAssets(selectedImg.value);
+        final compressFile = await ImageUtil.compressAndSaveImage(file);
+        final value = await AccountApi.uploadImage(compressFile.path);
+        response = await AccountApi.updateUserInfo({
+          "user_nick": Get.arguments["nick"],
+          "portrait": value?.url,
+        });
+      }
+
+      if (response) {
+        ShowToast.showToast("更新成功");
+        userInfoModel = await AccountApi.getUserInfo();
+      } else {
+        ShowToast.showToast("更新失败");
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    // updateUserInfo
+
     // const url = "https://s3.us-east-1.amzzonaws.com/testing-presigned-upload";
     // ByteData imageData = await rootBundle.load(Assets.activityActivity);
     // Uint8List bytes = imageData.buffer.asUint8List();
@@ -334,10 +354,10 @@ class MyAccountLogic extends GetxController {
         ShowToast.showToast("请输入新密码");
         return false;
       }
-      if (!StringUtil.checkPsdRule(newPsdText)) {
-        ShowToast.showToast("密码由数字、字母、构成,长度8-20");
-        return false;
-      }
+      // if (!StringUtil.checkPsdRule(newPsdText)) {
+      //   ShowToast.showToast("密码由数字、字母、构成,长度8-20");
+      //   return false;
+      // }
       if (confirmPsdText.isEmpty) {
         ShowToast.showToast("请确认新密码");
         return false;
