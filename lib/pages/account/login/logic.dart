@@ -134,8 +134,8 @@ class LoginLogic extends GetxController {
       globalController.isLogin = true;
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
-      WebSocketUtil().connetSocket();
       sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
+      WebSocketUtil().connetSocket();
       if (savePassword.value) {
         sqliteService.setString(CacheKey.accountKey, accountText);
         sqliteService.setString(CacheKey.passwordKey, passwordText);
