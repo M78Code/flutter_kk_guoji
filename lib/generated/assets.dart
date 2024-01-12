@@ -228,6 +228,7 @@ class Assets {
   static const String rebateRebateShixunSelected = 'assets/images/rebate/rebate_shixun_selected.png';
   static const String rebateRebateTiyuNormal = 'assets/images/rebate/rebate_tiyu_normal.png';
   static const String rebateRebateTiyuSelected = 'assets/images/rebate/rebate_tiyu_selected.png';
+  static const String rechargeCopyBtn = 'assets/images/recharge/copy_btn.png';
   static const String rechargeIconTip = 'assets/images/recharge/icon_tip.png';
   static const String rechargeImgRechargeDefault = 'assets/images/recharge/img_recharge_default.png';
   static const String rechargeImgRechargeSelected = 'assets/images/recharge/img_recharge_selected.png';

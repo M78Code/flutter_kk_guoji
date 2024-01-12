@@ -33,6 +33,7 @@ class SetLoginPsdPage extends GetView {
                 "登录密码",
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
+              centerTitle: true,
             ),
             // body: Center(),
             body: Center(
@@ -40,7 +41,7 @@ class SetLoginPsdPage extends GetView {
                 children: [
                   SizedBox(height: 20.h),
                   Obx(() {
-                    return CustomInputField(Assets.imagesPasswordIcon, "请输入旧密码",
+                    return CustomInputField(Assets.imagesPasswordIcon, "请输入原密码",
                         isObscureText: controller.psdObscure1.value,
                         keybordType: TextInputType.text,
                         maxLength: 20,
@@ -48,7 +49,9 @@ class SetLoginPsdPage extends GetView {
                           child: SizedBox(
                             width: 60,
                             child: Image.asset(
-                              controller.psdObscure1.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                              controller.psdObscure1.value
+                                  ? Assets.imagesPasswordOn
+                                  : Assets.imagesPasswordOff,
                               width: 30,
                               height: 30,
                             ),
@@ -63,13 +66,15 @@ class SetLoginPsdPage extends GetView {
                   Obx(() {
                     return CustomInputField(Assets.imagesPasswordIcon, "请输入新密码",
                         isObscureText: controller.psdObscure2.value,
-                        keybordType:TextInputType.text,
+                        keybordType: TextInputType.text,
                         maxLength: 20,
                         rightWidget: GestureDetector(
                           child: SizedBox(
                             width: 60,
                             child: Image.asset(
-                              controller.psdObscure2.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                              controller.psdObscure2.value
+                                  ? Assets.imagesPasswordOn
+                                  : Assets.imagesPasswordOff,
                               width: 30,
                               height: 30,
                             ),
@@ -89,7 +94,9 @@ class SetLoginPsdPage extends GetView {
                             child: SizedBox(
                               width: 60,
                               child: Image.asset(
-                                controller.psdObscure3.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                                controller.psdObscure3.value
+                                    ? Assets.imagesPasswordOn
+                                    : Assets.imagesPasswordOff,
                                 width: 30,
                                 height: 30,
                               ),
@@ -102,7 +109,8 @@ class SetLoginPsdPage extends GetView {
                     }),
                     const SizedBox(height: 20),
                     Obx(() {
-                      return CustomInputField(Assets.imagesVerCode, "请输入验证码", valueChanged: (value) {
+                      return CustomInputField(Assets.imagesVerCode, "请输入验证码",
+                          valueChanged: (value) {
                         controller.inputVerCodeValue(value);
                       },
                           rightWidget: GestureDetector(
@@ -124,7 +132,8 @@ class SetLoginPsdPage extends GetView {
                     SizedBox(height: 20.h),
                     Row(
                       children: [
-                        Image.asset(Assets.imagesTipStar, width: 9.w, height: 22.h).marginOnly(right: 5.w),
+                        Image.asset(Assets.imagesTipStar, width: 9.w, height: 22.h)
+                            .marginOnly(right: 5.w),
                         Text(
                           "注意: 如忘记原密码，请联系客服",
                           style: TextStyle(color: const Color(0xffA19DBD), fontSize: 14.sp),

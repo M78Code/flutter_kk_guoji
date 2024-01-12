@@ -20,6 +20,7 @@ class WithdrawPsdPage extends GetView {
         return KeyboardDissmissable(
           child: Scaffold(
             appBar: AppBar(
+              centerTitle: true,
               leading: IconButton(
                 onPressed: () => Navigator.pop(context),
                 icon: Image.asset(
@@ -29,48 +30,65 @@ class WithdrawPsdPage extends GetView {
                 ),
               ),
               title: Text(
-                Get.arguments ? "设置提现密码" : "更新提现密码",
+                Get.arguments ? "设置提现密码" : "修改提现密码",
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
             ),
             // body: Center(),
-            body: Center(
+            body: Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                top: BorderSide(
+                  width: 1.h,
+                  color: Colors.white.withOpacity(0.06),
+                ),
+              )),
               child: ListView(
                 children: [
                   SizedBox(height: 20.h),
                   if (!Get.arguments) ...[
                     Text(
                       "请输入旧提现密码",
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
                     ).marginOnly(bottom: 10.h),
                     Obx(() {
                       return CustomInputField(null, "请输入旧提现密码",
+                          radius: 20,
+                          hintColor: Colors.white.withOpacity(0.2),
                           isObscureText: controller.psdObscure1.value,
                           keybordType: TextInputType.number,
                           maxLength: 6,
-                          rightWidget: GestureDetector(
-                            child: SizedBox(
-                              width: 60,
-                              child: Image.asset(
-                                controller.psdObscure1.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
-                                width: 30,
-                                height: 30,
-                              ),
-                            ),
-                            onTap: () {
-                              controller.showPassword(controller.psdObscure1);
-                            },
-                          ),
+                          // rightWidget: GestureDetector(
+                          //   child: SizedBox(
+                          //     width: 60,
+                          //     child: Image.asset(
+                          //       controller.psdObscure1.value
+                          //           ? Assets.imagesPasswordOn
+                          //           : Assets.imagesPasswordOff,
+                          //       width: 30,
+                          //       height: 30,
+                          //     ),
+                          //   ),
+                          //   onTap: () {
+                          //     controller.showPassword(controller.psdObscure1);
+                          //   },
+                          // ),
                           valueChanged: (value) => controller.inputPasswordValue(value, 0));
                     }),
                     SizedBox(height: 20.h)
                   ],
                   Text(
                     Get.arguments ? "请输入提现密码" : "请输入新提现密码",
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
                   ).marginOnly(bottom: 10.h),
                   Obx(() {
-                    return CustomInputField(null, Get.arguments ? "请输入6位纯数字密码" : "请输入新6位纯数字密码",
+                    return CustomInputField(
+                        null,
+                        radius: 20,
+                        hintColor: Colors.white.withOpacity(0.2),
+                        Get.arguments ? "请输入6位纯数字密码" : "请输入新6位纯数字密码",
                         isObscureText: controller.psdObscure2.value,
                         keybordType: TextInputType.number,
                         maxLength: 6,
@@ -78,7 +96,9 @@ class WithdrawPsdPage extends GetView {
                           child: SizedBox(
                             width: 60,
                             child: Image.asset(
-                              controller.psdObscure2.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                              controller.psdObscure2.value
+                                  ? Assets.imagesPasswordOn
+                                  : Assets.imagesPasswordOff,
                               width: 30,
                               height: 30,
                             ),
@@ -91,10 +111,15 @@ class WithdrawPsdPage extends GetView {
                   }),
                   Text(
                     Get.arguments ? "请再次输入提现密码" : "请再次输入新提现密码",
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
                   ).marginOnly(bottom: 10.h, top: 20.h),
                   Obx(() {
-                    return CustomInputField(null, "请再次输入6位纯数字密码",
+                    return CustomInputField(
+                        null,
+                        radius: 20,
+                        "请再次输入6位纯数字密码",
+                        hintColor: Colors.white.withOpacity(0.2),
                         isObscureText: controller.psdObscure3.value,
                         keybordType: TextInputType.number,
                         maxLength: 6,
@@ -102,7 +127,9 @@ class WithdrawPsdPage extends GetView {
                           child: SizedBox(
                             width: 60,
                             child: Image.asset(
-                              controller.psdObscure3.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                              controller.psdObscure3.value
+                                  ? Assets.imagesPasswordOn
+                                  : Assets.imagesPasswordOff,
                               width: 30,
                               height: 30,
                             ),
@@ -113,20 +140,21 @@ class WithdrawPsdPage extends GetView {
                         ),
                         valueChanged: (value) => controller.inputPasswordValue(value, 2));
                   }),
-                  Row(
-                    children: [
-                      Image.asset(Assets.imagesTipStar, width: 9.w, height: 22.h).marginOnly(right: 5.w),
-                      Text(
-                        "注意: 如忘记原密码，请联系客服",
-                        style: TextStyle(color: const Color(0xffA19DBD), fontSize: 14.sp),
-                      ),
-                    ],
-                  ).marginOnly(top: 20.h, bottom: 30.h),
+                  // Row(
+                  //   children: [
+                  //     Image.asset(Assets.imagesTipStar, width: 9.w, height: 22.h)
+                  //         .marginOnly(right: 5.w),
+                  //     Text(
+                  //       "注意: 如忘记原密码，请联系客服",
+                  //       style: TextStyle(color: const Color(0xffA19DBD), fontSize: 14.sp),
+                  //     ),
+                  //   ],
+                  // ).marginOnly(top: 20.h, bottom: 30.h),
                   buttonSubmit(
                     height: 50.h,
                     onPressed: () => controller.setPsdSubmit(Get.arguments),
                     text: "确认",
-                  )
+                  ).marginOnly(top: 30.h)
                 ],
               ).paddingSymmetric(horizontal: 15.w),
             ),

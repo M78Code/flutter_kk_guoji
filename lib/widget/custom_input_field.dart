@@ -11,10 +11,13 @@ class CustomInputField extends StatefulWidget {
   final bool isObscureText;
   String text;
   int maxLength;
+  Color hintColor;
+  final double radius;
 
   CustomInputField(
     this.imageStr,
     this.hintText, {
+    this.hintColor = Colors.grey,
     this.valueChanged,
     this.onTap,
     this.rightWidget,
@@ -22,6 +25,7 @@ class CustomInputField extends StatefulWidget {
     this.isObscureText = false,
     this.keybordType = TextInputType.text,
     this.maxLength = 24,
+    this.radius = 6,
     super.key,
   });
 
@@ -60,7 +64,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
     _textEditingController!.text = inputText ?? '';
     if (cursorPos.start > _textEditingController!.text.length) {
       // 光标保持在文本最后
-      cursorPos = TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.length));
+      cursorPos =
+          TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.length));
     }
     _textEditingController!.selection = cursorPos;
   }
@@ -69,7 +74,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0x3D6C7A8F), borderRadius: const BorderRadius.all(Radius.circular(6)), border: Border.all(color: isOnTap ? const Color(0xFF5D5FEF) : const Color(0x1AFFFFFF), width: 1.0)),
+        color: const Color(0x3D6C7A8F),
+        borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
+        border: Border.all(
+            color: isOnTap ? const Color(0xFF5D5FEF) : const Color(0x1AFFFFFF), width: 1.0),
+      ),
       height: 42,
       child: Row(
         children: [
@@ -92,9 +101,10 @@ class _CustomInputFieldState extends State<CustomInputField> {
               counterText: "",
               contentPadding: const EdgeInsets.all(0),
               hintText: widget.hintText,
+
               border: const OutlineInputBorder(borderSide: BorderSide.none),
               // borderSide: BorderSide.none
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
+              hintStyle: TextStyle(color: widget.hintColor, fontSize: 13),
             ),
             textAlign: TextAlign.start,
             style: const TextStyle(

@@ -32,7 +32,7 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
                 ),
               ),
               title: Text(
-                "修改图像",
+                "修改头像",
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
             ),

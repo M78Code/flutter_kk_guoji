@@ -302,6 +302,7 @@ class HomeLogic extends GetxController {
     GetGameModel? getGameModel = await GamesApi.getGameByCompanyCode(type, lotteryId);
     GameLogin? gameLogin = await GamesApi.gameLogin(getGameModel?.gameCompanyCode ?? "", (getGameModel?.id ?? "").toString());
     if (gameLogin?.url != null) {
+      print('加载第三方url；${gameLogin?.url }');
       RouteUtil.pushToView(Routes.webView, arguments: gameLogin?.url ?? "");
     }
   }
