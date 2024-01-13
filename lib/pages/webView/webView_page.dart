@@ -13,20 +13,7 @@ class KKWebViewPage extends StatefulWidget {
 }
 
 class _KKWebViewPageState extends State<KKWebViewPage> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    ConfigService.to.toggleButtonVisibility(false);
-  }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    ConfigService.to.toggleButtonVisibility(true);
-    super.dispose();
-
-  }
+ 
   @override
   Widget build(BuildContext context) {
 

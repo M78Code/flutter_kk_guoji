@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:kkguoji/pages/main/view/main_page.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config_service.dart';
 
+import 'custom_route_observer.dart';
 import 'generated/assets.dart';
 import 'generated/l10n.dart';
 import '../utils/app_util.dart';
@@ -22,7 +24,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -60,6 +62,7 @@ class MyApp extends StatelessWidget {
             getPages: Routes.routePage,
             initialBinding: mainBinding(),
             home: const KKMainPage(),
+            navigatorObservers: [CustomRouteObserver()],
             builder: (context, child) {
               return Stack(
                 children: [
@@ -82,3 +85,4 @@ class MyApp extends StatelessWidget {
         });
   }
 }
+
