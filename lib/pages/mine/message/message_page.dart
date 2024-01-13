@@ -165,11 +165,24 @@ class _MessagePageState extends State<MessagePage> {
         itemBuilder: (BuildContext content, int index) {
           if (_messageList.isEmpty) {
             return Center(
-              child: Image.asset(
-                Assets.imagesIconEmptyh,
-                fit: BoxFit.contain,
-              ),
-            );
+                child: Column(
+              children: [
+                const SizedBox(
+                  height: 93,
+                ),
+                Image.asset(
+                  Assets.imagesIconEmptyh,
+                  width: 200.w,
+                  height: 200.h,
+                  fit: BoxFit.cover,
+                ),
+                const Text(
+                  '暂无消息',
+                  style: TextStyle(
+                      color: Color.fromRGBO(104, 112, 131, 1.0), fontSize: 16),
+                )
+              ],
+            ));
           } else {
             MessageListModel model = _messageList[index];
             return Column(
