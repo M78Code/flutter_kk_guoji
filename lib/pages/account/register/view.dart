@@ -197,6 +197,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                             text: "相关条款",
                                             style: const TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
                                             recognizer: TapGestureRecognizer()..onTap = (){
+                                              Get.toNamed(Routes.privacyPage, arguments: ["服务条款", "assets/html/register_protocol.html"]);
 
                                             }
                                         ),
@@ -208,7 +209,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                             text: "隐私政策",
                                             style: const TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
                                             recognizer: TapGestureRecognizer()..onTap = (){
-                                              Get.toNamed(Routes.privacyPage);
+                                              Get.toNamed(Routes.privacyPage, arguments: ["隐私政策", "assets/html/privacy.html"]);
                                             }
                                         )
                                       ],

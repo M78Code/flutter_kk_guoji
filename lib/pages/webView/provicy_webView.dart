@@ -8,7 +8,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../utils/route_util.dart';
 
 class KKPrivacyPage extends StatelessWidget {
-  const KKPrivacyPage({super.key});
+  const KKPrivacyPage( {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,11 @@ class KKPrivacyPage extends StatelessWidget {
     //   ..setJavaScriptMode(JavaScriptMode.unrestricted)
     //   ..addJavaScriptChannel("flutter", onMessageReceived: (JavaScriptMessage jsMessage) {})
     //   ..loadFile(Assets.htmlRegisterProtocol);
-
+    List list = Get.arguments;
     return Scaffold(
-      appBar: KKCustomAppBar("隐私条款与协议"),
+      appBar: KKCustomAppBar(list.first),
       body: InAppWebView(
-        initialFile: "assets/html/register_protocol.html",
+        initialFile: list.last,
         initialOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(transparentBackground: true),
         ),
