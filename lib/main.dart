@@ -60,24 +60,24 @@ class MyApp extends StatelessWidget {
             getPages: Routes.routePage,
             initialBinding: mainBinding(),
             home: const KKMainPage(),
-            builder: (context, child) {
-              return Scaffold(
-                body: Stack(
-                  children: [
-                    child!,
-                    Positioned(
-                      bottom: 50.w,
-                      right: 20.w,
-                      child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
-                        // RouteUtil.pushToView(Routes.customer);
-                        Get.toNamed(Routes.customer);
-                      }),
-                    ),
-
-                  ],
-                ),
-              );
-            },
+            // builder: (context, child) {
+            //   return Scaffold(
+            //     body: Stack(
+            //       children: [
+            //         child!,
+            //         Positioned(
+            //           bottom: 50.w,
+            //           right: 20.w,
+            //           child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
+            //             // RouteUtil.pushToView(Routes.customer);
+            //             Get.toNamed(Routes.customer);
+            //           }),
+            //         ),
+            //
+            //       ],
+            //     ),
+            //   );
+            // },
           );
         });
   }

@@ -65,6 +65,7 @@ class Assets {
   static const String homeHotcaizhong = 'assets/images/home/hotcaizhong.png';
   static const String homeHuojian = 'assets/images/home/huojian.png';
   static const String homeSportsaishi = 'assets/images/home/sportsaishi.png';
+  static const String htmlPrivacy = 'assets/html/privacy.html';
   static const String htmlRegisterProtocol = 'assets/html/register_protocol.html';
   static const String imagesAccountIcon = 'assets/images/account_icon.png';
   static const String imagesBackNormal = 'assets/images/back_normal.png';
