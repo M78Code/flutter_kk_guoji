@@ -73,8 +73,9 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset("assets/images/myaccount/account_new_logo.png", width: 163, height: 45,),
+                            Image.asset(Assets.myaccountAccountNewLogo, width: 163, height: 45,),
                             const SizedBox(height: 30,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -100,12 +101,20 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                             // }),
                             const SizedBox(height: 30,),
                             Obx(() {
-                              return CustomInputField("assets/images/account_icon.png", controller.isAccount.value?"请输入8-12位字母+数字用户名":"请输入电子邮箱", valueChanged: (value){
+                              return CustomInputField("assets/images/account_icon.png", controller.isAccount.value?"请输入用户名":"请输入电子邮箱", valueChanged: (value){
                                 controller.inputAccountValue(value);
-                              },);
+                              },text: controller.accountText, isOK: controller.accountOK.value,);
 
                             }),
-                            const SizedBox(height: 20,),
+                            const SizedBox(height: 5,),
+                            Obx(() {
+                              return Offstage(
+                                offstage: controller.accountErrStr.value.isEmpty,
+                                child: Text(controller.accountErrStr.value, style:const TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w600),),
+
+                              );
+                            }),
+                            const SizedBox(height: 5,),
                             Obx(() {
                               return CustomInputField("assets/images/password_icon.png", "请输入8-12位字母+数字+字符密码",
                                 isObscureText: controller.psdObscure.value, rightWidget: GestureDetector(

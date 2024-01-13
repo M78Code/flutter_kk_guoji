@@ -24,6 +24,8 @@ class RegisterLogic extends GetxController {
   final RxBool isCanRegister = false.obs;
   final RxBool psdObscure = true.obs;
   final RxBool verPsdObscure = true.obs;
+  final accountErrStr = "".obs;
+  final RxnBool accountOK = RxnBool();
   final RxList<int> verCodeImageBytes = RxList<int>();
   final sqliteService = Get.find<SqliteService>();
   final globalController = Get.find<UserService>();
@@ -122,6 +124,20 @@ class RegisterLogic extends GetxController {
 
   inputAccountValue(String account) {
     accountText = account;
+    RegExp regExp = RegExp("^[A-Za-z][A-Za-z0-9]+\$");
+    if(account.isEmpty) {
+      accountErrStr.value = "用户名不能为空";
+      accountOK.value = false;
+    }else if(accountText.length< 4 || accountText.length > 12) {
+      accountErrStr.value = "用户名长度为4-12位";
+      accountOK.value = false;
+    }else if (!regExp.hasMatch(account)) {
+      accountErrStr.value = "用户名格式为首字母+数字的组合";
+      accountOK.value = false;
+    }else {
+      accountErrStr.value = '';
+      accountOK.value = true;
+    }
     checkCanRegister();
   }
   inputPasswordValue(String password) {

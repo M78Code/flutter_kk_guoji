@@ -82,7 +82,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
                         child: Column(
                           children: [
                             Image.asset(
-                              Assets.imagesRegistTopLogo,
+                              Assets.myaccountAccountNewLogo,
                               width: 163,
                               height: 45,
                             ),
