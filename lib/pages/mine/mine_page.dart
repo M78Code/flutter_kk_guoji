@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/mine/mine_logic.dart';
@@ -10,17 +9,18 @@ import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
+import 'package:kkguoji/common/extension/index.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-
 import '../../widget/show_toast.dart';
 
+GlobalKey _shareImageRepaintBoundaryKey = GlobalKey();
+
 class MinePage extends GetView<MineLogic> {
-  MinePage({super.key});
-  GlobalKey _shareImageRepaintBoundaryKey = GlobalKey();
+  const MinePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class MinePage extends GetView<MineLogic> {
                   bottom: 0,
                   child: Column(
                     children: [
-                      Expanded(flex: 1, child: _buildItems(context)),
+                      Expanded(flex: 1, child: _buildItems()),
                       _buildLogOutBtn(context)
                           .marginOnly(top: 30.h, bottom: 20.h),
                     ],
@@ -211,7 +211,7 @@ class MinePage extends GetView<MineLogic> {
   }
 
   ///功能清单
-  Widget _buildItems(BuildContext context) {
+  Widget _buildItems() {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -404,8 +404,8 @@ class MinePage extends GetView<MineLogic> {
                             padding: EdgeInsets.all(8.w),
                             backgroundColor: Colors.white,
                             data:
-                                controller.promotionModel?.domain?.first?.url ??
-                                    "",
+                            controller.promotionModel?.domain?.first?.url ??
+                                "",
                             version: QrVersions.auto,
                             size: 48.w,
                           ),
@@ -445,10 +445,10 @@ class MinePage extends GetView<MineLogic> {
                       height: 40.w,
                       decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                            width: 1, color: Color(0xFF3D35C6)),
-                        borderRadius: BorderRadius.circular(22.w),
-                      )),
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFF3D35C6)),
+                            borderRadius: BorderRadius.circular(22.w),
+                          )),
                       child: TextButton(
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: '123'));
@@ -474,8 +474,8 @@ class MinePage extends GetView<MineLogic> {
 
   Future<void> captureAndSaveImage() async {
     RenderRepaintBoundary boundary =
-        _shareImageRepaintBoundaryKey.currentContext!.findRenderObject()
-            as RenderRepaintBoundary;
+    _shareImageRepaintBoundaryKey.currentContext!.findRenderObject()
+    as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
@@ -575,7 +575,7 @@ class MyPurse extends StatelessWidget {
         image: const DecorationImage(
             image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(width: 1.0, color: Colors.white),
+        // border: Border.all(width: 1.0, color: Colors.white),
       ),
       child: Column(
         children: [

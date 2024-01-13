@@ -12,7 +12,8 @@ class MineLogic extends GetxController {
   final userService = Get.find<UserService>();
   UserInfoModel? userInfoModel; //用户信息类
   RxString portraitUrl = "".obs;
-  bool isHiddenBalance = SqliteService.to.getBool(CacheKey.balanceHidden) ?? false;
+  bool isHiddenBalance =
+      SqliteService.to.getBool(CacheKey.balanceHidden) ?? true; //默认是隐藏
   bool isSharePopViewVisible = false;
   KKPromotionModel? promotionModel;
 

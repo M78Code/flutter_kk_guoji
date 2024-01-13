@@ -132,7 +132,7 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Widget _buildSelectionView() {
-    return Container(
+    return SizedBox(
       height: 30,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -149,35 +149,6 @@ class _MessagePageState extends State<MessagePage> {
             ).paddingOnly(right: 10);
           }),
     ).paddingSymmetric(horizontal: 12.w, vertical: 12.w);
-
-    /*return GetBuilder<MessageRequest>(
-      id: "categoryView",
-      builder: (controller) {
-        return Container(
-          height: 30,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: controller.messageSelectBar.length,
-            itemBuilder: (context, index) {
-              return CategoryItem(
-                category: controller.selectBar[index],
-                isSelected:
-                    // ignore: unrelated_type_equality_checks
-                    controller.selectedCategoryId ==
-                        controller.selectBar[index].index,
-                onTap: (selectIndex) {
-                  controller.onCategoryTap(selectIndex);
-                  setState(() {
-                    _type = index + 1;
-                    _onRefresh();
-                  });
-                },
-              ).paddingOnly(right: 10);
-            },
-          ),
-        ).paddingSymmetric(horizontal: 12.w, vertical: 12.w);
-      },
-    );*/
   }
 
   Widget _messageListView() {

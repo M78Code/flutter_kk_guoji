@@ -107,7 +107,7 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               width: 70,
                               child: Center(
                                 child: Text(
-                                  "返水金额",
+                                  "打码量",
                                   style: TextStyle(
                                       color: Color(0xFFB2B3BD), fontSize: 12),
                                 ),
@@ -116,7 +116,7 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               width: 70,
                               child: Center(
                                 child: Text(
-                                  "反水余额",
+                                  "金额",
                                   style: TextStyle(
                                       color: Color(0xFFB2B3BD), fontSize: 12),
                                 ),
@@ -136,7 +136,7 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               height: 50,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
-                              child:  Row(
+                              child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,11 +145,12 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     width: 55,
                                     child: Center(
                                       child: Text(
-                                        receiveM["show_receive_time"].toString(),
+                                        receiveM["show_receive_time"]
+                                            .toString(),
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.white,
-                                            fontSize: 10,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ),
@@ -158,8 +159,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     width: 70,
                                     child: Center(
                                       child: Text(
-                                        "100348",
-                                        style: TextStyle(
+                                        receiveM["game_type_name"].toString(),
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600),
@@ -170,8 +171,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     width: 70,
                                     child: Center(
                                       child: Text(
-                                        "100346",
-                                        style: TextStyle(
+                                        receiveM["total_bet"].toString(),
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600),
@@ -182,8 +183,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     width: 70,
                                     child: Center(
                                       child: Text(
-                                        "100346",
-                                        style: TextStyle(
+                                        "+${receiveM["total_money"]}",
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600),

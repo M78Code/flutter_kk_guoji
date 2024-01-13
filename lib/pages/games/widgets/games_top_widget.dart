@@ -22,7 +22,10 @@ class KKGamesTopWidget extends StatelessWidget {
           gradient: LinearGradient(
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
-        colors: [Color.fromRGBO(17, 22, 60, 1.0), Color.fromRGBO(5, 8, 32, 0.8)],
+        colors: [
+          Color.fromRGBO(17, 22, 60, 1.0),
+          Color.fromRGBO(5, 8, 32, 0.8)
+        ],
       )),
       child: Container(
         padding: EdgeInsets.only(left: 17.w, right: 12.w),
@@ -35,7 +38,7 @@ class KKGamesTopWidget extends StatelessWidget {
               height: 33.w,
             ),
             Image.asset(
-              Assets.homeAdIcon,
+              Assets.imagesHomeTopAd,
               height: 22.w,
             ),
             if (this.isLogin == false) _buildUnLogingView(),
@@ -60,7 +63,10 @@ class KKGamesTopWidget extends StatelessWidget {
             // ),
             TextSpan(
               text: UserService.to.userMoneyModel?.money ?? "0.00",
-              style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         )).marginOnly(right: 14.sp),
