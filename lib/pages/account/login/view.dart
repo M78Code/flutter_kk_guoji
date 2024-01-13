@@ -38,7 +38,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
   Widget build(BuildContext context) {
     return KeyboardDissmissable(
       child: Scaffold(
-        body:  Stack(
+        body: Stack(
           children: [
             Container(
               height: double.infinity,
@@ -82,26 +82,35 @@ class _KKLoginPageState extends State<KKLoginPage> {
                         child: Column(
                           children: [
                             Image.asset(
-                              Assets.imagesRegistTopLogo,
+                              "assets/images/myaccount/account_new_logo.png",
                               width: 163,
                               height: 45,
                             ),
                             const SizedBox(
                               height: 60,
                             ),
-                            CustomInputField(Assets.imagesAccountIcon, "请输入用户名", valueChanged: (value) => controller.inputAccountValue(value), text: controller.accountObs.value,),
+                            CustomInputField(
+                              Assets.imagesAccountIcon,
+                              "请输入用户名",
+                              valueChanged: (value) =>
+                                  controller.inputAccountValue(value),
+                              text: controller.accountObs.value,
+                            ),
                             const SizedBox(
                               height: 20,
                             ),
                             Obx(() {
-                              return CustomInputField(Assets.imagesPasswordIcon, "请输入密码",
+                              return CustomInputField(
+                                  Assets.imagesPasswordIcon, "请输入密码",
                                   text: controller.passwordObs.value,
                                   isObscureText: controller.psdObscure.value,
                                   rightWidget: GestureDetector(
                                     child: SizedBox(
                                       width: 60,
                                       child: Image.asset(
-                                        controller.psdObscure.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                                        controller.psdObscure.value
+                                            ? Assets.imagesPasswordOn
+                                            : Assets.imagesPasswordOff,
                                         width: 30,
                                         height: 30,
                                       ),
@@ -110,7 +119,8 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                       controller.showPassword();
                                     },
                                   ),
-                                  valueChanged: (value) => controller.inputPasswordValue(value));
+                                  valueChanged: (value) =>
+                                      controller.inputPasswordValue(value));
                             }),
                             const SizedBox(
                               height: 20,
@@ -118,19 +128,25 @@ class _KKLoginPageState extends State<KKLoginPage> {
                             Obx(() {
                               return Offstage(
                                 offstage: controller.isHiddenVerCode.value,
-                                child: CustomInputField(Assets.imagesVerCode, "请输入验证码", valueChanged: (value) {
+                                child: CustomInputField(
+                                    Assets.imagesVerCode, "请输入验证码",
+                                    valueChanged: (value) {
                                   controller.inputVerCodeValue(value);
                                 },
                                     rightWidget: GestureDetector(
                                       child: SizedBox(
                                           width: 80,
                                           child: Center(
-                                            child: controller.verCodeImageBytes.value.isEmpty
+                                            child: controller.verCodeImageBytes
+                                                    .value.isEmpty
                                                 ? Container()
                                                 : Image.memory(
-                                              Uint8List.fromList(controller.verCodeImageBytes.value),
-                                              width: 60,
-                                            ),
+                                                    Uint8List.fromList(
+                                                        controller
+                                                            .verCodeImageBytes
+                                                            .value),
+                                                    width: 60,
+                                                  ),
                                           )),
                                       onTap: () {
                                         controller.getVerCode();
@@ -150,14 +166,19 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                     child: Row(
                                       children: [
                                         Image.asset(
-                                          controller.savePassword.value ? Assets.imagesPrivacyBtnSelected : Assets.imagesPrivacyBtnNormal,
+                                          controller.savePassword.value
+                                              ? Assets.imagesPrivacyBtnSelected
+                                              : Assets.imagesPrivacyBtnNormal,
                                           width: 14,
                                           height: 14,
                                         ),
                                         const SizedBox(
                                           width: 5,
                                         ),
-                                        const Text("记住密码", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12.0))
+                                        const Text("记住密码",
+                                            style: TextStyle(
+                                                color: Color(0xFFB2B3BD),
+                                                fontSize: 12.0))
                                         // RichText(text: const TextSpan(
                                         //   children: [
                                         //     TextSpan(
@@ -192,7 +213,8 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                     },
                                     child: const Text(
                                       "忘记密码?",
-                                      style: TextStyle(color: Colors.white, fontSize: 12),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 12),
                                     ))
                               ],
                             ),
@@ -204,20 +226,35 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                 height: 44,
                                 decoration: BoxDecoration(
                                   gradient: controller.canLogin.value
-                                      ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)])
-                                      : const LinearGradient(colors: [Color(0xFF3D3891), Color(0xFF351D94)]),
+                                      ? const LinearGradient(colors: [
+                                          Color(0xFF3D35C6),
+                                          Color(0xFF6C4FE0)
+                                        ])
+                                      : const LinearGradient(colors: [
+                                          Color(0xFF3D3891),
+                                          Color(0xFF351D94)
+                                        ]),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: TextButton(
-                                  style: ButtonStyle(minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50))),
+                                  style: ButtonStyle(
+                                      minimumSize: MaterialStateProperty.all(
+                                          const Size(double.infinity, 50))),
                                   onPressed: () {
                                     controller.clickLoginBtn();
                                   },
-                                  child: Text("立即登录", style: TextStyle(fontSize: 14, color: controller.canLogin.value ? Colors.white : const Color(0xFFB2B3BD))),
+                                  child: Text("立即登录",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: controller.canLogin.value
+                                              ? Colors.white
+                                              : const Color(0xFFB2B3BD))),
                                 ),
                               );
                             }),
-                            const SizedBox(height: 25,),
+                            const SizedBox(
+                              height: 25,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -226,27 +263,43 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                   width: 50,
                                   color: Color.fromRGBO(255, 255, 255, 0.15),
                                 ),
-                                const SizedBox(width: 20,),
-                                const Text("快速登录", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14),),
-                                const SizedBox(width: 20,),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text(
+                                  "快速登录",
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 14),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
                                 Container(
                                   height: 1.0,
                                   width: 50,
-                                  color: const Color.fromRGBO(255, 255, 255, 0.15),
+                                  color:
+                                      const Color.fromRGBO(255, 255, 255, 0.15),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 5,),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 // TextButton(onPressed: (){}, child:Image.asset("assets/images/facebook.png", width: 40, height: 40,) ),
                                 // TextButton(onPressed: (){}, child:Image.asset("assets/images/whatapp.png", width: 40, height: 40,) ),
                                 // TextButton(onPressed: (){}, child:Image.asset("assets/images/gmail.png", width: 40, height: 40,) ),
-                                TextButton(onPressed: (){
-                                  Get.find<RegisterLogic>().loginWithTg();
-                                }, child:Image.asset("assets/images/telegram.png", width: 40, height: 40,) )
-
+                                TextButton(
+                                    onPressed: () {
+                                      Get.find<RegisterLogic>().loginWithTg();
+                                    },
+                                    child: Image.asset(
+                                      "assets/images/telegram.png",
+                                      width: 40,
+                                      height: 40,
+                                    ))
                               ],
                             ),
                             const SizedBox(
@@ -254,20 +307,24 @@ class _KKLoginPageState extends State<KKLoginPage> {
                             ),
                             RichText(
                                 text: TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                      text: "已有账号？",
-                                      style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
-                                    ),
-                                    TextSpan(
-                                        text: "去注册",
-                                        style: const TextStyle(color: Colors.white, fontSize: 14.0),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            RouteUtil.pushToView(Routes.registerPage, offLast: true);
-                                          }),
-                                  ],
-                                ))
+                              children: [
+                                const TextSpan(
+                                  text: "已有账号？",
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 14.0),
+                                ),
+                                TextSpan(
+                                    text: "去注册",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 14.0),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        RouteUtil.pushToView(
+                                            Routes.registerPage,
+                                            offLast: true);
+                                      }),
+                              ],
+                            ))
                           ],
                         ),
                       )
@@ -279,7 +336,11 @@ class _KKLoginPageState extends State<KKLoginPage> {
             Positioned(
               bottom: 30.w,
               right: 20.w,
-              child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
+              child: SizedBox(
+                      width: 46.w,
+                      height: 46.w,
+                      child: Image.asset(Assets.gamesSupport))
+                  .onTap(() {
                 // RouteUtil.pushToView(Routes.customer);
                 Get.toNamed(Routes.customer);
               }),

@@ -423,7 +423,7 @@ class MyPurse extends StatelessWidget {
         image: const DecorationImage(
             image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(width: 1.0, color: Colors.white),
+        // border: Border.all(width: 1.0, color: Colors.white),
       ),
       child: Column(
         children: [

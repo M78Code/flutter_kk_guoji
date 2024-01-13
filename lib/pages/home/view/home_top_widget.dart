@@ -39,7 +39,7 @@ class KKHomeTopWidget extends StatelessWidget {
               height: 33.w,
             ),
             Image.asset(
-              Assets.imagesHomeTopAlert,
+              Assets.homeAdIcon,
               height: 22,
             ),
             Row(

@@ -87,7 +87,7 @@ class _MySetingState extends State<MySeting> {
           Column(
             children: [
               Image.asset(
-                Assets.appLogo,
+                Assets.imagesIconAppLogo,
                 width: 70,
                 height: 70,
               ),

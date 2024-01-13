@@ -23,6 +23,7 @@ import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
 import 'package:kkguoji/pages/rebate/bindings/binding.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
+import 'package:kkguoji/pages/webView/provicy_webView.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
 import 'package:kkguoji/services/user_service.dart';
@@ -73,6 +74,8 @@ abstract class Routes {
   static const String tgWebView = "/tg_webview";
   static const String awardPage = "/award_page";
   static const String messagePage = "/messagePage";
+  static const String privacyPage = "/privacyPage";
+
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -124,6 +127,7 @@ abstract class Routes {
     GetPage(name: game, page: () => const KKGamesPage()),
     GetPage(name: tgWebView, page: () => TGWebview()),
     GetPage(name: awardPage, page: () => AwardPage(), binding: AwardBinding()),
+    GetPage(name: privacyPage, page: ()=> const KKPrivacyPage()),
     GetPage(name: messagePage, page: () => const MessagePage()),
   ];
 

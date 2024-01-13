@@ -208,7 +208,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                             text: "隐私政策",
                                             style: const TextStyle(color: Color(0xFF5D5FEF), fontSize: 14.0),
                                             recognizer: TapGestureRecognizer()..onTap = (){
-
+                                              Get.toNamed(Routes.privacyPage);
                                             }
                                         )
                                       ],
