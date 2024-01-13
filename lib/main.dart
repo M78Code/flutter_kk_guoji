@@ -6,6 +6,7 @@ import 'package:kkguoji/common/extension/ex_widget.dart';
 import 'package:kkguoji/pages/main/binding/bindings.dart';
 import 'package:kkguoji/pages/main/view/main_page.dart';
 import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/services/config_service.dart';
 
 import 'generated/assets.dart';
 import 'generated/l10n.dart';
@@ -16,7 +17,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   APPUtil();
   // SqliteUtil();
-
   await Global.init();
   runApp(const MyApp());
 }
@@ -60,24 +60,24 @@ class MyApp extends StatelessWidget {
             getPages: Routes.routePage,
             initialBinding: mainBinding(),
             home: const KKMainPage(),
-            // builder: (context, child) {
-            //   return Scaffold(
-            //     body: Stack(
-            //       children: [
-            //         child!,
-            //         Positioned(
-            //           bottom: 50.w,
-            //           right: 20.w,
-            //           child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
-            //             // RouteUtil.pushToView(Routes.customer);
-            //             Get.toNamed(Routes.customer);
-            //           }),
-            //         ),
-            //
-            //       ],
-            //     ),
-            //   );
-            // },
+            builder: (context, child) {
+              return Stack(
+                children: [
+                  child!,
+                  Obx(() => Visibility(
+                    visible: ConfigService.to.isSupportIconVisible.value,
+                    child: Positioned(
+                      bottom: 90.w,
+                      right: 20.w,
+                      child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
+                        // RouteUtil.pushToView(Routes.customer);
+                        Get.toNamed(Routes.customer);
+                      }),
+                    ),
+                  )),
+                ],
+              );
+            },
           );
         });
   }
