@@ -39,7 +39,7 @@ class KKHomeTopWidget extends StatelessWidget {
               height: 33.w,
             ),
             Image.asset(
-              Assets.imagesHomeTopAd,
+              Assets.imagesHomeTopAlert,
               height: 22,
             ),
             Row(
@@ -47,23 +47,6 @@ class KKHomeTopWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: isLogin
                   ? [
-                      // SizedBox(
-                      //     width: 33.w,
-                      //     height: 33.w,
-                      //     // decoration: BoxDecoration(
-                      //     //   color: const Color.fromRGBO(255, 255, 255, 0.2),
-                      //     //   borderRadius: BorderRadius.circular(4),
-                      //     // ),
-                      //     child: Center(
-                      //       child: TextButton(style: const ButtonStyle(
-                      //         padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                      //       ),
-                      //         onPressed: (){
-                      //         RouteUtil.pushToView(Routes.customer);
-                      //           // RouteUtil.pushToView(Routes.loginPage);
-                      //         },child: Image.asset("assets/images/home_top_msg.png", width: 33.w, height: 33.w,),),
-                      //     )
-                      // ),
                       const SizedBox(
                         width: 10,
                       ),
@@ -81,7 +64,7 @@ class KKHomeTopWidget extends StatelessWidget {
                                     MaterialStatePropertyAll(EdgeInsets.zero),
                               ),
                               onPressed: () {
-                                RouteUtil.pushToView(Routes.messageCenter);
+                                RouteUtil.pushToView(Routes.messagePage);
                               },
                               child: Image.asset(
                                   "assets/images/home_top_alert.png",
@@ -89,23 +72,6 @@ class KKHomeTopWidget extends StatelessWidget {
                                   height: 33.w),
                             ),
                           )),
-                      // const SizedBox(width: 10,),
-                      // SizedBox(
-                      //     width: 33.w,
-                      //     height: 33.w,
-                      //     // decoration: BoxDecoration(
-                      //     //   color: const Color.fromRGBO(255, 255, 255, 0.2),
-                      //     //   borderRadius: BorderRadius.circular(4),
-                      //     // ),
-                      //     child: Center(
-                      //       child: TextButton(style: const ButtonStyle(
-                      //         padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                      //       ),
-                      //         onPressed: (){
-                      //
-                      //         },child: Image.asset("assets/images/home_top_guoqi.png", width: 33.w, height: 33.w),),
-                      //     )
-                      // ),
                     ]
                   : [
                       Container(
