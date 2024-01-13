@@ -9,6 +9,15 @@ import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
+import 'package:kkguoji/common/extension/index.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
+import 'dart:ui' as ui;
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import '../../widget/show_toast.dart';
+
+GlobalKey _shareImageRepaintBoundaryKey = GlobalKey();
 
 class MinePage extends GetView<MineLogic> {
   const MinePage({super.key});
@@ -40,6 +49,7 @@ class MinePage extends GetView<MineLogic> {
                   ),
                 ),
                 // _buildMyWallet(),
+                if (controller.isSharePopViewVisible) ..._sharePopView()
               ],
             ),
           ),
@@ -214,7 +224,9 @@ class MinePage extends GetView<MineLogic> {
             height: 8.h,
             color: Colors.black,
           ),
-          const WelfareReward(),
+          WelfareReward(shareOnTap: () {
+            controller.setIsSharePopViewVisible(true);
+          }),
         ],
       ),
     );
@@ -338,6 +350,146 @@ class MinePage extends GetView<MineLogic> {
             ),
           );
         });
+  }
+
+  List<Widget> _sharePopView() {
+    var url = controller.promotionModel?.image?.first ??
+        'https://kk-hongkong-hall.s3.ap-east-1.amazonaws.com/temps/images/2024/01/05/zvRTsdfZd397sCQZ.jpg';
+    return [
+      Positioned.fill(
+        child: GestureDetector(
+          onTap: () {
+            controller.setIsSharePopViewVisible(false);
+          },
+          child: Container(
+            color: Colors.black54,
+          ),
+        ),
+      ),
+      Align(
+          alignment: Alignment.center,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 48.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(10.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18.w),
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF2E374C),
+                        Color(0xFF181E2F),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: RepaintBoundary(
+                    key: _shareImageRepaintBoundaryKey,
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          url, // Replace with your image URL
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
+                        Positioned(
+                          bottom: 34.w,
+                          right: 18.w,
+                          child: QrImageView(
+                            padding: EdgeInsets.all(8.w),
+                            backgroundColor: Colors.white,
+                            data:
+                            controller.promotionModel?.domain?.first?.url ??
+                                "",
+                            version: QrVersions.auto,
+                            size: 48.w,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 26.w),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 40.w,
+                      decoration: BoxDecoration(
+                        // color: const Color.fromRGBO(10, 11, 34, 0.12),
+                        gradient: const LinearGradient(
+                            colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]),
+                        borderRadius: BorderRadius.circular(22.w),
+                      ),
+                      child: TextButton(
+                          onPressed: () async {
+                            await captureAndSaveImage();
+                          },
+                          child: const Text(
+                            '保存海报',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )),
+                    ).expanded(),
+                    SizedBox(
+                      width: 18.w,
+                    ),
+                    Container(
+                      height: 40.w,
+                      decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFF3D35C6)),
+                            borderRadius: BorderRadius.circular(22.w),
+                          )),
+                      child: TextButton(
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: '123'));
+                            StringUtil.clipText(
+                                controller.promotionModel?.domain?.first?.url ??
+                                    "");
+                          },
+                          child: const Text(
+                            '复制链接',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )),
+                    ).expanded(),
+                  ],
+                ),
+              ],
+            ),
+          )),
+    ];
+  }
+
+  Future<void> captureAndSaveImage() async {
+    RenderRepaintBoundary boundary =
+    _shareImageRepaintBoundaryKey.currentContext!.findRenderObject()
+    as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+    saveImage(pngBytes);
+  }
+
+  Future<void> saveImage(Uint8List pngBytes) async {
+    final result = await ImageGallerySaver.saveImage(pngBytes);
+    if (result["isSuccess"] == true) {
+      ShowToast.showToast("保存成功");
+    } else {
+      ShowToast.showToast("保存失败，没有访问权限");
+    }
   }
 }
 
@@ -813,7 +965,8 @@ class MyAccountInfo extends StatelessWidget {
 
 //福利奖励、信息设置、分享
 class WelfareReward extends StatelessWidget {
-  const WelfareReward({super.key});
+  void Function() shareOnTap;
+  WelfareReward({super.key, required this.shareOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -893,7 +1046,9 @@ class WelfareReward extends StatelessWidget {
               width: 16,
               height: 16,
             ),
-            onTap: () {},
+            onTap: () {
+              shareOnTap.call();
+            },
           ),
         ],
       ),

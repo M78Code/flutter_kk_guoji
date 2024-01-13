@@ -46,10 +46,10 @@ class _NoticeWidgetState extends State<NoticeWidget> {
             ),
             const SizedBox(height: 10,),
             Image.network(widget.noticeInfo["image"], height: 150,),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 5,),
             Text(html2md.convert(widget.noticeInfo["content"]),
               style: const TextStyle(color: Colors.white, fontSize: 14),),
-            const SizedBox(height: 15,),
+            const SizedBox(height: 10,),
             GestureDetector(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

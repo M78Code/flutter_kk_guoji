@@ -9,7 +9,9 @@ class CustomInputField extends StatefulWidget {
   final TextInputType keybordType;
   Widget? rightWidget;
   final bool isObscureText;
+  bool isWillShowSuccess;
   String text;
+  bool? isOK;
   int maxLength;
   Color hintColor;
   final double radius;
@@ -21,7 +23,9 @@ class CustomInputField extends StatefulWidget {
     this.valueChanged,
     this.onTap,
     this.rightWidget,
+        this.isWillShowSuccess = false,
     this.text = "",
+        this.isOK,
     this.isObscureText = false,
     this.keybordType = TextInputType.text,
     this.maxLength = 24,
@@ -38,6 +42,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
   bool isOnTap = false;
   String inputText = "";
   TextEditingController? _textEditingController;
+  Color borderColor = const Color(0x1AFFFFFF);
 
   @override
   void initState() {
@@ -45,14 +50,19 @@ class _CustomInputFieldState extends State<CustomInputField> {
     super.initState();
     inputText = widget.text;
     _textEditingController = TextEditingController.fromValue(TextEditingValue(text: inputText));
-    focusNode.addListener(() {
-      if ((focusNode.hasFocus)) {
-        isOnTap = true;
-      } else {
-        isOnTap = false;
-      }
-      setState(() {});
-    });
+      focusNode.addListener(() {
+        if ((focusNode.hasFocus)) {
+          borderColor = const Color(0xFF5D5FEF);
+        } else {
+          borderColor = const Color(0x1AFFFFFF);
+        }
+        if(widget.isOK != null) {
+          borderColor = widget.isOK! ? Colors.green:Colors.red;
+          // setState(() {});
+        }
+        setState(() {});
+      });
+
   }
 
   @override
@@ -68,6 +78,10 @@ class _CustomInputFieldState extends State<CustomInputField> {
           TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.length));
     }
     _textEditingController!.selection = cursorPos;
+    if(widget.isOK != null) {
+      borderColor = widget.isOK! ? Colors.green:Colors.red;
+      // setState(() {});
+    }
   }
 
   @override
@@ -77,7 +91,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
         color: const Color(0x3D6C7A8F),
         borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
         border: Border.all(
-            color: isOnTap ? const Color(0xFF5D5FEF) : const Color(0x1AFFFFFF), width: 1.0),
+            color: borderColor, width: 1.0,
+        )
       ),
       height: 42,
       child: Row(
@@ -124,7 +139,12 @@ class _CustomInputFieldState extends State<CustomInputField> {
           )),
           Container(
             child: widget.rightWidget != null ? widget.rightWidget! : null,
-          )
+          ),
+          // widget.isWillShowSuccess ? Container(
+          //   width: 30, height: 30,
+          //   child: widget.isOK ? Image.asset(""):,
+          // ):null,
+
         ],
       ),
     );

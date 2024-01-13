@@ -64,6 +64,7 @@ class _MySetingState extends State<MySeting> {
 
   //获取版本号
   String version = APPUtil().getAppVersion()!;
+  String buildNumber = APPUtil().getBuildNumber()!;
 
   //清除缓存
   void clearCache() async {
@@ -93,7 +94,7 @@ class _MySetingState extends State<MySeting> {
               ),
               const SizedBox(height: 20), // logo和版本号的间距
               Text(
-                '版本号 $version',
+                '版本号 $version($buildNumber)',
                 style: const TextStyle(
                     fontSize: 14, color: Color.fromRGBO(104, 112, 131, 1)),
               ), // 显示版本号
