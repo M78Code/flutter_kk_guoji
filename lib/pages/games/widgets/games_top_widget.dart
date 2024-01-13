@@ -38,7 +38,7 @@ class KKGamesTopWidget extends StatelessWidget {
               height: 33.w,
             ),
             Image.asset(
-              Assets.homeAdIcon,
+              Assets.imagesHomeTopAd,
               height: 22.w,
             ),
             if (this.isLogin == false) _buildUnLogingView(),

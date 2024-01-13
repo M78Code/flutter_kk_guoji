@@ -63,7 +63,6 @@ class Assets {
   static const String gamesSport4 = 'assets/images/games/sport_4.png';
   static const String gamesSupport = 'assets/images/games/support.png';
   static const String homeBallGreen = 'assets/images/home/ad_icon.png';
-  static const String homeAdIcon = 'assets/images/home/ball_green.png';
   static const String homeBallPurple = 'assets/images/home/ball_purple.png';
   static const String homeBallRed = 'assets/images/home/ball_red.png';
   static const String homeHomeBjlIcon = 'assets/images/home/home_bjl_icon.png';
