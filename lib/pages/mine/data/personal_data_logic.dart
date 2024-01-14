@@ -6,13 +6,15 @@ class PersonalDataLogic extends GetxController {
   final dateType = 0.obs;
   final data = {}.obs;
   final gameList = [].obs;
+  final dateList = ["today", "yesterday", "month", "last_month"];
+
 
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getPersonalData();
+    getPersonalData(dateList[dateType.value]);
   }
 
   @override
@@ -20,10 +22,14 @@ class PersonalDataLogic extends GetxController {
     // TODO: implement onReady
     super.onReady();
   }
+
+  changeDateType(int index) {
+    dateType.value = index;
+    getPersonalData(dateList[index]);
+  }
   
-  void getPersonalData() async{
-    var result = await HttpRequest.request(HttpConfig.getGameDataStatistics, method:"post", params: {"time_range":"yesterday"});
-    print(result);
+  void getPersonalData(String dateStr) async{
+    var result = await HttpRequest.request(HttpConfig.getGameDataStatistics, method:"post", params: {"time_range":dateStr});
     if(result["code"] == 200) {
       data.value = result["data"];
       gameList.value = result["data"]["game_details"];

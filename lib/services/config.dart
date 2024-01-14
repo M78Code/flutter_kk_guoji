@@ -64,4 +64,7 @@ class HttpConfig {
 //第三方登录
   static const register_third = "/api/public/register_third";
   static const getNoticeSubType = "/api/public/subType";
+
+  //获取洗码记录
+  static const getRecordDetail = "/api/userRebate/getRecordDetail";
 }

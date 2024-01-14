@@ -21,7 +21,9 @@ import 'package:kkguoji/pages/mine/setting/setting.dart';
 import 'package:kkguoji/pages/promotion/binding/promotion_bindings.dart';
 import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
 import 'package:kkguoji/pages/rebate/bindings/binding.dart';
+import 'package:kkguoji/pages/rebate/bindings/detail_binding.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
+import 'package:kkguoji/pages/rebate/view/rebate_records_detail_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
 import 'package:kkguoji/pages/webView/provicy_webView.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
@@ -75,6 +77,7 @@ abstract class Routes {
   static const String awardPage = "/award_page";
   static const String messagePage = "/messagePage";
   static const String privacyPage = "/privacyPage";
+  static const String recordDetail = "/record_detail";
 
 
   static final List<GetPage> routePage = [
@@ -129,6 +132,7 @@ abstract class Routes {
     GetPage(name: awardPage, page: () => AwardPage(), binding: AwardBinding()),
     GetPage(name: privacyPage, page: ()=> const KKPrivacyPage()),
     GetPage(name: messagePage, page: () => const MessagePage()),
+    GetPage(name: recordDetail, page: ()=> KKRecordDetailPage(), binding: DetailBinding()),
   ];
 
   static Widget getPage(String pageName) {

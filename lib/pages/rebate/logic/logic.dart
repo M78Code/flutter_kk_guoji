@@ -26,13 +26,20 @@ class KKRebateLogic extends GetxController {
   final recordRateList = [].obs;
   final gameIndex = 0.obs;
 
+  final selectedRecordInfo = {}.obs;
+
   changeRebateType(int index) {
     rebateType.value = index;
     if (index == 1) {
-      getRecord(dateList.first);
+      changeDateType(0);
     } else if (index == 2) {
       getRatio(0);
     }
+  }
+
+  changeDateType(int index) {
+    dateType.value = index;
+    getRecord(dateList[index]);
   }
 
   @override
