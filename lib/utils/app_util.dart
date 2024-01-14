@@ -28,4 +28,8 @@ class APPUtil {
   String? getAppVersion() {
     return _infoPlugin?.version;
   }
+
+  String? getBuildNumber() {
+    return _infoPlugin?.buildNumber;
+  }
 }
