@@ -82,11 +82,11 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(child: Container(
-                                  height:35,
+                                  height:36,
                                   decoration: BoxDecoration(
                                     // color: const Color.fromRGBO(10, 11, 34, 0.12),
                                     gradient: const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) ,
-                                    borderRadius: BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(18),
                                   ),
                                   child: TextButton(onPressed: (){
                                   }, child: const Text("用户名注册", style: TextStyle(fontSize: 14, color: Colors.white )),),
@@ -103,18 +103,22 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                             Obx(() {
                               return CustomInputField("assets/images/account_icon.png", controller.isAccount.value?"请输入用户名":"请输入电子邮箱", valueChanged: (value){
                                 controller.inputAccountValue(value);
-                              },text: controller.accountText, isOK: controller.accountOK.value,);
+                              },text: controller.accountText, 
+                                isOK: controller.accountOK.value,
+                                radius: 21, 
+                                showStateIcon: controller.accountOK.value == null? false:true,
+                              inputCompletionCallBack: (value, isSubmit) => controller.inputAccountValue(value),);
 
                             }),
-                            const SizedBox(height: 5,),
+                            const SizedBox(height: 8,),
                             Obx(() {
                               return Offstage(
                                 offstage: controller.accountErrStr.value.isEmpty,
-                                child: Text(controller.accountErrStr.value, style:const TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w600),),
+                                child: _buildErrHit(controller.accountErrStr.value)
 
                               );
                             }),
-                            const SizedBox(height: 5,),
+                            const SizedBox(height: 8,),
                             Obx(() {
                               return CustomInputField("assets/images/password_icon.png", "请输入8-12位字母+数字+字符密码",
                                 isObscureText: controller.psdObscure.value, rightWidget: GestureDetector(
@@ -125,65 +129,138 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                   },
                                 ), valueChanged: (value){
                                   controller.inputPasswordValue(value);
-                                },);
+                                }, text: controller.passwordText, isOK: controller.psdOK.value,
+                                showStateIcon: controller.psdOK.value == null? false:true,
+                                inputCompletionCallBack: (value, isSubmit) => controller.passwordLastInput(value),
+                              radius: 21,);
                             }),
-                            const SizedBox(height: 20,),
+                            const SizedBox(height: 8,),
+                            Obx(() {
+                              return Offstage(
+                                  offstage: controller.passwordErrStr.value.isEmpty,
+                                  child: Obx((){
+                                    return _buildErrHit(controller.passwordErrStr.value);
+                                  })
+
+                              );
+                            }),
+                            Obx(() {
+                              return Offstage(
+                                  offstage: controller.isHiddenPsdHit.value,
+                                  child: Row(
+                                    children: [
+                                      Obx((){
+                                        return _buildHit(controller.psdLength.value, "长度8-12位");
+                                      }),
+                                      const SizedBox(width: 8,),
+                                      Obx(() {
+                                        return _buildHit(controller.psdLetter.value, "字母");
+                                      }),
+                                      const SizedBox(width: 8,),
+                                      Obx((){
+                                        return _buildHit(controller.psdNum.value, "数字");
+                                      }),
+                                      const SizedBox(width: 8,),
+
+                                      Obx((){
+                                        return _buildHit(controller.psdSys.value, "特殊符号");
+                                      }),
+                                    ],
+                                  )
+
+                              );
+                            }),
+                            const SizedBox(height: 8,),
                             Obx(() {
                               return CustomInputField(
                                 "assets/images/password_icon.png",
                                 "请再次输入8-12位字母+数字+字符密码",
                                 isObscureText: controller.verPsdObscure.value,
+                                radius: 21,
                                 rightWidget: GestureDetector(
                                   child: SizedBox(width: 40,
                                     child: Image.asset(controller.verPsdObscure.value ? "assets/images/password_off.png":"assets/images/password_on.png", width: 25, height: 25,),),
                                   onTap: () {
                                     controller.showVerPassword();
                                   },
-
-
                                 ), valueChanged: (value){
                                 controller.inputVerPasswordValue(value);
-                              },);
+                              },text: controller.verPsdText,
+                                isOK: controller.verPsdOK.value,
+                                inputCompletionCallBack: (value, isSubmit) => controller.verPasswordLastInput(value),
+                                showStateIcon: controller.verPsdOK.value == null? false:true,);
                             }),
-                            const SizedBox(height: 20,),
+                            const SizedBox(height: 8,),
                             Obx(() {
                               return Offstage(
-                                offstage: controller.isShowInvite.value,
-                                child:  CustomInputField(
-                                  "assets/images/invite_icon.png",
-                                  "请输入邀请码（选填）",
-                                  valueChanged: (value){
-                                    controller.inputInviteCodeValue(value);
-                                  },),
+                                  offstage: controller.verPsdErrStr.value.isEmpty,
+                                  child: Obx((){
+                                    return _buildErrHit(controller.verPsdErrStr.value);
+                                  })
 
                               );
                             }),
-                            const SizedBox(height: 20,),
+
+                            Obx(() {
+                              return Offstage(
+                                offstage: controller.isShowInvite.value,
+                                child:  Column(
+                                  children: [
+                                    const SizedBox(height: 8,),
+                                    CustomInputField(
+                                      "assets/images/invite_icon.png",
+                                      "请输入邀请码（选填）",
+                                      radius: 21,
+                                      valueChanged: (value){
+                                        controller.inputInviteCodeValue(value);
+                                      },),
+                                  ],
+                                )
+
+                              );
+                            }),
+                            const SizedBox(height: 8,),
                             Obx(() {
                               return Offstage(
                                 offstage: controller.isHiddenVerCode.value,
-                                child: CustomInputField(
-                                    "assets/images/ver_code.png",
-                                    "请输入验证码",
-                                    valueChanged: (value){
-                                      controller.inputVerCodeValue(value);
-                                    },
-                                    rightWidget: controller.isAccount.value ? GestureDetector(child: SizedBox(
-                                        width: 80,
-                                        child: Center(
-                                          child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
-                                        )
-                                    ), onTap: () {controller.getVerCode();},
-                                    ):GestureDetector(
-                                      child: const SizedBox(
-                                          width: 110,
+                                child: Obx((){
+                                  return CustomInputField(
+                                      "assets/images/ver_code.png",
+                                      "请输入验证码",
+                                      radius: 21,
+                                      valueChanged: (value){
+                                        controller.inputVerCodeValue(value);
+                                      },
+                                      inputCompletionCallBack: (value, isSubmit) => controller.inputVerCodeValue(value),
+                                      text: controller.verCodeText,
+                                      isOK: controller.verCodeOK.value,
+                                      rightWidget: controller.isAccount.value ? GestureDetector(child: SizedBox(
+                                          width: 80,
                                           child: Center(
-                                            child: Text("发送验证码", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                            child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
                                           )
-                                      ), onTap: () {
-                                      controller.sendCodeToEmail();
-                                    },
-                                    )),
+                                      ), onTap: () {controller.getVerCode();},
+                                      ):GestureDetector(
+                                        child: const SizedBox(
+                                            width: 110,
+                                            child: Center(
+                                              child: Text("发送验证码", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                            )
+                                        ), onTap: () {
+                                        controller.sendCodeToEmail();
+                                      },
+                                      ));
+                                }),
+                              );
+                            }),
+                            const SizedBox(height: 8,),
+                            Obx(() {
+                              return Offstage(
+                                  offstage: controller.verCodeErrStr.value.isEmpty,
+                                  child: Obx((){
+                                    return _buildErrHit(controller.verCodeErrStr.value);
+                                  })
+
                               );
                             }),
                             const SizedBox(height: 25,),
@@ -324,5 +401,38 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
       )
     );
   }
+
+  Widget _buildHit(bool isOK, String title) {
+
+    return Row(
+      children: [
+        Container(width: 5, height: 5, decoration: BoxDecoration(
+          color: isOK? const Color(0xFF20F752):const Color(0xFF6C7187),
+          borderRadius: BorderRadius.circular(2.5),
+        ),),
+        const SizedBox(width: 3,),
+        Text(title, style: TextStyle(color:isOK? const Color(0xFF20F752):const Color(0xFF6C7187), fontSize: 14, fontWeight: FontWeight.w600 ),),
+        const SizedBox(width: 5,),
+        Image.asset(isOK ? Assets.accountHitOk:Assets.accountHitNormal, width: 16, height: 16,)
+      ],
+    );
+  }
+
+  Widget _buildErrHit(String title) {
+
+    return Row(
+      children: [
+        Container(width: 5, height: 5, decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(2.5),
+        ),),
+        const SizedBox(width: 3,),
+        Text(title, style: const TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w600 ),),
+        const SizedBox(width: 5,),
+        Image.asset(Assets.accountHitErr, width: 16, height: 16,)
+      ],
+    );
+  }
+
 }
 

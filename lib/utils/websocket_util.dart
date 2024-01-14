@@ -68,6 +68,7 @@ class WebSocketUtil {
       Get.find<UserService>().logout();
       Get.defaultDialog(
           titlePadding: EdgeInsets.zero,
+          title: "",
           backgroundColor: const Color(0xFF171A26),
           content: Container(
             alignment: Alignment.center,
