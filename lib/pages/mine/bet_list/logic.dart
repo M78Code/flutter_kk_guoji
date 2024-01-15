@@ -13,11 +13,11 @@ import 'package:intl/intl.dart';
 class BetListController extends GetxController {
   final BetListState state = BetListState();
 
-  List<GameTypeModel> gameTypeModels = [GameTypeModel(id: 0,name: '全部类型')];
-  List<GameModel> gameModels = [GameModel(id: 0,name: '全部游戏')];
+  List<GameTypeModel> gameTypeModels = [GameTypeModel(id: null,name: '全部类型')];
+  List<GameModel> gameModels = [GameModel(id: null,name: '全部游戏')];
   List<BetModel> betModels = [];
-  GameTypeModel selectedGameTypeModel = GameTypeModel(id: 0,name: '全部类型');
-  GameModel selectedGameModel = GameModel(id: 0,name: '全部游戏');
+  GameTypeModel selectedGameTypeModel = GameTypeModel(id: null,name: '全部类型');
+  GameModel selectedGameModel = GameModel(id: null,name: '全部游戏');
 
   final List<List<String>> dateTypes = [["today","今天"], ["yesterday","昨天" ], ["month","本月"], ["last_month","上月"],];
   String? dateType = "today";
@@ -65,7 +65,7 @@ class BetListController extends GetxController {
   onTapSwitchGameTyp(int index) async {
     if (this.selectedGameTypeModel.id == gameTypeModels[index].id) { return; }
     this.selectedGameTypeModel = gameTypeModels[index];
-    this.selectedGameModel = GameModel(id: 0,name: '全部游戏');
+    this.selectedGameModel = GameModel(id: null,name: '全部游戏');
     update(['gameTypeMenu']);
     update(['menu']);
     fetchGameList();
@@ -75,6 +75,7 @@ class BetListController extends GetxController {
   onTapSwitchGame(GameModel gameModel) async {
     if (this.selectedGameModel.id == gameModel.id) { return; }
     this.selectedGameModel = gameModel;
+
     update(['gameMenu']);
     update(['menu']);
     await onRefresh();
@@ -95,13 +96,13 @@ class BetListController extends GetxController {
   fetchGameTypeList() async {
     List<GameTypeModel>? gameTypeModels = await GamesApi.getGameTypeList();
     this.gameTypeModels = (gameTypeModels ?? []);
-    this.gameTypeModels.insert(0, GameTypeModel(id: 0,name: '全部类型'));
+    this.gameTypeModels.insert(0, GameTypeModel(id: null,name: '全部类型'));
   }
 
   fetchGameList() async {
     GameListModel? gameModels = await GamesApi.getGameList(selectedGameTypeModel.id);
     this.gameModels = gameModels?.list ?? [];
-    this.gameModels.insert(0, GameModel(id: 0,name: '全部游戏'));
+    this.gameModels.insert(0, GameModel(id: null,name: '全部游戏'));
   }
   Future<void> fetchBetList(isRefresh) async {
     if (isRefresh) {
@@ -120,7 +121,7 @@ class BetListController extends GetxController {
       dateRange = dateType ?? "";
     }
 
-    BetListModel? betListModel = await AccountApi.getBetList(dateRange, page, selectedGameTypeModel.id, selectedGameModel.id);
+    BetListModel? betListModel = await AccountApi.getBetList(dateRange, page, selectedGameModel.type, selectedGameModel.id);
     if (betListModel != null) {
       if (isRefresh) {
         this.betModels = betListModel.list ?? [];
