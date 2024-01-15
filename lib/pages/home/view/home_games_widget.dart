@@ -66,6 +66,7 @@ class KKHomeGamesWidget extends StatelessWidget {
           child: Obx(() {
             return GridView.builder(
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.recommendGameListNew.length,
                 padding: EdgeInsets.zero,
@@ -119,7 +120,7 @@ class KKHomeGamesWidget extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      controller.openTickGame();
+                      controller.openTickGame(controller.recommendGameListNew[index].id);
                     },
                   );
                 });
