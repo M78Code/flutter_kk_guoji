@@ -276,14 +276,14 @@ class _KKLoginPageState extends State<KKLoginPage> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 30.w,
-              right: 20.w,
-              child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
-                // RouteUtil.pushToView(Routes.customer);
-                Get.toNamed(Routes.customer);
-              }),
-            ),
+            // Positioned(
+            //   bottom: 30.w,
+            //   right: 20.w,
+            //   child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
+            //     // RouteUtil.pushToView(Routes.customer);
+            //     Get.toNamed(Routes.customer);
+            //   }),
+            // ),
           ],
         ),
       ),

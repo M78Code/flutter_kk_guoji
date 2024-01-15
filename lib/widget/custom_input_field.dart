@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kkguoji/generated/assets.dart';
+
+typedef CustomInputCompletionCallBack = void Function(
+    String value, bool isSubmitted);
 
 class CustomInputField extends StatefulWidget {
   final String? imageStr;
@@ -9,7 +13,8 @@ class CustomInputField extends StatefulWidget {
   final TextInputType keybordType;
   Widget? rightWidget;
   final bool isObscureText;
-  bool isWillShowSuccess;
+  CustomInputCompletionCallBack? inputCompletionCallBack;
+  bool showStateIcon;
   String text;
   bool? isOK;
   int maxLength;
@@ -23,13 +28,14 @@ class CustomInputField extends StatefulWidget {
     this.valueChanged,
     this.onTap,
     this.rightWidget,
-        this.isWillShowSuccess = false,
+        this.showStateIcon = false,
     this.text = "",
         this.isOK,
     this.isObscureText = false,
     this.keybordType = TextInputType.text,
     this.maxLength = 24,
     this.radius = 6,
+        this.inputCompletionCallBack,
     super.key,
   });
 
@@ -50,11 +56,15 @@ class _CustomInputFieldState extends State<CustomInputField> {
     super.initState();
     inputText = widget.text;
     _textEditingController = TextEditingController.fromValue(TextEditingValue(text: inputText));
+
       focusNode.addListener(() {
         if ((focusNode.hasFocus)) {
           borderColor = const Color(0xFF5D5FEF);
         } else {
           borderColor = const Color(0x1AFFFFFF);
+          if(widget.inputCompletionCallBack != null) {
+            widget.inputCompletionCallBack!(_textEditingController!.text, true);
+          }
         }
         if(widget.isOK != null) {
           borderColor = widget.isOK! ? Colors.green:Colors.red;
@@ -129,6 +139,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
             ),
             cursorColor: Colors.white,
             focusNode: focusNode,
+            onEditingComplete: (){
+
+            },
             onChanged: (value) {
               if (widget.valueChanged != null) {
                 inputText = value;
@@ -140,10 +153,10 @@ class _CustomInputFieldState extends State<CustomInputField> {
           Container(
             child: widget.rightWidget != null ? widget.rightWidget! : null,
           ),
-          // widget.isWillShowSuccess ? Container(
-          //   width: 30, height: 30,
-          //   child: widget.isOK ? Image.asset(""):,
-          // ):null,
+          widget.showStateIcon?Container(
+            padding: const EdgeInsets.only(right: 10),
+            child: Image.asset(widget.isOK! ? Assets.accountFaildOk : Assets.accountFaildErr, width: 24, height: 24,),
+          ):Container()
 
         ],
       ),

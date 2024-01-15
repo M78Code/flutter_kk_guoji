@@ -34,7 +34,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(height: 30,width: 30,),
-                const Text("系统通知", style: TextStyle(color: Colors.white, fontSize: 16),),
+                const Text("系统通知", style: TextStyle(color: Colors.white, fontSize: 16,decoration: TextDecoration.none,),),
                 SizedBox(
                   width: 35,
                   height: 35,
@@ -48,7 +48,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
             Image.network(widget.noticeInfo["image"], height: 150,),
             const SizedBox(height: 5,),
             Text(html2md.convert(widget.noticeInfo["content"]),
-              style: const TextStyle(color: Colors.white, fontSize: 14),),
+              style: const TextStyle(color: Colors.white, fontSize: 14,decoration: TextDecoration.none,),),
             const SizedBox(height: 10,),
             GestureDetector(
               child: Row(
@@ -56,7 +56,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                 children: [
                   Image.asset(isSelected?Assets.homeHomeNoticeSelected: Assets.homeHomeNoticeNormal, width: 22, height: 22,),
                   SizedBox(width: 5,),
-                  const Text("今日不再弹出", style: TextStyle(color: Colors.blueGrey, fontSize: 14),)
+                  const Text("今日不再弹出", style: TextStyle(color: Colors.blueGrey, fontSize: 14,decoration: TextDecoration.none,),)
 
                 ],
               ),

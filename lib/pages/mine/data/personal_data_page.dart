@@ -76,86 +76,127 @@ class KKPersonalDataPage extends StatelessWidget {
                     }).toList()
                 )),
               ),
+              const SizedBox(height: 15,),
+              Obx((){
+                return controller.gameList.isEmpty?Center(
+                  child: Image.asset("assets/images/rebate/nodata.png", width: 200, height: 223,),
+                ):
+                Column(
+                  children: [
+                    Container(
+                      color: const Color(0x1F6A6CB2),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 26,
+                      child:  const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              width:65,
+                              child: Center(
+                                child: Text("游戏类型", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                              )
+                          ),
+                          SizedBox(
+                              width:65,
+                              child: Center(
+                                child: Text("局数", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                              )
+                          ),
+                          SizedBox(
+                              width:54,
+                              child: Center(
+                                child: Text("盈利金额", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                              )
+                          ),
+                          // SizedBox(
+                          //     width:65,
+                          //     child: Center(
+                          //       child: Text("yi", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
+                          //     )
+                          // ),
 
-              controller.gameList.isEmpty?Center(
-                child: Image.asset("assets/images/rebate/nodata.png", width: 200, height: 223,),
-              ):
-                  Column(
-                    children: [
-                      Container(
-                        color: const Color(0x1F6A6CB2),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 26,
-                        child:  const Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                                width:65,
-                                child: Center(
-                                  child: Text("游戏类型", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                                )
-                            ),
-                            SizedBox(
-                                width:65,
-                                child: Center(
-                                  child: Text("局数", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                                )
-                            ),
-                            SizedBox(
-                                width:54,
-                                child: Center(
-                                  child: Text("盈利金额", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                                )
-                            ),
-                            // SizedBox(
-                            //     width:65,
-                            //     child: Center(
-                            //       child: Text("yi", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),),
-                            //     )
-                            // ),
 
-
-                          ],
-                        ),
+                        ],
                       ),
-                      const SizedBox(height: 10,),
-                      MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return  Container(
-                            height: 37,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child:  Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const SizedBox(width: 65, child: Center(
-                                    child: Text("视讯", style: TextStyle(color: Colors.white, fontSize: 14),),
-                                  ),),
-                                  const SizedBox(width: 65, child: Center(
-                                    child: Text("100", style: TextStyle(color: Colors.white, fontSize: 14),),
-                                  ),),
-                                  const SizedBox(width: 65, child: Center(
-                                    child: Text("1860", style: TextStyle(color: Colors.white, fontSize: 14),),
-                                  ),),
-                                  Expanded(child: KKProgressbar(value: 0.65, width: 111, height: 7, outerDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(3.5),
-                                      color: const Color(0xFF1B1F39)
-                                  ), innerDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(3.5),
-                                      gradient: const LinearGradient(colors: [Color(0xFF0B3EC3), Color(0xFF3CB9FF)])
-                                  ),))
-                                ]
-                              // SizedBox(width: 70, child: Center(
-                              //   child: Text(model.totalMoney??"", style: TextStyle(color: Colors.white, fontSize: 14),),
-                              // ),),                    ],
+                    ),
+                    const SizedBox(height: 10,),
+                    MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        Map data = controller.gameList[index];
+                        return  Container(
+                          height: 37,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child:  Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(width: 65, child: Center(
+                                  child: Text(data["game_type_name"], style: const TextStyle(color: Colors.white, fontSize: 14),),
+                                ),),
+                                SizedBox(width: 65, child: Center(
+                                  child: Text(data["count"].toString(), style:const TextStyle(color: Colors.white, fontSize: 14),),
+                                ),),
+                                SizedBox(width: 65, child: Center(
+                                  child: Text(data["total_bet"], style: const TextStyle(color: Colors.white, fontSize: 14),),
+                                ),),
+                                Expanded(child: KKProgressbar(value: double.parse(data["total_bet"])/1000.0, width: 111, height: 7, outerDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3.5),
+                                    color: const Color(0xFF1B1F39)
+                                ), innerDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3.5),
+                                    gradient: const LinearGradient(colors: [Color(0xFF0B3EC3), Color(0xFF3CB9FF)])
+                                ),))
+                              ]
+                            // SizedBox(width: 70, child: Center(
+                            //   child: Text(model.totalMoney??"", style: TextStyle(color: Colors.white, fontSize: 14),),
+                            // ),),                    ],
 
-                            ),
-                          );
-                        }, itemCount: 5,))
-                    ],
-                  )
+                          ),
+                        );
+                      }, itemCount: controller.gameList.length,))
+                    // Obx((){
+                    //   return MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
+                    //     shrinkWrap: true,
+                    //     itemBuilder: (context, index) {
+                    //       Map data = controller.gameList[index];
+                    //       return  Container(
+                    //         height: 37,
+                    //         padding: const EdgeInsets.symmetric(horizontal: 10),
+                    //         child:  Row(
+                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //             crossAxisAlignment: CrossAxisAlignment.center,
+                    //             children: [
+                    //               SizedBox(width: 65, child: Center(
+                    //                 child: Text(data["game_type_name"], style: const TextStyle(color: Colors.white, fontSize: 14),),
+                    //               ),),
+                    //               SizedBox(width: 65, child: Center(
+                    //                 child: Text(data["count"].toString(), style:const TextStyle(color: Colors.white, fontSize: 14),),
+                    //               ),),
+                    //               SizedBox(width: 65, child: Center(
+                    //                 child: Text(data["total_bet"], style: const TextStyle(color: Colors.white, fontSize: 14),),
+                    //               ),),
+                    //               Expanded(child: KKProgressbar(value: double.parse(data["total_bet"])/1000.0, width: 111, height: 7, outerDecoration: BoxDecoration(
+                    //                   borderRadius: BorderRadius.circular(3.5),
+                    //                   color: const Color(0xFF1B1F39)
+                    //               ), innerDecoration: BoxDecoration(
+                    //                   borderRadius: BorderRadius.circular(3.5),
+                    //                   gradient: const LinearGradient(colors: [Color(0xFF0B3EC3), Color(0xFF3CB9FF)])
+                    //               ),))
+                    //             ]
+                    //           // SizedBox(width: 70, child: Center(
+                    //           //   child: Text(model.totalMoney??"", style: TextStyle(color: Colors.white, fontSize: 14),),
+                    //           // ),),                    ],
+                    //
+                    //         ),
+                    //       );
+                    //     }, itemCount: controller.gameList.length,));
+                    //
+                    // })
+                  ],
+                );
+              })
 
             ],
           ),
@@ -173,7 +214,7 @@ class KKPersonalDataPage extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: (){
-          controller.dateType.value = index;
+          controller.changeDateType(index);
         },
         style: const ButtonStyle(
             padding: MaterialStatePropertyAll(EdgeInsets.zero)
