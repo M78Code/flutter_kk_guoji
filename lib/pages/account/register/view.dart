@@ -37,7 +37,8 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
         children: [
           GestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -73,7 +74,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset(Assets.myaccountAccountNewLogo, width: 163, height: 45,),
                             const SizedBox(height: 30,),
@@ -123,7 +124,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                               return CustomInputField("assets/images/password_icon.png", "请输入8-12位字母+数字+字符密码",
                                 isObscureText: controller.psdObscure.value, rightWidget: GestureDetector(
                                   child: SizedBox(width: 40,
-                                    child: Image.asset(controller.psdObscure.value ? "assets/images/password_off.png":"assets/images/password_on.png", width: 25, height: 25,),),
+                                    child: Image.asset(controller.psdObscure.value ? "assets/images/password_on.png":"assets/images/password_off.png", width: 25, height: 25,),),
                                   onTap: () {
                                     controller.showPassword();
                                   },
@@ -179,7 +180,7 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                 radius: 21,
                                 rightWidget: GestureDetector(
                                   child: SizedBox(width: 40,
-                                    child: Image.asset(controller.verPsdObscure.value ? "assets/images/password_off.png":"assets/images/password_on.png", width: 25, height: 25,),),
+                                    child: Image.asset(controller.verPsdObscure.value ? "assets/images/password_on.png":"assets/images/password_off.png", width: 25, height: 25,),),
                                   onTap: () {
                                     controller.showVerPassword();
                                   },
@@ -235,9 +236,12 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                       text: controller.verCodeText,
                                       isOK: controller.verCodeOK.value,
                                       rightWidget: controller.isAccount.value ? GestureDetector(child: SizedBox(
-                                          width: 80,
+                                          width: 100,
+                                          height: 40,
                                           child: Center(
-                                            child:controller.verCodeImageBytes.value.isEmpty? Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 60,),
+                                            child:controller.verCodeImageBytes.value.isEmpty?
+                                            Container(): Image.memory(Uint8List.fromList(controller.verCodeImageBytes.value), width: 80,
+                                              height: 25, fit: BoxFit.cover,),
                                           )
                                       ), onTap: () {controller.getVerCode();},
                                       ):GestureDetector(

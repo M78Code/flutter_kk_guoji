@@ -198,15 +198,20 @@ class RegisterLogic extends GetxController {
   }
   passwordLastInput(String password) {
     passwordText = password;
-    isHiddenPsdHit.value = true;
-    passwordErrStr.value = "密码不能为空";
-    psdOK.value = false;
+    if(passwordText.isEmpty) {
+      isHiddenPsdHit.value = true;
+      passwordErrStr.value = "密码不能为空";
+      psdOK.value = false;
+    }
   }
 
   verPasswordLastInput(String password) {
     verPsdText = password;
-    verPsdErrStr.value = "密码不能为空";
-    verPsdOK.value = false;
+    if(passwordText.isEmpty) {
+      verPsdErrStr.value = "密码不能为空";
+      verPsdOK.value = false;
+    }
+
   }
   inputVerPasswordValue(String verPsd) {
     verPsdText = verPsd;

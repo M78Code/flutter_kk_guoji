@@ -123,6 +123,10 @@ class KKRebateLogic extends GetxController {
   }
 
   void receiveRebate() async{
+    if(double.parse(totalMoney.value) <= 0.0) {
+      ShowToast.showToast("当前无可领取洗码金额");
+      return;
+    }
     var result = await HttpRequest.request(HttpConfig.receiveRebate, method: "post");
     if (result["code"] == 200) {
       ShowToast.showToast("领取成功");

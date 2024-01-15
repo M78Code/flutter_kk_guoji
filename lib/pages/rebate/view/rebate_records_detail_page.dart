@@ -24,7 +24,7 @@ class KKRecordDetailPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                    width: 160,
+                    width: 120,
                       child: Text(
                         "游戏名称",
                         style: TextStyle(
@@ -80,7 +80,7 @@ class KKRecordDetailPage extends StatelessWidget {
                          crossAxisAlignment: CrossAxisAlignment.center,
                          children: [
                            SizedBox(
-                             width: 160,
+                             width: 120,
                                child: Text(
                                  receiveM["game_name"]
                                      .toString(),
