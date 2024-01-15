@@ -195,6 +195,7 @@ class Assets {
   static const String mineInformationSettingsTelegram = 'assets/images/mine/information_settings_Telegram.png';
   static const String mineInformationSettingsWechat = 'assets/images/mine/information_settings_Wechat.png';
   static const String mineInformationSettingsWhatsapp = 'assets/images/mine/information_settings_Whatsapp.png';
+  static const String mineMineShare = 'assets/images/mine/mine_share.png';
   static const String mineWalletArrow = 'assets/images/mine/wallet_arrow.png';
   static const String mineWalletFundDetails = 'assets/images/mine/wallet_fund_details.png';
   static const String mineWalletNavArrow = 'assets/images/mine/wallet_nav_arrow.png';

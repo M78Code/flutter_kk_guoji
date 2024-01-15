@@ -63,11 +63,7 @@ class _BetListPageState extends State<BetListPage> {
           RichText(text: TextSpan(
             children: [
               TextSpan(
-                text: "¥",
-                style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
-              ),
-              TextSpan(
-                text: UserService.to.userMoneyModel?.betMoney ?? "0.00",
+                text: UserService.to.userMoneyModel?.money ?? "0.00",
                 style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
             ],
@@ -237,12 +233,17 @@ class _BetListPageState extends State<BetListPage> {
                   searchWidget,
                   SizedBox(height: 20.w,),
                   Container(
-                    padding:  EdgeInsets.symmetric(horizontal: 18.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: widgets,
+                    height: min(240.w, widgets.length * 30.w),
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding:  EdgeInsets.symmetric(horizontal: 18.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: widgets,
+                        ),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
