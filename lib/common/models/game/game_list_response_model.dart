@@ -52,6 +52,7 @@ class GameListModel {
     data['page'] = this.page;
     return data;
   }
+
 }
 
 class GameModel {

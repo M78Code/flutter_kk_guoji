@@ -1029,7 +1029,7 @@ class WelfareReward extends StatelessWidget {
           ),
           ListTile(
             leading: Image.asset(
-              Assets.imagesIconLogOut,
+              Assets.imagesIconMineShare,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,

@@ -32,58 +32,98 @@ class GamesItemsWidget extends GetView<GamesLogic> {
         controller.pageController = PageController(initialPage: controller.currentIndex);;
         return Column(
           children: [
-            // Expanded(
-            //   child: PageView.builder(
-            //     itemCount: controller.gameModels.length,
-            //     controller: controller.pageController,
-            //     onPageChanged: (index) {
-            //       controller.switchIndex(index);
-            //     },
-            //     itemBuilder: (context, index) {
-            //       return SingleChildScrollView(child: _buildItemsGridView02(controller.gameModels[index]),);
-            //     },
-            //   ),
-            // ),
-
             Expanded(
-              child: PageView(
+              child: PageView.builder(
+                itemCount: controller.groupGameDatas.length,
                 controller: controller.pageController,
                 onPageChanged: (index) {
                   controller.switchIndex(index);
                 },
-                children: [
-                  SingleChildScrollView(child: _buildItemsGridView(controller.hotList),),
-                  SingleChildScrollView(child: _buildItemsGridView(controller.lotteryList),),
-                  SingleChildScrollView(child: _buildItemsGridView(controller.realList),),
-                  SingleChildScrollView(child: _buildItemsGridView3(controller.sportList),),
-                ],
-              )
-            )
+                itemBuilder: (context, index) {
+                  var menu = controller.menuList[index];
+                  var gameModels =  controller.groupGameDatas.firstWhere((element) {
+                    return  element.id.toString() == menu[4];
+                  });
+                  if (menu[4] == "4") {
+                    return SingleChildScrollView(child: _buildItemsGridView3(gameModels.list ?? []));
+                  }
+                  else if (menu[4] == "3") {
+                    return SingleChildScrollView(child: _buildItemsGridView02(controller.lottryGameModels));
+                  }
+                  else {
+                    return SingleChildScrollView(child: _buildItemsGridView02(gameModels.list ?? []));
+                  }
+                },
+              ),
+            ),
+
+            // Expanded(
+            //   child: PageView(
+            //     controller: controller.pageController,
+            //     onPageChanged: (index) {
+            //       controller.switchIndex(index);
+            //     },
+            //     children: [
+            //       SingleChildScrollView(child: _buildItemsGridView(controller.hotList),),
+            //       SingleChildScrollView(child: _buildItemsGridView(controller.lotteryList),),
+            //       SingleChildScrollView(child: _buildItemsGridView(controller.realList),),
+            //       SingleChildScrollView(child: _buildItemsGridView3(controller.sportList),),
+            //     ],
+            //   )
+            // )
           ],
         );
       },
     );
   }
 
-  Widget _buildItemListView(List<List<String>> items) {
+  // Widget _buildItemListView(List<List<String>> items) {
+  //
+  //   List<Widget> widgets = [SizedBox(height: 12.w,),];
+  //   for (var index = 0; index < items.length; index++)
+  //     widgets.add(Image.asset(items[index].first, height: 123.w)
+  //         .paddingOnly(bottom: 12.w)
+  //         .onTap(() {
+  //       if (UserService.to.isLogin == false) {
+  //         RouteUtil.pushToView(Routes.loginPage);
+  //         return;
+  //       }
+  //       controller.gamesOnTap(items[index]);
+  //     }));
+  //   return Column(
+  //     children: widgets,
+  //   );
+  // }
+  //
+  // GridView _buildItemsGridView(List<List<String>> items) {
+  //   return GridView.builder(
+  //     padding: EdgeInsets.only(top: 0, left: 12.w, right: 12.w, bottom: 10.w),
+  //     shrinkWrap: true,
+  //     physics: NeverScrollableScrollPhysics(),
+  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //         crossAxisCount: 3,
+  //         crossAxisSpacing: 8.0,
+  //         mainAxisSpacing: 12.w,
+  //         childAspectRatio: 220 / 292
+  //     ),
+  //     itemCount: items.length,
+  //     itemBuilder: (BuildContext context, int index) {
+  //       return Container(
+  //         child: Image.asset(items[index].first, width: 78.w, height: 78.w),
+  //       ).onTap(() {
+  //         if(items[index][2] != "JCP") {
+  //           if (UserService.to.isLogin == false) {
+  //             RouteUtil.pushToView(Routes.loginPage);
+  //             return;
+  //           }
+  //         }
+  //         // controller.gamesOnTap(items[index]);
+  //       }); // Passing index + 1 as item number
+  //     },
+  //   );
+  // }
 
-    List<Widget> widgets = [SizedBox(height: 12.w,),];
-    for (var index = 0; index < items.length; index++)
-      widgets.add(Image.asset(items[index].first, height: 123.w)
-          .paddingOnly(bottom: 12.w)
-          .onTap(() {
-        if (UserService.to.isLogin == false) {
-          RouteUtil.pushToView(Routes.loginPage);
-          return;
-        }
-        controller.gamesOnTap(items[index]);
-      }));
-    return Column(
-      children: widgets,
-    );
-
-  }
-  GridView _buildItemsGridView(List<List<String>> items) {
+  GridView _buildItemsGridView02(List<GameModel> games) {
     return GridView.builder(
       padding: EdgeInsets.only(top: 0, left: 12.w, right: 12.w, bottom: 10.w),
       shrinkWrap: true,
@@ -94,24 +134,42 @@ class GamesItemsWidget extends GetView<GamesLogic> {
           mainAxisSpacing: 12.w,
           childAspectRatio: 220 / 292
       ),
-      itemCount: items.length,
+      itemCount: games.length,
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          child: Image.asset(items[index].first, width: 78.w, height: 78.w),
+        GameModel gameModel = games[index];
+        return Stack(
+          children: [
+            Positioned.fill(child: Image.network(gameModel.image ?? "", width: 78.w, height: 78.w)),
+            Positioned(
+              left: 4,
+              right: 4,
+              bottom: 8.w,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  gameModel.name ?? "",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600
+                  ),
+                ),
+              ),
+            ),
+          ],
         ).onTap(() {
-          if(items[index][2] != "JCP") {
-            if (UserService.to.isLogin == false) {
-              RouteUtil.pushToView(Routes.loginPage);
-              return;
-            }
+          if (UserService.to.isLogin == false) {
+            RouteUtil.pushToView(Routes.loginPage);
+            return;
           }
-          controller.gamesOnTap(items[index]);
+          controller.gamesOnTapFormApi(gameModel);
         }); // Passing index + 1 as item number
       },
     );
   }
 
-  GridView _buildItemsGridView3(List<List<String>> items) {
+  GridView _buildItemsGridView3(List<GameModel> games) {
     return GridView.builder(
       padding: EdgeInsets.only( left: 15.w, right: 15.w, bottom: 10.w),
       shrinkWrap: true,
@@ -122,55 +180,27 @@ class GamesItemsWidget extends GetView<GamesLogic> {
           mainAxisSpacing: 12.w,
           childAspectRatio: 338 / 292
       ),
-      itemCount: items.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          child: Image.asset(items[index].first, width: 78.w, height: 78.w),
-        ).onTap(() {
-          if (UserService.to.isLogin == false) {
-            RouteUtil.pushToView(Routes.loginPage);
-            return;
-          }
-          controller.gamesOnTap(items[index]);
-        }); // Passing index + 1 as item number
-      },
-    );
-  }
-
-  GridView _buildItemsGridView02(GroupGameData groupGameData) {
-
-    List<GameModel>? games = (groupGameData.list ?? []);
-    return GridView.builder(
-      padding: EdgeInsets.only(top: 14.w, left: 15.w, right: 15.w),
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 12.w,
-          childAspectRatio: 155 / 216
-      ),
       itemCount: games.length,
       itemBuilder: (BuildContext context, int index) {
         GameModel gameModel = games[index];
-        return Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.network(gameModel.image ?? "", width: 78.w, height: 78.w),
-              FittedBox(
-                fit: BoxFit.contain,
-                child: Text(
-                  gameModel.name ?? "",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400
-                  ),
+        return Stack(
+          children: [
+            Positioned.fill(child: Image.network(gameModel.image ?? "", width: 78.w, height: 78.w)),
+            Positioned(
+              left: 2,
+              right: 2,
+              bottom: 8.w,
+              child: Text(
+                gameModel.name ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600
                 ),
-              ).marginOnly(top: 8.w, bottom: 8.w)
-            ],
-          ),
+              ),
+            ),
+          ],
         ).onTap(() {
           if (UserService.to.isLogin == false) {
             RouteUtil.pushToView(Routes.loginPage);
