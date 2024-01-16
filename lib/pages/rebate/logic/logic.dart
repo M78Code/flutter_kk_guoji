@@ -26,13 +26,20 @@ class KKRebateLogic extends GetxController {
   final recordRateList = [].obs;
   final gameIndex = 0.obs;
 
+  final selectedRecordInfo = {}.obs;
+
   changeRebateType(int index) {
     rebateType.value = index;
     if (index == 1) {
-      getRecord(dateList.first);
+      changeDateType(0);
     } else if (index == 2) {
       getRatio(0);
     }
+  }
+
+  changeDateType(int index) {
+    dateType.value = index;
+    getRecord(dateList[index]);
   }
 
   @override
@@ -116,6 +123,10 @@ class KKRebateLogic extends GetxController {
   }
 
   void receiveRebate() async{
+    if(double.parse(totalMoney.value) <= 0.0) {
+      ShowToast.showToast("当前无可领取洗码金额");
+      return;
+    }
     var result = await HttpRequest.request(HttpConfig.receiveRebate, method: "post");
     if (result["code"] == 200) {
       ShowToast.showToast("领取成功");

@@ -9,7 +9,7 @@ class CustomRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
     if (route.settings.name == Routes.webView
-        || route.settings.name == Routes.customer) {
+        || route.settings.name == Routes.customer ||route.settings.name == Routes.tgWebView) {
       ConfigService.to.toggleButtonVisibility(false);
     }
   }
@@ -17,8 +17,8 @@ class CustomRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
-    if (route?.settings.name == Routes.webView
-        || route.settings.name == Routes.customer) {
+    if (route.settings.name == Routes.webView
+        || route.settings.name == Routes.customer || route.settings.name == Routes.tgWebView) {
       ConfigService.to.toggleButtonVisibility(true);
     }
   }

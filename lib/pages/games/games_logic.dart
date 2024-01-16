@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/account_api.dart';
 import 'package:kkguoji/common/api/games_api.dart';
+import '../../common/models/game/game_list_response_model.dart' as gameList;
 import '../../common/models/game_login.dart';
 import '../../common/models/get_game_model.dart';
 import '../../common/models/group_game_list_model.dart';
@@ -15,51 +16,17 @@ class GamesLogic extends GetxController {
 
   var currentIndex  = 0;
   late PageController pageController = PageController(initialPage: 0);
-  List<GroupGameData> gameModels = [];
+  List<GroupGameData> groupGameDatas = [];
+  List<GameModel> lottryGameModels = [];
 
   final  List<List<String>> menuList = [
-    [Assets.gamesGamesHot, Assets.gamesGamesHotArrow,"热门","热门游戏"],
-    [Assets.gamesGamesLottery, Assets.gamesGamesLotteryArrow, "彩票", "彩票游戏"],
-    [Assets.gamesGamesVideo, Assets.gamesGamesVideoArrow, "视讯","真人视讯"],
-    [Assets.gamesGamesSports, Assets.gamesGamesSportsArrow, "体育","体育游戏"],
+    [Assets.gamesGamesHot, Assets.gamesGamesHotArrow,"热门","热门游戏", "-1"],
+    [Assets.gamesGamesLottery, Assets.gamesGamesLotteryArrow, "彩票", "彩票游戏", "3"],
+    [Assets.gamesGamesVideo, Assets.gamesGamesVideoArrow, "视讯","真人视讯", "1"],
+    [Assets.gamesGamesSports, Assets.gamesGamesSportsArrow, "体育","体育游戏", "4"],
   ];
-
-
-  final List<List<String>> hotList = [
-    [Assets.gamesRealClassicBaijiale,"视讯百家乐", "COG", ""],
-    [Assets.gamesCanadaShishicai, "加拿大时时彩", "JCP", "JNDSSC"],
-    [Assets.gamesCanada50, "加拿大5.0", "JCP", "JNDWU"],
-    [Assets.gamesLotteryLiuhe, "香港六合彩", "JCP","XGLHC"],
-    [Assets.gamesLotteryPcNuinui, "PC牛牛", "JCP", "PCNN"],
-    [Assets.gamesCanada28, "加拿大2.8", "JCP", "JNDEB"],
-  ];
-  final List<List<String>> lotteryList = [
-    [Assets.gamesLotteryLiuhe, "香港六合彩", "JCP","XGLHC"],
-    [Assets.gamesLotteryTixincai, "七星彩", "JCP","QXC"],
-    [Assets.gamesLotteryPcNuinui, "PC牛牛", "JCP", "PCNN"],
-    [Assets.gamesCanada50, "加拿大5.0", "JCP", "JNDWU"],
-    [Assets.gamesCanadaShishicai, "加拿大时时彩", "JCP", "JNDSSC"],
-    [Assets.gamesCanadaWanpan, "加拿大网盘赔率", "JCP", "JNDWP"],
-    [Assets.gamesCanada4246, "加拿大4.2-4.6", "JCP", "JNDSI"],
-    [Assets.gamesLotteryJndlhc, "加拿大六合彩", "JCP", "JNDLHC"],
-    [Assets.gamesLotteryPcBaijiale, "PC百家乐", "JCP", "PCBJL"],
-    [Assets.gamesCanada28, "加拿大2.8", "JCP", "JNDEB"],
-  ];
-
-  final List<List<String>> realList = [
-    [Assets.gamesRealClassicBaijiale,"视讯百家乐", "COG", ""],
-  ];
-  final List<List<String>> sportList = [
-    [Assets.gamesSport1,"", "FbSports", ""],
-    [Assets.gamesSport2, "", "FbSports", ""],
-    [Assets.gamesSport3, "", "FbSports", ""],
-    [Assets.gamesSport4, "", "FbSports", ""],
-  ];
-
 
   menuOntap(int index) {
-    // currentIndex = index;
-    // update(["menu"]);
     pageController.jumpToPage(
       index
     );
@@ -73,11 +40,21 @@ class GamesLogic extends GetxController {
 
   _initGames() async {
     GroupGameListModel? groupGameListModel = await GamesApi.games();
+    await fetchLottryGameList();
     if (groupGameListModel?.data != null) {
-      gameModels = groupGameListModel!.data!;
+      groupGameDatas = groupGameListModel!.data!;
       update(["menu"]);
       update(["games"]);
     }
+  }
+
+  // 彩票游戏
+  fetchLottryGameList() async {
+    gameList.GameListModel? gameModels = await GamesApi.getGameList(3);
+    var lottryGameList = gameModels?.list ?? [];
+    this.lottryGameModels = lottryGameList.map((e) {
+      return GameModel(image: e.image, name: e.name, id: e.id, gameCompanyCode: e.gameCompanyCode);
+    }).toList();
   }
 
   gamesOnTapFormApi(GameModel gameModel) async {
@@ -87,14 +64,6 @@ class GamesLogic extends GetxController {
     }
   }
 
-  gamesOnTap(List<String> gameModel) async {
-
-    GetGameModel? getGameModel = await GamesApi.getGameByCompanyCode(gameModel[2], gameModel[3]);
-    GameLogin? gameLogin = await GamesApi.gameLogin(getGameModel?.gameCompanyCode ?? "", (getGameModel?.id ?? "").toString());
-    if (gameLogin?.url != null) {
-      RouteUtil.pushToView(Routes.webView, arguments: gameLogin?.url ?? "");
-    }
-  }
 
   @override
   void onInit() {

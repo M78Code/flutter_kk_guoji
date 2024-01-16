@@ -2,6 +2,11 @@
 class Assets {
   Assets._();
 
+  static const String accountFaildErr = 'assets/images/account/faild_err.png';
+  static const String accountFaildOk = 'assets/images/account/faild_ok.png';
+  static const String accountHitErr = 'assets/images/account/hit_err.png';
+  static const String accountHitNormal = 'assets/images/account/hit_normal.png';
+  static const String accountHitOk = 'assets/images/account/hit_ok.png';
   static const String activityActivity = 'assets/images/activity/activity.png';
   static const String activityActivityDetail = 'assets/images/activity/activity_detail.png';
   static const String activityImgComingSoon = 'assets/images/activity/img_coming_soon.png';
@@ -190,6 +195,7 @@ class Assets {
   static const String mineInformationSettingsTelegram = 'assets/images/mine/information_settings_Telegram.png';
   static const String mineInformationSettingsWechat = 'assets/images/mine/information_settings_Wechat.png';
   static const String mineInformationSettingsWhatsapp = 'assets/images/mine/information_settings_Whatsapp.png';
+  static const String mineMineShare = 'assets/images/mine/mine_share.png';
   static const String mineWalletArrow = 'assets/images/mine/wallet_arrow.png';
   static const String mineWalletFundDetails = 'assets/images/mine/wallet_fund_details.png';
   static const String mineWalletNavArrow = 'assets/images/mine/wallet_nav_arrow.png';

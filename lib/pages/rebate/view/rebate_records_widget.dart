@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
+import 'package:kkguoji/pages/rebate/logic/detail_logic.dart';
+import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/utils/route_util.dart';
 
 import '../logic/logic.dart';
 
@@ -121,6 +124,15 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                       color: Color(0xFFB2B3BD), fontSize: 12),
                                 ),
                               )),
+                          SizedBox(
+                              width: 70,
+                              child: Center(
+                                child: Text(
+                                  "操作",
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 12),
+                                ),
+                              )),
                         ],
                       ),
                     ),
@@ -191,6 +203,27 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(
+                                    width: 70,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        child: const Text(
+                                          "详情",
+                                          style: TextStyle(
+                                              color: Color(0xFF20F752),
+                                              fontSize: 12,
+                                              decoration: TextDecoration.underline,
+                                              decorationStyle: TextDecorationStyle.solid,
+                                              decorationColor: Color(0xFF20F752),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        onTap: (){
+                                           controller.selectedRecordInfo.value = receiveM;
+                                           RouteUtil.pushToView(Routes.recordDetail);
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
@@ -223,7 +256,7 @@ class KKRebateRecordsWidget extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: () {
-          controller.dateType.value = index;
+          controller.changeDateType(index);
         },
         style: const ButtonStyle(
             padding: MaterialStatePropertyAll(EdgeInsets.zero)),

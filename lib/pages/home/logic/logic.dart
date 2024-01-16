@@ -265,11 +265,11 @@ class HomeLogic extends GetxController {
      }
   }
 
-  void openTickGame() async {
+  void openTickGame(int gameId) async {
     Map<String, dynamic> map= {"company_code":"JCP"};
     var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode, params: map);
     if(result["code"] == 200) {
-      loginGame(result["data"]);
+      loginSportGame(result["data"],gameId);
     }
 }
 
@@ -288,6 +288,15 @@ class HomeLogic extends GetxController {
   //     loginGame(result["data"]);
   //   }
   // }
+
+  void loginSportGame(Map gameMap,int gameId) async {
+    Map gameInfo = gameMap.values.first;
+    Map<String, dynamic> params = {"game_id":gameId };
+    var result = await HttpRequest.request(HttpConfig.loginGame, method: "post", params: params);
+    if(result["code"] == 200) {
+      RouteUtil.pushToView(Routes.webView, arguments: result["data"]["url"]);
+    }
+  }
 
   void loginGame(Map gameMap) async {
     Map gameInfo = gameMap.values.first;

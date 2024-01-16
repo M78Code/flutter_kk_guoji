@@ -14,6 +14,7 @@ class KKCustomerServicePage extends StatelessWidget {
     return Scaffold(
       appBar: const KKCustomAppBar("客服"),
       body: Container(
+        padding: const EdgeInsets.only(top: 20),
         color: const Color(0xFF171A26),
         margin: const EdgeInsets.symmetric(horizontal: 15),
         child: Obx(() {
@@ -33,7 +34,7 @@ class KKCustomerServicePage extends StatelessWidget {
             Text(name, style: const TextStyle(color: Colors.white, fontSize: 14),),
           ],
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(height: 8,),
         Container(
           height: 41,
           padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -75,9 +75,10 @@ class KKHomePage extends GetView<HomeLogic> {
 
                         KKHomeTicketWidget(),
 
+                        KKHomeSportsWidget(),
+
                         KKHomeRealWidget(),
 
-                        KKHomeSportsWidget(),
                         // Container(
                         //   height: 83,
                         //   width: double.infinity,
