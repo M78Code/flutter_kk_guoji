@@ -50,6 +50,7 @@ class _BetListPageState extends State<BetListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('游戏记录'),
+        centerTitle: true,
         leading:  IconButton(
           icon: Image.asset(
               Assets.systemIconBack,
@@ -73,12 +74,12 @@ class _BetListPageState extends State<BetListPage> {
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child:EasyRefresh(
-          // controller: controller.refreshController,
+          controller: controller.refreshController,
           onRefresh: () async {
-            // controller.onRefresh();
+            controller.onRefresh();
           },
           onLoad: () async {
-            // controller.onLoading();
+            controller.onLoading();
           },
           child:  CustomScrollView(
             slivers: [
@@ -151,6 +152,7 @@ class _BetListPageState extends State<BetListPage> {
                     money: rowData.gameProfit,
                     gameTypeName:  rowData.gameTypeName,
                     betAmount:  rowData.gameBet,
+                    gameProfit: rowData.gameProfit,
                     orderN: rowData.gameSn,
                     status:rowData.gameWinStatus
                 ));
@@ -163,7 +165,7 @@ class _BetListPageState extends State<BetListPage> {
   }
 
   void _gameMenuCli(BetListController controller) {
-
+    controller.isMenuPopShowing = true;
     controller.gameSearchKey = "";
     var searchWidget = Container(
       height: 33.w,
@@ -214,6 +216,8 @@ class _BetListPageState extends State<BetListPage> {
                 ).onTap(() {
                   controller.onTapSwitchGame(gameModel);
                   overlayEntry.remove();
+                  controller.isMenuPopShowing = false;
+                  controller.isGamePopShowing = false;
                 })
             );
           }).values.toList();
@@ -252,6 +256,8 @@ class _BetListPageState extends State<BetListPage> {
 
     final buttonPosition = renderBox.localToGlobal(Offset.zero);
     showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
+    controller.isGamePopShowing = true;
+
   }
 
   void _typeMenuCli(BetListController controller) {
@@ -283,6 +289,8 @@ class _BetListPageState extends State<BetListPage> {
                   ).onTap(() {
                     controller.onTapSwitchGameTyp(typeIndex);
                     overlayEntry.remove();
+                    controller.isMenuPopShowing = false;
+                    controller.isGamePopShowing = false;
                   }));
                 }).values.toList(),
               ),
@@ -292,6 +300,7 @@ class _BetListPageState extends State<BetListPage> {
 
     final buttonPosition = renderBox.localToGlobal(Offset.zero);
     showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
+    controller.isMenuPopShowing = true;
   }
 
   void _showTimeWidget(BetListController controller) {
@@ -322,6 +331,8 @@ class _BetListPageState extends State<BetListPage> {
                   onTap: () {
                     // Remove the overlay when tapped outside the image
                     overlayEntry.remove();
+                    controller.isMenuPopShowing = false;
+                    controller.isGamePopShowing = false;
                   },
                   child: Container(
                     color: Colors.transparent,

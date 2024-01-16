@@ -186,6 +186,7 @@ class Assets {
   static const String mineBetListDown = 'assets/images/mine/bet_list_down.png';
   static const String mineBetListLose = 'assets/images/mine/bet_list_lose.png';
   static const String mineBetListPreDraw = 'assets/images/mine/bet_list_pre_draw.png';
+  static const String mineBetListUp = 'assets/images/mine/bet_list_up.png';
   static const String mineBetListWin = 'assets/images/mine/bet_list_win.png';
   static const String mineIcYlqBg = 'assets/images/mine/ic_ylq_bg.png';
   static const String mineIconYlq = 'assets/images/mine/icon_ylq.png';
