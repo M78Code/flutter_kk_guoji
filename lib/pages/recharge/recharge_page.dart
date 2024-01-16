@@ -75,7 +75,10 @@ class RechargePage extends GetView<RechargeLogic> {
         children: [
           Text(
             "财务账号:",
-            style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500),
           ),
           _buildClip(),
           _buildRechargeTip(),
@@ -102,7 +105,10 @@ class RechargePage extends GetView<RechargeLogic> {
           child: Obx(() {
             return Text(
               controller.tg.value,
-              style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500),
             );
           }),
         ),
@@ -145,7 +151,10 @@ class RechargePage extends GetView<RechargeLogic> {
             },
             child: Text(
               "复制",
-              style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500),
             ),
           ),
         )

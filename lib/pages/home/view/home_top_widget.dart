@@ -23,7 +23,10 @@ class KKHomeTopWidget extends StatelessWidget {
           gradient: LinearGradient(
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
-        colors: [Color.fromRGBO(17, 22, 60, 1.0), Color.fromRGBO(5, 8, 32, 0.8)],
+        colors: [
+          Color.fromRGBO(17, 22, 60, 1.0),
+          Color.fromRGBO(5, 8, 32, 0.8)
+        ],
       )),
       child: Container(
         padding: EdgeInsets.only(left: 17.w, right: 12.w),
@@ -36,7 +39,7 @@ class KKHomeTopWidget extends StatelessWidget {
               height: 33.w,
             ),
             Image.asset(
-              Assets.imagesHomeTopAlert,
+              Assets.homeAdIcon,
               height: 22,
             ),
             Row(
@@ -57,13 +60,16 @@ class KKHomeTopWidget extends StatelessWidget {
                           child: Center(
                             child: TextButton(
                               style: const ButtonStyle(
-                                padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                                padding:
+                                    MaterialStatePropertyAll(EdgeInsets.zero),
                               ),
                               onPressed: () {
-                                RouteUtil.pushToView(Routes.messageCenter);
+                                RouteUtil.pushToView(Routes.messagePage);
                               },
-                              child: Image.asset("assets/images/home_top_alert.png",
-                                  width: 33.w, height: 33.w),
+                              child: Image.asset(
+                                  "assets/images/home_top_alert.png",
+                                  width: 33.w,
+                                  height: 33.w),
                             ),
                           )),
                     ]
@@ -78,14 +84,16 @@ class KKHomeTopWidget extends StatelessWidget {
                           child: Center(
                             child: TextButton(
                               style: const ButtonStyle(
-                                padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                                padding:
+                                    MaterialStatePropertyAll(EdgeInsets.zero),
                               ),
                               onPressed: () {
                                 RouteUtil.pushToView(Routes.loginPage);
                               },
                               child: Text(
                                 "登录",
-                                style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 13.sp),
                               ),
                             ),
                           )),
@@ -116,7 +124,8 @@ class KKHomeTopWidget extends StatelessWidget {
                           },
                           child: Text(
                             "注册",
-                            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14.sp),
                           ),
                         ),
                       )

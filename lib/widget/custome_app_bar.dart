@@ -23,6 +23,14 @@ class KKCustomAppBar extends StatelessWidget implements PreferredSizeWidget{
           }
         }, child: Image.asset("assets/images/back_normal.png", width: 20, height: 20,)),
       ):null,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                  //在AppBar下方添加一条白色线
+                    color: Color.fromRGBO(255, 255, 255, 0.06),
+                    width: 1))),
+      ),
       centerTitle: true,
     );
   }

@@ -7,13 +7,13 @@ import 'package:kkguoji/pages/recharge/recharge_page.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
-
 import '../../activity/list/activity_page.dart';
 import '../../home/view/home_page.dart';
 import '../../mine/mine_page.dart';
 
 class KKMainPage extends StatefulWidget {
-  const KKMainPage({super.key});
+  const
+  KKMainPage({super.key});
 
   // const MyHomePage({super.key, required this.title});
 

@@ -38,9 +38,8 @@ class _KKLoginPageState extends State<KKLoginPage> {
   Widget build(BuildContext context) {
     return KeyboardDissmissable(
       child: Scaffold(
-        body:  Stack(
-          children: [
-            Container(
+        resizeToAvoidBottomInset: false,
+        body: Container(
               height: double.infinity,
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -82,14 +81,18 @@ class _KKLoginPageState extends State<KKLoginPage> {
                         child: Column(
                           children: [
                             Image.asset(
-                              Assets.imagesRegistTopLogo,
+                              Assets.myaccountAccountNewLogo,
                               width: 163,
                               height: 45,
                             ),
                             const SizedBox(
                               height: 60,
                             ),
-                            CustomInputField(Assets.imagesAccountIcon, "请输入用户名", valueChanged: (value) => controller.inputAccountValue(value), text: controller.accountObs.value,),
+                            CustomInputField(Assets.imagesAccountIcon, "请输入用户名",
+                              valueChanged: (value) => controller.inputAccountValue(value),
+                              text: controller.accountObs.value,
+                              radius: 21,
+                            ),
                             const SizedBox(
                               height: 20,
                             ),
@@ -110,6 +113,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                       controller.showPassword();
                                     },
                                   ),
+                                  radius: 21,
                                   valueChanged: (value) => controller.inputPasswordValue(value));
                             }),
                             const SizedBox(
@@ -123,19 +127,24 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                 },
                                     rightWidget: GestureDetector(
                                       child: SizedBox(
-                                          width: 80,
+                                          width: 100,
+                                          height: 40,
                                           child: Center(
                                             child: controller.verCodeImageBytes.value.isEmpty
                                                 ? Container()
                                                 : Image.memory(
                                               Uint8List.fromList(controller.verCodeImageBytes.value),
-                                              width: 60,
+                                              width: 80,
+                                              height: 25,
+                                              fit: BoxFit.cover,
                                             ),
                                           )),
                                       onTap: () {
                                         controller.getVerCode();
                                       },
-                                    )),
+                                    ),
+                                  radius: 21,
+                                ),
                               );
                             }),
                             const SizedBox(
@@ -256,7 +265,7 @@ class _KKLoginPageState extends State<KKLoginPage> {
                                 text: TextSpan(
                                   children: [
                                     const TextSpan(
-                                      text: "已有账号？",
+                                      text: "没有账号？",
                                       style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14.0),
                                     ),
                                     TextSpan(
@@ -276,16 +285,6 @@ class _KKLoginPageState extends State<KKLoginPage> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 30.w,
-              right: 20.w,
-              child: SizedBox(width: 46.w, height: 46.w, child: Image.asset(Assets.gamesSupport)).onTap(() {
-                // RouteUtil.pushToView(Routes.customer);
-                Get.toNamed(Routes.customer);
-              }),
-            ),
-          ],
-        ),
       ),
     );
   }

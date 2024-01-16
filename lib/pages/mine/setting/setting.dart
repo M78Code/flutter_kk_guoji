@@ -22,6 +22,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text(
             '安全设置',
             style: TextStyle(
@@ -63,6 +64,7 @@ class _MySetingState extends State<MySeting> {
 
   //获取版本号
   String version = APPUtil().getAppVersion()!;
+  String buildNumber = APPUtil().getBuildNumber()!;
 
   //清除缓存
   void clearCache() async {
@@ -86,13 +88,13 @@ class _MySetingState extends State<MySeting> {
           Column(
             children: [
               Image.asset(
-                Assets.imagesIconSetingLogo,
+                Assets.imagesIconAppLogo,
                 width: 70,
                 height: 70,
               ),
               const SizedBox(height: 20), // logo和版本号的间距
               Text(
-                '版本号 $version',
+                '版本号 $version($buildNumber)',
                 style: const TextStyle(
                     fontSize: 14, color: Color.fromRGBO(104, 112, 131, 1)),
               ), // 显示版本号
@@ -181,13 +183,13 @@ class _MySetingState extends State<MySeting> {
           //   },
           // ),
 
-          const SizedBox(height: 20), // 分割线
-          const Divider(
-            color: Color.fromRGBO(255, 255, 255, 0.06),
-            height: 1,
-            indent: 10,
-            endIndent: 10,
-          ),
+          // const SizedBox(height: 20), // 分割线
+          // const Divider(
+          //   color: Color.fromRGBO(255, 255, 255, 0.06),
+          //   height: 1,
+          //   indent: 10,
+          //   endIndent: 10,
+          // ),
 
           const SizedBox(height: 20), // 清除缓存和底部的间距
           const Row(

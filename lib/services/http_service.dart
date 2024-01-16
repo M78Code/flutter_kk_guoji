@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
+import 'package:flutter_user_agentx/flutter_user_agent.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
@@ -107,6 +108,7 @@ class RequestInterceptors extends Interceptor {
     }
     if (Get.find<SqliteService>().getString(CacheKey.apiToken) != null) {
       options.headers["Authorization"] = "Bearer ${Get.find<SqliteService>().getString(CacheKey.apiToken)!}";
+      options.headers['User-Agent'] = FlutterUserAgent.userAgent;
     }
     // print(options.queryParameters);
 

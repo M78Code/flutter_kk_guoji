@@ -2,6 +2,11 @@
 class Assets {
   Assets._();
 
+  static const String accountFaildErr = 'assets/images/account/faild_err.png';
+  static const String accountFaildOk = 'assets/images/account/faild_ok.png';
+  static const String accountHitErr = 'assets/images/account/hit_err.png';
+  static const String accountHitNormal = 'assets/images/account/hit_normal.png';
+  static const String accountHitOk = 'assets/images/account/hit_ok.png';
   static const String activityActivity = 'assets/images/activity/activity.png';
   static const String activityActivityDetail = 'assets/images/activity/activity_detail.png';
   static const String activityImgComingSoon = 'assets/images/activity/img_coming_soon.png';
@@ -53,6 +58,8 @@ class Assets {
   static const String homeHomeJndwuIcon = 'assets/images/home/home_jndwu_icon.png';
   static const String homeHomeJsbjlIcon = 'assets/images/home/home_jsbjl_icon.png';
   static const String homeHomeLhcIcon = 'assets/images/home/home_lhc_icon.png';
+  static const String homeHomeNoticeNormal = 'assets/images/home/home_notice_normal.png';
+  static const String homeHomeNoticeSelected = 'assets/images/home/home_notice_selected.png';
   static const String homeHomeOmbjlIcon = 'assets/images/home/home_ombjl_icon.png';
   static const String homeHomePcnnIcon = 'assets/images/home/home_pcnn_icon.png';
   static const String homeHomePcnnIconTwo = 'assets/images/home/home_pcnn_icon_two.png';
@@ -63,6 +70,8 @@ class Assets {
   static const String homeHotcaizhong = 'assets/images/home/hotcaizhong.png';
   static const String homeHuojian = 'assets/images/home/huojian.png';
   static const String homeSportsaishi = 'assets/images/home/sportsaishi.png';
+  static const String htmlPrivacy = 'assets/html/privacy.html';
+  static const String htmlRegisterProtocol = 'assets/html/register_protocol.html';
   static const String imagesAccountIcon = 'assets/images/account_icon.png';
   static const String imagesBackNormal = 'assets/images/back_normal.png';
   static const String imagesCodeIcon = 'assets/images/code_icon.png';
@@ -107,6 +116,7 @@ class Assets {
   static const String imagesHomeXianggangliuhecai = 'assets/images/home_xianggangliuhecai.png';
   static const String imagesHomeZhubobaijiale = 'assets/images/home_zhubobaijiale.png';
   static const String imagesIconAccount = 'assets/images/icon_account.png';
+  static const String imagesIconAppLogo = 'assets/images/icon_app_logo.png';
   static const String imagesIconArrowsBlue = 'assets/images/icon_arrows_blue.png';
   static const String imagesIconArrowsEnter = 'assets/images/icon_arrows_enter.png';
   static const String imagesIconAward = 'assets/images/icon_award.png';
@@ -116,6 +126,7 @@ class Assets {
   static const String imagesIconDottedLine = 'assets/images/icon_dotted_line.png';
   static const String imagesIconDown = 'assets/images/icon_down.png';
   static const String imagesIconEditBg = 'assets/images/icon_edit_bg.png';
+  static const String imagesIconEmptyh = 'assets/images/icon_emptyh.png';
   static const String imagesIconEnglish = 'assets/images/icon_english.png';
   static const String imagesIconEyeClose = 'assets/images/icon_eye_close.png';
   static const String imagesIconEyeOpen = 'assets/images/icon_eye_open.png';
@@ -184,6 +195,7 @@ class Assets {
   static const String mineInformationSettingsTelegram = 'assets/images/mine/information_settings_Telegram.png';
   static const String mineInformationSettingsWechat = 'assets/images/mine/information_settings_Wechat.png';
   static const String mineInformationSettingsWhatsapp = 'assets/images/mine/information_settings_Whatsapp.png';
+  static const String mineMineShare = 'assets/images/mine/mine_share.png';
   static const String mineWalletArrow = 'assets/images/mine/wallet_arrow.png';
   static const String mineWalletFundDetails = 'assets/images/mine/wallet_fund_details.png';
   static const String mineWalletNavArrow = 'assets/images/mine/wallet_nav_arrow.png';

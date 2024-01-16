@@ -34,15 +34,7 @@ class KKAutoRebateWidget extends StatelessWidget {
                     width: 70,
                     child: Center(
                       child: Text(
-                        "总大码量",
-                        style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),
-                      ),
-                    )),
-                SizedBox(
-                    width: 70,
-                    child: Center(
-                      child: Text(
-                        "返水比例",
+                        "打码总量",
                         style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),
                       ),
                     )),
@@ -80,15 +72,15 @@ class KKAutoRebateWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 70,
-                          child: Center(
-                            child: Text(
-                              model.rate.toString(),
-                              style: const TextStyle(color: Colors.white, fontSize: 14),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: 70,
+                        //   child: Center(
+                        //     child: Text(
+                        //       model.rate.toString(),
+                        //       style: const TextStyle(color: Colors.white, fontSize: 14),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(
                           width: 70,
                           child: Center(
@@ -103,7 +95,7 @@ class KKAutoRebateWidget extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "+${model.totalMoney??"0.00"}",
-                              style: const TextStyle(color: Colors.white, fontSize: 14),
+                              style: const TextStyle(color: Color(0xFF20F752), fontSize: 14),
                             ),
                           ),
                         ),

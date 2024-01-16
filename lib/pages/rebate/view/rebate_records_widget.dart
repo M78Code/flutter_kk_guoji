@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
+import 'package:kkguoji/pages/rebate/logic/detail_logic.dart';
+import 'package:kkguoji/routes/routes.dart';
+import 'package:kkguoji/utils/route_util.dart';
 
 import '../logic/logic.dart';
 
@@ -22,10 +25,13 @@ class KKRebateRecordsWidget extends StatelessWidget {
             Container(
               height: 41,
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: const Color(0xFF222633)),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: const Color(0xFF222633)),
               child: Obx(() => Row(
                       children: textList.asMap().entries.map((e) {
-                    return _buildDateWidget(textList[e.key], e.key == controller.dateType.value, e.key);
+                    return _buildDateWidget(textList[e.key],
+                        e.key == controller.dateType.value, e.key);
                   }).toList())),
             ),
             const SizedBox(
@@ -45,7 +51,13 @@ class KKRebateRecordsWidget extends StatelessWidget {
                     ),
                     const Expanded(
                         child: TextField(
-                      decoration: InputDecoration(contentPadding: EdgeInsets.all(0), hintText: "搜索玩家ID", hintStyle: TextStyle(color: Color(0xFF687083), fontSize: 12), border: OutlineInputBorder(borderSide: BorderSide.none)),
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(0),
+                          hintText: "搜索玩家ID",
+                          hintStyle:
+                              TextStyle(color: Color(0xFF687083), fontSize: 12),
+                          border:
+                              OutlineInputBorder(borderSide: BorderSide.none)),
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     )),
                     IconButton(
@@ -81,7 +93,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   "时间",
-                                  style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 12),
                                 ),
                               )),
                           SizedBox(
@@ -89,7 +102,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   "游戏类型",
-                                  style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 12),
                                 ),
                               )),
                           SizedBox(
@@ -97,7 +111,8 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   "打码量",
-                                  style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 12),
                                 ),
                               )),
                           SizedBox(
@@ -105,7 +120,17 @@ class KKRebateRecordsWidget extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   "金额",
-                                  style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 12),
+                                ),
+                              )),
+                          SizedBox(
+                              width: 70,
+                              child: Center(
+                                child: Text(
+                                  "操作",
+                                  style: TextStyle(
+                                      color: Color(0xFFB2B3BD), fontSize: 12),
                                 ),
                               )),
                         ],
@@ -117,21 +142,28 @@ class KKRebateRecordsWidget extends StatelessWidget {
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            Map receiveM = controller.dateRecordList.value[index];
+                            Map receiveM =
+                                controller.dateRecordList.value[index];
                             return Container(
                               height: 50,
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child:  Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SizedBox(
                                     width: 55,
                                     child: Center(
                                       child: Text(
-                                        receiveM["show_receive_time"].toString(),
+                                        receiveM["show_receive_time"]
+                                            .toString(),
                                         textAlign: TextAlign.center,
-                                        style:const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                     ),
                                   ),
@@ -140,7 +172,10 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         receiveM["game_type_name"].toString(),
-                                        style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                   ),
@@ -149,7 +184,10 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         receiveM["total_bet"].toString(),
-                                        style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                   ),
@@ -158,7 +196,31 @@ class KKRebateRecordsWidget extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         "+${receiveM["total_money"]}",
-                                        style:const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 70,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        child: const Text(
+                                          "详情",
+                                          style: TextStyle(
+                                              color: Color(0xFF20F752),
+                                              fontSize: 12,
+                                              decoration: TextDecoration.underline,
+                                              decorationStyle: TextDecorationStyle.solid,
+                                              decorationColor: Color(0xFF20F752),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        onTap: (){
+                                           controller.selectedRecordInfo.value = receiveM;
+                                           RouteUtil.pushToView(Routes.recordDetail);
+                                        },
                                       ),
                                     ),
                                   ),
@@ -186,17 +248,23 @@ class KKRebateRecordsWidget extends StatelessWidget {
     return Container(
       width: 48,
       decoration: BoxDecoration(
-        gradient: isSelected ? const LinearGradient(colors: [Color(0x5C3D35C6), Color(0x5C6C4FE0)]) : null,
+        gradient: isSelected
+            ? const LinearGradient(
+                colors: [Color(0x5C3D35C6), Color(0x5C6C4FE0)])
+            : null,
         borderRadius: BorderRadius.circular(4),
       ),
       child: TextButton(
         onPressed: () {
-          controller.dateType.value = index;
+          controller.changeDateType(index);
         },
-        style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+        style: const ButtonStyle(
+            padding: MaterialStatePropertyAll(EdgeInsets.zero)),
         child: Text(
           text,
-          style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF707A8C), fontSize: 12),
+          style: TextStyle(
+              color: isSelected ? Colors.white : const Color(0xFF707A8C),
+              fontSize: 12),
         ),
       ),
     );

@@ -11,18 +11,21 @@ import 'package:kkguoji/pages/home/view/home_page.dart';
 import 'package:kkguoji/pages/main/view/main_page.dart';
 import 'package:kkguoji/pages/mine/data/personal_data_page.dart';
 import 'package:kkguoji/pages/mine/bet_list/view.dart';
+import 'package:kkguoji/pages/mine/message/message_page.dart';
 import 'package:kkguoji/pages/mine/myaccount/page/switch_avatar_page.dart';
 import 'package:kkguoji/pages/mine/myaccount/page/set_login_psd_page.dart';
 import 'package:kkguoji/pages/mine/wallet/index/wallet_page.dart';
-import 'package:kkguoji/pages/mine/message/message.dart';
 import 'package:kkguoji/pages/mine/mine_page.dart';
 import 'package:kkguoji/pages/mine/myaccount/my_account_page.dart';
 import 'package:kkguoji/pages/mine/setting/setting.dart';
 import 'package:kkguoji/pages/promotion/binding/promotion_bindings.dart';
 import 'package:kkguoji/pages/promotion/view/promotion_page.dart';
 import 'package:kkguoji/pages/rebate/bindings/binding.dart';
+import 'package:kkguoji/pages/rebate/bindings/detail_binding.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
+import 'package:kkguoji/pages/rebate/view/rebate_records_detail_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
+import 'package:kkguoji/pages/webView/provicy_webView.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
 import 'package:kkguoji/services/user_service.dart';
@@ -61,7 +64,6 @@ abstract class Routes {
   static const String bindEmail = "/account/email";
   static const String mine = "/mine";
   static const String game = "/games";
-  static const String messageCenter = '/mine/message'; //公告信息查询
   static const String settingPage = "/mine/setting";
   static const String claimRecordPage = "/mine/claimrecord"; //领取记录
   static const String personalData = "/personDataPage";
@@ -73,28 +75,48 @@ abstract class Routes {
   static const String informationSettingsPage = "/mine/informationSettingsPage";
   static const String tgWebView = "/tg_webview";
   static const String awardPage = "/award_page";
+  static const String messagePage = "/messagePage";
+  static const String privacyPage = "/privacyPage";
+  static const String recordDetail = "/record_detail";
+
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
     GetPage(name: registerPage, page: () => const KKRegisterPage()),
     GetPage(name: homePage, page: () => KKHomePage(), binding: HomeBinding()),
-    GetPage(name: activity, page: () => const ActivityPage(), binding: ActivityBinding()),
-    GetPage(name: activityDetail, page: () => ActivityDetailPage(), binding: ActivityDetailBinding()),
+    GetPage(
+        name: activity,
+        page: () => const ActivityPage(),
+        binding: ActivityBinding()),
+    GetPage(
+        name: activityDetail,
+        page: () => ActivityDetailPage(),
+        binding: ActivityDetailBinding()),
     GetPage(name: walletPage, page: () => const WalletPage()),
-    GetPage(name: walletFundDetailPage, page: () => const WalletFundDetailPage()),
+    GetPage(
+        name: walletFundDetailPage, page: () => const WalletFundDetailPage()),
     GetPage(name: walletRecordPage, page: () => WalletRecordPage()),
     GetPage(name: webView, page: () => const KKWebViewPage()),
-    GetPage(name: customer, page: () => KKCustomerServicePage(), binding: CustomerBinding()),
-    GetPage(name: promotion, page: () => const KKPromotionPage(), binding: PromotionBinding()),
+    GetPage(
+        name: customer,
+        page: () => KKCustomerServicePage(),
+        binding: CustomerBinding()),
+    GetPage(
+        name: promotion,
+        page: () => const KKPromotionPage(),
+        binding: PromotionBinding()),
     GetPage(name: promation_history, page: () => const KKHistoryRecordsPage()),
     GetPage(name: recharge, page: () => const RechargePage()),
     GetPage(name: withdraw, page: () => const WithdrawPage()),
     GetPage(name: withdrawPsd, page: () => const WithdrawPsdPage()),
     GetPage(name: claimRecordPage, page: () => const ClaimRecordPage()),
-    GetPage(name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
-    GetPage(name: personalData, page: () => KKPersonalDataPage(), binding: PersonalDataBinding()),
+    GetPage(
+        name: rebate, page: () => KKRebatePage(), binding: KKRebateBinding()),
+    GetPage(
+        name: personalData,
+        page: () => KKPersonalDataPage(),
+        binding: PersonalDataBinding()),
     GetPage(name: betListPage, page: () => const BetListPage()),
-    GetPage(name: messageCenter, page: () => const MessageCenterPage()),
     GetPage(name: bindEmail, page: () => const BindEmailPage()),
     GetPage(name: mine, page: () => MinePage()),
     GetPage(name: settingPage, page: () => const SettingPage()),
@@ -102,10 +124,15 @@ abstract class Routes {
     GetPage(name: myAccountPage, page: () => const MyAccountPage()),
     GetPage(name: setLoginPsdPage, page: () => const SetLoginPsdPage()),
     GetPage(name: mainPage, page: () => const KKMainPage()),
-    GetPage(name: informationSettingsPage, page: () => const InformationSettingsPage()),
+    GetPage(
+        name: informationSettingsPage,
+        page: () => const InformationSettingsPage()),
     GetPage(name: game, page: () => const KKGamesPage()),
     GetPage(name: tgWebView, page: () => TGWebview()),
     GetPage(name: awardPage, page: () => AwardPage(), binding: AwardBinding()),
+    GetPage(name: privacyPage, page: ()=> const KKPrivacyPage()),
+    GetPage(name: messagePage, page: () => const MessagePage()),
+    GetPage(name: recordDetail, page: ()=> KKRecordDetailPage(), binding: DetailBinding()),
   ];
 
   static Widget getPage(String pageName) {

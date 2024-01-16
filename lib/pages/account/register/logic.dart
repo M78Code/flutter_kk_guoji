@@ -24,6 +24,25 @@ class RegisterLogic extends GetxController {
   final RxBool isCanRegister = false.obs;
   final RxBool psdObscure = true.obs;
   final RxBool verPsdObscure = true.obs;
+  final accountErrStr = "".obs;
+
+  final passwordErrStr = "".obs;
+  final psdLetter = false.obs;
+  final psdNum = false.obs;
+  final psdLength = false.obs;
+  final psdSys = false.obs;
+  final isHiddenPsdHit = true.obs;
+
+  final verPsdErrStr = "".obs;
+
+  final verCodeErrStr = "".obs;
+
+
+  final RxnBool accountOK = RxnBool();
+  final RxnBool psdOK = RxnBool();
+  final RxnBool verPsdOK = RxnBool();
+  final RxnBool verCodeOK = RxnBool();
+
   final RxList<int> verCodeImageBytes = RxList<int>();
   final sqliteService = Get.find<SqliteService>();
   final globalController = Get.find<UserService>();
@@ -122,22 +141,111 @@ class RegisterLogic extends GetxController {
 
   inputAccountValue(String account) {
     accountText = account;
+    RegExp regExp = RegExp("^[A-Za-z][A-Za-z0-9]+\$");
+    if(account.isEmpty) {
+      accountErrStr.value = "用户名不能为空";
+      accountOK.value = false;
+    }else if(accountText.length< 4 || accountText.length > 12) {
+      accountErrStr.value = "用户名长度为4-12位";
+      accountOK.value = false;
+    }else if (!regExp.hasMatch(account)) {
+      accountErrStr.value = "用户名格式为首字母+数字的组合";
+      accountOK.value = false;
+    }else {
+      accountErrStr.value = '';
+      accountOK.value = true;
+    }
     checkCanRegister();
   }
   inputPasswordValue(String password) {
     passwordText = password;
+    if(passwordText.isEmpty) {
+      isHiddenPsdHit.value = true;
+      passwordErrStr.value = "密码不能为空";
+      if(verPsdText.isEmpty) {
+        verPsdErrStr.value = "密码不能为空";
+      }else {
+        verPsdErrStr.value = "两次输入的密码不一致";
+      }
+      psdOK.value = false;
+      verPsdOK.value = false;
+    }else {
+      isHiddenPsdHit.value = false;
+      psdLetter.value = RegExp("[a-zA-Z]").hasMatch(passwordText);
+     psdLength.value = passwordText.length >= 8 && passwordText.length <= 12;
+     psdNum.value = RegExp("[0-9]").hasMatch(passwordText);
+     psdSys.value = RegExp("[~`!@#\$%^&*()+=|{}':;',\\[\\]<>/?.]").hasMatch(passwordText);
+     if(psdLetter.value && psdNum.value && psdLength.value && psdSys.value) {
+       psdOK.value = true;
+     }else {
+       psdOK.value = false;
+     }
+
+     if(verPsdText.isEmpty) {
+       verPsdErrStr.value = "密码不能为空";
+       verPsdOK.value = false;
+     }else {
+       if(passwordText != verPsdText) {
+         verPsdErrStr.value = "两次输入的密码不一致";
+         verPsdOK.value = false;
+       }else {
+         verPsdErrStr.value = "";
+         verPsdOK.value = true;
+       }
+     }
+    }
     checkCanRegister();
+  }
+  passwordLastInput(String password) {
+    passwordText = password;
+    if(passwordText.isEmpty) {
+      isHiddenPsdHit.value = true;
+      passwordErrStr.value = "密码不能为空";
+      psdOK.value = false;
+    }
+  }
+
+  verPasswordLastInput(String password) {
+    verPsdText = password;
+    if(passwordText.isEmpty) {
+      verPsdErrStr.value = "密码不能为空";
+      verPsdOK.value = false;
+    }
+
   }
   inputVerPasswordValue(String verPsd) {
     verPsdText = verPsd;
+    if(verPsdText.isEmpty) {
+      verPsdErrStr.value = "密码不能为空";
+      verPsdOK.value = false;
+    }else {
+      if(passwordText != verPsdText) {
+        verPsdErrStr.value = "两次输入的密码不一致";
+        verPsdOK.value = false;
+      }else {
+        verPsdErrStr.value = "";
+        verPsdOK.value = true;
+      }
+    }
     checkCanRegister();
   }
   inputInviteCodeValue(String code) {
     inviteText = code;
+
     checkCanRegister();
   }
   inputVerCodeValue(String code) {
     verCodeText = code;
+    if(verCodeText.isEmpty) {
+      verCodeErrStr.value = "验证码不能为空";
+      verCodeOK.value = false;
+    }else if(verCodeText.length != 4) {
+      verCodeErrStr.value = "验证码长度为4位!";
+      verCodeOK.value = false;
+    }else {
+      verCodeErrStr.value = "";
+      verCodeOK.value = true;
+    }
     if(!isHiddenVerCode.value) {
       checkCanRegister();
     }

@@ -1,8 +1,7 @@
 
-import 'dart:ui';
-
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter/scheduler.dart';
 
 
 /// 配置服务
@@ -13,6 +12,9 @@ class ConfigService extends GetxService {
   PackageInfo? _platform;
 
   String get version => _platform?.version ?? '-';
+
+  RxBool isSupportIconVisible = true.obs;
+
   // 多语言
   // Locale locale;
   // 是否首次打开
@@ -26,5 +28,11 @@ class ConfigService extends GetxService {
 
   Future<void> getPlatform() async {
     _platform = await PackageInfo.fromPlatform();
+  }
+
+  void toggleButtonVisibility(bool isVisible) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      this.isSupportIconVisible.value = isVisible;
+    });
   }
 }
