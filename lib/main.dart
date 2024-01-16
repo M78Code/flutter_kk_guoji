@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_user_agentx/flutter_user_agent.dart';
+import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/ex_widget.dart';
 import 'package:kkguoji/pages/main/binding/bindings.dart';
@@ -21,7 +21,7 @@ void main() async {
   APPUtil();
   // SqliteUtil();
   await Global.init();
-  await FlutterUserAgent.init();
+  await FkUserAgent.init();
   runApp(const MyApp());
 }
 
