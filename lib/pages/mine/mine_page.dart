@@ -404,8 +404,8 @@ class MinePage extends GetView<MineLogic> {
                             padding: EdgeInsets.all(8.w),
                             backgroundColor: Colors.white,
                             data:
-                            controller.promotionModel?.domain?.first?.url ??
-                                "",
+                                controller.promotionModel?.domain?.first?.url ??
+                                    "",
                             version: QrVersions.auto,
                             size: 48.w,
                           ),
@@ -445,10 +445,10 @@ class MinePage extends GetView<MineLogic> {
                       height: 40.w,
                       decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 1, color: Color(0xFF3D35C6)),
-                            borderRadius: BorderRadius.circular(22.w),
-                          )),
+                        side: const BorderSide(
+                            width: 1, color: Color(0xFF3D35C6)),
+                        borderRadius: BorderRadius.circular(22.w),
+                      )),
                       child: TextButton(
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: '123'));
@@ -474,8 +474,8 @@ class MinePage extends GetView<MineLogic> {
 
   Future<void> captureAndSaveImage() async {
     RenderRepaintBoundary boundary =
-    _shareImageRepaintBoundaryKey.currentContext!.findRenderObject()
-    as RenderRepaintBoundary;
+        _shareImageRepaintBoundaryKey.currentContext!.findRenderObject()
+            as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
@@ -1029,7 +1029,7 @@ class WelfareReward extends StatelessWidget {
           ),
           ListTile(
             leading: Image.asset(
-              Assets.imagesIconLogOut,
+              Assets.imagesIconMineShare,
               width: 18,
               height: 18.5,
               fit: BoxFit.cover,

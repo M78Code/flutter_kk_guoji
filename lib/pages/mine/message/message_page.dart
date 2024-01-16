@@ -46,10 +46,10 @@ class _MessagePageState extends State<MessagePage> {
           dataArray.map((jsonMap) => NoticeTypeModel.fromMap(jsonMap)));
       setState(() {
         _noticeTypeList = models;
-        NoticeTypeModel typeModel = NoticeTypeModel(id: 0, name: '全部公告');
-        _noticeTypeList.insert(0, typeModel);
       });
     }
+    NoticeTypeModel typeModel = NoticeTypeModel(id: 0, name: '全部公告');
+    _noticeTypeList.insert(0, typeModel);
   }
 
   //公告列表
