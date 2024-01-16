@@ -69,6 +69,13 @@ class Assets {
   static const String homeHomeZbbjlIcon = 'assets/images/home/home_zbbjl_icon.png';
   static const String homeHotcaizhong = 'assets/images/home/hotcaizhong.png';
   static const String homeHuojian = 'assets/images/home/huojian.png';
+  static const String homeServeFour = 'assets/images/home/serve_four.png';
+  static const String homeServeFsc = 'assets/images/home/serve_fsc.png';
+  static const String homeServeMga = 'assets/images/home/serve_mga.png';
+  static const String homeServeOne = 'assets/images/home/serve_one.png';
+  static const String homeServePagcor = 'assets/images/home/serve_pagcor.png';
+  static const String homeServeThree = 'assets/images/home/serve_three.png';
+  static const String homeServeTwo = 'assets/images/home/serve_two.png';
   static const String homeSportsaishi = 'assets/images/home/sportsaishi.png';
   static const String htmlPrivacy = 'assets/html/privacy.html';
   static const String htmlRegisterProtocol = 'assets/html/register_protocol.html';

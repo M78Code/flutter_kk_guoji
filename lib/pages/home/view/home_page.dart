@@ -8,6 +8,7 @@ import 'package:kkguoji/pages/home/view/home_balance_widget.dart';
 import 'package:kkguoji/pages/home/view/home_games_widget.dart';
 import 'package:kkguoji/pages/home/view/home_marquee_widget.dart';
 import 'package:kkguoji/pages/home/view/home_real_widget.dart';
+import 'package:kkguoji/pages/home/view/home_serve_widget.dart';
 import 'package:kkguoji/pages/home/view/home_sports_widget.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/home_top_widget.dart';
@@ -78,6 +79,8 @@ class KKHomePage extends GetView<HomeLogic> {
                         KKHomeSportsWidget(),
 
                         KKHomeRealWidget(),
+
+                        HomeServeWidget(),
 
                         // Container(
                         //   height: 83,
