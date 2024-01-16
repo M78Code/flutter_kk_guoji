@@ -63,10 +63,8 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           _buildInputName().marginOnly(bottom: 20.h),
           _buildInputCoinAddress().marginOnly(bottom: 20.h),
           _buildInputAmount().marginOnly(bottom: 20.h),
-          if (controller.userInfoModel?.withdrawPwdStatus == 1) ...[
-            _buildWithdrawPsd(),
-          ],
-          _buildWarning().marginOnly(top: 10.h, bottom: 10.h),
+          _buildWithdrawPsd(),
+          // _buildWarning().marginOnly(top: 10.h, bottom: 10.h),
           // _buildTip(),
           // _buildWithdrawInfo(),
           buttonSubmit(
@@ -281,6 +279,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           "提现密码",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
+        if (controller.userInfoModel?.withdrawPwdStatus == 1) const SizedBox(height: 10),
         Obx(
           () => Visibility(
             visible: controller.userInfoModel?.withdrawPwdStatus == 1,
@@ -292,7 +291,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               keyboardType: TextInputType.number,
               editController: controller.withdrawPsdController,
               rightWidget: IconButton(
-                padding: EdgeInsets.zero, // 设置内边距为零
+                padding: EdgeInsets.zero, //设置内边距为零
                 visualDensity: VisualDensity.compact,
                 onPressed: () => controller.showPsd.value = !controller.showPsd.value,
                 icon: Image.asset(
@@ -303,7 +302,42 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               ),
             ),
           ),
-        ).marginOnly(top: 10.h),
+        ),
+        if (controller.userInfoModel?.withdrawPwdStatus == 1) const SizedBox(height: 5),
+        InkWellView(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+          ),
+          width: 100,
+          height: 32,
+          borderRadius: 16.0,
+          onPressed: () => RouteUtil.pushToView(
+            Routes.withdrawPsd,
+            arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
+          ),
+          child: Text(
+            controller.userInfoModel?.withdrawPwdStatus == 1 ? "修改提现密码" : "提现密码",
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: Colors.white,
+            ),
+          ),
+        ).marginSymmetric(vertical: 10.h),
+        Row(
+          children: [
+            Image.asset(
+              Assets.rechargeIconTip,
+              width: 14.w,
+              height: 14.h,
+              color: const Color(0xffFF8A00),
+            ),
+            SizedBox(width: 5.w),
+            Text(
+              "为了您的账号安全，请设置提现密码。",
+              style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
+            ),
+          ],
+        )
       ],
     );
   }
@@ -430,6 +464,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
   Widget _buildWarning() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         InkWellView(
           gradient: const LinearGradient(
