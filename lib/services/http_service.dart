@@ -63,7 +63,7 @@ class HttpService extends GetxService {
       return responseData;
     } on DioError catch (e) {
       Response? errResponse = e.response;
-      final msg = errResponse?.data["message"];
+      final msg = errResponse?.data["message"] ?? "";
       final code = errResponse?.data["code"];
       if (code == 1001) {
         RouteUtil.pushToView(Routes.loginPage, offAll: true);

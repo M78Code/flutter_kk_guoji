@@ -8,6 +8,7 @@ import 'package:kkguoji/pages/withdraw/withdraw_logic.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
+import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
@@ -23,13 +24,13 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       builder: (controller) => KeyboardDissmissable(
         child: Scaffold(
           appBar: _buildAppBar(context),
-          body: SafeArea(child: _buildView()),
+          body: SafeArea(child: _buildView(context)),
         ),
       ),
     );
   }
 
-  Widget _buildView() {
+  Widget _buildView(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           border: Border(
@@ -71,7 +72,13 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           buttonSubmit(
             height: 50.h,
             text: "确认提现",
-            onPressed: () => controller.withdrawSubmit(),
+            onPressed: () {
+              controller.withdrawSubmit().then((value) {
+                if (value) {
+                  _showDialog(context);
+                }
+              });
+            },
           ).marginSymmetric(vertical: 20.h),
         ],
       ).paddingSymmetric(horizontal: 20.w),
@@ -97,7 +104,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
         Padding(
           padding: EdgeInsets.only(right: 25.w),
           child: Text(
-            UserService.to.userMoneyModel?.money ?? "0.00",
+            StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.sp,
@@ -167,10 +174,37 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             style: TextStyle(color: Colors.white, fontSize: 14.sp),
           ),
           SizedBox(width: 3.w),
-          Image.asset(Assets.imagesIconRefresh, width: 14.w, height: 12.h),
+          SizedBox(
+            width: 30,
+            height: 30,
+            child: TextButton(
+              onPressed: () async {
+                controller.animationController
+                  ..reset()
+                  ..forward();
+                controller.updateUserInfo();
+              },
+              style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+              child: AnimatedBuilder(
+                animation: controller.animationController,
+                builder: (BuildContext context, Widget? child) {
+                  return Transform.rotate(
+                    angle: controller.rotationAnimation.value * (3.14 / 180), // 将度数转换为弧度
+                    child: Image.asset(
+                      Assets.imagesHomeRefreshIcon,
+                      width: 18,
+                      height: 18,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          // Image.asset(Assets.imagesIconRefresh, width: 14.w, height: 12.h),
           const Spacer(),
           Text(
-            "${UserService.to.userMoneyModel?.money ?? 0.00}",
+            StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
             style: TextStyle(color: Colors.white, fontSize: 14.sp),
           )
         ],
@@ -203,12 +237,12 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "提币地址",
+          "收款地址",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 10.h),
         inputTextEdit(
-          hintText: "请输入USDT钱包提现地址",
+          hintText: "请输入USDT钱包地址",
           hintTextSize: 15,
           maxLength: 200,
           editController: controller.addressController,
@@ -223,7 +257,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "提款金额",
+          "提现金额",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 10.h),
@@ -247,27 +281,29 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           "提现密码",
           style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 10.h),
         Obx(
-          () => inputTextEdit(
-            hintText: "请输入提现密码",
-            hintTextSize: 15,
-            maxLength: 6,
-            isPassword: controller.showPsd.value,
-            keyboardType: TextInputType.number,
-            editController: controller.withdrawPsdController,
-            rightWidget: IconButton(
-              padding: EdgeInsets.zero, // 设置内边距为零
-              visualDensity: VisualDensity.compact,
-              onPressed: () => controller.showPsd.value = !controller.showPsd.value,
-              icon: Image.asset(
-                controller.showPsd.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
-                width: 24.w,
-                height: 24.h,
+          () => Visibility(
+            visible: controller.userInfoModel?.withdrawPwdStatus == 1,
+            child: inputTextEdit(
+              hintText: "请输入提现密码",
+              hintTextSize: 15,
+              maxLength: 6,
+              isPassword: controller.showPsd.value,
+              keyboardType: TextInputType.number,
+              editController: controller.withdrawPsdController,
+              rightWidget: IconButton(
+                padding: EdgeInsets.zero, // 设置内边距为零
+                visualDensity: VisualDensity.compact,
+                onPressed: () => controller.showPsd.value = !controller.showPsd.value,
+                icon: Image.asset(
+                  controller.showPsd.value ? Assets.imagesPasswordOn : Assets.imagesPasswordOff,
+                  width: 24.w,
+                  height: 24.h,
+                ),
               ),
             ),
           ),
-        ),
+        ).marginOnly(top: 10.h),
       ],
     );
   }
@@ -294,7 +330,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             InkWellView(
               onPressed: () => RouteUtil.pushToView(
                 Routes.withdrawPsd,
-                arguments: false, //controller.userInfoModel?.withdrawPwdStatus == 0
+                arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
               ),
               child: Text(
                 controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
@@ -407,7 +443,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
           ),
           child: Text(
-            controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "修改提现密码",
+            controller.userInfoModel?.withdrawPwdStatus == 0 ? "提现密码" : "修改提现密码",
             style: TextStyle(
               fontSize: 12.sp,
               color: Colors.white,
@@ -424,12 +460,70 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             ),
             SizedBox(width: 5.w),
             Text(
-              "为了您的账号安全，请设置提现密码！",
+              "为了您的账号安全，请设置提现密码。",
               style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
             ),
           ],
         )
       ],
     );
+  }
+
+  ///退出弹框
+  void _showDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            alignment: Alignment.center,
+            backgroundColor: const Color(0xff181E2F),
+            shadowColor: const Color(0xff2E374C),
+            title: const Text(
+              '提示',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: const Text(
+              "提现成功，请等待提现到账",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity,
+                height: 40,
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xff3D35C6), Color(0xff6C4FE0)],
+                  ),
+                ),
+                child: TextButton(
+                    onPressed: () {
+                      controller.clearInput();
+                      Navigator.of(context).pop();
+                      // RouteUtil.popView();
+                    },
+                    child: const Text(
+                      '确认',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )),
+              )
+            ],
+          );
+        });
   }
 }

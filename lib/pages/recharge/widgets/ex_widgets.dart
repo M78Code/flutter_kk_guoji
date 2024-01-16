@@ -238,7 +238,7 @@ class CategoryRadioWidget extends StatelessWidget {
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(category.imgPath!, width: 12.w, height: 12.h),
+                Image.asset(category.imgPath!, width: 16.w, height: 16.h),
                 SizedBox(width: 5.w),
                 Text(
                   category.name ?? "",
