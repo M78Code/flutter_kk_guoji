@@ -400,6 +400,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_user_agentx:
+    dependency: "direct main"
+    description:
+      name: flutter_user_agentx
+      sha256: "35c0357fec055d3e085609a88aeefcac09a345f568ed176c5ad19d3188555563"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.2.4"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
