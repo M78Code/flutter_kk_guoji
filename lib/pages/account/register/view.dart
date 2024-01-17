@@ -44,9 +44,11 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
             behavior: HitTestBehavior.translucent,
             child: Container(
               height: double.infinity,
+              width: double.infinity,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/register_bg.png"),
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/register_bg.png",),
                 ),
               ),
               child: Container(
