@@ -10,6 +10,7 @@ class WBetListRecordListChidViewModel {
   String? gameName;
   String? gameTypeName;
   String? betAmount;
+  String? gameProfit;
   String? orderN;
   String? money;
   String? statusName;
@@ -19,6 +20,7 @@ class WBetListRecordListChidViewModel {
     this.gameName,
     this.gameTypeName,
     this.betAmount,
+    this.gameProfit,
     this.orderN,
     this.money,
     this.statusName,
@@ -98,7 +100,7 @@ class BetListRecordListChidView extends StatelessWidget {
                           height: 36.w,),
                         SizedBox(height: 4.w),
                         Text(
-                          rowData.betAmount ?? "",
+                          rowData.gameProfit ?? "",
                           style: TextStyle(
                               color: Color(0xFFFFFFFF),
                               fontSize: 14.sp,

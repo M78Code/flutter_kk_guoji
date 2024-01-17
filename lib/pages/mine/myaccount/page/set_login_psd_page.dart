@@ -41,7 +41,7 @@ class SetLoginPsdPage extends GetView {
                 children: [
                   SizedBox(height: 20.h),
                   Obx(() {
-                    return CustomInputField(Assets.imagesPasswordIcon, "请输入原密码",
+                    return CustomInputField(Assets.imagesPasswordIcon, "请输入原密码", radius: 21,
                         isObscureText: controller.psdObscure1.value,
                         keybordType: TextInputType.text,
                         maxLength: 20,
@@ -64,7 +64,7 @@ class SetLoginPsdPage extends GetView {
                   }),
                   SizedBox(height: 20.h),
                   Obx(() {
-                    return CustomInputField(Assets.imagesPasswordIcon, "请输入新密码",
+                    return CustomInputField(Assets.imagesPasswordIcon, "请输入新密码", radius: 21,
                         isObscureText: controller.psdObscure2.value,
                         keybordType: TextInputType.text,
                         maxLength: 20,
@@ -88,7 +88,7 @@ class SetLoginPsdPage extends GetView {
                   if (!Get.arguments) ...[
                     const SizedBox(height: 20),
                     Obx(() {
-                      return CustomInputField(Assets.imagesPasswordIcon, "请确认新密码",
+                      return CustomInputField(Assets.imagesPasswordIcon, "请确认新密码", radius: 21,
                           isObscureText: controller.psdObscure3.value,
                           rightWidget: GestureDetector(
                             child: SizedBox(
@@ -109,7 +109,7 @@ class SetLoginPsdPage extends GetView {
                     }),
                     const SizedBox(height: 20),
                     Obx(() {
-                      return CustomInputField(Assets.imagesVerCode, "请输入验证码",
+                      return CustomInputField(Assets.imagesVerCode, "请输入验证码", radius: 21,
                           valueChanged: (value) {
                         controller.inputVerCodeValue(value);
                       },

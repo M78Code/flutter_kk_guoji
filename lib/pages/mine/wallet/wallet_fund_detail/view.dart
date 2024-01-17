@@ -32,6 +32,7 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('资产明细'),
+        centerTitle: true,
         leading:  IconButton(
           icon: Image.asset(
               Assets.systemIconBack,
