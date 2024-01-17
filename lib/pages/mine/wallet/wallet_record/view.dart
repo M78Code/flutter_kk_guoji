@@ -43,22 +43,6 @@ class WalletRecordPage extends StatelessWidget {
     );;
   }
 
-  Widget _buildView() {
-    return Container(
-      child: Expanded(
-          child: PageView(
-            controller: controller.pageController,
-            onPageChanged: (index) {
-              controller.switchIndex(index);
-            },
-            children: [
-              WithdrawRecordPage(),
-              ChargeRecordPage()
-            ],
-          )
-      ),
-    );
-  }
   Widget _buildSwitchMenu() {
 
     var selTextStyle = TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w700);

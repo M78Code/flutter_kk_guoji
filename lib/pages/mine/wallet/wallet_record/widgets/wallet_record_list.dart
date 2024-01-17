@@ -45,7 +45,7 @@ class WalletRecordList extends StatelessWidget {
                     return  ChargeRecordListChild(viewModel);
                   }
             },
-            childCount:this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
+            childCount: this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
           ),
         );
       },

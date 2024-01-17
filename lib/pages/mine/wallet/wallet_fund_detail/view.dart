@@ -45,51 +45,49 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child:EasyRefresh(
-          controller: controller.refreshController,
-          onRefresh: () async {
-            controller.onRefresh();
-          },
-          onLoad: () async {
-            controller.onLoading();
-          },
-          child:  CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: MineWalletBalanceWidget(),
+        child: Column(
+          children: [
+            MineWalletBalanceWidget(),
+            SizedBox(height: 20.w),
+            RechargeSection(),
+            SizedBox(height: 20.w),
+            GetBuilder<WalletFundDetailLogic>(
+              id: 'dateSelector',
+              builder: (controller) {
+                String? dateRange;
+                if (controller.startDate != null && controller.endDate != null) {
+                  var startText = DateFormat('MM/dd').format(controller.startDate!);
+                  var endText = DateFormat('MM/dd').format(controller.endDate!);
+                  dateRange = startText + " - " + endText;
+                }
+                return DateSelectionSection(
+                    dateTypes: controller.dateTypes,
+                    selectType: controller.dateType ?? "",
+                    selectDateRange: dateRange,
+                    onTap: (selectType){
+                      controller.onTapSwitchDate(selectType);
+                    },
+                    onTapSelectTime: (){
+                      _showTimeWidget();
+                    });
+              },
+            ),
+            SizedBox(height: 15.w),
+            EasyRefresh(
+              controller: controller.refreshController,
+              onRefresh: () async {
+                controller.onRefresh();
+              },
+              onLoad: () async {
+                controller.onLoading();
+              },
+              child:  CustomScrollView(
+                slivers: [
+                  TransactionListSection(),
+                ],
               ),
-              SliverToBoxAdapter(  child: SizedBox(height: 20.w,)  ),
-              SliverToBoxAdapter(
-                child: RechargeSection(),
-              ),
-              SliverToBoxAdapter( child: SizedBox(height: 20.w,) ),
-              SliverToBoxAdapter(
-                child: GetBuilder<WalletFundDetailLogic>(
-                  id: 'dateSelector',
-                  builder: (controller) {
-                    String? dateRange;
-                    if (controller.startDate != null && controller.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.dateTypes,
-                        selectType: controller.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget();
-                        });
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-              TransactionListSection(),
-            ],
-          ),
+            ).expanded()
+          ],
         ),
       ).safeArea(),
     );

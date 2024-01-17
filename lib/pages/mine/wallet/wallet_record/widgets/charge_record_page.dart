@@ -39,47 +39,43 @@ class ChargeRecordPage extends StatelessWidget {
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: WalletRecordBalanceWidget().marginOnly(top: 10.w),
+          child:Column(
+            children: [
+              WalletRecordBalanceWidget().marginOnly(top: 10.w),
+              SizedBox(height: 20.w,),
+              GetBuilder<WalletRecordLogic>(
+                id: 'rechargeDateSelector',
+                builder: (controller) {
+                  String? dateRange;
+                  if (controller.userRechargeState.startDate != null && controller.userRechargeState.endDate != null) {
+                    var startText = DateFormat('MM/dd').format(controller.userRechargeState.startDate!);
+                    var endText = DateFormat('MM/dd').format(controller.userRechargeState.endDate!);
+                    dateRange = startText + " - " + endText;
+                  }
+                  return DateSelectionSection(
+                      dateTypes: controller.userRechargeState.dateTypes,
+                      selectType: controller.userRechargeState.dateType ?? "",
+                      selectDateRange: dateRange,
+                      onTap: (selectType){
+                        controller.onTapSwitchDate(selectType);
+                      },
+                      onTapSelectTime: (){
+                        _showTimeWidget(context);
+                      });
+                },
               ),
-              SliverToBoxAdapter( child: SizedBox(height: 20.w,)),
-              SliverToBoxAdapter(
-                child: GetBuilder<WalletRecordLogic>(
-                  id: 'rechargeDateSelector',
-                  builder: (controller) {
-                    String? dateRange;
-                    if (controller.userRechargeState.startDate != null && controller.userRechargeState.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.userRechargeState.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.userRechargeState.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.userRechargeState.dateTypes,
-                        selectType: controller.userRechargeState.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget(context);
-                        });
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 15.w,)
-              ),
-              controller.userRechargeState.userRechargeModels.isEmpty ? SliverToBoxAdapter(child: Center(
-                child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
-              )) :
-            WalletRecordList(isWithDrawRecord: false),
-            SliverToBoxAdapter(
-                  child: SizedBox(height: 10.w,)
-              ),
+              SizedBox(height: 15.w,),
+              CustomScrollView(
+                slivers: [
+                  controller.userRechargeState.userRechargeModels.isEmpty ? SliverToBoxAdapter(child: Center(
+                    child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
+                  )) :
+                  WalletRecordList(isWithDrawRecord: false),
+                  SliverToBoxAdapter(child: SizedBox(height: 10.w)),
+                ],
+              ).expanded()
             ],
-          ),
+          )
         ).safeArea(),
       ),
     );

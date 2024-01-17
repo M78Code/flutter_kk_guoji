@@ -73,65 +73,67 @@ class _BetListPageState extends State<BetListPage> {
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child:EasyRefresh(
-          controller: controller.refreshController,
-          onRefresh: () async {
-            controller.onRefresh();
-          },
-          onLoad: () async {
-            controller.onLoading();
-          },
-          child:  CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(child: SizedBox(height: 15.w,)),
-              SliverToBoxAdapter(
-                child:  GetBuilder<BetListController>(
-                  id: 'menu',
-                  builder: (controller){
-                    return BetListMenuWidget(
-                        menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
-                        onTap: (index){
-                          if (index == 0) {
-                            _typeMenuCli(controller);
-                          }
-                          else {
-                            _gameMenuCli(controller);
-                          }
-                        });
-                  },
-                ),
+        child: Column(
+          children: [
+            SizedBox(height: 15.w,),
+            Container(
+              child: GetBuilder<BetListController>(
+                id: 'menu',
+                builder: (controller){
+                  return BetListMenuWidget(
+                      menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
+                      onTap: (index){
+                        if (index == 0) {
+                          _typeMenuCli(controller);
+                        }
+                        else {
+                          _gameMenuCli(controller);
+                        }
+                      });
+                },
               ),
-              SliverToBoxAdapter(child: SizedBox(height: 15.w,)),
-              SliverToBoxAdapter(
-                child: GetBuilder<BetListController>(
-                  id: 'dateSelector',
-                  builder: (_) {
-                    String? dateRange;
-                    if (controller.startDate != null && controller.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.dateTypes,
-                        selectType: controller.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget(controller);
-                        });
-                  },
-                ),
+            ),
+            SizedBox(height: 15.w,),
+            GetBuilder<BetListController>(
+              id: 'dateSelector',
+              builder: (_) {
+                String? dateRange;
+                if (controller.startDate != null && controller.endDate != null) {
+                  var startText = DateFormat('MM/dd').format(controller.startDate!);
+                  var endText = DateFormat('MM/dd').format(controller.endDate!);
+                  dateRange = startText + " - " + endText;
+                }
+                return DateSelectionSection(
+                    dateTypes: controller.dateTypes,
+                    selectType: controller.dateType ?? "",
+                    selectDateRange: dateRange,
+                    onTap: (selectType){
+                      controller.onTapSwitchDate(selectType);
+                    },
+                    onTapSelectTime: (){
+                      _showTimeWidget(controller);
+                    });
+              },
+            ),
+            SizedBox(height: 15.w),
+            EasyRefresh(
+              controller: controller.refreshController,
+              onRefresh: () async {
+                controller.onRefresh();
+              },
+              onLoad: () async {
+                controller.onLoading();
+              },
+              child:  CustomScrollView(
+                slivers: [
+                  controller.betModels.isEmpty ? SliverToBoxAdapter(child: Center(
+                    child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
+                  )) : _buildList()
+                  // TransactionListSection(),
+                ],
               ),
-              SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-              controller.betModels.isEmpty ? SliverToBoxAdapter(child: Center(
-                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
-              )) : _buildList()
-              // TransactionListSection(),
-            ],
-          ),
+            ).expanded()
+          ],
         ),
       ).safeArea(),
     );
