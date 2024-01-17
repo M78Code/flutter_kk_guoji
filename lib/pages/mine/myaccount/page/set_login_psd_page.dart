@@ -115,13 +115,15 @@ class SetLoginPsdPage extends GetView {
                       },
                           rightWidget: GestureDetector(
                             child: SizedBox(
-                                width: 80,
+                                width: 100,
+                                height: 40,
                                 child: Center(
                                   child: controller.verCodeImageBytes.value.isEmpty
                                       ? Container()
                                       : Image.memory(
                                           Uint8List.fromList(controller.verCodeImageBytes.value),
-                                          width: 60,
+                                    width: 80,
+                                    height: 25, fit: BoxFit.cover,
                                         ),
                                 )),
                             onTap: () {

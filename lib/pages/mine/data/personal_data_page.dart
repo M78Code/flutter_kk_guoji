@@ -49,7 +49,7 @@ class KKPersonalDataPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("我的彩金", style: TextStyle(color: Colors.white, fontSize: 12),),
+                        const Text("获得彩金", style: TextStyle(color: Colors.white, fontSize: 12),),
                         Obx((){
                           return Text("${controller.data.value["total_bonus"]}", style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900 ),);
 
@@ -141,7 +141,7 @@ class KKPersonalDataPage extends StatelessWidget {
                                 SizedBox(width: 65, child: Center(
                                   child: Text(data["total_bet"], style: const TextStyle(color: Colors.white, fontSize: 14),),
                                 ),),
-                                Expanded(child: KKProgressbar(value: double.parse(data["total_bet"])/1000.0, width: 111, height: 7, outerDecoration: BoxDecoration(
+                                Expanded(child: KKProgressbar(value: double.parse(data["total_bet"])/100000.0, width: 111, height: 7, outerDecoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(3.5),
                                     color: const Color(0xFF1B1F39)
                                 ), innerDecoration: BoxDecoration(
