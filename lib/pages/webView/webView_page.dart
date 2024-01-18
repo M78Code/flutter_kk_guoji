@@ -1,5 +1,4 @@
 
-import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -20,7 +19,6 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
 
     WebViewController controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setUserAgent(FkUserAgent.userAgent)
       ..addJavaScriptChannel("flutter", onMessageReceived: (JavaScriptMessage jsMessage) {})
       ..loadRequest(Uri.parse(Get.arguments));
 

@@ -41,6 +41,9 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
   final RxBool showPsd = true.obs;
   UserInfoModel? userInfoModel; //用户信息类
 
+  //是否启用提交按钮
+  bool isSubmit = false;
+
   RxInt coinCategoryIndex = 1.obs;
   RxString coinName = "USDT".obs;
   RxInt selectTypeIndex = 1.obs;
@@ -103,6 +106,29 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
       // withdrawAmount.value = 0.0;
       withTotalAmount.value = 0.0;
     }
+    final coinNet = typeOptions[selectTypeIndex.value].name;
+    if (coinName.value.isNotEmpty &&
+        null != coinNet &&
+        coinNet.isNotEmpty &&
+        addressController.text.isNotEmpty &&
+        amountController.text.isNotEmpty) {
+      if (userInfoModel?.withdrawPwdStatus == 1) {
+        if (withdrawPsdController.text.isNotEmpty) {
+          //可以点击
+          isSubmit = true;
+        } else {
+          //不可以点击
+          isSubmit = false;
+        }
+      } else {
+        //可以点击
+        isSubmit = true;
+      }
+    } else {
+      //不可以点击
+      isSubmit = false;
+    }
+    update(["WithdrawPage"]);
   }
 
   void updateUserInfo() async {
@@ -148,7 +174,8 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
       return false;
     }
     if (amountController.text.isEmpty) {
-      ShowToast.showToast("请输入提款金额");
+      ShowToast.showToast("请输入提现金额");
+
       return false;
     }
     double useMoney = double.parse(UserService.to.userMoneyModel?.money ?? "0.00");
@@ -156,9 +183,12 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
       ShowToast.showToast("余额不足");
       return false;
     }
-    if (withdrawPsdController.text.isEmpty) {
-      ShowToast.showToast("请输入提现密码");
-      return false;
+
+    if (userInfoModel?.withdrawPwdStatus == 1) {
+      if (withdrawPsdController.text.isEmpty) {
+        ShowToast.showToast("请输入提现密码");
+        return false;
+      }
     }
 
     final map = {
