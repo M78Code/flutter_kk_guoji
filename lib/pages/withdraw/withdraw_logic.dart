@@ -86,11 +86,9 @@ class WithdrawLogic extends GetxController {
   RxDouble withTotalAmount = 0.00.obs; //提款总额
   void calcAmount(String text) {
     if (text.isNotEmpty) {
-      // withdrawAmount.value = double.parse(text);
       //提款总额计算 2%手续费
       withTotalAmount.value = double.parse(text) - double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
     } else {
-      // withdrawAmount.value = 0.0;
       withTotalAmount.value = 0.0;
     }
   }
