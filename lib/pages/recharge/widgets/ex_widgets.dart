@@ -110,7 +110,7 @@ Widget buttonSubmit({
   Color textColor = Colors.white,
   double height = 44,
   double hPadding = 0,
-  required Function() onPressed,
+  Function()? onPressed,
 }) {
   return Container(
     height: height,

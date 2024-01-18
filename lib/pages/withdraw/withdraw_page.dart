@@ -70,13 +70,20 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           buttonSubmit(
             height: 50.h,
             text: "确认提现",
-            onPressed: () {
-              controller.withdrawSubmit().then((value) {
-                if (value) {
-                  _showDialog(context);
-                }
-              });
-            },
+            onPressed: controller.isSubmit
+                ? () => controller.withdrawSubmit().then((value) {
+                      if (value) {
+                        _showDialog(context);
+                      }
+                    })
+                : null,
+            // onPressed: () {
+            //   controller.withdrawSubmit().then((value) {
+            //     if (value) {
+            //       _showDialog(context);
+            //     }
+            //   });
+            // },
           ).marginSymmetric(vertical: 20.h),
         ],
       ).paddingSymmetric(horizontal: 20.w),
@@ -260,7 +267,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
         ),
         SizedBox(height: 10.h),
         inputTextEdit(
-          hintText: "请输入提款金额",
+          hintText: "请输入提现金额",
           hintTextSize: 15,
           keyboardType: TextInputType.number,
           editController: controller.amountController,
@@ -289,6 +296,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               maxLength: 6,
               isPassword: controller.showPsd.value,
               keyboardType: TextInputType.number,
+              callback: (value) => controller.calcAmount(value),
               editController: controller.withdrawPsdController,
               rightWidget: IconButton(
                 padding: EdgeInsets.zero, //设置内边距为零
@@ -316,7 +324,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
           ),
           child: Text(
-            controller.userInfoModel?.withdrawPwdStatus == 1 ? "修改提现密码" : "提现密码",
+            controller.userInfoModel?.withdrawPwdStatus == 1 ? "修改提现密码" : "设置提现密码",
             style: TextStyle(
               fontSize: 12.sp,
               color: Colors.white,
