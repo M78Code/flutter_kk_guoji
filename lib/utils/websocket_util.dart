@@ -55,6 +55,7 @@ class WebSocketUtil {
   void _webSocketReciveMessage(event) {
     print("event====$event");
     if (event == "Opened") {
+      _sendMessage();
       return;
     }
     Map msgInfo = json.decode(event);
@@ -108,6 +109,20 @@ class WebSocketUtil {
         // _ticketMsgCallback!(value.values.first);
       }
     }
+  }
+
+
+  void _sendMessage() {
+    List list = [{"event":"get_game_bet_recent"},
+      {"event":"get_hks_recent"},
+      {"event":"get_win_recent"},
+      {"event":"get_big_win_recent"},
+      {"event":"get_user_message"},
+      {"event":"get_system_notice"},
+    ];
+    list.forEach((element) {
+      _webSocket?.sink.add(jsonEncode(element));
+    });
   }
 
   void _webSocketConnetedError(e) {

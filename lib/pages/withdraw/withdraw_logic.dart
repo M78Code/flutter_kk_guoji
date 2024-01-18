@@ -14,8 +14,16 @@ import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 ///提现控制类
-class WithdrawLogic extends GetxController {
-  final userService = Get.find<UserService>();
+class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixin {
+  late AnimationController animationController = AnimationController(
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  );
+
+  late Animation<double> rotationAnimation = Tween<double>(
+    begin: 0.0,
+    end: 720.0,
+  ).animate(animationController);
 
   final ImageRadioController imageController = ImageRadioController();
 
@@ -32,6 +40,9 @@ class WithdrawLogic extends GetxController {
   TextEditingController withdrawPsdController = TextEditingController();
   final RxBool showPsd = true.obs;
   UserInfoModel? userInfoModel; //用户信息类
+
+  //是否启用提交按钮
+  bool isSubmit = false;
 
   RxInt coinCategoryIndex = 1.obs;
   RxString coinName = "USDT".obs;
@@ -73,6 +84,7 @@ class WithdrawLogic extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
+
     userInfoModel = Get.find<UserService>().userInfoModel.value;
     getCurrency();
     super.onInit();
@@ -86,11 +98,45 @@ class WithdrawLogic extends GetxController {
   RxDouble withTotalAmount = 0.00.obs; //提款总额
   void calcAmount(String text) {
     if (text.isNotEmpty) {
+      // withdrawAmount.value = double.parse(text);
       //提款总额计算 2%手续费
-      withTotalAmount.value = double.parse(text) - double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
+      withTotalAmount.value =
+          double.parse(text) - double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
     } else {
+      // withdrawAmount.value = 0.0;
       withTotalAmount.value = 0.0;
     }
+    final coinNet = typeOptions[selectTypeIndex.value].name;
+    if (coinName.value.isNotEmpty &&
+        null != coinNet &&
+        coinNet.isNotEmpty &&
+        addressController.text.isNotEmpty &&
+        amountController.text.isNotEmpty) {
+      if (userInfoModel?.withdrawPwdStatus == 1) {
+        if (withdrawPsdController.text.isNotEmpty) {
+          //可以点击
+          isSubmit = true;
+        } else {
+          //不可以点击
+          isSubmit = false;
+        }
+      } else {
+        //可以点击
+        isSubmit = true;
+      }
+    } else {
+      //不可以点击
+      isSubmit = false;
+    }
+    update(["WithdrawPage"]);
+  }
+
+  void updateUserInfo() async {
+    final service = UserService.to;
+    await service.fetchUserMoney();
+    await service.fetchUserInfo();
+    userInfoModel = service.userInfoModel.value;
+    update(["WithdrawPage"]);
   }
 
   ///获取提现币种
@@ -112,32 +158,35 @@ class WithdrawLogic extends GetxController {
   }
 
   ///提现操作
-  void withdrawSubmit() async {
+  Future<bool> withdrawSubmit() async {
     if (coinName.value.isEmpty) {
       ShowToast.showToast("请选择提现货币");
-      return;
+      return false;
     }
     final coinNet = typeOptions[selectTypeIndex.value].name;
     if (null == coinNet || coinNet.isEmpty) {
       ShowToast.showToast("请选择网络");
-      return;
+      return false;
     }
     if (addressController.text.isEmpty) {
       ShowToast.showToast("请输入${coinName.value}提现地址");
-      return;
+      // ShowToast.showToast("您输入的提示密码错误次数已达3次，提款被锁定，请联系客服或5分钟后重试");
+      return false;
     }
     if (amountController.text.isEmpty) {
-      ShowToast.showToast("请输入提款金额");
-      return;
+      ShowToast.showToast("请输入提现金额");
+      return false;
     }
     double useMoney = double.parse(UserService.to.userMoneyModel?.money ?? "0.00");
     if (double.parse(amountController.text) > useMoney) {
       ShowToast.showToast("余额不足");
-      return;
+      return false;
     }
-    if (withdrawPsdController.text.isEmpty) {
-      ShowToast.showToast("请输入提现密码");
-      return;
+    if (userInfoModel?.withdrawPwdStatus == 1) {
+      if (withdrawPsdController.text.isEmpty) {
+        ShowToast.showToast("请输入提现密码");
+        return false;
+      }
     }
 
     final map = {
@@ -152,14 +201,17 @@ class WithdrawLogic extends GetxController {
 
     var result = await HttpRequest.request(HttpConfig.withdraw, method: "post", params: map);
     if (result["code"] == 200) {
-      ShowToast.showToast("提现已提交");
-      final service =UserService.to;
-      service.fetchUserMoney().then((value) => service.fetchUserInfo().then((value){
-        RouteUtil.popView();
-      }));
+      final service = UserService.to;
+      final response1 = await service.fetchUserMoney();
+      final response2 = await service.fetchUserInfo();
+      return true;
+      service.fetchUserMoney().then((value) => service.fetchUserInfo().then((value) {
+            return true;
+          }));
     } else {
       ShowToast.showToast(result["message"]);
     }
+    return false;
   }
 
   @override
@@ -176,5 +228,13 @@ class WithdrawLogic extends GetxController {
     amountController.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  void clearInput() {
+    nameController.text = "";
+    addressController.text = "";
+    amountController.text = "";
+    withdrawPsdController.text = "";
+    update(["WithdrawPage"]);
   }
 }
