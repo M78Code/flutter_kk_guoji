@@ -110,7 +110,7 @@ Widget buttonSubmit({
   Color textColor = Colors.white,
   double height = 44,
   double hPadding = 0,
-  required Function() onPressed,
+  Function()? onPressed,
 }) {
   return Container(
     height: height,
@@ -238,7 +238,7 @@ class CategoryRadioWidget extends StatelessWidget {
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(category.imgPath!, width: 12.w, height: 12.h),
+                Image.asset(category.imgPath!, width: 16.w, height: 16.h),
                 SizedBox(width: 5.w),
                 Text(
                   category.name ?? "",
