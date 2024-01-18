@@ -95,7 +95,7 @@ class WalletFundDetailLogic extends GetxController {
         this.userMoneyDetailsSearchList.addAll(userMoneyDetailsSearchListModel.list ?? []);
       }
       this.isNoMoreData = (userMoneyDetailsSearchListModel.totalCount ?? 0) <= this.userMoneyDetailsSearchList.length;
-      update(["searchList", "searchListHeader"]);
+      update(["searchList"]);
     }
     return;
   }
@@ -110,9 +110,6 @@ class WalletFundDetailLogic extends GetxController {
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
     }
-    else {
-      _refreshController.finishLoad();
-    }
   }
 
   void onLoading() async{
@@ -122,9 +119,6 @@ class WalletFundDetailLogic extends GetxController {
     _refreshController.finishRefresh();
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
-    }
-    else {
-      _refreshController.finishLoad();
     }
   }
 }

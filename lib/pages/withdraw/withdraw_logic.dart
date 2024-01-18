@@ -14,16 +14,8 @@ import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
 ///提现控制类
-class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixin {
-  late AnimationController animationController = AnimationController(
-    duration: const Duration(seconds: 2),
-    vsync: this,
-  );
-
-  late Animation<double> rotationAnimation = Tween<double>(
-    begin: 0.0,
-    end: 720.0,
-  ).animate(animationController);
+class WithdrawLogic extends GetxController {
+  final userService = Get.find<UserService>();
 
   final ImageRadioController imageController = ImageRadioController();
 
@@ -81,7 +73,6 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
   @override
   void onInit() {
     // TODO: implement onInit
-
     userInfoModel = Get.find<UserService>().userInfoModel.value;
     getCurrency();
     super.onInit();
@@ -97,20 +88,11 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
     if (text.isNotEmpty) {
       // withdrawAmount.value = double.parse(text);
       //提款总额计算 2%手续费
-      withTotalAmount.value =
-          double.parse(text) - double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
+      withTotalAmount.value = double.parse(text) - double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
     } else {
       // withdrawAmount.value = 0.0;
       withTotalAmount.value = 0.0;
     }
-  }
-
-  void updateUserInfo() async {
-    final service = UserService.to;
-    await service.fetchUserMoney();
-    await service.fetchUserInfo();
-    userInfoModel = service.userInfoModel.value;
-    update(["WithdrawPage"]);
   }
 
   ///获取提现币种
@@ -132,33 +114,32 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   ///提现操作
-  Future<bool> withdrawSubmit() async {
+  void withdrawSubmit() async {
     if (coinName.value.isEmpty) {
       ShowToast.showToast("请选择提现货币");
-      return false;
+      return;
     }
     final coinNet = typeOptions[selectTypeIndex.value].name;
     if (null == coinNet || coinNet.isEmpty) {
       ShowToast.showToast("请选择网络");
-      return false;
+      return;
     }
     if (addressController.text.isEmpty) {
       ShowToast.showToast("请输入${coinName.value}提现地址");
-      // ShowToast.showToast("您输入的提示密码错误次数已达3次，提款被锁定，请联系客服或5分钟后重试");
-      return false;
+      return;
     }
     if (amountController.text.isEmpty) {
       ShowToast.showToast("请输入提款金额");
-      return false;
+      return;
     }
     double useMoney = double.parse(UserService.to.userMoneyModel?.money ?? "0.00");
     if (double.parse(amountController.text) > useMoney) {
       ShowToast.showToast("余额不足");
-      return false;
+      return;
     }
     if (withdrawPsdController.text.isEmpty) {
       ShowToast.showToast("请输入提现密码");
-      return false;
+      return;
     }
 
     final map = {
@@ -173,17 +154,14 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
 
     var result = await HttpRequest.request(HttpConfig.withdraw, method: "post", params: map);
     if (result["code"] == 200) {
-      final service = UserService.to;
-      final response1 = await service.fetchUserMoney();
-      final response2 = await service.fetchUserInfo();
-      return true;
-      service.fetchUserMoney().then((value) => service.fetchUserInfo().then((value) {
-            return true;
-          }));
+      ShowToast.showToast("提现已提交");
+      final service =UserService.to;
+      service.fetchUserMoney().then((value) => service.fetchUserInfo().then((value){
+        RouteUtil.popView();
+      }));
     } else {
       ShowToast.showToast(result["message"]);
     }
-    return false;
   }
 
   @override
@@ -200,13 +178,5 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
     amountController.dispose();
     // TODO: implement dispose
     super.dispose();
-  }
-
-  void clearInput() {
-    nameController.text = "";
-    addressController.text = "";
-    amountController.text = "";
-    withdrawPsdController.text = "";
-    update(["WithdrawPage"]);
   }
 }

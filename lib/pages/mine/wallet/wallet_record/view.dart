@@ -28,16 +28,18 @@ class WalletRecordPage extends StatelessWidget {
             },
           ),
         ),
-        body:Container(
-          child:  PageView(
-            controller: controller.pageController,
-            onPageChanged: (index) {
-              controller.switchIndex(index);
-            },
-            children: [
-              WithdrawRecordPage(),
-              ChargeRecordPage()
-            ],
+        body: Container(
+          child: Expanded(
+              child: PageView(
+                controller: controller.pageController,
+                onPageChanged: (index) {
+                  controller.switchIndex(index);
+                },
+                children: [
+                  WithdrawRecordPage(),
+                  ChargeRecordPage()
+                ],
+              )
           ),
         )
     );;

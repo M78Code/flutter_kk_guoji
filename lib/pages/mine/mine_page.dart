@@ -869,7 +869,6 @@ class SafeBoxWaitGridView extends StatelessWidget {
 //账户、个人数据、游戏记录
 class MyAccountInfo extends StatelessWidget {
   const MyAccountInfo({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -971,7 +970,7 @@ class WelfareReward extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20),
+      margin: const EdgeInsets.only(left: 15, right: 15),
       child: Column(
         children: [
           // ListTile(

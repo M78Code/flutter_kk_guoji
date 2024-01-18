@@ -69,13 +69,6 @@ class Assets {
   static const String homeHomeZbbjlIcon = 'assets/images/home/home_zbbjl_icon.png';
   static const String homeHotcaizhong = 'assets/images/home/hotcaizhong.png';
   static const String homeHuojian = 'assets/images/home/huojian.png';
-  static const String homeServeFour = 'assets/images/home/serve_four.png';
-  static const String homeServeFsc = 'assets/images/home/serve_fsc.png';
-  static const String homeServeMga = 'assets/images/home/serve_mga.png';
-  static const String homeServeOne = 'assets/images/home/serve_one.png';
-  static const String homeServePagcor = 'assets/images/home/serve_pagcor.png';
-  static const String homeServeThree = 'assets/images/home/serve_three.png';
-  static const String homeServeTwo = 'assets/images/home/serve_two.png';
   static const String homeSportsaishi = 'assets/images/home/sportsaishi.png';
   static const String htmlPrivacy = 'assets/html/privacy.html';
   static const String htmlRegisterProtocol = 'assets/html/register_protocol.html';
@@ -193,7 +186,6 @@ class Assets {
   static const String mineBetListDown = 'assets/images/mine/bet_list_down.png';
   static const String mineBetListLose = 'assets/images/mine/bet_list_lose.png';
   static const String mineBetListPreDraw = 'assets/images/mine/bet_list_pre_draw.png';
-  static const String mineBetListUp = 'assets/images/mine/bet_list_up.png';
   static const String mineBetListWin = 'assets/images/mine/bet_list_win.png';
   static const String mineIcYlqBg = 'assets/images/mine/ic_ylq_bg.png';
   static const String mineIconYlq = 'assets/images/mine/icon_ylq.png';

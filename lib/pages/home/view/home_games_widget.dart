@@ -120,7 +120,7 @@ class KKHomeGamesWidget extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      controller.openTickGame(controller.recommendGameListNew[index].id,controller.recommendGameListNew[index].name);
+                      controller.openTickGame(controller.recommendGameListNew[index].id);
                     },
                   );
                 });
