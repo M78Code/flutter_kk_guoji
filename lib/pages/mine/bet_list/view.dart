@@ -116,23 +116,29 @@ class _BetListPageState extends State<BetListPage> {
               },
             ),
             SizedBox(height: 15.w),
-            EasyRefresh(
-              controller: controller.refreshController,
-              onRefresh: () async {
-                controller.onRefresh();
+            GetBuilder<BetListController>(
+              id: 'betList',
+              builder: (_) {
+                if (controller.betModels.isEmpty) {
+                  return Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,);
+                };
+                return EasyRefresh(
+                  controller: controller.refreshController,
+                  onRefresh: () async {
+                    controller.onRefresh();
+                  },
+                  onLoad: () async {
+                    controller.onLoading();
+                  },
+                  child:  CustomScrollView(
+                    slivers: [
+                      _buildList()
+                    ],
+                  ),
+                ).expanded();
               },
-              onLoad: () async {
-                controller.onLoading();
-              },
-              child:  CustomScrollView(
-                slivers: [
-                  controller.betModels.isEmpty ? SliverToBoxAdapter(child: Center(
-                    child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
-                  )) : _buildList()
-                  // TransactionListSection(),
-                ],
-              ),
-            ).expanded()
+            ),
+
           ],
         ),
       ).safeArea(),
@@ -141,7 +147,7 @@ class _BetListPageState extends State<BetListPage> {
 
   GetBuilder<BetListController> _buildList() {
     return GetBuilder<BetListController>(
-      id: 'betList',
+      // id: 'betList',
       builder: (controller) {
         return SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -167,7 +173,7 @@ class _BetListPageState extends State<BetListPage> {
   }
 
   void _gameMenuCli(BetListController controller) {
-    controller.isMenuPopShowing = true;
+    controller.isGamePopShowing = true;
     controller.gameSearchKey = "";
     var searchWidget = Container(
       height: 33.w,
@@ -259,7 +265,6 @@ class _BetListPageState extends State<BetListPage> {
     final buttonPosition = renderBox.localToGlobal(Offset.zero);
     showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
     controller.isGamePopShowing = true;
-
   }
 
   void _typeMenuCli(BetListController controller) {
