@@ -175,6 +175,7 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
     }
     if (amountController.text.isEmpty) {
       ShowToast.showToast("请输入提现金额");
+
       return false;
     }
     double useMoney = double.parse(UserService.to.userMoneyModel?.money ?? "0.00");
@@ -182,6 +183,7 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
       ShowToast.showToast("余额不足");
       return false;
     }
+
     if (userInfoModel?.withdrawPwdStatus == 1) {
       if (withdrawPsdController.text.isEmpty) {
         ShowToast.showToast("请输入提现密码");
