@@ -73,6 +73,15 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
               },
             ),
             SizedBox(height: 15.w),
+            GetBuilder<WalletFundDetailLogic>(
+              id: 'searchListHeader',
+              builder: (controller) {
+                if(controller.userMoneyDetailsSearchList.length > 0) {
+                  return TransactionHeaderRow();
+                }
+                return Container();
+              },
+            ),
             EasyRefresh(
               controller: controller.refreshController,
               onRefresh: () async {

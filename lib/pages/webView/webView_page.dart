@@ -18,15 +18,21 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    List args = Get.arguments;
+    String url = "";
+    if(Get.arguments is List) {
+      List args = Get.arguments;
+      url = args.first;
+    }else {
+      url = Get.arguments;
+    }
     WebViewController controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setUserAgent(FkUserAgent.userAgent)
       ..addJavaScriptChannel("flutter", onMessageReceived: (JavaScriptMessage jsMessage) {})
-      ..loadRequest(Uri.parse(args.first));
+      ..loadRequest(Uri.parse(url));
 
     return Scaffold(
-      appBar:  KKCustomAppBar(args.last),
+      appBar: const KKCustomAppBar(""),
       body: WebViewWidget(controller: controller),
     );
   }

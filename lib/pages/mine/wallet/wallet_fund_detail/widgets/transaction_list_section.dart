@@ -23,15 +23,10 @@ class TransactionListSection extends StatelessWidget {
         return SliverList(
           delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-              if (index == 0) {
-                return TransactionHeaderRow();
-              }
-              else {
-                UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index - 1];
-                return TransactionDataRow(rowData);
-              }
+                  UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index];
+                  return TransactionDataRow(rowData);
             },
-            childCount:controller.userMoneyDetailsSearchList.length + 1,
+            childCount:controller.userMoneyDetailsSearchList.length,
           ),
         );
       },

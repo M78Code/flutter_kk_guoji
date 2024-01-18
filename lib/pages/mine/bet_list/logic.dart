@@ -163,6 +163,9 @@ class BetListController extends GetxController {
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
     }
+    else {
+      _refreshController.finishLoad();
+    }
   }
 
   void onLoading() async{
@@ -172,6 +175,9 @@ class BetListController extends GetxController {
     _refreshController.finishRefresh();
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
+    }
+    else {
+      _refreshController.finishLoad();
     }
   }
 }
