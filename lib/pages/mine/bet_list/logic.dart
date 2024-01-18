@@ -31,24 +31,6 @@ class BetListController extends GetxController {
   );
   EasyRefreshController get refreshController => _refreshController;
   var gameSearchKey = "";
-  var _isMenuPopShowing = false;
-  var _isGamePopShowing = false;
-  bool get isMenuPopShowing => _isMenuPopShowing;
-  bool get isGamePopShowing => _isGamePopShowing;
-
-  set isMenuPopShowing(bool value) {
-    if (_isMenuPopShowing != value) {
-      _isMenuPopShowing = value;
-      update(["pop_arrow_1"]);
-    }
-  }
-
-  set isGamePopShowing(bool value) {
-    if (_isGamePopShowing != value) {
-      _isGamePopShowing = value;
-      update(["pop_arrow_2"]);
-    }
-  }
 
   @override
   void onReady() {
@@ -122,7 +104,6 @@ class BetListController extends GetxController {
     this.gameModels = gameModels?.list ?? [];
     this.gameModels.insert(0, GameModel(id: null,name: '全部游戏'));
   }
-
   Future<void> fetchBetList(isRefresh) async {
     if (isRefresh) {
       page = 1;
@@ -140,7 +121,7 @@ class BetListController extends GetxController {
       dateRange = dateType ?? "";
     }
 
-    BetListModel? betListModel = await AccountApi.getBetList(dateRange, page, selectedGameTypeModel.id == null ? selectedGameModel.type  : selectedGameTypeModel.id, selectedGameModel.id);
+    BetListModel? betListModel = await AccountApi.getBetList(dateRange, page, selectedGameModel.type, selectedGameModel.id);
     if (betListModel != null) {
       if (isRefresh) {
         this.betModels = betListModel.list ?? [];
@@ -150,34 +131,28 @@ class BetListController extends GetxController {
       }
       this.isNoMoreData = (betListModel.total ?? 0) <= this.betModels.length;
       update(["betListPage"]);
-
-      return;
      }
+    return;
   }
 
   Future<void> onRefresh() async{
     // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
     await fetchBetList(true);
     _refreshController.finishRefresh();
     _refreshController.resetFooter();
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
     }
-    else {
-      _refreshController.finishLoad();
-    }
   }
 
   void onLoading() async{
     // monitor network fetch
     // await getUserMoneyDetailsSearch(false);
-    await fetchBetList(false);
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
     _refreshController.finishRefresh();
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
-    }
-    else {
-      _refreshController.finishLoad();
     }
   }
 }

@@ -265,11 +265,11 @@ class HomeLogic extends GetxController {
      }
   }
 
-  void openTickGame(int gameId,String name) async {
+  void openTickGame(int gameId) async {
     Map<String, dynamic> map= {"company_code":"JCP"};
     var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode, params: map);
     if(result["code"] == 200) {
-      loginSportGame(result["data"],gameId,name);
+      loginSportGame(result["data"],gameId);
     }
 }
 
@@ -289,12 +289,12 @@ class HomeLogic extends GetxController {
   //   }
   // }
 
-  void loginSportGame(Map gameMap,int gameId,String name) async {
+  void loginSportGame(Map gameMap,int gameId) async {
     Map gameInfo = gameMap.values.first;
     Map<String, dynamic> params = {"game_id":gameId };
     var result = await HttpRequest.request(HttpConfig.loginGame, method: "post", params: params);
     if(result["code"] == 200) {
-      RouteUtil.pushToView(Routes.webView, arguments:[result["data"]["url"],name]);
+      RouteUtil.pushToView(Routes.webView, arguments: result["data"]["url"]);
     }
   }
 
@@ -312,7 +312,7 @@ class HomeLogic extends GetxController {
     GameLogin? gameLogin = await GamesApi.gameLogin(getGameModel?.gameCompanyCode ?? "", (getGameModel?.id ?? "").toString());
     if (gameLogin?.url != null) {
       print('加载第三方url；${gameLogin?.url }');
-      RouteUtil.pushToView(Routes.webView, arguments: [gameLogin?.url ?? "",getGameModel?.name ?? '']);
+      RouteUtil.pushToView(Routes.webView, arguments: gameLogin?.url ?? "");
     }
   }
 

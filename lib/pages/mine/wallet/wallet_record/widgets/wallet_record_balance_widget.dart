@@ -53,7 +53,10 @@ class WalletRecordBalanceWidget extends StatelessWidget {
           SizedBox(height: 4.w,),
           RichText(text: TextSpan(
             children: [
-
+              TextSpan(
+                text: "¥",
+                style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.w400),
+              ),
               TextSpan(
                 text: subTitle,
                 style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w700),

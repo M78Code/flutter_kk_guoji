@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/ex_widget.dart';
-import 'package:kkguoji/generated/assets.dart';
 
 import '../logic.dart';
 
@@ -54,18 +53,7 @@ class BetListMenuWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(value, style: TextStyle(color: Color(0xFF707A8C), fontSize: 12.sp, fontWeight: FontWeight.w400),),
-            if (index == 0)   GetBuilder<BetListController>(
-              id: "pop_arrow_1",
-              builder: (controller){
-                return controller.isMenuPopShowing ? Image.asset(Assets.mineBetListUp, width: 16.w, height: 16.w) :  Image.asset(Assets.mineBetListDown, width: 16.w, height: 16.w);
-              },
-            ),
-            if (index == 1)   GetBuilder<BetListController>(
-              id: "pop_arrow_2",
-              builder: (controller){
-                return controller.isGamePopShowing ? Image.asset(Assets.mineBetListUp, width: 16.w, height: 16.w) :  Image.asset(Assets.mineBetListDown, width: 16.w, height: 16.w);
-              },
-            )
+            Image.asset('assets/images/mine/bet_list_down.png', width: 16.w, height: 16.w),
           ],
         )
     );

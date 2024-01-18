@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+4
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.1.3 <4.0.0'
@@ -52,7 +52,6 @@ dependencies:
   easy_refresh: ^3.3.3+1
   flutter_html: 
   image_picker: ^1.0.5
-  intl: ^0.18.1
   flutter_image_compress: ^2.1.0 #图片压缩
   image: ^4.1.3
   flutter_inappwebview: ^5.8.0
@@ -76,8 +75,6 @@ dependencies:
   flutter_cache_manager: ^3.3.1
   json_annotation: ^4.8.1
   flutter_easyrefresh: ^2.2.2
-#  flutter_user_agentx: ^1.2.4
-  fk_user_agent: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -117,8 +114,6 @@ flutter:
     - assets/images/myaccount/
     - assets/html/
     - assets/images/account/
-    - assets/
-    - assets/fonts/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
