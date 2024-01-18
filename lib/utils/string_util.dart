@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -18,7 +19,9 @@ class StringUtil {
       num = double.parse(number.toString());
     }
     if ((num.toString().length - num.toString().lastIndexOf(".") - 1) < position) {
-      return num.toStringAsFixed(position).substring(0, num.toString().lastIndexOf(".") + position + 1).toString();
+      return num.toStringAsFixed(position)
+          .substring(0, num.toString().lastIndexOf(".") + position + 1)
+          .toString();
     } else {
       return num.toString().substring(0, num.toString().lastIndexOf(".") + position + 1).toString();
     }
@@ -44,10 +47,19 @@ class StringUtil {
     return File('${dir.path}/$path');
   }
 
+  static String formatAmount(String amount) {
+    try {
+      double realAmount = double.tryParse(amount) ?? 0;
+      final formatter = NumberFormat('#,###.##', 'en_US');
+      return formatter.format(realAmount);
+    } catch (e) {
+      return "0.00";
+    }
+  }
 
-  // static Future<File> getAbsolutePath() async{
-  //   final flutterAbsolutePath = await FlutterAbsolutePath
-  // }
+// static Future<File> getAbsolutePath() async{
+//   final flutterAbsolutePath = await FlutterAbsolutePath
+// }
 
   ///正则验证邮箱格式
 // static bool isEmail(String text) {
