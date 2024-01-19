@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class ShowToast {
   static showToast(String string) {
+    if (string == null || string.length == 0) { return; }
     Fluttertoast.showToast(
         msg: string,
         toastLength: Toast.LENGTH_SHORT,
