@@ -116,7 +116,7 @@ class WebSocketUtil {
     List list = [{"event":"get_game_bet_recent"},
       {"event":"get_hks_recent"},
       {"event":"get_win_recent"},
-      {"event":"get_big_win_recent"},
+      // {"event":"get_big_win_recent"},
       {"event":"get_user_message"},
       {"event":"get_system_notice"},
     ];

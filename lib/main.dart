@@ -1,3 +1,4 @@
+import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,6 +19,7 @@ import 'global.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   APPUtil();
+  await FkUserAgent.init();
   // SqliteUtil();
   await Global.init();
   runApp(const MyApp());
