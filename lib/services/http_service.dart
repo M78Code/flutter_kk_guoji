@@ -10,6 +10,7 @@ import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/app_util.dart';
 import 'package:kkguoji/utils/route_util.dart';
+import 'package:oktoast/oktoast.dart';
 
 import '../utils/sqlite_util.dart';
 import '../widget/show_toast.dart';
@@ -68,7 +69,7 @@ class HttpService extends GetxService {
       if (code == 1001) {
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
       } else {
-        //  ShowToast.showToast(msg);
+        showToast(msg);
       }
       return Future.error(e);
     }
