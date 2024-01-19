@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:kkguoji/pages/rebate/model/auto_record_model.dart';
 import 'package:kkguoji/pages/rebate/model/record_rate_model.dart';
@@ -25,8 +26,27 @@ class KKRebateLogic extends GetxController {
   final dateRecordList = [].obs;
   final recordRateList = [].obs;
   final gameIndex = 0.obs;
+  final selectedDate = "".obs;
 
   final selectedRecordInfo = {}.obs;
+
+
+  DateTime? startDate;
+  DateTime? endDate;
+
+  switchDate(DateTime startDate, DateTime endDate) async {
+    this.dateType.value = 5;
+    this.startDate = startDate;
+    this.endDate = endDate;
+      var startText = DateFormat('MM/dd').format(startDate);
+      var endText = DateFormat('MM/dd').format(endDate);
+      selectedDate.value = startText + " - " + endText;
+
+    var startYearText = DateFormat('yyyy-MM-dd').format(startDate!);
+    var endYearText = DateFormat('yyyy-MM-dd').format(endDate!);
+    String dateRange = startYearText + "-" + endYearText;
+    getRecord(dateRange);
+  }
 
   changeRebateType(int index) {
     rebateType.value = index;
@@ -39,6 +59,7 @@ class KKRebateLogic extends GetxController {
 
   changeDateType(int index) {
     dateType.value = index;
+    selectedDate.value = "";
     getRecord(dateList[index]);
   }
 

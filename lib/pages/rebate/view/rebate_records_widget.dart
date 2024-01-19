@@ -1,17 +1,24 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/index.dart';
 import 'package:kkguoji/pages/rebate/logic/detail_logic.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
+import '../../../generated/assets.dart';
+import '../../mine/bet_list/widgets/custom_date_picker.dart';
+import '../../mine/bet_list/widgets/date_selection_section.dart';
 import '../logic/logic.dart';
 
 class KKRebateRecordsWidget extends StatelessWidget {
   KKRebateRecordsWidget({super.key});
+  final GlobalKey selectedKey = GlobalKey();
 
   final textList = ["今天", "昨天", "本月", "上月"];
   final controller = Get.find<KKRebateLogic>();
+  late OverlayEntry overlayEntry;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +26,7 @@ class KKRebateRecordsWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Row(
+          key: selectedKey,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Expanded(child: ),
@@ -37,40 +45,71 @@ class KKRebateRecordsWidget extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Expanded(
-              child: Container(
-                height: 41,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: const Color(0xFF222633),
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    const Expanded(
-                        child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(0),
-                          hintText: "搜索玩家ID",
-                          hintStyle:
-                              TextStyle(color: Color(0xFF687083), fontSize: 12),
-                          border:
-                              OutlineInputBorder(borderSide: BorderSide.none)),
-                      style: TextStyle(color: Colors.white, fontSize: 12),
-                    )),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.search,
-                          size: 25,
-                          color: Color(0xFF687083),
-                        )),
-                  ],
-                ),
-              ),
-            )
+            // Expanded(
+            //   child: GestureDetector(
+            //     child: Container(
+            //       height: 41,
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(4),
+            //         color: const Color(0xFF222633),
+            //       ),
+            //       child: Row(
+            //         children: [
+            //           const SizedBox(
+            //             width: 5,
+            //           ),
+            //           const Expanded(
+            //               child: TextField(
+            //                 decoration: InputDecoration(
+            //                     contentPadding: EdgeInsets.all(0),
+            //                     hintText: "搜索玩家ID",
+            //                     hintStyle:
+            //                     TextStyle(color: Color(0xFF687083), fontSize: 12),
+            //                     border:
+            //                     OutlineInputBorder(borderSide: BorderSide.none)),
+            //                 style: TextStyle(color: Colors.white, fontSize: 12),
+            //               )),
+            //           IconButton(
+            //               onPressed: () {},
+            //               icon: const Icon(
+            //                 Icons.search,
+            //                 size: 25,
+            //                 color: Color(0xFF687083),
+            //               )),
+            //         ],
+            //       ),
+            //     ),
+            //     onTap: (){
+            //
+            //     },
+            //   ),
+            // )
+            Obx(() {
+              return Expanded(
+                child: Container(
+                  height: 42.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.w),
+                    color: Color(0xFF222633),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          controller.selectedDate.value.isEmpty? '选择时间段':controller.selectedDate.value,
+                          style: TextStyle(color: Color(0xA8FFFFFF), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                        ).marginOnly(left: 10.w),
+                        Image.asset(
+                            Assets.mineWalletSearch,
+                            width: 29.w,
+                            height: 29.w)
+                            .marginOnly(right: 12.w),
+                      ]),
+                ).onTap(() {
+                  _showTimeWidget(context);
+                }),
+              );
+            })
           ],
         ),
         const SizedBox(
@@ -242,6 +281,51 @@ class KKRebateRecordsWidget extends StatelessWidget {
         })
       ],
     );
+  }
+
+  void _showTimeWidget(BuildContext context) {
+    Widget child = CustomDatePicker(
+      startDate: controller.startDate ?? DateTime.now(),
+      endDate: controller.endDate ?? DateTime.now(),
+      cancelAction: () {
+        overlayEntry.remove();
+      },
+      dateConfirmAction: (startDate, endDate) {
+        controller.switchDate(startDate, endDate);
+        overlayEntry.remove();
+      },
+    );
+    RenderBox renderBox = selectedKey.currentContext!.findRenderObject() as RenderBox;
+    final buttonSize = renderBox.size;
+    final buttonPosition = renderBox.localToGlobal(Offset.zero);
+    showOverlay(context, child, buttonPosition.dx+10, buttonPosition.dy + buttonSize.height);
+  }
+
+  void showOverlay(BuildContext context, Widget child, double left,double top) {
+     overlayEntry = OverlayEntry(
+      builder: (context) =>
+          Stack(
+            children: [
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: () {
+                    // Remove the overlay when tapped outside the image
+                    overlayEntry.remove();
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: left,
+                top: top,
+                child: child,
+              ),
+            ],
+          ),
+    );
+    Overlay.of(context)?.insert(overlayEntry);
   }
 
   Widget _buildDateWidget(String text, bool isSelected, int index) {
