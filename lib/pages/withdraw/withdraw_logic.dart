@@ -12,6 +12,7 @@ import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
+import 'package:oktoast/oktoast.dart';
 
 ///提现控制类
 class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixin {
@@ -211,7 +212,12 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
             return true;
           }));
     } else {
-      ShowToast.showToast(result["message"]);
+      showToastWidget(Text(
+        result["message"],
+        maxLines: 5,
+      ));
+      // showToast(result["message"]);
+      // ShowToast.showToast(result["message"]);
     }
     return false;
   }
