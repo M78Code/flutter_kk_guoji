@@ -23,34 +23,34 @@ class RechargeSection extends StatelessWidget {
     double childAspectRatio = calculateChildAspectRatio(context);
 
     return GetBuilder<WalletFundDetailLogic>(
-      id: 'userMoneyDetails',
-      builder: (controller){
-        return Container(
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 10.w,
-              mainAxisSpacing: 10.w,
-              childAspectRatio: childAspectRatio, // 使用计算得到的值
+        id: 'userMoneyDetails',
+        builder: (controller){
+          return Container(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10.w,
+                mainAxisSpacing: 10.w,
+                childAspectRatio: childAspectRatio, // 使用计算得到的值
 
+              ),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+
+                List moneys = [controller.userMoneyDetailsModel?.totalRecharge ?? "",
+                  controller.userMoneyDetailsModel?.totalWithdraw ?? "",
+                  controller.userMoneyDetailsModel?.totalRebate ?? "",
+                  controller.userMoneyDetailsModel?.agentCommissTotal ?? "",
+                  controller.userMoneyDetailsModel?.totalGif ?? "",
+                  controller.userMoneyDetailsModel?.totalBonus ?? ""];
+
+                return RechargeItem(items[index][0],moneys[index]);
+              },
             ),
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-
-             List moneys = [controller.userMoneyDetailsModel?.totalRecharge ?? "",
-                controller.userMoneyDetailsModel?.totalWithdraw ?? "",
-                controller.userMoneyDetailsModel?.totalRebate ?? "",
-                controller.userMoneyDetailsModel?.agentCommissTotal ?? "",
-                controller.userMoneyDetailsModel?.totalGif ?? "",
-                controller.userMoneyDetailsModel?.totalBonus ?? ""];
-
-              return RechargeItem(items[index][0],moneys[index]);
-            },
-          ),
-        );
-      }
+          );
+        }
     );
   }
 }
@@ -85,10 +85,6 @@ class RechargeItem extends StatelessWidget {
                   maxLines: 1,
                   text: TextSpan(
                     children: [
-                      TextSpan(
-                        text: "¥",
-                        style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
-                      ),
                       TextSpan(
                         text: subTitle,
                         style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w700),

@@ -32,6 +32,7 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('资产明细'),
+        centerTitle: true,
         leading:  IconButton(
           icon: Image.asset(
               Assets.systemIconBack,
@@ -44,51 +45,67 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child:EasyRefresh(
-          controller: controller.refreshController,
-          onRefresh: () async {
-            controller.onRefresh();
-          },
-          onLoad: () async {
-            controller.onLoading();
-          },
-          child:  CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: MineWalletBalanceWidget(),
+        child: Column(
+          children: [
+            MineWalletBalanceWidget(),
+            SizedBox(height: 20.w),
+            RechargeSection(),
+            SizedBox(height: 20.w),
+            GetBuilder<WalletFundDetailLogic>(
+              id: 'dateSelector',
+              builder: (controller) {
+                String? dateRange;
+                if (controller.startDate != null && controller.endDate != null) {
+                  var startText = DateFormat('MM/dd').format(controller.startDate!);
+                  var endText = DateFormat('MM/dd').format(controller.endDate!);
+                  dateRange = startText + " - " + endText;
+                }
+                return DateSelectionSection(
+                    dateTypes: controller.dateTypes,
+                    selectType: controller.dateType ?? "",
+                    selectDateRange: dateRange,
+                    onTap: (selectType){
+                      controller.onTapSwitchDate(selectType);
+                    },
+                    onTapSelectTime: (){
+                      _showTimeWidget();
+                    });
+              },
+            ),
+            SizedBox(height: 15.w),
+            GetBuilder<WalletFundDetailLogic>(
+              id: 'searchListHeader',
+              builder: (controller) {
+                if(controller.userMoneyDetailsSearchList.length > 0) {
+                  return TransactionHeaderRow();
+                }
+                return Container();
+              },
+            ),
+            GetBuilder<WalletFundDetailLogic>(
+              id: 'searchList',
+              builder: (controller) {
+                if (controller.userMoneyDetailsSearchList.isEmpty) {
+                  return  Center(child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,));
+                }
+                return Container();
+              },
+           ),
+            EasyRefresh(
+              controller: controller.refreshController,
+              onRefresh: () async {
+                controller.onRefresh();
+              },
+              onLoad: () async {
+                controller.onLoading();
+              },
+              child:  CustomScrollView(
+                slivers: [
+                  TransactionListSection(),
+                ],
               ),
-              SliverToBoxAdapter(  child: SizedBox(height: 20.w,)  ),
-              SliverToBoxAdapter(
-                child: RechargeSection(),
-              ),
-              SliverToBoxAdapter( child: SizedBox(height: 20.w,) ),
-              SliverToBoxAdapter(
-                child: GetBuilder<WalletFundDetailLogic>(
-                  id: 'dateSelector',
-                  builder: (controller) {
-                    String? dateRange;
-                    if (controller.startDate != null && controller.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.dateTypes,
-                        selectType: controller.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget();
-                        });
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-              TransactionListSection(),
-            ],
-          ),
+            ).expanded()
+          ],
         ),
       ).safeArea(),
     );

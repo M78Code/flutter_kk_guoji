@@ -50,6 +50,7 @@ class _BetListPageState extends State<BetListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('游戏记录'),
+        centerTitle: true,
         leading:  IconButton(
           icon: Image.asset(
               Assets.systemIconBack,
@@ -72,65 +73,73 @@ class _BetListPageState extends State<BetListPage> {
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child:EasyRefresh(
-          // controller: controller.refreshController,
-          onRefresh: () async {
-            // controller.onRefresh();
-          },
-          onLoad: () async {
-            // controller.onLoading();
-          },
-          child:  CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(child: SizedBox(height: 15.w,)),
-              SliverToBoxAdapter(
-                child:  GetBuilder<BetListController>(
-                  id: 'menu',
-                  builder: (controller){
-                    return BetListMenuWidget(
-                        menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
-                        onTap: (index){
-                          if (index == 0) {
-                            _typeMenuCli(controller);
-                          }
-                          else {
-                            _gameMenuCli(controller);
-                          }
-                        });
-                  },
-                ),
+        child: Column(
+          children: [
+            SizedBox(height: 15.w,),
+            Container(
+              child: GetBuilder<BetListController>(
+                id: 'menu',
+                builder: (controller){
+                  return BetListMenuWidget(
+                      menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
+                      onTap: (index){
+                        if (index == 0) {
+                          _typeMenuCli(controller);
+                        }
+                        else {
+                          _gameMenuCli(controller);
+                        }
+                      });
+                },
               ),
-              SliverToBoxAdapter(child: SizedBox(height: 15.w,)),
-              SliverToBoxAdapter(
-                child: GetBuilder<BetListController>(
-                  id: 'dateSelector',
-                  builder: (_) {
-                    String? dateRange;
-                    if (controller.startDate != null && controller.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.dateTypes,
-                        selectType: controller.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget(controller);
-                        });
+            ),
+            SizedBox(height: 15.w,),
+            GetBuilder<BetListController>(
+              id: 'dateSelector',
+              builder: (_) {
+                String? dateRange;
+                if (controller.startDate != null && controller.endDate != null) {
+                  var startText = DateFormat('MM/dd').format(controller.startDate!);
+                  var endText = DateFormat('MM/dd').format(controller.endDate!);
+                  dateRange = startText + " - " + endText;
+                }
+                return DateSelectionSection(
+                    dateTypes: controller.dateTypes,
+                    selectType: controller.dateType ?? "",
+                    selectDateRange: dateRange,
+                    onTap: (selectType){
+                      controller.onTapSwitchDate(selectType);
+                    },
+                    onTapSelectTime: (){
+                      _showTimeWidget(controller);
+                    });
+              },
+            ),
+            SizedBox(height: 15.w),
+            GetBuilder<BetListController>(
+              id: 'betList',
+              builder: (_) {
+                if (controller.betModels.isEmpty) {
+                  return Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,);
+                };
+                return EasyRefresh(
+                  controller: controller.refreshController,
+                  onRefresh: () async {
+                    controller.onRefresh();
                   },
-                ),
-              ),
-              SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-              controller.betModels.isEmpty ? SliverToBoxAdapter(child: Center(
-                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
-              )) : _buildList()
-              // TransactionListSection(),
-            ],
-          ),
+                  onLoad: () async {
+                    controller.onLoading();
+                  },
+                  child:  CustomScrollView(
+                    slivers: [
+                      _buildList()
+                    ],
+                  ),
+                ).expanded();
+              },
+            ),
+
+          ],
         ),
       ).safeArea(),
     );
@@ -138,7 +147,7 @@ class _BetListPageState extends State<BetListPage> {
 
   GetBuilder<BetListController> _buildList() {
     return GetBuilder<BetListController>(
-      id: 'betList',
+      // id: 'betList',
       builder: (controller) {
         return SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -151,6 +160,7 @@ class _BetListPageState extends State<BetListPage> {
                     money: rowData.gameProfit,
                     gameTypeName:  rowData.gameTypeName,
                     betAmount:  rowData.gameBet,
+                    gameProfit: rowData.gameProfit,
                     orderN: rowData.gameSn,
                     status:rowData.gameWinStatus
                 ));
@@ -163,7 +173,7 @@ class _BetListPageState extends State<BetListPage> {
   }
 
   void _gameMenuCli(BetListController controller) {
-
+    controller.isGamePopShowing = true;
     controller.gameSearchKey = "";
     var searchWidget = Container(
       height: 33.w,
@@ -185,7 +195,7 @@ class _BetListPageState extends State<BetListPage> {
                   border: InputBorder.none, // 去掉外框
                 ),
                 onChanged: (text) {
-                    controller.gameSearchKeyChange(text);
+                  controller.gameSearchKeyChange(text);
                 },
               ),
             ),
@@ -214,6 +224,8 @@ class _BetListPageState extends State<BetListPage> {
                 ).onTap(() {
                   controller.onTapSwitchGame(gameModel);
                   overlayEntry.remove();
+                  controller.isMenuPopShowing = false;
+                  controller.isGamePopShowing = false;
                 })
             );
           }).values.toList();
@@ -252,6 +264,7 @@ class _BetListPageState extends State<BetListPage> {
 
     final buttonPosition = renderBox.localToGlobal(Offset.zero);
     showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
+    controller.isGamePopShowing = true;
   }
 
   void _typeMenuCli(BetListController controller) {
@@ -277,13 +290,15 @@ class _BetListPageState extends State<BetListPage> {
                   return MapEntry(
                       typeIndex,
                       Container(
-                        height: 30.w,
-                        child: Text(gameTypeModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
-                      )
-                  ).onTap(() {
-                    controller.onTapSwitchGameTyp(typeIndex);
-                    overlayEntry.remove();
-                  }));
+                          height: 30.w,
+                          child: Text(gameTypeModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
+                          )
+                      ).onTap(() {
+                        controller.onTapSwitchGameTyp(typeIndex);
+                        overlayEntry.remove();
+                        controller.isMenuPopShowing = false;
+                        controller.isGamePopShowing = false;
+                      }));
                 }).values.toList(),
               ),
             ),
@@ -292,6 +307,7 @@ class _BetListPageState extends State<BetListPage> {
 
     final buttonPosition = renderBox.localToGlobal(Offset.zero);
     showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height);
+    controller.isMenuPopShowing = true;
   }
 
   void _showTimeWidget(BetListController controller) {
@@ -322,6 +338,8 @@ class _BetListPageState extends State<BetListPage> {
                   onTap: () {
                     // Remove the overlay when tapped outside the image
                     overlayEntry.remove();
+                    controller.isMenuPopShowing = false;
+                    controller.isGamePopShowing = false;
                   },
                   child: Container(
                     color: Colors.transparent,

@@ -110,12 +110,18 @@ class WalletRecordLogic extends GetxController {
       if (userWithdrawState.isNoMoreData) {
         userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
       }
+      else {
+        userWithdrawState.refreshController.finishLoad();
+      }
     }
     else {
       await fetchUserRechargeList(false);
       userRechargeState.refreshController.finishRefresh();
       if (userRechargeState.isNoMoreData) {
         userRechargeState.refreshController.finishLoad(IndicatorResult.noMore);
+      }
+      else {
+        userRechargeState.refreshController.finishLoad();
       }
     }
   }

@@ -17,21 +17,13 @@ class TransactionListSection extends StatelessWidget {
     return GetBuilder<WalletFundDetailLogic>(
       id: 'searchList',
       builder: (controller) {
-        if (controller.userMoneyDetailsSearchList.isEmpty) {
-         return SliverToBoxAdapter(child: Center(child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,)));
-        }
         return SliverList(
           delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-              if (index == 0) {
-                return TransactionHeaderRow();
-              }
-              else {
-                UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index - 1];
-                return TransactionDataRow(rowData);
-              }
+              UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index];
+              return TransactionDataRow(rowData);
             },
-            childCount:controller.userMoneyDetailsSearchList.length + 1,
+            childCount:controller.userMoneyDetailsSearchList.length,
           ),
         );
       },
