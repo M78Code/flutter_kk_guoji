@@ -1,6 +1,7 @@
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
             home: const KKMainPage(),
             navigatorObservers: [CustomRouteObserver()],
             builder: (context, child) {
-              return Stack(
+               return Stack(
                 children: [
                   child!,
                   Obx(() => Visibility(

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/account_api.dart';
 
@@ -30,7 +31,7 @@ class WalletFundDetailLogic extends GetxController {
     // TODO: implement onReady
     super.onReady();
     initData();
-  }
+   }
 
   @override
   void onClose() {

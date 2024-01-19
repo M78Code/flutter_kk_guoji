@@ -68,7 +68,7 @@ class HttpService extends GetxService {
       if (code == 1001) {
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
       } else {
-        ShowToast.showToast(msg);
+        //  ShowToast.showToast(msg);
       }
       return Future.error(e);
     }
