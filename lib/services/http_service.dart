@@ -19,7 +19,8 @@ import 'cache_key.dart';
 class HttpService extends GetxService {
   static HttpService get to => Get.find();
   late final Dio _dio;
-  final BaseOptions _baseOptions = BaseOptions(baseUrl: HttpConfig.baseURL, connectTimeout: HttpConfig.timeout);
+  final BaseOptions _baseOptions =
+      BaseOptions(baseUrl: HttpConfig.baseURL, connectTimeout: HttpConfig.timeout);
 
   @override
   void onInit() {
@@ -48,10 +49,10 @@ class HttpService extends GetxService {
 
     // 2.发送网络请求
     try {
-      Response response = await _dio.request(url, queryParameters: params, data: data, options: options);
+      Response response =
+          await _dio.request(url, queryParameters: params, data: data, options: options);
       final responseData = response.data;
-      if(responseData is Uint8List) {
-
+      if (responseData is Uint8List) {
       } else if (responseData["code"] == 401) {
         ShowToast.showToast(responseData["message"]);
         SqliteUtil().remove(CacheKey.apiToken);
@@ -64,18 +65,21 @@ class HttpService extends GetxService {
       return responseData;
     } on DioError catch (e) {
       Response? errResponse = e.response;
-      final msg = errResponse?.data["message"] ?? "";
+      String msg = errResponse?.data["message"] ?? "";
       final code = errResponse?.data["code"];
       if (code == 1001) {
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
       } else {
-         ShowToast.showToast(msg);
+        if (msg.isNotEmpty) {
+          showToast(msg);
+        }
       }
       return Future.error(e);
     }
   }
 
-  static Future<T> request<T>(String url, {String method = "get", Map<String, dynamic>? params, Interceptor? inter}) async {
+  static Future<T> request<T>(String url,
+      {String method = "get", Map<String, dynamic>? params, Interceptor? inter}) async {
     return HttpService.to.fetch(url, method: method, params: params, inter: inter);
   }
 
@@ -93,7 +97,8 @@ class HttpService extends GetxService {
 
   /// 封装form-data数据的方法
   static Future<T> uploadImage<T>(String path, params) async {
-    return HttpService.to.fetch(path, method: "POST", data: params, contentType: "multipart/form-data");
+    return HttpService.to
+        .fetch(path, method: "POST", data: params, contentType: "multipart/form-data");
   }
 }
 
@@ -108,7 +113,8 @@ class RequestInterceptors extends Interceptor {
       options.queryParameters["app_version"] = APPUtil().getAppVersion()!;
     }
     if (Get.find<SqliteService>().getString(CacheKey.apiToken) != null) {
-      options.headers["Authorization"] = "Bearer ${Get.find<SqliteService>().getString(CacheKey.apiToken)!}";
+      options.headers["Authorization"] =
+          "Bearer ${Get.find<SqliteService>().getString(CacheKey.apiToken)!}";
       options.headers['User-Agent'] = FkUserAgent.userAgent;
     }
     // print(options.queryParameters);
@@ -118,7 +124,6 @@ class RequestInterceptors extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-
     try {
       final data = response.data!;
       if (data["code"] == "401" || data["code"] == 401) {
@@ -161,7 +166,8 @@ class HttpRequest {
     Interceptor? inter,
     String contentType = "application/x-www-form-urlencoded",
   }) async {
-    return HttpService.to.fetch(url, method: method, params: params, contentType: contentType, data: data, inter: inter);
+    return HttpService.to.fetch(url,
+        method: method, params: params, contentType: contentType, data: data, inter: inter);
   }
 
 // static Future<Response<T>> uploadFile<T>(String url, File file) async {
