@@ -89,6 +89,9 @@ class WalletRecordLogic extends GetxController {
       if (userWithdrawState.isNoMoreData) {
         userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
       }
+      else {
+        userWithdrawState.refreshController.finishLoad();
+      }
     }
     else {
       userRechargeState.refreshController.finishRefresh();
@@ -96,14 +99,13 @@ class WalletRecordLogic extends GetxController {
       if (userRechargeState.isNoMoreData) {
         userRechargeState.refreshController.finishLoad(IndicatorResult.noMore);
       }
+      else {
+        userRechargeState.refreshController.finishLoad();
+      }
     }
   }
 
   void onLoading() async{
-    // monitor network fetch
-    // await getUserMoneyDetailsSearch(false);
-    // await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (currentIndex == 0) {
       await fetchUserWithdrawList(false);
       userWithdrawState.refreshController.finishRefresh();

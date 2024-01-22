@@ -27,6 +27,7 @@ class WithdrawRecordPage extends StatelessWidget {
       },
     );
   }
+
   Widget _buildView(BuildContext context) {
     return Scaffold(
       body:  Container(
@@ -57,19 +58,8 @@ class WithdrawRecordPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 15.w,),
-              GetBuilder<WalletRecordLogic>(
-                id: 'searchList',
-                builder: (controller) {
-                  if ( controller.userRechargeState.userRechargeModels.isEmpty) {
-                    return Center(
-                      child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
-                    );
-                  };
-                  return Container();
-                },
-              ),
               EasyRefresh(
-                controller: controller.userRechargeState.refreshController,
+                controller: controller.userWithdrawState.refreshController,
                 onRefresh: () async {
                   controller.onRefresh();
                 },

@@ -57,17 +57,6 @@ class ChargeRecordPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 15.w,),
-              GetBuilder<WalletRecordLogic>(
-                id: 'searchList',
-                builder: (controller) {
-                  if ( controller.userRechargeState.userRechargeModels.isEmpty) {
-                    return Center(
-                      child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
-                    );
-                  };
-                  return Container();
-                },
-              ),
               EasyRefresh(
                 controller: controller.userRechargeState.refreshController,
                 onRefresh: () async {
