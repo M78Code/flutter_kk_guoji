@@ -32,6 +32,9 @@ class _KKLoginPageState extends State<KKLoginPage> {
     // TODO: implement initState
     super.initState();
     Get.lazyPut(() => LoginLogic());
+    Get.lazyPut(() => RegisterLogic());
+
+
   }
 
   @override
