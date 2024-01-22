@@ -351,166 +351,166 @@ class WithdrawPage extends GetView<WithdrawLogic> {
   }
 
   ///提示
-  Widget _buildTip() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Image.asset(
-              Assets.rechargeIconTip,
-              width: 14.w,
-              height: 14.h,
-              color: const Color(0xffFF8A00),
-            ),
-            SizedBox(width: 6.w),
-            Expanded(
-              child: Text(
-                "如您忘记提现密码，请联系客服处理！",
-                style: TextStyle(color: Colors.white, height: 1.2, fontSize: 12.sp),
-              ),
-            ),
-            InkWellView(
-              onPressed: () => RouteUtil.pushToView(
-                Routes.withdrawPsd,
-                arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
-              ),
-              child: Text(
-                controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: const Color(0xff5D5FEF),
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 25.h),
-        Row(
-          children: [
-            Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
-            SizedBox(width: 5.w),
-            Text(
-              "最低提现金额不低于5.0 ¥",
-              style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
-            ),
-          ],
-        ),
-        SizedBox(height: 11.h),
-        Row(
-          children: [
-            Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
-            SizedBox(width: 5.w),
-            Text(
-              "最高提现金额不高于80000.0 ¥",
-              style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
-            ),
-          ],
-        )
-      ],
-    ).marginSymmetric(vertical: 12.h);
-  }
+  // Widget _buildTip() {
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         children: [
+  //           Image.asset(
+  //             Assets.rechargeIconTip,
+  //             width: 14.w,
+  //             height: 14.h,
+  //             color: const Color(0xffFF8A00),
+  //           ),
+  //           SizedBox(width: 6.w),
+  //           Expanded(
+  //             child: Text(
+  //               "如您忘记提现密码，请联系客服处理！",
+  //               style: TextStyle(color: Colors.white, height: 1.2, fontSize: 12.sp),
+  //             ),
+  //           ),
+  //           InkWellView(
+  //             onPressed: () => RouteUtil.pushToView(
+  //               Routes.withdrawPsd,
+  //               arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
+  //             ),
+  //             child: Text(
+  //               controller.userInfoModel?.withdrawPwdStatus == 0 ? "设置提现密码" : "更新提现密码",
+  //               style: TextStyle(
+  //                 fontSize: 13.sp,
+  //                 color: const Color(0xff5D5FEF),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       SizedBox(height: 25.h),
+  //       Row(
+  //         children: [
+  //           Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
+  //           SizedBox(width: 5.w),
+  //           Text(
+  //             "最低提现金额不低于5.0 ¥",
+  //             style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
+  //           ),
+  //         ],
+  //       ),
+  //       SizedBox(height: 11.h),
+  //       Row(
+  //         children: [
+  //           Image.asset(Assets.rechargeIconTip, width: 14.w, height: 14.h),
+  //           SizedBox(width: 5.w),
+  //           Text(
+  //             "最高提现金额不高于80000.0 ¥",
+  //             style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
+  //           ),
+  //         ],
+  //       )
+  //     ],
+  //   ).marginSymmetric(vertical: 12.h);
+  // }
 
   ///提现信息
-  Widget _buildWithdrawInfo() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 19.w),
-      margin: EdgeInsets.only(top: 15.h, bottom: 29.h),
-      height: 113.h,
-      decoration: BoxDecoration(
-        color: const Color(0xff6C7A8F).withOpacity(0.12),
-        borderRadius: BorderRadius.circular(6.r),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "提款手续费",
-                  style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
-                ),
-                Text(
-                  "提款金额",
-                  style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
-                ),
-                Text(
-                  "预计到账时间",
-                  style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "2%",
-                  style: TextStyle(color: Colors.white, fontSize: 13.sp),
-                ),
-                Obx(
-                  () => Text(
-                    "${controller.withTotalAmount.value} ¥",
-                    style: TextStyle(color: Colors.white, fontSize: 13.sp),
-                  ),
-                ),
-                Text(
-                  "5分钟",
-                  style: TextStyle(color: Colors.white, fontSize: 13.sp),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWarning() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InkWellView(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
-          ),
-          width: 100,
-          height: 32,
-          borderRadius: 16.0,
-          onPressed: () => RouteUtil.pushToView(
-            Routes.withdrawPsd,
-            arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
-          ),
-          child: Text(
-            controller.userInfoModel?.withdrawPwdStatus == 0 ? "提现密码" : "修改提现密码",
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: Colors.white,
-            ),
-          ),
-        ).marginOnly(top: 5, bottom: 10),
-        Row(
-          children: [
-            Image.asset(
-              Assets.rechargeIconTip,
-              width: 14.w,
-              height: 14.h,
-              color: const Color(0xffFF8A00),
-            ),
-            SizedBox(width: 5.w),
-            Text(
-              "为了您的账号安全，请设置提现密码。",
-              style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
-            ),
-          ],
-        )
-      ],
-    );
-  }
+  // Widget _buildWithdrawInfo() {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(horizontal: 19.w),
+  //     margin: EdgeInsets.only(top: 15.h, bottom: 29.h),
+  //     height: 113.h,
+  //     decoration: BoxDecoration(
+  //       color: const Color(0xff6C7A8F).withOpacity(0.12),
+  //       borderRadius: BorderRadius.circular(6.r),
+  //     ),
+  //     child: Row(
+  //       children: [
+  //         Expanded(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             children: [
+  //               Text(
+  //                 "提款手续费",
+  //                 style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
+  //               ),
+  //               Text(
+  //                 "提款金额",
+  //                 style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
+  //               ),
+  //               Text(
+  //                 "预计到账时间",
+  //                 style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 13.sp),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         Expanded(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.end,
+  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             children: [
+  //               Text(
+  //                 "2%",
+  //                 style: TextStyle(color: Colors.white, fontSize: 13.sp),
+  //               ),
+  //               Obx(
+  //                 () => Text(
+  //                   "${controller.withTotalAmount.value} ¥",
+  //                   style: TextStyle(color: Colors.white, fontSize: 13.sp),
+  //                 ),
+  //               ),
+  //               Text(
+  //                 "5分钟",
+  //                 style: TextStyle(color: Colors.white, fontSize: 13.sp),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _buildWarning() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       InkWellView(
+  //         gradient: const LinearGradient(
+  //           colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+  //         ),
+  //         width: 100,
+  //         height: 32,
+  //         borderRadius: 16.0,
+  //         onPressed: () => RouteUtil.pushToView(
+  //           Routes.withdrawPsd,
+  //           arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
+  //         ),
+  //         child: Text(
+  //           controller.userInfoModel?.withdrawPwdStatus == 0 ? "提现密码" : "修改提现密码",
+  //           style: TextStyle(
+  //             fontSize: 12.sp,
+  //             color: Colors.white,
+  //           ),
+  //         ),
+  //       ).marginOnly(top: 5, bottom: 10),
+  //       Row(
+  //         children: [
+  //           Image.asset(
+  //             Assets.rechargeIconTip,
+  //             width: 14.w,
+  //             height: 14.h,
+  //             color: const Color(0xffFF8A00),
+  //           ),
+  //           SizedBox(width: 5.w),
+  //           Text(
+  //             "为了您的账号安全，请设置提现密码。",
+  //             style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
+  //           ),
+  //         ],
+  //       )
+  //     ],
+  //   );
+  // }
 
   ///退出弹框
   void _showDialog(BuildContext context) {
