@@ -215,11 +215,13 @@ class _BetListPageState extends State<BetListPage> {
           var searchResult = controller.gameModels.where((element) => element.name?.contains(controller.gameSearchKey) ?? true).toList();
           var widgets = searchResult.asMap().map((typeIndex, gameModel) {
             var color = controller.selectedGameModel.id == gameModel.id ? Color(0xFF5D5FEF) : Color(0xFF687083);
+            var gameModelName = gameModel.name ?? '';
             return MapEntry(
                 typeIndex,
                 Container(
                     height: 30.w,
-                    child: Text(gameModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
+                    alignment: Alignment.centerLeft,
+                    child: Text("    $gameModelName", style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
                     )
                 ).onTap(() {
                   controller.onTapSwitchGame(gameModel);
@@ -248,7 +250,6 @@ class _BetListPageState extends State<BetListPage> {
                     height: min(240.w, widgets.length * 30.w),
                     child: SingleChildScrollView(
                       child: Container(
-                        padding:  EdgeInsets.symmetric(horizontal: 18.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: widgets,
@@ -278,7 +279,7 @@ class _BetListPageState extends State<BetListPage> {
             child: Container(
               width: buttonSize.width,
               margin: EdgeInsets.only(top: 10.w),
-              padding:  EdgeInsets.symmetric(horizontal: 18.w, vertical: 22.w),
+              padding:  EdgeInsets.symmetric(vertical: 12.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.0),
                 color: Color(0xFF222633),
@@ -287,11 +288,13 @@ class _BetListPageState extends State<BetListPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: controller.gameTypeModels.asMap().map((typeIndex, gameTypeModel) {
                   var color = controller.selectedGameTypeModel.id == gameTypeModel.id ? Color(0xFF5D5FEF) : Color(0xFF687083);
+                  var gameTypeModelName = gameTypeModel.name ?? '';
                   return MapEntry(
                       typeIndex,
                       Container(
                           height: 30.w,
-                          child: Text(gameTypeModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
+                          alignment: Alignment.centerLeft,
+                          child: Text("    $gameTypeModelName", style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
                           )
                       ).onTap(() {
                         controller.onTapSwitchGameTyp(typeIndex);

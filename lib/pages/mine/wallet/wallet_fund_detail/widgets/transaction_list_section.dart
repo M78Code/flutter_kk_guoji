@@ -17,15 +17,15 @@ class TransactionListSection extends StatelessWidget {
     return GetBuilder<WalletFundDetailLogic>(
       id: 'searchList',
       builder: (controller) {
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-              UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index];
-              return TransactionDataRow(rowData);
-            },
-            childCount:controller.userMoneyDetailsSearchList.length,
-          ),
+        var listView = ListView.builder(
+          key: ValueKey(controller.dateType),
+          itemCount: controller.userMoneyDetailsSearchList.length,
+          itemBuilder: (context, index) {
+            UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index];
+            return TransactionDataRow(rowData);
+          },
         );
+        return listView;
       },
     );
   }

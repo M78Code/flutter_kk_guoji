@@ -139,7 +139,14 @@ class GamesItemsWidget extends GetView<GamesLogic> {
         GameModel gameModel = games[index];
         return Stack(
           children: [
-            Positioned.fill(child: Image.network(gameModel.image ?? "", width: 78.w, height: 78.w)),
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.w),
+                child: Image.network(
+                  gameModel.image ?? "", width: 78.w, height: 78.w, fit: BoxFit.cover,
+                ),
+              ),
+            ),
             Positioned(
               left: 4,
               right: 4,

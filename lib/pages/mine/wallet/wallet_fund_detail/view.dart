@@ -99,11 +99,7 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
               onLoad: () async {
                 controller.onLoading();
               },
-              child:  CustomScrollView(
-                slivers: [
-                  TransactionListSection(),
-                ],
-              ),
+              child:  TransactionListSection(),
             ).expanded()
           ],
         ),

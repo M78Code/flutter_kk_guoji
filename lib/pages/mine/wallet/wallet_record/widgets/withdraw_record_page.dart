@@ -8,6 +8,7 @@ import 'package:kkguoji/pages/mine/wallet/wallet_record/logic.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/wallet_record_balance_widget.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/wallet_record_list.dart';
 
+import '../../../../../generated/assets.dart';
 import '../../../bet_list/widgets/custom_date_picker.dart';
 import '../../../bet_list/widgets/date_selection_section.dart';
 import 'package:intl/intl.dart';
@@ -28,61 +29,58 @@ class WithdrawRecordPage extends StatelessWidget {
   }
   Widget _buildView(BuildContext context) {
     return Scaffold(
-      body:  EasyRefresh(
-        controller: controller.userWithdrawState.refreshController,
-        onRefresh: () async {
-          controller.onRefresh();
-        },
-        onLoad: () async {
-          controller.onLoading();
-        },
-        child: Container(
+      body:  Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: WalletRecordBalanceWidget().marginOnly(top: 10.w),
+          child:Column(
+            children: [
+              WalletRecordBalanceWidget().marginOnly(top: 10.w),
+              SizedBox(height: 20.w,),
+              GetBuilder<WalletRecordLogic>(
+                id: 'withdrawDateSelector',
+                builder: (controller) {
+                  String? dateRange;
+                  if (controller.userWithdrawState.startDate != null && controller.userWithdrawState.endDate != null) {
+                    var startText = DateFormat('MM/dd').format(controller.userWithdrawState.startDate!);
+                    var endText = DateFormat('MM/dd').format(controller.userWithdrawState.endDate!);
+                    dateRange = startText + " - " + endText;
+                  }
+                  return DateSelectionSection(
+                      dateTypes: controller.userWithdrawState.dateTypes,
+                      selectType: controller.userWithdrawState.dateType ?? "",
+                      selectDateRange: dateRange,
+                      onTap: (selectType){
+                        controller.onTapSwitchDate(selectType);
+                      },
+                      onTapSelectTime: (){
+                        _showTimeWidget(context);
+                      });
+                },
               ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 20.w,)
+              SizedBox(height: 15.w,),
+              GetBuilder<WalletRecordLogic>(
+                id: 'searchList',
+                builder: (controller) {
+                  if ( controller.userRechargeState.userRechargeModels.isEmpty) {
+                    return Center(
+                      child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
+                    );
+                  };
+                  return Container();
+                },
               ),
-              SliverToBoxAdapter(
-                child: GetBuilder<WalletRecordLogic>(
-                  id: 'withdrawDateSelector',
-                  builder: (controller) {
-                    String? dateRange;
-                    if (controller.userWithdrawState.startDate != null && controller.userWithdrawState.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.userWithdrawState.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.userWithdrawState.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.userWithdrawState.dateTypes,
-                        selectType: controller.userWithdrawState.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget(context);
-                        });
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 15.w,)
-              ),
-              controller.userWithdrawState.userWithdrawModels.isEmpty ? SliverToBoxAdapter(child: Center(
-                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
-              )) :
-              WalletRecordList(isWithDrawRecord: true),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 10.w,)
-              ),
+              EasyRefresh(
+                controller: controller.userRechargeState.refreshController,
+                onRefresh: () async {
+                  controller.onRefresh();
+                },
+                onLoad: () async {
+                  controller.onLoading();
+                },
+                child:  WalletRecordList(isWithDrawRecord: true),
+              ).expanded()
             ],
-          ),
-        ).safeArea(),
-      ),
+          )
+      ).safeArea(),
     );
   }
 
