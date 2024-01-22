@@ -17,37 +17,36 @@ class WalletRecordList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<WalletRecordLogic>(
       builder: (controller) {
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-
-                  if ( this.isWithDrawRecord) {
-                    UserWithdrawModel userWithdrawModel = controller.userWithdrawState.userWithdrawModels[0];
-                    var viewModel = WithdrawRecordListChildViewModel(
-                        createTime: userWithdrawModel.createTime,
-                        type: userWithdrawModel.type,
-                        statusName: userWithdrawModel.statusName,
-                        money: userWithdrawModel.money,
-                        bankUsername: userWithdrawModel.bankUsername,
-                        bankNumber: userWithdrawModel.bankNumber,
-                        orderN: userWithdrawModel.sn);
-                    return WithdrawRecordListChild(viewModel);
-                  }
-                  else {
-                    UserRechargeModel userRechargeModel = controller.userRechargeState.userRechargeModels[0];
-                    var viewModel = RechargeRecordListChildViewModel(
-                        orderN: userRechargeModel.sn,
-                        createTime: userRechargeModel.createTime,
-                        payName: userRechargeModel.payName,
-                        money: userRechargeModel.money,
-                        status_name:  userRechargeModel.statusName,
-                    );
-                    return  ChargeRecordListChild(viewModel);
-                  }
-            },
-            childCount:12 // this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
-          ),
+        var listView = ListView.builder(
+          key: this.isWithDrawRecord ? ValueKey("WithDrawRecord_$controller.userWithdrawState.dateType") : ValueKey("RechargeRecord_$controller.userWithdrawState.dateType"),
+          itemCount: this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
+            itemBuilder: (context, index) {
+            if ( this.isWithDrawRecord) {
+              UserWithdrawModel userWithdrawModel = controller.userWithdrawState.userWithdrawModels[0];
+              var viewModel = WithdrawRecordListChildViewModel(
+                  createTime: userWithdrawModel.createTime,
+                  type: userWithdrawModel.type,
+                  statusName: userWithdrawModel.statusName,
+                  money: userWithdrawModel.money,
+                  bankUsername: userWithdrawModel.bankUsername,
+                  bankNumber: userWithdrawModel.bankNumber,
+                  orderN: userWithdrawModel.sn);
+              return WithdrawRecordListChild(viewModel);
+            }
+            else {
+              UserRechargeModel userRechargeModel = controller.userRechargeState.userRechargeModels[0];
+              var viewModel = RechargeRecordListChildViewModel(
+                orderN: userRechargeModel.sn,
+                createTime: userRechargeModel.createTime,
+                payName: userRechargeModel.payName,
+                money: userRechargeModel.money,
+                status_name:  userRechargeModel.statusName,
+              );
+              return  ChargeRecordListChild(viewModel);
+            }
+          },
         );
+        return listView;
       },
     );
   }
