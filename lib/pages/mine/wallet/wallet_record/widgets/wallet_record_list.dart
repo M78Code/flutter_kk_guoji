@@ -22,7 +22,7 @@ class WalletRecordList extends StatelessWidget {
                 (BuildContext context, int index) {
 
                   if ( this.isWithDrawRecord) {
-                    UserWithdrawModel userWithdrawModel = controller.userWithdrawState.userWithdrawModels[index];
+                    UserWithdrawModel userWithdrawModel = controller.userWithdrawState.userWithdrawModels[0];
                     var viewModel = WithdrawRecordListChildViewModel(
                         createTime: userWithdrawModel.createTime,
                         type: userWithdrawModel.type,
@@ -34,7 +34,7 @@ class WalletRecordList extends StatelessWidget {
                     return WithdrawRecordListChild(viewModel);
                   }
                   else {
-                    UserRechargeModel userRechargeModel = controller.userRechargeState.userRechargeModels[index];
+                    UserRechargeModel userRechargeModel = controller.userRechargeState.userRechargeModels[0];
                     var viewModel = RechargeRecordListChildViewModel(
                         orderN: userRechargeModel.sn,
                         createTime: userRechargeModel.createTime,
@@ -45,7 +45,7 @@ class WalletRecordList extends StatelessWidget {
                     return  ChargeRecordListChild(viewModel);
                   }
             },
-            childCount:this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
+            childCount:12 // this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
           ),
         );
       },

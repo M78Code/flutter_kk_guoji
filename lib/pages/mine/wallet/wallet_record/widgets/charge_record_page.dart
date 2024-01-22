@@ -28,6 +28,10 @@ class ChargeRecordPage extends StatelessWidget {
     );
   }
   Widget _buildView(BuildContext context) {
+
+    Container(
+
+    );
     return Scaffold(
       body:  EasyRefresh(
         controller: controller.userRechargeState.refreshController,
