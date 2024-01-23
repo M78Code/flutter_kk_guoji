@@ -20,21 +20,13 @@ class WalletRecordList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<WalletRecordLogic>(
       builder: (controller) {
-        if ( this.isWithDrawRecord  && controller.userWithdrawState.userWithdrawModels.isEmpty) {
-          return SingleChildScrollView(
-            child: Center(child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,)),
-          ).expanded();
-        } else if ( this.isWithDrawRecord == false  && controller.userRechargeState.userRechargeModels.isEmpty) {
-          return SingleChildScrollView(
-            child: Image.asset(Assets.rebateNodata, width: 200.w, height: 223.w,),
-          );
-        }
+        var dateType = controller.dateType;
         var listView = ListView.builder(
-          key: this.isWithDrawRecord ? ValueKey("WithDrawRecord_$controller.userWithdrawState.dateType") : ValueKey("RechargeRecord_$controller.userWithdrawState.dateType"),
+          key: this.isWithDrawRecord ? ValueKey("WithDrawRecord") : ValueKey("RechargeRecord"),
           itemCount: this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
             itemBuilder: (context, index) {
             if ( this.isWithDrawRecord) {
-              UserWithdrawModel userWithdrawModel = controller.userWithdrawState.userWithdrawModels[0];
+              UserWithdrawModel userWithdrawModel = controller.userWithdrawState.userWithdrawModels[index];
               var viewModel = WithdrawRecordListChildViewModel(
                   createTime: userWithdrawModel.createTime,
                   type: userWithdrawModel.type,
@@ -46,7 +38,7 @@ class WalletRecordList extends StatelessWidget {
               return WithdrawRecordListChild(viewModel);
             }
             else {
-              UserRechargeModel userRechargeModel = controller.userRechargeState.userRechargeModels[0];
+              UserRechargeModel userRechargeModel = controller.userRechargeState.userRechargeModels[index];
               var viewModel = RechargeRecordListChildViewModel(
                 orderN: userRechargeModel.sn,
                 createTime: userRechargeModel.createTime,
