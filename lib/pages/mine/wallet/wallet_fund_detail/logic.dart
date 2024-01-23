@@ -95,7 +95,7 @@ class WalletFundDetailLogic extends GetxController {
         this.userMoneyDetailsSearchList.addAll(userMoneyDetailsSearchListModel.list ?? []);
       }
       this.isNoMoreData = (userMoneyDetailsSearchListModel.totalCount ?? 0) <= this.userMoneyDetailsSearchList.length;
-      update(["searchList", "searchListHeader"]);
+      update(["WalletFundDetailPage", "searchList", "searchListHeader"]);
     }
     return;
   }

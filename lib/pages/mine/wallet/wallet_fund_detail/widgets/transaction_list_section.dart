@@ -17,6 +17,7 @@ class TransactionListSection extends StatelessWidget {
     return GetBuilder<WalletFundDetailLogic>(
       id: 'searchList',
       builder: (controller) {
+        if (controller.userMoneyDetailsSearchList.length == 0) { return Container(); }
         var listView = ListView.builder(
           key: ValueKey(controller.dateType),
           itemCount: controller.userMoneyDetailsSearchList.length,

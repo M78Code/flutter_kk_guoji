@@ -43,55 +43,13 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
           },
         ),
       ),
-      body:  Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child: Column(
-          children: [
-            MineWalletBalanceWidget(),
-            SizedBox(height: 20.w),
-            RechargeSection(),
-            SizedBox(height: 20.w),
-            GetBuilder<WalletFundDetailLogic>(
-              id: 'dateSelector',
-              builder: (controller) {
-                String? dateRange;
-                if (controller.startDate != null && controller.endDate != null) {
-                  var startText = DateFormat('MM/dd').format(controller.startDate!);
-                  var endText = DateFormat('MM/dd').format(controller.endDate!);
-                  dateRange = startText + " - " + endText;
-                }
-                return DateSelectionSection(
-                    dateTypes: controller.dateTypes,
-                    selectType: controller.dateType ?? "",
-                    selectDateRange: dateRange,
-                    onTap: (selectType){
-                      controller.onTapSwitchDate(selectType);
-                    },
-                    onTapSelectTime: (){
-                      _showTimeWidget();
-                    });
-              },
-            ),
-            SizedBox(height: 15.w),
-            GetBuilder<WalletFundDetailLogic>(
-              id: 'searchListHeader',
-              builder: (controller) {
-                if(controller.userMoneyDetailsSearchList.length > 0) {
-                  return TransactionHeaderRow();
-                }
-                return Container();
-              },
-            ),
-            GetBuilder<WalletFundDetailLogic>(
-              id: 'searchList',
-              builder: (controller) {
-                if (controller.userMoneyDetailsSearchList.isEmpty) {
-                  return  Center(child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,));
-                }
-                return Container();
-              },
-           ),
-            EasyRefresh(
+      body:  GetBuilder<WalletFundDetailLogic>(
+        id: 'WalletFundDetailPage',
+        builder: (controller) {
+
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: EasyRefresh(
               controller: controller.refreshController,
               onRefresh: () async {
                 controller.onRefresh();
@@ -99,10 +57,42 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
               onLoad: () async {
                 controller.onLoading();
               },
-              child:  TransactionListSection(),
-            ).expanded()
-          ],
-        ),
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(child: MineWalletBalanceWidget()),
+                  SliverToBoxAdapter(child: SizedBox(height: 20.w)),
+                  SliverToBoxAdapter(child: RechargeSection()),
+                  SliverToBoxAdapter(child: SizedBox(height: 20.w)),
+                  SliverToBoxAdapter(child: GetBuilder<WalletFundDetailLogic>(
+                    id: 'dateSelector',
+                    builder: (controller) {
+                      String? dateRange;
+                      if (controller.startDate != null && controller.endDate != null) {
+                        var startText = DateFormat('MM/dd').format(controller.startDate!);
+                        var endText = DateFormat('MM/dd').format(controller.endDate!);
+                        dateRange = startText + " - " + endText;
+                      }
+                      return DateSelectionSection(
+                          dateTypes: controller.dateTypes,
+                          selectType: controller.dateType ?? "",
+                          selectDateRange: dateRange,
+                          onTap: (selectType){
+                            controller.onTapSwitchDate(selectType);
+                          },
+                          onTapSelectTime: (){
+                            _showTimeWidget();
+                          });
+                    },
+                  )),
+                  SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                  if(controller.userMoneyDetailsSearchList.length == 0)  SliverToBoxAdapter(child: Container(alignment: Alignment.topCenter,child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))),
+                  if(controller.userMoneyDetailsSearchList.length > 0)  SliverToBoxAdapter(child:  TransactionHeaderRow()),
+                  if(controller.userMoneyDetailsSearchList.length > 0)   SliverFillRemaining(child: TransactionListSection()),
+                ],
+              ),
+            ),
+          );
+        },
       ).safeArea(),
     );
   }
