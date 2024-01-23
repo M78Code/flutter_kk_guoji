@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config.dart';
@@ -150,7 +152,42 @@ class RequestInterceptors extends Interceptor {
     if (code == 401 || code == 1001) {
       SqliteUtil().remove(CacheKey.apiToken);
       UserService.to.isLogin = false;
-      RouteUtil.pushToView(Routes.loginPage, offAll: true);
+      Get.defaultDialog(
+          titlePadding: EdgeInsets.zero,
+          title: "",
+          backgroundColor: const Color(0xFF171A26),
+          content: Container(
+            alignment: Alignment.center,
+            child: const Text(
+              "由于等待时间过长，您的账号已退出，请重新登录。",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          cancel: Container(
+            width: 100,
+            height: 40,
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextButton(
+              onPressed: () {
+                Get.back();
+                RouteUtil.pushToView(Routes.loginPage, offAll: true);
+              },
+              child: const Text(
+                "确认",
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ),
+          ));
     } else {
       return handler.next(err);
     }
