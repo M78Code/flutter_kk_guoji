@@ -12,7 +12,7 @@ class KKHomeRealWidget extends StatelessWidget {
     return Column(
       children: [
          const Visibility(
-           visible: false,
+           visible: true,
            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,13 +23,13 @@ class KKHomeRealWidget extends StatelessWidget {
                   Text("风采展示", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
                 ],
               ),
-              Row(
-                children: [
-                  Text("查看全部", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14),),
-                  SizedBox(height: 5,),
-                  Icon(Icons.chevron_right_outlined, size: 24, color: Color(0xFFB2B3BD),)
-                ],
-              )
+              // Row(
+              //   children: [
+              //     Text("查看全部", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14),),
+              //     SizedBox(height: 5,),
+              //     Icon(Icons.chevron_right_outlined, size: 24, color: Color(0xFFB2B3BD),)
+              //   ],
+              // )
             ],
         ),
          ),
