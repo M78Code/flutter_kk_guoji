@@ -138,7 +138,7 @@ class _BetListPageState extends State<BetListPage> {
       // id: 'betList',
       builder: (controller) {
         var listView = ListView.builder(
-          key: ValueKey(controller.dateType),
+          key: UniqueKey(),
           itemCount: controller.betModels.length,
           itemBuilder: (context, index) {
             BetModel rowData = controller.betModels[index];

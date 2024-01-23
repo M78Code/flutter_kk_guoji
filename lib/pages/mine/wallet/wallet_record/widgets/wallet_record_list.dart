@@ -22,7 +22,7 @@ class WalletRecordList extends StatelessWidget {
       builder: (controller) {
         var dateType = controller.dateType;
         var listView = ListView.builder(
-          key: this.isWithDrawRecord ? ValueKey("WithDrawRecord") : ValueKey("RechargeRecord"),
+          key: UniqueKey(),
           itemCount: this.isWithDrawRecord ? controller.userWithdrawState.userWithdrawModels.length :  controller.userRechargeState.userRechargeModels.length,
             itemBuilder: (context, index) {
             if ( this.isWithDrawRecord) {

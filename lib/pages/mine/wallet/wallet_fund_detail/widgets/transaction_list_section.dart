@@ -19,7 +19,7 @@ class TransactionListSection extends StatelessWidget {
       builder: (controller) {
         if (controller.userMoneyDetailsSearchList.length == 0) { return Container(); }
         var listView = ListView.builder(
-          key: ValueKey(controller.dateType),
+          key: UniqueKey(),
           itemCount: controller.userMoneyDetailsSearchList.length,
           itemBuilder: (context, index) {
             UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index];
