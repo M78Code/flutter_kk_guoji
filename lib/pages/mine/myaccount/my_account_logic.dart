@@ -57,6 +57,7 @@ class MyAccountLogic extends GetxController {
     } else {
       selectedIndex.value = -1;
     }
+    selectedImg.value = Get.arguments["urlPath"];
     // if (null == saveIndex && null == saveAvatar) {
     //   selectedIndex = 0.obs;
     // }
@@ -121,7 +122,8 @@ class MyAccountLogic extends GetxController {
     if (null != result) {
       SqliteUtil().remove(CacheKey.selectAvatarIndex);
       // SqliteUtil().setString(CacheKey.defaultAvatar, result);
-      selectedImg.value = result;
+      final file = await ImageUtil.getImageFileFileFromAssets(result);
+      selectedImg.value = file.path;
       selectedIndex.value = -1;
     }
   }
@@ -226,6 +228,7 @@ class MyAccountLogic extends GetxController {
       if (response) {
         ShowToast.showToast("更新成功");
         userInfoModel = await AccountApi.getUserInfo();
+        Get.back(result: userInfoModel);
       } else {
         ShowToast.showToast("更新失败");
       }

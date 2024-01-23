@@ -9,6 +9,9 @@ import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/services/http_service.dart';
 
 class Global {
+
+  static var testPSD = 0;
+
   static Future<void> init() async {
 
     Get.put<ConfigService>(ConfigService());

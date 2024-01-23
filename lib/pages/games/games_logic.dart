@@ -1,4 +1,5 @@
 
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/account_api.dart';
@@ -18,6 +19,11 @@ class GamesLogic extends GetxController {
   late PageController pageController = PageController(initialPage: 0);
   List<GroupGameData> groupGameDatas = [];
   List<GameModel> lottryGameModels = [];
+  EasyRefreshController _refreshController = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
+  EasyRefreshController get refreshController => _refreshController;
 
   final  List<List<String>> menuList = [
     [Assets.gamesGamesHot, Assets.gamesGamesHotArrow,"热门","热门游戏", "-1"],
@@ -64,6 +70,12 @@ class GamesLogic extends GetxController {
     }
   }
 
+  Future<void> onRefresh() async{
+    await  _initGames();
+    refreshController.finishRefresh();
+    refreshController.resetFooter();
+    refreshController.finishLoad();
+  }
 
   @override
   void onInit() {

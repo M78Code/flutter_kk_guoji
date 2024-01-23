@@ -6,6 +6,8 @@ import 'package:kkguoji/pages/home/view/home_ticket_item.dart';
 
 import '../../../model/home/jcp_game_model.dart';
 import '../../../utils/json_util.dart';
+import '../../games/games_logic.dart';
+import '../../main/logic/main_logic.dart';
 import '../logic/logic.dart';
 
 class KKHomeTicketWidget extends StatelessWidget {
@@ -13,7 +15,8 @@ class KKHomeTicketWidget extends StatelessWidget {
   KKHomeTicketWidget({super.key});
 
   final controller = Get.find<HomeLogic>();
-
+  final mainController = Get.find<MainPageLogic>();
+  final gameController = Get.find<GamesLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +37,21 @@ class KKHomeTicketWidget extends StatelessWidget {
                     fontWeight: FontWeight.w700),),
               ],
             ),
-            Row(
-              children: [
-                Text("查看全部",
-                  style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14),),
-                SizedBox(height: 5,),
-                Icon(Icons.chevron_right_outlined, size: 24,
-                  color: Color(0xFFB2B3BD),)
-              ],
+            InkWell(
+              onTap: () {
+                mainController.clickTabBarItem(1);
+                gameController.switchIndex(1);
+                gameController.menuOntap(1);
+              },
+              child: Row(
+                children: [
+                  Text("查看全部",
+                    style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14),),
+                  SizedBox(height: 5,),
+                  Icon(Icons.chevron_right_outlined, size: 24,
+                    color: Color(0xFFB2B3BD),)
+                ],
+              ),
             )
           ],
         ),
