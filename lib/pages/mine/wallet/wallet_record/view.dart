@@ -1,4 +1,6 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/extension/ex_widget.dart';
@@ -28,7 +30,7 @@ class WalletRecordPage extends StatelessWidget {
             },
           ),
         ),
-        body:Container(
+        body: Container(
           child:  PageView(
             controller: controller.pageController,
             onPageChanged: (index) {

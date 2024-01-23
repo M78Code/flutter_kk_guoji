@@ -70,8 +70,7 @@ class RecordDateSelectionWidget extends StatelessWidget {
   }
 
   Widget buildDateItem(List<String> datas) {
-    bool isSelected = controller.currentIndex ==0  ?
-    controller.userWithdrawState.dateType == datas.first : controller.userRechargeState.dateType == datas.first;
+    bool isSelected = controller.dateType == datas.first;
     return InkWell(
       onTap: () {
         controller.onTapSwitchDate(datas.first);

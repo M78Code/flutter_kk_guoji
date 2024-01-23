@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:kkguoji/common/extension/index.dart';
-import 'package:kkguoji/generated/assets.dart';
 import 'package:kkguoji/pages/games/games_logic.dart';
 import 'package:kkguoji/services/user_service.dart';
-import '../../routes/routes.dart';
-import '../../utils/route_util.dart';
-import '../home/view/home_top_widget.dart';
 import './widgets/index.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 
 class KKGamesPage extends StatefulWidget {
   const KKGamesPage({Key? key}) : super(key: key);
@@ -40,6 +36,7 @@ class _KKGamesPageState extends State<KKGamesPage> with AutomaticKeepAliveClient
 }
 
 class _KKGamesPageGetX extends GetView<GamesLogic> {
+  final GamesLogic controller = Get.find<GamesLogic>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,14 +49,20 @@ class _KKGamesPageGetX extends GetView<GamesLogic> {
   Widget _buildView() {
     return Container(
       color: const Color(0xFF171A26),
-      child: Column(
-        children: [
-          KKGamesTopWidget(UserService.to.isLogin),
-          SizedBox(  height: 20.w),
-          KKGamesMenuWidget(),
-          SizedBox(  height: 20.w),
-          Expanded(child: GamesItemsWidget())
-        ],
+      child: EasyRefresh(
+        controller: controller.refreshController,
+        onRefresh: () async {
+          controller.onRefresh();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: KKGamesTopWidget(UserService.to.isLogin),),
+            SliverToBoxAdapter(child: SizedBox(height: 20.w)),
+            SliverToBoxAdapter(child: KKGamesMenuWidget(),),
+            SliverToBoxAdapter(child: SizedBox(height: 20.w)),
+            SliverFillRemaining(child: GamesItemsWidget())
+          ],
+        ),
       ),
     );
   }
