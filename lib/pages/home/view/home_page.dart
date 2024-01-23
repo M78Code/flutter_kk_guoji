@@ -15,6 +15,7 @@ import 'package:kkguoji/services/user_service.dart';
 
 import '../../../generated/assets.dart';
 import '../../../routes/routes.dart';
+import 'home_serve_widget.dart';
 
 
 class KKHomePage extends GetView<HomeLogic> {
@@ -78,6 +79,8 @@ class KKHomePage extends GetView<HomeLogic> {
                         KKHomeSportsWidget(),
 
                         KKHomeRealWidget(),
+
+                        HomeServeWidget(),
 
                         // Container(
                         //   height: 83,
