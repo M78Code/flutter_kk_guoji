@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/generated/assets.dart';
+import 'package:kkguoji/global.dart';
 import 'package:kkguoji/pages/activity/list/activity_model.dart';
 import 'package:kkguoji/pages/recharge/widgets/ex_widgets.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_logic.dart';
@@ -77,13 +79,6 @@ class WithdrawPage extends GetView<WithdrawLogic> {
                       }
                     })
                 : null,
-            // onPressed: () {
-            //   controller.withdrawSubmit().then((value) {
-            //     if (value) {
-            //       _showDialog(context);
-            //     }
-            //   });
-            // },
           ).marginSymmetric(vertical: 20.h),
         ],
       ).paddingSymmetric(horizontal: 20.w),
@@ -271,7 +266,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           hintTextSize: 15,
           keyboardType: TextInputType.number,
           editController: controller.amountController,
-          callback: (value) => controller.calcAmount(value),
+          callback: (value) => controller.calcAmount(),
         )
       ],
     );
@@ -296,7 +291,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
               maxLength: 6,
               isPassword: controller.showPsd.value,
               keyboardType: TextInputType.number,
-              callback: (value) => controller.calcAmount(value),
+              callback: (value) => controller.calcAmount(),
               editController: controller.withdrawPsdController,
               rightWidget: IconButton(
                 padding: EdgeInsets.zero, //设置内边距为零
@@ -319,10 +314,15 @@ class WithdrawPage extends GetView<WithdrawLogic> {
           width: 100,
           height: 32,
           borderRadius: 16.0,
-          onPressed: () => RouteUtil.pushToView(
-            Routes.withdrawPsd,
-            arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
-          ),
+          onPressed: () async {
+            var data = await Get.toNamed(
+              Routes.withdrawPsd,
+              arguments: controller.userInfoModel?.withdrawPwdStatus == 0,
+            );
+            if (data is UserInfoModel) {
+              controller.updateUserInfo2(data);
+            }
+          },
           child: Text(
             controller.userInfoModel?.withdrawPwdStatus == 1 ? "修改提现密码" : "设置提现密码",
             style: TextStyle(
@@ -554,7 +554,6 @@ class WithdrawPage extends GetView<WithdrawLogic> {
                     onPressed: () {
                       controller.clearInput();
                       Navigator.of(context).pop();
-                      // RouteUtil.popView();
                     },
                     child: const Text(
                       '确认',

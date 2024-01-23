@@ -87,6 +87,7 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
     // TODO: implement onInit
 
     userInfoModel = Get.find<UserService>().userInfoModel.value;
+    // userInfoModel?.withdrawPwdStatus = 0; //测试使用
     getCurrency();
     super.onInit();
   }
@@ -97,15 +98,13 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
 
   RxDouble withdrawAmount = 0.00.obs; //提款金额
   RxDouble withTotalAmount = 0.00.obs; //提款总额
-  void calcAmount(String text) {
-    if (text.isNotEmpty) {
-      // withdrawAmount.value = double.parse(text);
+  void calcAmount() {
+    if (amountController.text.isNotEmpty) {
       //提款总额计算 2%手续费
       withTotalAmount.value =
-          double.parse(text) - double.parse(StringUtil.formatNum(double.parse(text) * 0.02, 2));
+          double.parse(amountController.text) - double.parse(StringUtil.formatNum(double.parse(amountController.text) * 0.02, 2));
     } else {
-      // withdrawAmount.value = 0.0;
-      withTotalAmount.value = 0.0;
+      withdrawAmount.value = 0.0;
     }
     final coinNet = typeOptions[selectTypeIndex.value].name;
     if (coinName.value.isNotEmpty &&
@@ -137,6 +136,11 @@ class WithdrawLogic extends GetxController with GetSingleTickerProviderStateMixi
     await service.fetchUserMoney();
     await service.fetchUserInfo();
     userInfoModel = service.userInfoModel.value;
+    update(["WithdrawPage"]);
+  }
+
+  void updateUserInfo2(UserInfoModel? bean) {
+    userInfoModel = bean;
     update(["WithdrawPage"]);
   }
 
