@@ -73,73 +73,61 @@ class _BetListPageState extends State<BetListPage> {
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child: Column(
-          children: [
-            SizedBox(height: 15.w,),
-            Container(
-              child: GetBuilder<BetListController>(
-                id: 'menu',
-                builder: (controller){
-                  return BetListMenuWidget(
-                      menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
-                      onTap: (index){
-                        if (index == 0) {
-                          _typeMenuCli(controller);
-                        }
-                        else {
-                          _gameMenuCli(controller);
-                        }
-                      });
-                },
-              ),
-            ),
-            SizedBox(height: 15.w,),
-            GetBuilder<BetListController>(
-              id: 'dateSelector',
-              builder: (_) {
-                String? dateRange;
-                if (controller.startDate != null && controller.endDate != null) {
-                  var startText = DateFormat('MM/dd').format(controller.startDate!);
-                  var endText = DateFormat('MM/dd').format(controller.endDate!);
-                  dateRange = startText + " - " + endText;
-                }
-                return DateSelectionSection(
-                    dateTypes: controller.dateTypes,
-                    selectType: controller.dateType ?? "",
-                    selectDateRange: dateRange,
-                    onTap: (selectType){
-                      controller.onTapSwitchDate(selectType);
+        child: EasyRefresh(
+            controller: controller.refreshController,
+            onRefresh: () async {
+              controller.onRefresh();
+            },
+            onLoad: () async {
+              controller.onLoading();
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                SliverToBoxAdapter(child: Container(
+                  child: GetBuilder<BetListController>(
+                    id: 'menu',
+                    builder: (controller){
+                      return BetListMenuWidget(
+                          menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
+                          onTap: (index){
+                            if (index == 0) {
+                              _typeMenuCli(controller);
+                            }
+                            else {
+                              _gameMenuCli(controller);
+                            }
+                          });
                     },
-                    onTapSelectTime: (){
-                      _showTimeWidget(controller);
-                    });
-              },
-            ),
-            SizedBox(height: 15.w),
-            GetBuilder<BetListController>(
-              id: 'betList',
-              builder: (_) {
-                if (controller.betModels.isEmpty) {
-                  return Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,);
-                };
-                return EasyRefresh(
-                  controller: controller.refreshController,
-                  onRefresh: () async {
-                    controller.onRefresh();
-                  },
-                  onLoad: () async {
-                    controller.onLoading();
-                  },
-                  child:  CustomScrollView(
-                    slivers: [
-                      _buildList()
-                    ],
                   ),
-                ).expanded();
-              },
-            ),
-
-          ],
+                )),
+                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                SliverToBoxAdapter(child: GetBuilder<BetListController>(
+                  id: 'dateSelector',
+                  builder: (_) {
+                    String? dateRange;
+                    if (controller.startDate != null && controller.endDate != null) {
+                      var startText = DateFormat('MM/dd').format(controller.startDate!);
+                      var endText = DateFormat('MM/dd').format(controller.endDate!);
+                      dateRange = startText + " - " + endText;
+                    }
+                    return DateSelectionSection(
+                        dateTypes: controller.dateTypes,
+                        selectType: controller.dateType ?? "",
+                        selectDateRange: dateRange,
+                        onTap: (selectType){
+                          controller.onTapSwitchDate(selectType);
+                        },
+                        onTapSelectTime: (){
+                          _showTimeWidget(controller);
+                        });
+                  },
+                )),
+                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                if(controller.betModels.isEmpty)  SliverToBoxAdapter(child: Container(alignment: Alignment.topCenter,child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))),
+                if(controller.betModels.isNotEmpty)   SliverFillRemaining(child: _buildList()),
+              ],
+            )
         ),
       ).safeArea(),
     );
@@ -149,25 +137,25 @@ class _BetListPageState extends State<BetListPage> {
     return GetBuilder<BetListController>(
       // id: 'betList',
       builder: (controller) {
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                BetModel rowData = controller.betModels[index];
-                return BetListRecordListChidView(WBetListRecordListChidViewModel(
-                    createTime: rowData.createTime,
-                    gameName:rowData.gameName,
-                    statusName:  rowData.gameWinStatusName,
-                    money: rowData.gameProfit,
-                    gameTypeName:  rowData.gameTypeName,
-                    betAmount:  rowData.gameBet,
-                    gameProfit: rowData.gameProfit,
-                    orderN: rowData.gameSn,
-                    status:rowData.gameWinStatus
-                ));
-              },
-              childCount: controller.betModels.length
-          ),
+        var listView = ListView.builder(
+          key: ValueKey(controller.dateType),
+          itemCount: controller.betModels.length,
+          itemBuilder: (context, index) {
+            BetModel rowData = controller.betModels[index];
+            return BetListRecordListChidView(WBetListRecordListChidViewModel(
+                createTime: rowData.createTime,
+                gameName:rowData.gameName,
+                statusName:  rowData.gameWinStatusName,
+                money: rowData.gameProfit,
+                gameTypeName:  rowData.gameTypeName,
+                betAmount:  rowData.gameBet,
+                gameProfit: rowData.gameProfit,
+                orderN: rowData.gameSn,
+                status:rowData.gameWinStatus
+            ));
+          },
         );
+        return listView;
       },
     );
   }
