@@ -324,6 +324,10 @@ class WithdrawPsdLogic extends GetxController {
         ShowToast.showToast("两次密码不一致");
         return false;
       }
+      // ShowToast.showToast("设置提现密码成功");
+      // UserService.to.userInfoModel.value?.withdrawPwdStatus = 1;
+      // Get.back(result: UserService.to.userInfoModel.value);
+
       var result = await HttpRequest.request(
         HttpConfig.setWithDrawPassword,
         method: "post",
@@ -331,7 +335,9 @@ class WithdrawPsdLogic extends GetxController {
       );
       if (result["code"] == 200) {
         ShowToast.showToast("设置提现密码成功");
-        RouteUtil.popView();
+        UserService.to.fetchUserInfo().then((value) {
+          Get.back(result: UserService.to.userInfoModel.value);
+        });
       } else {
         ShowToast.showToast(result["message"]);
       }
@@ -356,12 +362,14 @@ class WithdrawPsdLogic extends GetxController {
         "old_password": passwordText,
         "password": newPsdText,
       };
+      // ShowToast.showToast("更新提现密码成功");
+      // UserService.to.userInfoModel.value?.withdrawPwdStatus = 1;
+      // Get.back(result: UserService.to.userInfoModel.value);
       var result =
           await HttpRequest.request(HttpConfig.modifyWDPassword, method: "post", params: params);
       if (result["code"] == 200) {
-        ShowToast.showToast("更新提现密码成功");
         UserService.to.fetchUserInfo().then((value) {
-          RouteUtil.popView();
+          Get.back(result: UserService.to.userInfoModel.value);
         });
       } else {
         ShowToast.showToast(result["message"]);

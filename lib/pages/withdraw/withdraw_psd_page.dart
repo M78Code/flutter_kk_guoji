@@ -50,7 +50,10 @@ class WithdrawPsdPage extends GetView {
                     Text(
                       "请输入旧提现密码",
                       style: TextStyle(
-                          color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ).marginOnly(bottom: 10.h),
                     Obx(() {
                       return CustomInputField(null, "请输入旧提现密码",
@@ -134,9 +137,7 @@ class WithdrawPsdPage extends GetView {
                               height: 30,
                             ),
                           ),
-                          onTap: () {
-                            controller.showPassword(controller.psdObscure3);
-                          },
+                          onTap: () => controller.showPassword(controller.psdObscure3),
                         ),
                         valueChanged: (value) => controller.inputPasswordValue(value, 2));
                   }),
