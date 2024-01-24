@@ -106,7 +106,11 @@ class WebSocketUtil {
       if (_noticeMsgCallback != null) {
         Map value = msgInfo["data"] as Map;
         _noticeMsgCallback!(value);
-        // _ticketMsgCallback!(value.values.first);
+      }
+    }else if(msgInfo["event"] == "get_system_notice"){
+      if (_noticeMsgCallback != null) {
+        Map value = msgInfo["data"] as Map;
+        _noticeMsgCallback!(value);
       }
     }
   }
@@ -119,6 +123,7 @@ class WebSocketUtil {
       // {"event":"get_big_win_recent"},
       {"event":"get_user_message"},
       {"event":"get_system_notice"},
+      {"event":"update_agent_rules"}
     ];
     list.forEach((element) {
       _webSocket?.sink.add(jsonEncode(element));

@@ -30,48 +30,27 @@ class GamesItemsWidget extends GetView<GamesLogic> {
       id: "games",
       builder: (controller) {
         controller.pageController = PageController(initialPage: controller.currentIndex);;
-        return Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                itemCount: controller.groupGameDatas.length,
-                controller: controller.pageController,
-                onPageChanged: (index) {
-                  controller.switchIndex(index);
-                },
-                itemBuilder: (context, index) {
-                  var menu = controller.menuList[index];
-                  var gameModels =  controller.groupGameDatas.firstWhere((element) {
-                    return  element.id.toString() == menu[4];
-                  });
-                  if (menu[4] == "4") {
-                    return SingleChildScrollView(child: _buildItemsGridView3(gameModels.list ?? []));
-                  }
-                  else if (menu[4] == "3") {
-                    return SingleChildScrollView(child: _buildItemsGridView02(controller.lottryGameModels));
-                  }
-                  else {
-                    return SingleChildScrollView(child: _buildItemsGridView02(gameModels.list ?? []));
-                  }
-                },
-              ),
-            ),
-
-            // Expanded(
-            //   child: PageView(
-            //     controller: controller.pageController,
-            //     onPageChanged: (index) {
-            //       controller.switchIndex(index);
-            //     },
-            //     children: [
-            //       SingleChildScrollView(child: _buildItemsGridView(controller.hotList),),
-            //       SingleChildScrollView(child: _buildItemsGridView(controller.lotteryList),),
-            //       SingleChildScrollView(child: _buildItemsGridView(controller.realList),),
-            //       SingleChildScrollView(child: _buildItemsGridView3(controller.sportList),),
-            //     ],
-            //   )
-            // )
-          ],
+        return PageView.builder(
+          itemCount: controller.groupGameDatas.length,
+          controller: controller.pageController,
+          onPageChanged: (index) {
+            controller.switchIndex(index);
+          },
+          itemBuilder: (context, index) {
+            var menu = controller.menuList[index];
+            var gameModels =  controller.groupGameDatas.firstWhere((element) {
+              return  element.id.toString() == menu[4];
+            });
+            if (menu[4] == "4") {
+              return SingleChildScrollView(child: _buildItemsGridView3(gameModels.list ?? []));
+            }
+            else if (menu[4] == "3") {
+              return SingleChildScrollView(child: _buildItemsGridView02(controller.lottryGameModels));
+            }
+            else {
+              return SingleChildScrollView(child: _buildItemsGridView02(gameModels.list ?? []));
+            }
+          },
         );
       },
     );
@@ -139,7 +118,14 @@ class GamesItemsWidget extends GetView<GamesLogic> {
         GameModel gameModel = games[index];
         return Stack(
           children: [
-            Positioned.fill(child: Image.network(gameModel.image ?? "", width: 78.w, height: 78.w)),
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.w),
+                child: Image.network(
+                  gameModel.image ?? "", width: 78.w, height: 78.w, fit: BoxFit.cover,
+                ),
+              ),
+            ),
             Positioned(
               left: 4,
               right: 4,

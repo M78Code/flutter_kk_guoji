@@ -8,6 +8,7 @@ import 'package:kkguoji/pages/mine/wallet/wallet_record/logic.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/wallet_record_balance_widget.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/wallet_record_list.dart';
 
+import '../../../../../generated/assets.dart';
 import '../../../bet_list/widgets/custom_date_picker.dart';
 import '../../../bet_list/widgets/date_selection_section.dart';
 import 'package:intl/intl.dart';
@@ -26,39 +27,36 @@ class WithdrawRecordPage extends StatelessWidget {
       },
     );
   }
+
   Widget _buildView(BuildContext context) {
     return Scaffold(
-      body:  EasyRefresh(
-        controller: controller.userWithdrawState.refreshController,
-        onRefresh: () async {
-          controller.onRefresh();
-        },
-        onLoad: () async {
-          controller.onLoading();
-        },
-        child: Container(
+      body:  Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: WalletRecordBalanceWidget().marginOnly(top: 10.w),
-              ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 20.w,)
-              ),
-              SliverToBoxAdapter(
-                child: GetBuilder<WalletRecordLogic>(
+          child:EasyRefresh(
+            controller: controller.userWithdrawState.refreshController,
+            onRefresh: () async {
+              controller.onRefresh();
+            },
+            onLoad: () async {
+              controller.onLoading();
+            },
+            child:  CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(child: SizedBox(height: 10.w)),
+                SliverToBoxAdapter(child:  WalletRecordBalanceWidget()),
+                SliverToBoxAdapter(child: SizedBox(height: 20.w)),
+                SliverToBoxAdapter(child: GetBuilder<WalletRecordLogic>(
                   id: 'withdrawDateSelector',
                   builder: (controller) {
                     String? dateRange;
-                    if (controller.userWithdrawState.startDate != null && controller.userWithdrawState.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.userWithdrawState.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.userWithdrawState.endDate!);
+                    if (controller.startDate != null && controller.endDate != null) {
+                      var startText = DateFormat('MM/dd').format(controller.startDate!);
+                      var endText = DateFormat('MM/dd').format(controller.endDate!);
                       dateRange = startText + " - " + endText;
                     }
                     return DateSelectionSection(
                         dateTypes: controller.userWithdrawState.dateTypes,
-                        selectType: controller.userWithdrawState.dateType ?? "",
+                        selectType: controller.dateType ?? "",
                         selectDateRange: dateRange,
                         onTap: (selectType){
                           controller.onTapSwitchDate(selectType);
@@ -67,28 +65,20 @@ class WithdrawRecordPage extends StatelessWidget {
                           _showTimeWidget(context);
                         });
                   },
-                ),
-              ),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 15.w,)
-              ),
-              controller.userWithdrawState.userWithdrawModels.isEmpty ? SliverToBoxAdapter(child: Center(
-                child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,),
-              )) :
-              WalletRecordList(isWithDrawRecord: true),
-              SliverToBoxAdapter(
-                  child: SizedBox(height: 10.w,)
-              ),
-            ],
-          ),
-        ).safeArea(),
-      ),
+                )),
+                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                if (controller.userWithdrawState.userWithdrawModels.isEmpty) SliverToBoxAdapter(child: Container(alignment: Alignment.topCenter,child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))),
+                if (controller.userWithdrawState.userWithdrawModels.isEmpty  == false) SliverFillRemaining(child: WalletRecordList(isWithDrawRecord: true)),
+              ],
+            ),
+          )
+      ).safeArea(),
     );
   }
 
   void _showTimeWidget(BuildContext context) {
-    var startDate = controller.currentIndex == 0 ? controller.userWithdrawState.startDate : controller.userWithdrawState.startDate;
-    var endDate = controller.currentIndex == 0 ? controller.userWithdrawState.endDate : controller.userWithdrawState.endDate;
+    var startDate =  controller.startDate;
+    var endDate =  controller.endDate;
 
     Widget child = CustomDatePicker(
       startDate: startDate ?? DateTime.now(),

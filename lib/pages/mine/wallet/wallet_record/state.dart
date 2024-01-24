@@ -8,9 +8,6 @@ import '../../../../common/models/mine_wallet/user_withdraw_list_respond_model.d
 class WalletRecordWithdrawState {
   List<UserWithdrawModel> userWithdrawModels = [];
   final List<List<String>> dateTypes = [["today","今天"], ["yesterday","昨天" ], ["month","本月"], ["last_month","上月"],];
-  String? dateType = "today";
-  DateTime? startDate;
-  DateTime? endDate;
   int page = 1;
   bool isNoMoreData = false;
   EasyRefreshController _refreshController = EasyRefreshController(
@@ -24,9 +21,6 @@ class WalletRecordWithdrawState {
 class WalletRecordRechargeState {
   List<UserRechargeModel> userRechargeModels = [];
   final List<List<String>> dateTypes = [["today","今天"], ["yesterday","昨天" ], ["month","本月"], ["last_month","上月"],];
-  String? dateType = "today";
-  DateTime? startDate;
-  DateTime? endDate;
   int page = 1;
   bool isNoMoreData = false;
   EasyRefreshController _refreshController = EasyRefreshController(

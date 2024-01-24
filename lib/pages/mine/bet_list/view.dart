@@ -73,73 +73,61 @@ class _BetListPageState extends State<BetListPage> {
       ),
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child: Column(
-          children: [
-            SizedBox(height: 15.w,),
-            Container(
-              child: GetBuilder<BetListController>(
-                id: 'menu',
-                builder: (controller){
-                  return BetListMenuWidget(
-                      menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
-                      onTap: (index){
-                        if (index == 0) {
-                          _typeMenuCli(controller);
-                        }
-                        else {
-                          _gameMenuCli(controller);
-                        }
-                      });
-                },
-              ),
-            ),
-            SizedBox(height: 15.w,),
-            GetBuilder<BetListController>(
-              id: 'dateSelector',
-              builder: (_) {
-                String? dateRange;
-                if (controller.startDate != null && controller.endDate != null) {
-                  var startText = DateFormat('MM/dd').format(controller.startDate!);
-                  var endText = DateFormat('MM/dd').format(controller.endDate!);
-                  dateRange = startText + " - " + endText;
-                }
-                return DateSelectionSection(
-                    dateTypes: controller.dateTypes,
-                    selectType: controller.dateType ?? "",
-                    selectDateRange: dateRange,
-                    onTap: (selectType){
-                      controller.onTapSwitchDate(selectType);
+        child: EasyRefresh(
+            controller: controller.refreshController,
+            onRefresh: () async {
+              controller.onRefresh();
+            },
+            onLoad: () async {
+              controller.onLoading();
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                SliverToBoxAdapter(child: Container(
+                  child: GetBuilder<BetListController>(
+                    id: 'menu',
+                    builder: (controller){
+                      return BetListMenuWidget(
+                          menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
+                          onTap: (index){
+                            if (index == 0) {
+                              _typeMenuCli(controller);
+                            }
+                            else {
+                              _gameMenuCli(controller);
+                            }
+                          });
                     },
-                    onTapSelectTime: (){
-                      _showTimeWidget(controller);
-                    });
-              },
-            ),
-            SizedBox(height: 15.w),
-            GetBuilder<BetListController>(
-              id: 'betList',
-              builder: (_) {
-                if (controller.betModels.isEmpty) {
-                  return Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,);
-                };
-                return EasyRefresh(
-                  controller: controller.refreshController,
-                  onRefresh: () async {
-                    controller.onRefresh();
-                  },
-                  onLoad: () async {
-                    controller.onLoading();
-                  },
-                  child:  CustomScrollView(
-                    slivers: [
-                      _buildList()
-                    ],
                   ),
-                ).expanded();
-              },
-            ),
-
-          ],
+                )),
+                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                SliverToBoxAdapter(child: GetBuilder<BetListController>(
+                  id: 'dateSelector',
+                  builder: (_) {
+                    String? dateRange;
+                    if (controller.startDate != null && controller.endDate != null) {
+                      var startText = DateFormat('MM/dd').format(controller.startDate!);
+                      var endText = DateFormat('MM/dd').format(controller.endDate!);
+                      dateRange = startText + " - " + endText;
+                    }
+                    return DateSelectionSection(
+                        dateTypes: controller.dateTypes,
+                        selectType: controller.dateType ?? "",
+                        selectDateRange: dateRange,
+                        onTap: (selectType){
+                          controller.onTapSwitchDate(selectType);
+                        },
+                        onTapSelectTime: (){
+                          _showTimeWidget(controller);
+                        });
+                  },
+                )),
+                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
+                if(controller.betModels.isEmpty)  SliverToBoxAdapter(child: Container(alignment: Alignment.topCenter,child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))),
+                if(controller.betModels.isNotEmpty)   SliverFillRemaining(child: _buildList()),
+              ],
+            )
         ),
       ).safeArea(),
     );
@@ -149,25 +137,25 @@ class _BetListPageState extends State<BetListPage> {
     return GetBuilder<BetListController>(
       // id: 'betList',
       builder: (controller) {
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                BetModel rowData = controller.betModels[index];
-                return BetListRecordListChidView(WBetListRecordListChidViewModel(
-                    createTime: rowData.createTime,
-                    gameName:rowData.gameName,
-                    statusName:  rowData.gameWinStatusName,
-                    money: rowData.gameProfit,
-                    gameTypeName:  rowData.gameTypeName,
-                    betAmount:  rowData.gameBet,
-                    gameProfit: rowData.gameProfit,
-                    orderN: rowData.gameSn,
-                    status:rowData.gameWinStatus
-                ));
-              },
-              childCount: controller.betModels.length
-          ),
+        var listView = ListView.builder(
+          key: UniqueKey(),
+          itemCount: controller.betModels.length,
+          itemBuilder: (context, index) {
+            BetModel rowData = controller.betModels[index];
+            return BetListRecordListChidView(WBetListRecordListChidViewModel(
+                createTime: rowData.createTime,
+                gameName:rowData.gameName,
+                statusName:  rowData.gameWinStatusName,
+                money: rowData.gameProfit,
+                gameTypeName:  rowData.gameTypeName,
+                betAmount:  rowData.gameBet,
+                gameProfit: rowData.gameProfit,
+                orderN: rowData.gameSn,
+                status:rowData.gameWinStatus
+            ));
+          },
         );
+        return listView;
       },
     );
   }
@@ -215,11 +203,13 @@ class _BetListPageState extends State<BetListPage> {
           var searchResult = controller.gameModels.where((element) => element.name?.contains(controller.gameSearchKey) ?? true).toList();
           var widgets = searchResult.asMap().map((typeIndex, gameModel) {
             var color = controller.selectedGameModel.id == gameModel.id ? Color(0xFF5D5FEF) : Color(0xFF687083);
+            var gameModelName = gameModel.name ?? '';
             return MapEntry(
                 typeIndex,
                 Container(
                     height: 30.w,
-                    child: Text(gameModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
+                    alignment: Alignment.centerLeft,
+                    child: Text("    $gameModelName", style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
                     )
                 ).onTap(() {
                   controller.onTapSwitchGame(gameModel);
@@ -248,7 +238,6 @@ class _BetListPageState extends State<BetListPage> {
                     height: min(240.w, widgets.length * 30.w),
                     child: SingleChildScrollView(
                       child: Container(
-                        padding:  EdgeInsets.symmetric(horizontal: 18.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: widgets,
@@ -278,7 +267,7 @@ class _BetListPageState extends State<BetListPage> {
             child: Container(
               width: buttonSize.width,
               margin: EdgeInsets.only(top: 10.w),
-              padding:  EdgeInsets.symmetric(horizontal: 18.w, vertical: 22.w),
+              padding:  EdgeInsets.symmetric(vertical: 12.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.0),
                 color: Color(0xFF222633),
@@ -287,11 +276,13 @@ class _BetListPageState extends State<BetListPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: controller.gameTypeModels.asMap().map((typeIndex, gameTypeModel) {
                   var color = controller.selectedGameTypeModel.id == gameTypeModel.id ? Color(0xFF5D5FEF) : Color(0xFF687083);
+                  var gameTypeModelName = gameTypeModel.name ?? '';
                   return MapEntry(
                       typeIndex,
                       Container(
                           height: 30.w,
-                          child: Text(gameTypeModel.name ?? '', style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
+                          alignment: Alignment.centerLeft,
+                          child: Text("    $gameTypeModelName", style: TextStyle(color: color, fontSize: 13.sp, fontWeight: FontWeight.w400),
                           )
                       ).onTap(() {
                         controller.onTapSwitchGameTyp(typeIndex);
