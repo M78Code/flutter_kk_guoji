@@ -15,7 +15,7 @@ class BetListMenuWidget extends StatelessWidget {
     required this.menuTexts,
     required this.onTap,
   });
-
+  static var kHeight = 42.w;
   final void Function(int index) onTap;
   final List<String> menuTexts;
 

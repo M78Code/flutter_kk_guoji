@@ -69,6 +69,7 @@ class BetListController extends GetxController {
     this.startDate = null;
     this.endDate = null;
     update(['dateSelector']);
+
     await onRefresh();
   }
 
@@ -126,6 +127,8 @@ class BetListController extends GetxController {
   Future<void> _fetchBetList(isRefresh) async {
     if (isRefresh) {
       page = 1;
+      this.betModels.clear();
+      update(["betListPage"]);
     }
     else {
       ++page;
@@ -155,9 +158,9 @@ class BetListController extends GetxController {
   }
 
   Future<void> onRefresh() async{
+    _refreshController.resetFooter();
     await _initData();
     _refreshController.finishRefresh();
-    _refreshController.resetFooter();
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
     }

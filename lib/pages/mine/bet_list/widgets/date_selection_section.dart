@@ -8,7 +8,7 @@ import '../../../../../generated/assets.dart';
 final GlobalKey dateSelectionSectionKey = GlobalKey();
 
 class DateSelectionSection extends StatelessWidget {
-
+  static var kHeight = 42.w;
   final void Function(String dataType) onTap;
   final void Function() onTapSelectTime;
   final List<List<String>> dateTypes;
