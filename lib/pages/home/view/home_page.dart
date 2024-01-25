@@ -1,4 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,63 +13,68 @@ import 'package:kkguoji/pages/home/view/home_sports_widget.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/home_top_widget.dart';
 import 'package:kkguoji/services/user_service.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../generated/assets.dart';
 import '../../../routes/routes.dart';
 import 'home_serve_widget.dart';
 
-
 class KKHomePage extends GetView<HomeLogic> {
-
   final controller = Get.find<HomeLogic>();
   final globalController = Get.find<UserService>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            color: const Color(0xFF171A26),
-            child: SingleChildScrollView(
-              child: Column(
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).unfocus();
+        },
+        child: Stack(
+          children: [
+            Container(
+              color: const Color(0xFF171A26),
+              child: SingleChildScrollView(
+                  child: Column(
                 children: [
                   Obx(() {
                     return Container(
-                                height: 160.w,
-                                width: double.infinity,
-                                margin: EdgeInsets.only(left: 12.w, right: 12.w, top: KKHomeTopWidget.kHeight+6.w),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6.w),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6.w),
-                                   child: Swiper(
-                                      autoplayDisableOnInteraction:false,
-                                      autoplay: true,
-                                      itemCount: controller.bannerList.length, itemBuilder: (BuildContext context, int index) {
-                                        Map bannerInfo = controller.bannerList.value[index];
-                                        if(bannerInfo.isNotEmpty) {
-                                          return Image.network(bannerInfo["image"], fit: BoxFit.cover);
-                                        } else {
-                                          return Container();
-                                        }
-                                      },
-                                      pagination: SwiperPagination(
-                                        builder: DotSwiperPaginationBuilder(
-                                          activeColor: Color(0xFF6C4FE0), // 选中的圆点颜色
-                                          color: Color(0xFFFFF3F3),       // 未选中的圆点颜色
-                                        ),
-                                      )
-                                  ),
-                                ),
-                              );
+                      height: 160.w,
+                      width: double.infinity,
+                      margin: EdgeInsets.only(left: 12.w, right: 12.w, top: KKHomeTopWidget.kHeight + 6.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.w),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6.w),
+                        child: Swiper(
+                            autoplayDisableOnInteraction: false,
+                            autoplay: true,
+                            itemCount: controller.bannerList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Map bannerInfo = controller.bannerList.value[index];
+                              if (bannerInfo.isNotEmpty) {
+                                return Image.network(bannerInfo["image"], fit: BoxFit.cover);
+                              } else {
+                                return Container();
+                              }
+                            },
+                            pagination: SwiperPagination(
+                              builder: DotSwiperPaginationBuilder(
+                                activeColor: Color(0xFF6C4FE0), // 选中的圆点颜色
+                                color: Color(0xFFFFF3F3), // 未选中的圆点颜色
+                              ),
+                            )),
+                      ),
+                    );
                   }),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child:  Column(
+                    child: Column(
                       children: [
-                        Obx(() => KKHomeMarqueeWidget(controller.marqueeStr.value),),
+                        Obx(
+                          () => KKHomeMarqueeWidget(controller.marqueeStr.value),
+                        ),
                         //余额 存款 取款
                         KKHomeBalanceWidget(),
 
@@ -179,18 +185,27 @@ class KKHomePage extends GetView<HomeLogic> {
                       ],
                     ),
                   )
-
                 ],
-              )
+              )),
             ),
-          ),
-          Positioned(child:Obx((){
-            return KKHomeTopWidget(globalController.isLogin);
-          }),),
-        ],
+            Positioned(
+              child: Obx(() {
+                return KKHomeTopWidget(globalController.isLogin);
+              }),
+            ),
+            Positioned(
+                bottom: 150,
+                right: 10,
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  child: Image.asset(
+                      Assets.homeUjc
+                  ),
+                )),
+          ],
+        ),
       ),
     ).safeArea();
   }
-
-
 }

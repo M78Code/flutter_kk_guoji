@@ -62,6 +62,7 @@ dependencies:
   aws_s3_upload: ^1.5.0
   qr_flutter: ^4.1.0
   image_gallery_saver: '^2.0.3'
+  lottie: ^1.1.0
   #  amazon_s3_cognito:
 #    git:
 #      url: https://github.com/zhihaozhang/amazon_s3_cognito.git
@@ -80,6 +81,8 @@ dependencies:
 #  flutter_user_agentx: ^1.2.4
   fk_user_agent: ^2.1.0
   pull_to_refresh: ^2.0.0
+  flare_flutter: ^3.0.2
+  scroll_page_view: ^1.0.2
 
 dev_dependencies:
   flutter_test:
