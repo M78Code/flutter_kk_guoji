@@ -54,7 +54,7 @@ class BetListController extends GetxController {
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    initData();
+    onRefresh();
   }
 
   @override
@@ -86,7 +86,7 @@ class BetListController extends GetxController {
     this.selectedGameModel = GameModel(id: null,name: '全部游戏');
     update(['gameTypeMenu']);
     update(['menu']);
-    fetchGameList();
+    _fetchGameList();
     await onRefresh();
   }
 
@@ -104,26 +104,26 @@ class BetListController extends GetxController {
     update(['gameMenu']);
   }
 
-  initData() {
+  _initData() async {
     UserService.to.fetchUserMoney();
-    fetchGameTypeList();
-    fetchGameList();
-    fetchBetList(true);
+    await _fetchGameTypeList();
+    await _fetchGameList();
+    await _fetchBetList(true);
   }
 
-  fetchGameTypeList() async {
+  _fetchGameTypeList() async {
     List<GameTypeModel>? gameTypeModels = await GamesApi.getGameTypeList();
     this.gameTypeModels = (gameTypeModels ?? []);
     this.gameTypeModels.insert(0, GameTypeModel(id: null,name: '全部类型'));
   }
 
-  fetchGameList() async {
+  _fetchGameList() async {
     GameListModel? gameModels = await GamesApi.getGameList(selectedGameTypeModel.id);
     this.gameModels = gameModels?.list ?? [];
     this.gameModels.insert(0, GameModel(id: null,name: '全部游戏'));
   }
 
-  Future<void> fetchBetList(isRefresh) async {
+  Future<void> _fetchBetList(isRefresh) async {
     if (isRefresh) {
       page = 1;
     }
@@ -150,14 +150,12 @@ class BetListController extends GetxController {
       }
       this.isNoMoreData = (betListModel.total ?? 0) <= this.betModels.length;
       update(["betListPage"]);
-
-      return;
     }
+    return;
   }
 
   Future<void> onRefresh() async{
-    // monitor network fetch
-    await fetchBetList(true);
+    await _initData();
     _refreshController.finishRefresh();
     _refreshController.resetFooter();
     if (this.isNoMoreData) {
@@ -169,9 +167,7 @@ class BetListController extends GetxController {
   }
 
   void onLoading() async{
-    // monitor network fetch
-    // await getUserMoneyDetailsSearch(false);
-    await fetchBetList(false);
+    await _fetchBetList(false);
     _refreshController.finishRefresh();
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);

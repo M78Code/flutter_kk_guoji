@@ -23,7 +23,7 @@ class WalletRecordLogic extends GetxController {
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    initData();
+    onRefresh();
   }
 
   @override
@@ -60,18 +60,15 @@ class WalletRecordLogic extends GetxController {
     await onRefresh();
   }
 
-  switchIndex(int index) {
+  switchIndex(int index) async {
     if (currentIndex == index) return;
     currentIndex = index;
     update(["menu"]);
-    initData();
+    await onRefresh();
   }
 
   Future<void> onRefresh() async{
-    // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
     await initData();
-    // if failed,use refreshFailed()
     if (currentIndex == 0) {
       userWithdrawState.refreshController.finishRefresh();
       userWithdrawState.refreshController.resetFooter();
@@ -98,6 +95,7 @@ class WalletRecordLogic extends GetxController {
     if (currentIndex == 0) {
       await fetchUserWithdrawList(false);
       userWithdrawState.refreshController.finishRefresh();
+      userWithdrawState.refreshController.resetFooter();
       if (userWithdrawState.isNoMoreData) {
         userWithdrawState.refreshController.finishLoad(IndicatorResult.noMore);
       }
@@ -108,6 +106,7 @@ class WalletRecordLogic extends GetxController {
     else {
       await fetchUserRechargeList(false);
       userRechargeState.refreshController.finishRefresh();
+      userRechargeState.refreshController.resetFooter();
       if (userRechargeState.isNoMoreData) {
         userRechargeState.refreshController.finishLoad(IndicatorResult.noMore);
       }
@@ -117,13 +116,13 @@ class WalletRecordLogic extends GetxController {
     }
   }
 
-  initData() {
+  initData() async {
     fetchUserMoneyDetails();
     if (currentIndex == 0) {
-      fetchUserWithdrawList(true);
+      await fetchUserWithdrawList(true);
     }
     else {
-      fetchUserRechargeList(true);
+      await fetchUserRechargeList(true);
     }
   }
 
@@ -164,6 +163,7 @@ class WalletRecordLogic extends GetxController {
     }
     return;
   }
+
   Future<void> fetchUserRechargeList(bool isrefresh) async {
     if (isrefresh) {
       userRechargeState.page = 1;
