@@ -24,20 +24,24 @@ class KKHomeTicketItem extends StatefulWidget {
   final List<Color> ballColors;
   final ParamSingleCallback<String> openGame;
 
-  KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors, this.tickInfo, this.openGame, {super.key});
+  KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors, this.tickInfo, this.openGame, {Key? key}) : super(key: key);
 
   @override
   State<KKHomeTicketItem> createState() => _KKHomeTicketItemState();
 }
 
-class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
+class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepAliveClientMixin{
   String periodsNumber = "";
   num endTime = 0;
-  bool isShowStatus = false;
   List<String> timeList = ["0", "0", "0", "0", "0", "0"];
   late TextEditingController _numberController;
   List<JcpBetModel> betList = [];
   final userService = Get.find<UserService>();
+
+  late DateTime serverTime;
+  late Duration countdownDuration;
+  late Timer timer;
+  bool isCountdownFinished = false;
 
   @override
   void initState() {
@@ -46,291 +50,331 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
     _numberController = TextEditingController(text: getDefaultAmount());
     periodsNumber = widget.tickInfo.last!.periodsNumber.toString();
     endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
-    isShowStatus = widget.tickInfo.current?.status != 4;
-    if (endTime * 1000 > DateTime.now().millisecondsSinceEpoch) {
-      Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-        startEndTime();
-      });
+    if(!getTicketState()){
+      if (endTime * 1000 > DateTime.now().millisecondsSinceEpoch) {
+        // Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+        //   startEndTime();
+        // });
+        timer = Timer.periodic(Duration(seconds: 1), _updateCountdown);
+      }
     }
+    // serverTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000).toInt(), isUtc: true);
+    // timer = Timer.periodic(Duration(seconds: 1), _updateCountdown);
+    // String countdownText = isCountdownFinished ? '00:00:00' : _formatDuration(countdownDuration);
+    // timeList=countdownText.split(':');
+  }
+
+  void updateCountdownDuration() {
+    final now = DateTime.now();
+    countdownDuration = serverTime.isAfter(now)
+        ? serverTime.difference(now)
+        : Duration.zero;
+
+    if (countdownDuration == Duration.zero) {
+      isCountdownFinished = true;
+      timer.cancel();
+    }
+  }
+
+  void _updateCountdown(Timer timer) {
+    setState(() {
+      startEndTime();
+    });
+  }
+
+  String _formatDuration(Duration duration) {
+    int hours = duration.inHours;
+    int minutes = (duration.inMinutes % 60);
+    int seconds = (duration.inSeconds % 60);
+    return '$hours:${_twoDigits(minutes)}:${_twoDigits(seconds)}';
+  }
+
+  String _twoDigits(int n) {
+    if (n >= 10) return '$n';
+    return '0$n';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xFF0F1921),
-      child: Column(
-        children: [
-          Container(
-            height: 64,
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(widget.bgImageStr), fit: BoxFit.cover),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  widget.logoImageStr,
-                  width: 44,
-                  height: 44,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.tickInfo.lotteryName.toString(),
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    RichText(
-                        text: TextSpan(
-                      children: [
-                        const TextSpan(
-                          text: "第",
-                          style: TextStyle(color: Colors.white, fontSize: 11.0),
-                        ),
-                        TextSpan(
-                          text: widget.tickInfo.last!.periodsNumber.toString(),
-                          style: const TextStyle(color: Color(0xFFF4B81C), fontSize: 11),
-                        ),
-                        const TextSpan(
-                          text: "期",
-                          style: TextStyle(color: Colors.white, fontSize: 11.0),
-                        ),
-                      ],
-                    )),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Visibility(
-                      visible: getTicketState(),
-                      child: Container(
-                          color: const Color(0xFFFF563F),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2),
-                            child: Text(
-                              getTicketStateString(),
-                              style: TextStyle(color: Colors.white, fontSize: 11),
-                            ),
-                          )),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/images/home_ticket_hit_icon.png",
-                          width: 10.5,
-                          height: 12,
-                        ),
-                        _buildTimeItem(0),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        _buildTimeItem(1),
-                        const Text(
-                          ":",
-                          style: TextStyle(color: Color(0xFF2F03AB), fontSize: 18),
-                        ),
-                        _buildTimeItem(2),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        _buildTimeItem(3),
-                        const Text(
-                          ":",
-                          style: TextStyle(color: Color(0xFF2F03AB), fontSize: 18),
-                        ),
-                        _buildTimeItem(4),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        _buildTimeItem(5),
-                      ],
-                    )
-                  ],
-                ),
-                GestureDetector(
-                    onTap: () {
-                      widget.openGame(widget.tickInfo.lotteryCode ?? '');
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: Color.fromRGBO(255, 255, 255, 0.36),
-                          )),
-                      width: 48,
-                      height: 46,
-                      child: const Center(
-                        child: Text(
-                          "进入\n游戏",
-                          style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12),
-                        ),
+    super.build(context);
+    return PageStorage(
+      bucket: PageStorageBucket(),
+      child: Container(
+        color: Color(0xFF0F1921),
+        child: Column(
+          children: [
+            Container(
+              height: 64,
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage(widget.bgImageStr), fit: BoxFit.cover),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    widget.logoImageStr,
+                    width: 44,
+                    height: 44,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.tickInfo.lotteryName.toString(),
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 15),
                       ),
-                    )),
-              ],
-            ),
-          ),
-          Container(
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 35),
-            decoration: const ShapeDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.04, -1.00),
-                end: Alignment(-0.04, 1),
-                colors: [Color(0xFF2E374E), Color(0xFF232B43)],
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(67),
-                  bottomRight: Radius.circular(67),
-                ),
-              ),
-            ),
-            child: _buildDrawingBall(widget.tickInfo.last?.drawingResult ?? ''),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: widget.tickInfo.play!.cachePlayList!.isNotEmpty
-                  ? List.generate(widget.tickInfo.play!.cachePlayList!.length, (index) {
-                      return _buildOddsItem(widget.tickInfo.play!.cachePlayList![index]);
-                    })
-                  : List.generate(widget.tickInfo.play!.lotteryPlayTypeList!.length, (index) {
-                      return _buildOddsItemNN(widget.tickInfo.play!.lotteryPlayTypeList![index]);
-                    })),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            decoration: const ShapeDecoration(
-              color: Color(0xFF1A1F2D),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
-                ),
-              ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 101,
-                      height: 31,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.5),
-                        color: const Color(0xFF4338C9),
+                      const SizedBox(
+                        height: 5,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      RichText(
+                          text: TextSpan(
                         children: [
-                          SizedBox(
-                            width: 30,
-                            child: TextButton(
-                              style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
-                              onPressed: () {
-                                decrementNumber();
-                              },
-                              child: Image.asset(
-                                "assets/images/home_sub_icon.png",
-                                width: 12,
-                                height: 2.5,
-                              ),
-                            ),
+                          const TextSpan(
+                            text: "第",
+                            style: TextStyle(color: Colors.white, fontSize: 11.0),
                           ),
-                          Container(
-                            width: 35,
-                            height: 24,
-                            decoration: BoxDecoration(color: const Color(0xFF30298B), borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xFF9FC1EA))),
-                            child: TextField(
-                              controller: _numberController,
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              style: TextStyle(color: Colors.white, fontSize: 12),
-                              cursorColor: Colors.white,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none, // 设置为 none 去掉下划线
-                              ),
-                            ),
+                          TextSpan(
+                            text: widget.tickInfo.last!.periodsNumber.toString(),
+                            style: const TextStyle(color: Color(0xFFF4B81C), fontSize: 11),
                           ),
-                          SizedBox(
-                            width: 30,
-                            height: 31,
-                            child: TextButton(
-                              style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero), alignment: Alignment.center),
-                              onPressed: () {
-                                incrementNumber();
-                              },
-                              child: Image.asset(
-                                "assets/images/home_add_icon.png",
-                                width: 12.5,
-                                height: 15,
-                              ),
-                            ),
+                          const TextSpan(
+                            text: "期",
+                            style: TextStyle(color: Colors.white, fontSize: 11.0),
                           ),
                         ],
+                      )),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Visibility(
+                        visible: getTicketState(),
+                        child: Container(
+                            color: const Color(0xFFFF563F),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2),
+                              child: Text(
+                                getTicketStateString(),
+                                style: TextStyle(color: Colors.white, fontSize: 11),
+                              ),
+                            )),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    Container(
-                      width: 90,
-                      height: 31,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.5), gradient: widget.tickInfo.current!.status == 0 ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) : const LinearGradient(colors: [Color(0xFF686F83), Color(0xFF686F83)])),
-                      child: TextButton(
-                        onPressed: () {
-                          if (widget.tickInfo.current!.status == 0) {
-                            if (UserService.to.isLogin == false) {
-                              RouteUtil.pushToView(Routes.loginPage);
-                              return;
-                            }
-                            if (betList.isNotEmpty) {
-                              if (_numberController.text.isNotEmpty) {
-                                betGame();
-                              }
-                            } else {
-                              ShowToast.showToast('请选择下注类型');
-                            }
-                          }
-                        },
-                        style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
-                        child: const Text(
-                          "快捷投注",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Image.asset(
+                            "assets/images/home_ticket_hit_icon.png",
+                            width: 10.5,
+                            height: 12,
+                          ),
+                          _buildTimeItem(0),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          _buildTimeItem(1),
+                          const Text(
+                            ":",
+                            style: TextStyle(color: Color(0xFF2F03AB), fontSize: 18),
+                          ),
+                          _buildTimeItem(2),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          _buildTimeItem(3),
+                          const Text(
+                            ":",
+                            style: TextStyle(color: Color(0xFF2F03AB), fontSize: 18),
+                          ),
+                          _buildTimeItem(4),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          _buildTimeItem(5),
+                        ],
+                      )
+                    ],
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        widget.openGame(widget.tickInfo.lotteryCode ?? '');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: Color.fromRGBO(255, 255, 255, 0.36),
+                            )),
+                        width: 48,
+                        height: 46,
+                        child: const Center(
+                          child: Text(
+                            "进入\n游戏",
+                            style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12),
+                          ),
+                        ),
+                      )),
+                ],
+              ),
+            ),
+            Container(
+              height: 48,
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              decoration: const ShapeDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0.04, -1.00),
+                  end: Alignment(-0.04, 1),
+                  colors: [Color(0xFF2E374E), Color(0xFF232B43)],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(67),
+                    bottomRight: Radius.circular(67),
+                  ),
+                ),
+              ),
+              child: _buildDrawingBall(widget.tickInfo.last?.drawingResult ?? ''),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: widget.tickInfo.play!.cachePlayList!.isNotEmpty
+                    ? List.generate(widget.tickInfo.play!.cachePlayList!.length, (index) {
+                        return _buildOddsItem(widget.tickInfo.play!.cachePlayList![index]);
+                      })
+                    : List.generate(widget.tickInfo.play!.lotteryPlayTypeList!.length, (index) {
+                        return _buildOddsItemNN(widget.tickInfo.play!.lotteryPlayTypeList![index]);
+                      })),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              decoration: const ShapeDecoration(
+                color: Color(0xFF1A1F2D),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
+                ),
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 101,
+                        height: 31,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.5),
+                          color: const Color(0xFF4338C9),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 30,
+                              child: TextButton(
+                                style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+                                onPressed: () {
+                                  decrementNumber();
+                                },
+                                child: Image.asset(
+                                  "assets/images/home_sub_icon.png",
+                                  width: 12,
+                                  height: 2.5,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 35,
+                              height: 24,
+                              decoration: BoxDecoration(color: const Color(0xFF30298B), borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xFF9FC1EA))),
+                              child: TextField(
+                                controller: _numberController,
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                style: TextStyle(color: Colors.white, fontSize: 12),
+                                cursorColor: Colors.white,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none, // 设置为 none 去掉下划线
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30,
+                              height: 31,
+                              child: TextButton(
+                                style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero), alignment: Alignment.center),
+                                onPressed: () {
+                                  incrementNumber();
+                                },
+                                child: Image.asset(
+                                  "assets/images/home_add_icon.png",
+                                  width: 12.5,
+                                  height: 15,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                )
-              ],
+                      const SizedBox(
+                        width: 25,
+                      ),
+                      Container(
+                        width: 90,
+                        height: 31,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.5), gradient: widget.tickInfo.current!.status == 0 ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) : const LinearGradient(colors: [Color(0xFF686F83), Color(0xFF686F83)])),
+                        child: TextButton(
+                          onPressed: () {
+                            if (widget.tickInfo.current!.status == 0) {
+                              if (UserService.to.isLogin == false) {
+                                RouteUtil.pushToView(Routes.loginPage);
+                                return;
+                              }
+                              if (betList.isNotEmpty) {
+                                if (_numberController.text.isNotEmpty) {
+                                  betGame();
+                                }
+                              } else {
+                                ShowToast.showToast('请选择下注类型');
+                              }
+                            }
+                          },
+                          style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+                          child: const Text(
+                            "快捷投注",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -553,37 +597,31 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
       String timestr = formatDate(haveTime, [HH, nn, ss]);
 
       timeList = timestr.split("");
-      widget.tickInfo.current!.isOpen = false;
+      // widget.tickInfo.current!.status = 0;
     } else {
-      widget.tickInfo.current!.isOpen = true;
+      widget.tickInfo.current!.status = 4;
     }
-    if (mounted) {
-      setState(() {});
-    }
+    // if (mounted) {
+    //   setState(() {});
+    // }
   }
 
   bool getTicketState() {
-    print('开奖状态：${widget.tickInfo.current!.isOpen}${widget.tickInfo.current!.status}');
-    if (widget.tickInfo.current!.isOpen ?? false) {
+    print('开奖状态：${widget.tickInfo.lotteryCode} ${widget.tickInfo.current!.status}');
+    if (widget.tickInfo.current!.status == 4 || widget.tickInfo.current!.status == 10|| widget.tickInfo.current!.status == 9|| widget.tickInfo.current!.status == 1) {
       return true;
     } else {
-      if (widget.tickInfo.current!.status == 4 || widget.tickInfo.current!.status == 1) {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 
   String getTicketStateString() {
-    if (widget.tickInfo.current!.isOpen ?? false) {
+    if (widget.tickInfo.current!.status == 4|| widget.tickInfo.current!.status == 9|| widget.tickInfo.current!.status == 1) {
+      return '已封盘';
+    } else if (widget.tickInfo.current!.status == 10) {
       return '开奖中';
     } else {
-      if (widget.tickInfo.current!.status == 4 || widget.tickInfo.current!.status == 1) {
-        return '已封盘';
-      } else {
-        return '';
-      }
+      return '';
     }
   }
 
@@ -654,4 +692,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> {
     }
     return 'assets/images/home/ball_green.png';
   }
+
+  ///pageview翻页时保持页面状态
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

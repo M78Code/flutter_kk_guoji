@@ -111,7 +111,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
               )
             ],
           ),
-          const SizedBox(width: 30),
+          const SizedBox(width: 60),
           Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -123,13 +123,13 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                       children: [
                         Image.asset(
                           Assets.imagesHomeCunkuanIcon,
-                          width: 27,
-                          height: 25,
+                          width: 31,
+                          height: 26,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 6),
                         const Text(
                           "充值",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         )
                       ],
                     ),
@@ -143,13 +143,13 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                       children: [
                         Image.asset(
                           Assets.imagesHomeQukuanIcon,
-                          width: 27,
-                          height: 25,
+                          width: 31,
+                          height: 26,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 6),
                         const Text(
                           "提现",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         )
                       ],
                     ),
@@ -180,13 +180,13 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                       children: [
                         Image.asset(
                           Assets.imagesHomeDanzhuIcon,
-                          width: 27,
-                          height: 25,
+                          width: 31,
+                          height: 26,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 6),
                         const Text(
                           "注单",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         )
                       ],
                     ),

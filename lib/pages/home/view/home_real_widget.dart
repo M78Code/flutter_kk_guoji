@@ -12,7 +12,7 @@ class KKHomeRealWidget extends StatelessWidget {
     return Column(
       children: [
          const Visibility(
-           visible: true,
+           visible: false,
            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,8 +49,6 @@ class KKHomeRealWidget extends StatelessWidget {
           },
             pagination: const SwiperPagination(), ),
         )
-
-
       ],
     );
   }
@@ -77,7 +75,7 @@ class KKHomeRealWidget extends StatelessWidget {
         ),
       ),
       onTap: (){
-        controller.openGame();
+        // controller.openGame();
       },
     );
   }

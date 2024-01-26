@@ -104,7 +104,6 @@ class Current {
   num? autoCloseDate;
   num? autoDrawingDate;
   int? status;
-  bool? isOpen=false;
 
   Current({
     this.lotteryCode,
@@ -113,7 +112,6 @@ class Current {
     this.autoCloseDate,
     this.autoDrawingDate,
     this.status,
-     this.isOpen,
   });
 
   factory Current.fromJson(Map<String, dynamic> json) => Current(
@@ -123,7 +121,6 @@ class Current {
     autoCloseDate: json["autoCloseDate"],
     autoDrawingDate: json["autoDrawingDate"],
     status: json["status"],
-    isOpen: false,
   );
 
   Map<String, dynamic> toJson() => {
