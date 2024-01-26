@@ -33,6 +33,7 @@ class TransactionListSection extends StatelessWidget {
 
 
 class TransactionHeaderRow extends StatelessWidget {
+  static var kHeight = 30.w;
   @override
   Widget build(BuildContext context) {
 

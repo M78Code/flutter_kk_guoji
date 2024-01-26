@@ -41,34 +41,44 @@ class WithdrawRecordPage extends StatelessWidget {
               controller.onLoading();
             },
             child:  CustomScrollView(
+              key: UniqueKey(),
               slivers: [
-                SliverToBoxAdapter(child: SizedBox(height: 10.w)),
-                SliverToBoxAdapter(child:  WalletRecordBalanceWidget()),
-                SliverToBoxAdapter(child: SizedBox(height: 20.w)),
-                SliverToBoxAdapter(child: GetBuilder<WalletRecordLogic>(
-                  id: 'withdrawDateSelector',
-                  builder: (controller) {
-                    String? dateRange;
-                    if (controller.startDate != null && controller.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.userWithdrawState.dateTypes,
-                        selectType: controller.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget(context);
-                        });
-                  },
-                )),
-                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-                if (controller.userWithdrawState.userWithdrawModels.isEmpty) SliverToBoxAdapter(child: Container(alignment: Alignment.topCenter,child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))),
-                if (controller.userWithdrawState.userWithdrawModels.isEmpty  == false) SliverFillRemaining(child: WalletRecordList(isWithDrawRecord: true)),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverHeaderDelegate(
+                      10.w + WalletRecordBalanceWidget.kHeight + 20.w + DateSelectionSection.kHeight + 15.w,
+                      child: ListView(
+                      children: [
+                        SizedBox(height: 10.w),
+                        WalletRecordBalanceWidget(),
+                        SizedBox(height: 20.w),
+                        GetBuilder<WalletRecordLogic>(
+                          id: 'withdrawDateSelector',
+                          builder: (controller) {
+                            String? dateRange;
+                            if (controller.startDate != null && controller.endDate != null) {
+                              var startText = DateFormat('MM/dd').format(controller.startDate!);
+                              var endText = DateFormat('MM/dd').format(controller.endDate!);
+                              dateRange = startText + " - " + endText;
+                            }
+                            return DateSelectionSection(
+                                dateTypes: controller.userWithdrawState.dateTypes,
+                                selectType: controller.dateType ?? "",
+                                selectDateRange: dateRange,
+                                onTap: (selectType){
+                                  controller.onTapSwitchDate(selectType);
+                                },
+                                onTapSelectTime: (){
+                                  _showTimeWidget(context);
+                                });
+                          },
+                        ),
+                        SizedBox(height: 15.w)
+                      ],
+                    )
+                  ),
+                ),
+                WalletRecordList(isWithDrawRecord: true),
               ],
             ),
           )
@@ -122,5 +132,33 @@ class WithdrawRecordPage extends StatelessWidget {
           ),
     );
     Overlay.of(context)?.insert(overlayEntry);
+  }
+}
+
+
+
+class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  final double maxHeight;
+
+  CustomSliverHeaderDelegate(this.maxHeight,  {required this.child});
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      child: child,
+      color: Theme.of(context).appBarTheme.backgroundColor,
+    );
+  }
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  double get minExtent => maxHeight;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }

@@ -62,7 +62,7 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
                   SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverHeaderDelegate(
-                      MineWalletBalanceWidget.kHeight + 20.w + RechargeSection.kHeight + 20.w + DateSelectionSection.kHeight + 15.w,
+                      MineWalletBalanceWidget.kHeight + 20.w + RechargeSection.kHeight + 20.w + DateSelectionSection.kHeight + 15.w + (controller.userMoneyDetailsSearchList.isNotEmpty ? TransactionHeaderRow.kHeight : 0),
                       child: ListView(
                         children: [
                           MineWalletBalanceWidget(),
@@ -91,10 +91,10 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
                             },
                           ),
                           SizedBox(height: 15.w),
+                          if(controller.userMoneyDetailsSearchList.isNotEmpty)  TransactionHeaderRow(),
                         ]
                       )
                   )),
-                  // if(controller.userMoneyDetailsSearchList.length > 0)  SliverToBoxAdapter(child:  TransactionHeaderRow()),
                   TransactionListSection(),
                 ],
               ),

@@ -18,10 +18,10 @@ class RechargeRecordListChildViewModel {
     this.status_name});
 }
 
-class ChargeRecordListChild extends StatelessWidget {
+class RechargeRecordListChild extends StatelessWidget {
   final RechargeRecordListChildViewModel rowData;
 
-  ChargeRecordListChild(this.rowData);
+  RechargeRecordListChild(this.rowData);
 
   @override
   Widget build(BuildContext context) {

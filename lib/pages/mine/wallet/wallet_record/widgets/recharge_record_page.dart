@@ -13,8 +13,8 @@ import '../../../bet_list/widgets/date_selection_section.dart';
 import '../logic.dart';
 import 'package:intl/intl.dart';
 
-class ChargeRecordPage extends StatelessWidget {
-  ChargeRecordPage({Key? key}) : super(key: key);
+class RechargeRecordPage extends StatelessWidget {
+  RechargeRecordPage({Key? key}) : super(key: key);
   final controller = Get.put(WalletRecordLogic());
   late OverlayEntry overlayEntry;
 
@@ -40,34 +40,44 @@ class ChargeRecordPage extends StatelessWidget {
               controller.onLoading();
             },
             child: CustomScrollView(
+              key: UniqueKey(),
               slivers: [
-                SliverToBoxAdapter(child: SizedBox(height: 10.w)),
-                SliverToBoxAdapter(child:  WalletRecordBalanceWidget()),
-                SliverToBoxAdapter(child: SizedBox(height: 20.w)),
-                SliverToBoxAdapter(child: GetBuilder<WalletRecordLogic>(
-                  id: 'rechargeDateSelector',
-                  builder: (controller) {
-                    String? dateRange;
-                    if (controller.startDate != null && controller.endDate != null) {
-                      var startText = DateFormat('MM/dd').format(controller.startDate!);
-                      var endText = DateFormat('MM/dd').format(controller.endDate!);
-                      dateRange = startText + " - " + endText;
-                    }
-                    return DateSelectionSection(
-                        dateTypes: controller.userRechargeState.dateTypes,
-                        selectType: controller.dateType ?? "",
-                        selectDateRange: dateRange,
-                        onTap: (selectType){
-                          controller.onTapSwitchDate(selectType);
-                        },
-                        onTapSelectTime: (){
-                          _showTimeWidget(context);
-                        });
-                  },
-                )),
-                SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-                if (controller.userRechargeState.userRechargeModels.isEmpty) SliverToBoxAdapter(child: Container(alignment: Alignment.topCenter,child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))),
-                if (controller.userRechargeState.userRechargeModels.isEmpty == false) SliverFillRemaining(child: WalletRecordList(isWithDrawRecord: false))
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverHeaderDelegate(
+                      10.w + WalletRecordBalanceWidget.kHeight + 20.w + DateSelectionSection.kHeight + 15.w,
+                      child: ListView(
+                        children: [
+                          SizedBox(height: 10.w),
+                          WalletRecordBalanceWidget(),
+                          SizedBox(height: 20.w),
+                          GetBuilder<WalletRecordLogic>(
+                            id: 'rechargeDateSelector',
+                            builder: (controller) {
+                              String? dateRange;
+                              if (controller.startDate != null && controller.endDate != null) {
+                                var startText = DateFormat('MM/dd').format(controller.startDate!);
+                                var endText = DateFormat('MM/dd').format(controller.endDate!);
+                                dateRange = startText + " - " + endText;
+                              }
+                              return DateSelectionSection(
+                                  dateTypes: controller.userRechargeState.dateTypes,
+                                  selectType: controller.dateType ?? "",
+                                  selectDateRange: dateRange,
+                                  onTap: (selectType){
+                                    controller.onTapSwitchDate(selectType);
+                                  },
+                                  onTapSelectTime: (){
+                                    _showTimeWidget(context);
+                                  });
+                            },
+                          ),
+                          SizedBox(height: 15.w)
+                      ],
+                    )
+                  ),
+                ),
+                WalletRecordList(isWithDrawRecord: false)
               ],
             ),
           )
@@ -120,5 +130,32 @@ class ChargeRecordPage extends StatelessWidget {
           ),
     );
     Overlay.of(context)?.insert(overlayEntry);
+  }
+}
+
+
+class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  final double maxHeight;
+
+  CustomSliverHeaderDelegate(this.maxHeight,  {required this.child});
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      child: child,
+      color: Theme.of(context).appBarTheme.backgroundColor,
+    );
+  }
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  double get minExtent => maxHeight;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
