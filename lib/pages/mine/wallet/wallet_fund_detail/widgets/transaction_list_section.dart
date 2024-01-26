@@ -8,26 +8,25 @@ import '../logic.dart';
 
 
 class TransactionListSection extends StatelessWidget {
+  final controller = Get.put(WalletFundDetailLogic());
   @override
   Widget build(BuildContext context) {
     return _buildView();
   }
 
   Widget _buildView() {
-    return GetBuilder<WalletFundDetailLogic>(
-      id: 'searchList',
-      builder: (controller) {
-        if (controller.userMoneyDetailsSearchList.length == 0) { return Container(); }
-        var listView = ListView.builder(
-          key: UniqueKey(),
-          itemCount: controller.userMoneyDetailsSearchList.length,
-          itemBuilder: (context, index) {
-            UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index];
-            return TransactionDataRow(rowData);
-          },
-        );
-        return listView;
-      },
+    return SliverList(
+      key: UniqueKey(),
+      delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+          if (controller.userMoneyDetailsSearchList.isEmpty) {
+            return Container(child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,));
+          }
+          UserMoneyDetailsSearchModel rowData = controller.userMoneyDetailsSearchList[index];
+          return TransactionDataRow(rowData);
+        },
+        childCount: controller.userMoneyDetailsSearchList.isEmpty ? 1 : controller.userMoneyDetailsSearchList.length,
+      ),
     );
   }
 }

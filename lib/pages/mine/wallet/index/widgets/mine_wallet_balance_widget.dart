@@ -11,6 +11,7 @@ import '../../../../../utils/route_util.dart';
 
 class MineWalletBalanceWidget extends StatelessWidget {
   MineWalletBalanceWidget({Key? key}) : super(key: key);
+  static var kHeight = 74.w;
 
   @override
   Widget build(BuildContext context) {

@@ -46,7 +46,6 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
       body:  GetBuilder<WalletFundDetailLogic>(
         id: 'WalletFundDetailPage',
         builder: (controller) {
-
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: EasyRefresh(
@@ -58,36 +57,45 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
                 controller.onLoading();
               },
               child: CustomScrollView(
+                key: UniqueKey(),
                 slivers: [
-                  SliverToBoxAdapter(child: MineWalletBalanceWidget()),
-                  SliverToBoxAdapter(child: SizedBox(height: 20.w)),
-                  SliverToBoxAdapter(child: RechargeSection()),
-                  SliverToBoxAdapter(child: SizedBox(height: 20.w)),
-                  SliverToBoxAdapter(child: GetBuilder<WalletFundDetailLogic>(
-                    id: 'dateSelector',
-                    builder: (controller) {
-                      String? dateRange;
-                      if (controller.startDate != null && controller.endDate != null) {
-                        var startText = DateFormat('MM/dd').format(controller.startDate!);
-                        var endText = DateFormat('MM/dd').format(controller.endDate!);
-                        dateRange = startText + " - " + endText;
-                      }
-                      return DateSelectionSection(
-                          dateTypes: controller.dateTypes,
-                          selectType: controller.dateType ?? "",
-                          selectDateRange: dateRange,
-                          onTap: (selectType){
-                            controller.onTapSwitchDate(selectType);
-                          },
-                          onTapSelectTime: (){
-                            _showTimeWidget();
-                          });
-                    },
+                  SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverHeaderDelegate(
+                      MineWalletBalanceWidget.kHeight + 20.w + RechargeSection.kHeight + 20.w + DateSelectionSection.kHeight + 15.w,
+                      child: ListView(
+                        children: [
+                          MineWalletBalanceWidget(),
+                          SizedBox(height: 20.w),
+                          RechargeSection(),
+                          SizedBox(height: 20.w),
+                          GetBuilder<WalletFundDetailLogic>(
+                            id: 'dateSelector',
+                            builder: (controller) {
+                              String? dateRange;
+                              if (controller.startDate != null && controller.endDate != null) {
+                                var startText = DateFormat('MM/dd').format(controller.startDate!);
+                                var endText = DateFormat('MM/dd').format(controller.endDate!);
+                                dateRange = startText + " - " + endText;
+                              }
+                              return DateSelectionSection(
+                                  dateTypes: controller.dateTypes,
+                                  selectType: controller.dateType ?? "",
+                                  selectDateRange: dateRange,
+                                  onTap: (selectType){
+                                    controller.onTapSwitchDate(selectType);
+                                  },
+                                  onTapSelectTime: (){
+                                    _showTimeWidget();
+                                  });
+                            },
+                          ),
+                          SizedBox(height: 15.w),
+                        ]
+                      )
                   )),
-                  SliverToBoxAdapter(child: SizedBox(height: 15.w)),
-                  if(controller.userMoneyDetailsSearchList.length == 0)  SliverToBoxAdapter(child: Container(alignment: Alignment.topCenter,child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))),
-                  if(controller.userMoneyDetailsSearchList.length > 0)  SliverToBoxAdapter(child:  TransactionHeaderRow()),
-                  if(controller.userMoneyDetailsSearchList.length > 0)   SliverFillRemaining(child: TransactionListSection()),
+                  // if(controller.userMoneyDetailsSearchList.length > 0)  SliverToBoxAdapter(child:  TransactionHeaderRow()),
+                  TransactionListSection(),
                 ],
               ),
             ),
@@ -139,5 +147,31 @@ class _WalletFundDetailPageState extends State<WalletFundDetailPage> {
           ),
     );
     Overlay.of(context)?.insert(overlayEntry);
+  }
+}
+
+class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  final double maxHeight;
+
+  CustomSliverHeaderDelegate(this.maxHeight,  {required this.child});
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      child: child,
+      color: Theme.of(context).appBarTheme.backgroundColor,
+    );
+  }
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  double get minExtent => maxHeight;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }

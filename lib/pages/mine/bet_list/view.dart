@@ -86,7 +86,8 @@ class _BetListPageState extends State<BetListPage> {
             slivers: [
               SliverPersistentHeader(
                 pinned: true,
-                delegate: CustomHeaderDelegate(
+                delegate: CustomSliverHeaderDelegate(
+                  15.w + BetListMenuWidget.kHeight + 15.w + DateSelectionSection.kHeight + 15.w,
                   child: ListView(
                     children: [
                       SizedBox(height: 15.w),
@@ -362,10 +363,11 @@ class _BetListPageState extends State<BetListPage> {
 }
 
 
-class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
+  final double maxHeight;
 
-  CustomHeaderDelegate({required this.child});
+  CustomSliverHeaderDelegate(this.maxHeight,  {required this.child});
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -376,10 +378,10 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 15.w + BetListMenuWidget.kHeight + 15.w + DateSelectionSection.kHeight + 15.w; // 设置头部最大高度
+  double get maxExtent => maxHeight;
 
   @override
-  double get minExtent => 15.w + BetListMenuWidget.kHeight + 15.w + DateSelectionSection.kHeight + 15.w;
+  double get minExtent => maxHeight;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
