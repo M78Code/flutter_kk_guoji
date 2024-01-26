@@ -27,6 +27,7 @@ class DateSelectionSection extends StatelessWidget {
       key: dateSelectionSectionKey,
       height: 42.w,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             decoration: BoxDecoration(
@@ -65,7 +66,7 @@ class DateSelectionSection extends StatelessWidget {
             ).onTap(() {
               this.onTapSelectTime.call();
             }),
-          )
+          ),
         ],
       ),
     );

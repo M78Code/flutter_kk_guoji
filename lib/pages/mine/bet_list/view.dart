@@ -74,102 +74,95 @@ class _BetListPageState extends State<BetListPage> {
       body:  Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: EasyRefresh(
-            controller: controller.refreshController,
-            onRefresh: () async {
-              controller.onRefresh();
-            },
-            onLoad: () async {
-              controller.onLoading();
-            },
-            child: CustomScrollView(
-              slivers: [
-                SliverPersistentHeader(
-                  pinned: true, floating: true,
-                  delegate: CustomHeaderDelegate(
-                    child: ListView(
-                      children: [
-                        SizedBox(height: 15.w),
-                        GetBuilder<BetListController>(
-                          id: 'menu',
-                          builder: (controller){
-                            return BetListMenuWidget(
-                                menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
-                                onTap: (index){
-                                  if (index == 0) {
-                                    _typeMenuCli(controller);
-                                  }
-                                  else {
-                                    _gameMenuCli(controller);
-                                  }
-                                });
-                          },
-                        ),
-                        SizedBox(height: 15.w),
-                        GetBuilder<BetListController>(
-                          id: 'dateSelector',
-                          builder: (_) {
-                            String? dateRange;
-                            if (controller.startDate != null && controller.endDate != null) {
-                              var startText = DateFormat('MM/dd').format(controller.startDate!);
-                              var endText = DateFormat('MM/dd').format(controller.endDate!);
-                              dateRange = startText + " - " + endText;
-                            }
-                            return DateSelectionSection(
-                                dateTypes: controller.dateTypes,
-                                selectType: controller.dateType ?? "",
-                                selectDateRange: dateRange,
-                                onTap: (selectType){
-                                  controller.onTapSwitchDate(selectType);
-                                },
-                                onTapSelectTime: (){
-                                  _showTimeWidget(controller);
-                                });
-                          },
-                        ),
-                        SizedBox(height: 15.w),
-                      ],
-                    ),
-                  ),
-                ),
-                if(controller.betModels.isEmpty)   SliverFillRemaining(
+          controller: controller.refreshController,
+          onRefresh: () async {
+            controller.onRefresh();
+          },
+          onLoad: () async {
+            controller.onLoading();
+          },
+          child: CustomScrollView(
+            key: UniqueKey(),
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: CustomHeaderDelegate(
                   child: ListView(
                     children: [
-                      Container(child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,))
+                      SizedBox(height: 15.w),
+                      GetBuilder<BetListController>(
+                        id: 'menu',
+                        builder: (controller){
+                          return BetListMenuWidget(
+                              menuTexts: [controller.selectedGameTypeModel.name ?? "",controller.selectedGameModel.name ?? ""],
+                              onTap: (index){
+                                if (index == 0) {
+                                  _typeMenuCli(controller);
+                                }
+                                else {
+                                  _gameMenuCli(controller);
+                                }
+                              });
+                        },
+                      ),
+                      SizedBox(height: 15.w),
+                      GetBuilder<BetListController>(
+                        id: 'dateSelector',
+                        builder: (_) {
+                          String? dateRange;
+                          if (controller.startDate != null && controller.endDate != null) {
+                            var startText = DateFormat('MM/dd').format(controller.startDate!);
+                            var endText = DateFormat('MM/dd').format(controller.endDate!);
+                            dateRange = startText + " - " + endText;
+                          }
+                          return DateSelectionSection(
+                              dateTypes: controller.dateTypes,
+                              selectType: controller.dateType ?? "",
+                              selectDateRange: dateRange,
+                              onTap: (selectType){
+                                controller.onTapSwitchDate(selectType);
+                              },
+                              onTapSelectTime: (){
+                                _showTimeWidget(controller);
+                              });
+                        },
+                      ),
+                      SizedBox(height: 15.w),
                     ],
                   ),
                 ),
-                if(controller.betModels.isNotEmpty)   SliverFillRemaining(child: _buildList()),
-              ],
-            )
+              ),
+              _buildList(),
+            ],
+          ),
         ),
       ).safeArea(),
     );
   }
 
-  GetBuilder<BetListController> _buildList() {
-    return GetBuilder<BetListController>(
-      // id: 'betList',
-      builder: (controller) {
-        var listView = ListView.builder(
-          key: UniqueKey(),
-          itemCount: controller.betModels.length,
-          itemBuilder: (context, index) {
-            BetModel rowData = controller.betModels[index];
-            return BetListRecordListChidView(WBetListRecordListChidViewModel(
-                createTime: rowData.createTime,
-                gameName:rowData.gameName,
-                statusName:  rowData.gameWinStatusName,
-                money: rowData.gameProfit,
-                gameTypeName:  rowData.gameTypeName,
-                betAmount:  rowData.gameBet,
-                gameProfit: rowData.gameProfit,
-                orderN: rowData.gameSn,
-                status:rowData.gameWinStatus
-            ));
+  Widget _buildList() {
+    return SliverList(
+      key: UniqueKey(),
+      delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                if (controller.betModels.isEmpty) {
+                  return Container(child: Image.asset("assets/images/rebate/nodata.png", width: 200.w, height: 223.w,));
+                }
+                BetModel rowData = controller.betModels[index];
+                return BetListRecordListChidView(WBetListRecordListChidViewModel(
+                    createTime: rowData.createTime,
+                    gameName:rowData.gameName,
+                    statusName:  rowData.gameWinStatusName,
+                    money: rowData.gameProfit,
+                    gameTypeName:  rowData.gameTypeName,
+                    betAmount:  rowData.gameBet,
+                    gameProfit: rowData.gameProfit,
+                    orderN: rowData.gameSn,
+                    status:rowData.gameWinStatus
+                ));
           },
-        );
-        return listView;
-      },
+          childCount: controller.betModels.isEmpty ? 1 : controller.betModels.length
+      ),
     );
   }
 
@@ -386,7 +379,7 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => 15.w + BetListMenuWidget.kHeight + 15.w + DateSelectionSection.kHeight + 15.w; // 设置头部最大高度
 
   @override
-  double get minExtent => 100.0; // 设置头部最小高度
+  double get minExtent => 15.w + BetListMenuWidget.kHeight + 15.w + DateSelectionSection.kHeight + 15.w;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
