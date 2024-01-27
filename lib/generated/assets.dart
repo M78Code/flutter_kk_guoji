@@ -49,6 +49,7 @@ class Assets {
   static const String homeBallGreen = 'assets/images/home/ball_green.png';
   static const String homeBallPurple = 'assets/images/home/ball_purple.png';
   static const String homeBallRed = 'assets/images/home/ball_red.png';
+  static const String homeChongzhi = 'assets/images/home/chongzhi.png';
   static const String homeFengcaione = 'assets/images/home/fengcaione.png';
   static const String homeFengcaitwo = 'assets/images/home/fengcaitwo.png';
   static const String homeHg = 'assets/images/home/hg.json';
@@ -79,7 +80,9 @@ class Assets {
   static const String homeServeThree = 'assets/images/home/serve_three.png';
   static const String homeServeTwo = 'assets/images/home/serve_two.png';
   static const String homeSportsaishi = 'assets/images/home/sportsaishi.png';
+  static const String homeTixian = 'assets/images/home/tixian.png';
   static const String homeUjc = 'assets/images/home/ujc.gif';
+  static const String homeZhudanIcon = 'assets/images/home/zhudan_icon.png';
   static const String htmlPrivacy = 'assets/html/privacy.html';
   static const String htmlRegisterProtocol = 'assets/html/register_protocol.html';
   static const String imagesAccountIcon = 'assets/images/account_icon.png';

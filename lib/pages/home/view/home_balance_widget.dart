@@ -8,14 +8,14 @@ import 'package:kkguoji/utils/route_util.dart';
 import '../../../generated/assets.dart';
 
 class KKHomeBalanceWidget extends StatefulWidget {
-  KKHomeBalanceWidget({super.key});
+  const KKHomeBalanceWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _KKHomeBalanceState();
 
 }
 
-class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerProviderStateMixin{
+class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerProviderStateMixin,WidgetsBindingObserver{
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
   final userService = Get.find<UserService>();
@@ -24,6 +24,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     _controller = AnimationController(
       duration: Duration(seconds: 2),
       vsync: this,
@@ -33,6 +34,17 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
       begin: 0.0,
       end: 720.0,
     ).animate(_controller);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print('刷新金额1');
+    // 当应用回到前台时
+    if (state == AppLifecycleState.resumed) {
+      print('刷新金额2');
+      userService.fetchUserMoney();
+    }
   }
 
   @override
@@ -111,18 +123,19 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
               )
             ],
           ),
-          const SizedBox(width: 60),
+          const SizedBox(width: 80),
           Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   GestureDetector(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          Assets.imagesHomeCunkuanIcon,
+                          Assets.homeChongzhi,
                           width: 31,
                           height: 26,
                         ),
@@ -142,11 +155,11 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          Assets.imagesHomeQukuanIcon,
+                          Assets.homeTixian,
                           width: 31,
-                          height: 26,
+                          height: 27,
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 5),
                         const Text(
                           "提现",
                           style: TextStyle(color: Colors.white, fontSize: 12),
@@ -178,12 +191,36 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          Assets.imagesHomeDanzhuIcon,
-                          width: 31,
-                          height: 26,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 29,
+                              height: 25,
+                              decoration: ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment(1.00, 0.00),
+                                  end: Alignment(-1, 0),
+                                  colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+                                ),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              ),
+                            ),
+                            Image.asset(
+                              Assets.homeZhudanIcon,
+                              width: 15,
+                              height: 15,
+                              fit: BoxFit.contain,
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 6),
+                        // Image.asset(
+                        //   Assets.imagesHomeDanzhuIcon,
+                        //   width: 31,
+                        //   height: 26,
+                        //   fit: BoxFit.contain,
+                        // ),
+                        const SizedBox(height: 7),
                         const Text(
                           "注单",
                           style: TextStyle(color: Colors.white, fontSize: 12),
