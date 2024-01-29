@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
@@ -10,6 +11,8 @@ import 'cache_key.dart';
 
 class UserService extends GetxService {
   static UserService get to => Get.find();
+
+  final RouteObserver<PageRoute> routeObserver= RouteObserver<PageRoute>();
 
   // 是否登录
   final RxBool _isLogin = false.obs;

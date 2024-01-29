@@ -12,7 +12,7 @@ class KKHomeRealWidget extends StatelessWidget {
     return Column(
       children: [
          const Visibility(
-           visible: false,
+           visible: true,
            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,

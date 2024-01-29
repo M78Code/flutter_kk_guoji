@@ -8,7 +8,9 @@ import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/withdraw_record_
 import '../../../../../common/models/mine_wallet/user_recharge_list_respond_model.dart';
 import '../../../../../common/models/mine_wallet/user_withdraw_list_respond_model.dart';
 import '../../../../../generated/assets.dart';
+
 import 'recharge_record_list_child.dart';
+
 
 class WalletRecordList extends StatelessWidget {
 
