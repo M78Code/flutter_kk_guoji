@@ -41,14 +41,17 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   void didChangeDependencies() {
     super.didChangeDependencies();
     userService.routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
-    userService.fetchUserMoney();
+    if(userService.isLogin){
+      userService.fetchUserMoney();
+    }
   }
 
   @override
   void didPopNext() {
     ///从子页面回到首页时刷新金额
-    print('刷新金额');
-    userService.fetchUserMoney();
+    if(userService.isLogin){
+      userService.fetchUserMoney();
+    }
     super.didPopNext();
   }
 
