@@ -9,6 +9,7 @@ import 'package:kkguoji/pages/main/binding/bindings.dart';
 import 'package:kkguoji/pages/main/view/main_page.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/config_service.dart';
+import 'package:kkguoji/services/user_service.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'custom_route_observer.dart';
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
               getPages: Routes.routePage,
               initialBinding: mainBinding(),
               home: const KKMainPage(),
-              navigatorObservers: [CustomRouteObserver()],
+              navigatorObservers: [UserService.to.routeObserver],
               builder: (context, child) {
                 return Stack(
                   children: [

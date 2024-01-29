@@ -5,9 +5,10 @@ import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
+import '../../../custom_route_observer.dart';
 import '../../../generated/assets.dart';
 
-class KKHomeBalanceWidget extends StatefulWidget {
+class KKHomeBalanceWidget extends StatefulWidget{
   const KKHomeBalanceWidget({super.key});
 
   @override
@@ -15,7 +16,7 @@ class KKHomeBalanceWidget extends StatefulWidget {
 
 }
 
-class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerProviderStateMixin,WidgetsBindingObserver{
+class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerProviderStateMixin,WidgetsBindingObserver,RouteAware{
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
   final userService = Get.find<UserService>();
@@ -37,14 +38,24 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    print('刷新金额1');
-    // 当应用回到前台时
-    if (state == AppLifecycleState.resumed) {
-      print('刷新金额2');
-      userService.fetchUserMoney();
-    }
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    userService.routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+    userService.fetchUserMoney();
+  }
+
+  @override
+  void didPopNext() {
+    ///从子页面回到首页时刷新金额
+    print('刷新金额');
+    userService.fetchUserMoney();
+    super.didPopNext();
+  }
+
+  @override
+  void dispose() {
+    userService.routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override
