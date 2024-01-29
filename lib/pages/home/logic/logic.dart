@@ -135,8 +135,10 @@ class HomeLogic extends GetxController {
       updateTicketInfo();
     });
     WebSocketUtil().listenNoticeMessage((msg) {
-      noticeInfo.value = msg;
-      print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
+      if(msg is Map) {
+        noticeInfo.value = msg;
+        print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
+      }
     });
   }
 

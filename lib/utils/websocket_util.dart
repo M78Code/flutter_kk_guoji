@@ -18,6 +18,8 @@ enum SocketStatus {
 }
 
 typedef ListenMessageCallback = void Function(Map msg);
+typedef ListenNoticeCallback = void Function(dynamic);
+
 
 class WebSocketUtil {
   factory WebSocketUtil() => _getInstance();
@@ -30,7 +32,7 @@ class WebSocketUtil {
   WebSocketChannel? _webSocket;
   SocketStatus _socketStatus = SocketStatus.socketStatusClosed;
   ListenMessageCallback? _ticketMsgCallback;
-  ListenMessageCallback? _noticeMsgCallback;
+  ListenNoticeCallback? _noticeMsgCallback;
 
   get socketStatus => _socketStatus;
   final sqliteService = Get.find<SqliteService>();
@@ -109,7 +111,7 @@ class WebSocketUtil {
       }
     }else if(msgInfo["event"] == "get_system_notice"){
       if (_noticeMsgCallback != null) {
-        Map value = msgInfo["data"] as Map;
+        int value = msgInfo["data"] ;
         _noticeMsgCallback!(value);
       }
     }
@@ -120,10 +122,12 @@ class WebSocketUtil {
     List list = [{"event":"get_game_bet_recent"},
       {"event":"get_hks_recent"},
       {"event":"get_win_recent"},
-      // {"event":"get_big_win_recent"},
-      {"event":"get_user_message"},
+      {"event":"get_big_win_recent"},
+      // {"event":"get_user_message"},
       {"event":"get_system_notice"},
-      {"event":"update_agent_rules"}
+      // {"event":"update_agent_rules"},
+      // {"event":"other_places_login"}
+
     ];
     list.forEach((element) {
       _webSocket?.sink.add(jsonEncode(element));
@@ -144,7 +148,7 @@ class WebSocketUtil {
     _ticketMsgCallback = tickMsgCallback;
   }
 
-  void listenNoticeMessage(ListenMessageCallback tickMsgCallback) {
+  void listenNoticeMessage(ListenNoticeCallback tickMsgCallback) {
     _noticeMsgCallback = tickMsgCallback;
   }
 

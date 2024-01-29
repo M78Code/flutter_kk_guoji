@@ -31,6 +31,14 @@ class KKRebateLogic extends GetxController {
   final selectedRecordInfo = {}.obs;
 
 
+  Map allTicketMap= {};
+  final AllTickInfoMap = {}.obs;
+
+  final allTicketKeyList = [].obs;
+  final tickTypeStr = "全部".obs;
+
+
+
   DateTime? startDate;
   DateTime? endDate;
 
@@ -50,10 +58,12 @@ class KKRebateLogic extends GetxController {
 
   changeRebateType(int index) {
     rebateType.value = index;
+    gameIndex.value = 0;
     if (index == 1) {
       changeDateType(0);
     } else if (index == 2) {
-      getRatio(0);
+      Map map = gameList.value.first;
+      getRatio(map["id"]);
     }
   }
 
@@ -71,6 +81,7 @@ class KKRebateLogic extends GetxController {
     getGameTypeList();
     getAutoRecord();
     getTotalMoney();
+    getRatio(3);
   }
 
   void getBanner() async {
@@ -87,6 +98,7 @@ class KKRebateLogic extends GetxController {
       List gameInfos = result["data"];
       getRatio(gameInfos.first["id"]);
       gameList.value = result["data"];
+
     }
   }
 
@@ -124,17 +136,46 @@ class KKRebateLogic extends GetxController {
   }
 
   void getRatio(int gameType) async {
+
     List modelList = [];
     var result = await HttpRequest.request(HttpConfig.getRatio, params: {"page": 1, "limit": 30, "game_type": gameType});
     if (result["code"] == 200) {
       List list = result["data"]["list"];
-      if (list.isNotEmpty) {
-        list.forEach((element) {
-          modelList.add(KKRecordRateModel.fromJson(element));
-        });
-        recordRateList.value = modelList;
+      if(gameType != 3) {
+        if (list.isNotEmpty) {
+          list.forEach((element) {
+            modelList.add(KKRecordRateModel.fromJson(element));
+          });
+          recordRateList.value = modelList;
+        }
+      }else {
+        if(list.isNotEmpty) {
+          List gameRatioList = (list.first as Map)["list"];
+          Map ticketMap = {};
+          gameRatioList.forEach((element) {
+            ticketMap[element["lotteryName"]] = element["play"];
+          });
+          allTicketMap = ticketMap;
+          allTicketMap["全部"] = dealAllGameRatioList();
+          List keys = ticketMap.keys.toList();
+          keys.insert(0, "全部");
+          allTicketKeyList.value = keys;
+        }
       }
     }
+  }
+
+  List dealAllGameRatioList() {
+    List allList = [];
+    allTicketMap.forEach((key, value) {
+      List playList = value;
+      playList.forEach((element) {
+        element["playName"] = key + "(${element["playName"]})";
+        allList.add(element);
+      });
+      print(playList);
+    });
+    return allList;
   }
 
   void clickGameBtn(int index) {
@@ -156,4 +197,20 @@ class KKRebateLogic extends GetxController {
       ShowToast.showToast(result["data"]["message"]);
     }
   }
+
+  void clickTicketType(String typeStr) {
+    tickTypeStr.value = typeStr;
+    List typeList = gameList.value;
+    Map map = typeList.last;
+    if(typeStr != "全部") {
+      map["name"] = "彩票-" + typeStr;
+    }else {
+      map["name"] = "彩票";
+    }
+    typeList.removeLast();
+    typeList.add(map);
+    gameList.value = typeList;
+  }
+
+
 }
