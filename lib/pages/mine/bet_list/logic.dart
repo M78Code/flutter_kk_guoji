@@ -94,7 +94,7 @@ class BetListController extends GetxController {
   onTapSwitchGame(GameModel gameModel) async {
     if (this.selectedGameModel.id == gameModel.id) { return; }
     this.selectedGameModel = gameModel;
-
+    this.selectedGameTypeModel = gameTypeModels.where((element) => element.id == gameModel.cateType).first;
     update(['gameMenu']);
     update(['menu']);
     await onRefresh();
