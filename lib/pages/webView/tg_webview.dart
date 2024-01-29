@@ -32,16 +32,16 @@ class TGWebview extends StatelessWidget {
 
 
     return Scaffold(
-      appBar: AppBar(
-        leading: SizedBox(
-          width: 50,
-          height: 50,
-          child: TextButton(onPressed: (){
-            RouteUtil.popView();
-          }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
-        ),
-        title: const Text("Telegram登录", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
-      ),
+      // appBar: AppBar(
+      //   leading: SizedBox(
+      //     width: 50,
+      //     height: 50,
+      //     child: TextButton(onPressed: (){
+      //       RouteUtil.popView();
+      //     }, child: Image.asset("assets/images/back_normal.png", width: 40, height: 40,)),
+      //   ),
+      //   title: const Text("Telegram登录", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
+      // ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.tryParse("https://testh502.759pc.com/pages/tg-auth/tg-auth?platform=flutter")),
         initialOptions: InAppWebViewGroupOptions(

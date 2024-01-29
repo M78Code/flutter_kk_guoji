@@ -135,7 +135,7 @@ class LoginLogic extends GetxController {
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
       sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
-      WebSocketUtil().connetSocket();
+
       if (savePassword.value) {
         sqliteService.setString(CacheKey.accountKey, accountText);
         sqliteService.setString(CacheKey.passwordKey, passwordText);
@@ -143,6 +143,7 @@ class LoginLogic extends GetxController {
         sqliteService.remove(CacheKey.accountKey);
         sqliteService.remove(CacheKey.passwordKey);
       }
+      WebSocketUtil().connetSocket();
       Get.find<MainPageLogic>().currentIndex.value = 0;
       RouteUtil.pushToView(Routes.mainPage, offAll: true);
       // RouteUtil.popView();
