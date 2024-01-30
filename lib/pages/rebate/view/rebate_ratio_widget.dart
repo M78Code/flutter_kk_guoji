@@ -92,7 +92,7 @@ class KKRebateRatioWidget extends StatelessWidget {
                           width: 70,
                           child: Center(
                             child: Text(
-                              "${model.rate ?? 0} %",
+                              "${(model.rate  ?? 0) * 100} %",
                               style: const TextStyle(color: Colors.white, fontSize: 14),
                             ),
                           ),

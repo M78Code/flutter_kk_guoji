@@ -68,24 +68,25 @@ class KKTicketWidget extends StatelessWidget {
             return Expanded(child: MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
               itemBuilder: (context, index) {
                 return GestureDetector(
+                  onTap: () {
+                    if(this.clickTicketType != null) {
+                      this.clickTicketType!(controller.allTicketKeyList.value[index]);
+                    }
+                  },
+                  behavior: HitTestBehavior.opaque,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 10),
-                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
                         height: 33,
                         width: double.infinity,
                         child: Text(controller.allTicketKeyList.value[index], style: TextStyle(color:controller.allTicketKeyList.value[index]==controller.tickTypeStr.value?const Color(0xFF5D5FEF): const Color(0xFF687083), fontSize: 13, decoration: TextDecoration.none),),
                       ),
                     ],
                   ),
-                  onTap: () {
-                    if(this.clickTicketType != null) {
-                      this.clickTicketType!(controller.allTicketKeyList.value[index]);
-                    }
-                  },
                 );
               },
               itemCount: controller.allTicketKeyList.length,
