@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../logic.dart';
 
 class RechargeSection extends StatelessWidget {
-  static var kHeight = 64.w * 2 + 10.w;
-  List<List<String>> items = [['充值金额', '88,686.00'],['提现金额', '88,686.00'],['我的返水', '88,686.00'],['推广返佣', '88,686.00'],['会员礼金', '88,686.00'],['活动金额', '88,686.00']];
+  static var kHeight = 64.w;
+  List<List<String>> items = [['充值金额', '0.00'],['提现金额', '0.00'],['我的返水', '0.00'],['推广返佣', '0.00'],['会员礼金', '0.00'],['活动金额', '0.00']];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class RechargeSection extends StatelessWidget {
               ),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: items.length,
+              itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
 
                 List moneys = [controller.userMoneyDetailsModel?.totalRecharge ?? "",
@@ -51,7 +51,7 @@ class RechargeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.w,
+      height: 64.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.w),
         color: Color(0x1F6A6CB2),
