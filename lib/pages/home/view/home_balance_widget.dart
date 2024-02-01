@@ -134,7 +134,8 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                       ],
                     ),
                     onTap: () {
-                      RouteUtil.pushToView(Routes.recharge, arguments: true);
+                      RouteUtil.pushToView(Routes.signRecharge);
+                      // RouteUtil.pushToView(Routes.recharge, arguments: true);
                     },
                   ),
                   GestureDetector(
