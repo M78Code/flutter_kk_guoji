@@ -20,14 +20,12 @@ enum SocketStatus {
 typedef ListenMessageCallback = void Function(Map msg);
 typedef ListenNoticeCallback = void Function(dynamic);
 
-
 class WebSocketUtil {
   factory WebSocketUtil() => _getInstance();
 
   static WebSocketUtil get instance => _getInstance();
 
   static WebSocketUtil? _instance;
-
 
   WebSocketChannel? _webSocket;
   SocketStatus _socketStatus = SocketStatus.socketStatusClosed;
@@ -104,28 +102,27 @@ class WebSocketUtil {
               ),
             ),
           ));
-    }else if(msgInfo["event"] == "get_big_win_recent"){
+    } else if (msgInfo["event"] == "get_big_win_recent") {
       if (_noticeMsgCallback != null) {
         _noticeMsgCallback!(msgInfo["data"]);
       }
-    }else if(msgInfo["event"] == "get_system_notice"){
+    } else if (msgInfo["event"] == "get_system_notice") {
       if (_noticeMsgCallback != null) {
-        int value = msgInfo["data"] ;
+        int value = msgInfo["data"];
         _noticeMsgCallback!(value);
       }
     }
   }
 
-
   void _sendMessage() {
-    List list = [{"event":"get_game_bet_recent"},
-      {"event":"get_hks_recent"},
-      {"event":"get_win_recent"},
-      {"event":"get_big_win_recent"},
-      {"event":"get_user_message"},
+    List list = [
+      {"event": "get_game_bet_recent"},
+      {"event": "get_hks_recent"},
+      {"event": "get_win_recent"},
+      {"event": "get_big_win_recent"},
+      {"event": "get_user_message"},
       // {"event":"get_system_notice"},
       // {"event":"update_agent_rules"},
-
     ];
     list.forEach((element) {
       _webSocket?.sink.add(jsonEncode(element));
