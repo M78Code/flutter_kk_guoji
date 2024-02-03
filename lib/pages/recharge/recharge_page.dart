@@ -43,7 +43,7 @@ class RechargePage extends GetView<RechargeLogic> {
             Padding(
               padding: EdgeInsets.only(right: 25.w),
               child: Text(
-                UserService.to.userMoneyModel?.money ?? "0.00",
+                StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,

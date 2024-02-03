@@ -13,6 +13,7 @@ import 'package:kkguoji/pages/mine/bet_list/widgets/bet_list_record_list_chid_vi
 import 'package:kkguoji/pages/mine/bet_list/widgets/custom_date_picker.dart';
 
 import '../../../services/user_service.dart';
+import '../../../utils/string_util.dart';
 import 'widgets/date_selection_section.dart';
 import 'logic.dart';
 import 'package:intl/intl.dart';
@@ -64,7 +65,7 @@ class _BetListPageState extends State<BetListPage> {
           RichText(text: TextSpan(
             children: [
               TextSpan(
-                text: UserService.to.userMoneyModel?.money ?? "0.00",
+                text: StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
                 style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
             ],
