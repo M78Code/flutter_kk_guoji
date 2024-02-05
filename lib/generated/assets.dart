@@ -10,6 +10,7 @@ class Assets {
   static const String activityActivity = 'assets/images/activity/activity.png';
   static const String activityActivityDetail = 'assets/images/activity/activity_detail.png';
   static const String activityImgComingSoon = 'assets/images/activity/img_coming_soon.png';
+  static const String audiosWelcome = 'assets/audios/welcome.mp3';
   static const String fontsDINPro = 'assets/fonts/DIN-Pro.otf';
   static const String fontsDINProBold = 'assets/fonts/DINPro-Bold.otf';
   static const String fontsDINProMedium = 'assets/fonts/DINPro-Medium.otf';

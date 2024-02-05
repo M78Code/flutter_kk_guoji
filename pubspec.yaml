@@ -83,6 +83,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flare_flutter: ^3.0.2
   scroll_page_view: ^1.0.2
+  soundpool: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -124,6 +125,7 @@ flutter:
     - assets/images/account/
     - assets/
     - assets/fonts/
+    - assets/audios/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
