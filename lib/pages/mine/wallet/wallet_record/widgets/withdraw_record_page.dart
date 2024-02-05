@@ -1,4 +1,3 @@
-
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +19,7 @@ class WithdrawRecordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  GetBuilder<WalletRecordLogic>(
+    return GetBuilder<WalletRecordLogic>(
       id: "withdrawPage",
       builder: (_) {
         return _buildView(context);
@@ -30,9 +29,9 @@ class WithdrawRecordPage extends StatelessWidget {
 
   Widget _buildView(BuildContext context) {
     return Scaffold(
-      body:  Container(
+      body: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child:EasyRefresh(
+          child: EasyRefresh(
             controller: controller.userWithdrawState.refreshController,
             onRefresh: () async {
               controller.onRefresh();
@@ -40,55 +39,57 @@ class WithdrawRecordPage extends StatelessWidget {
             onLoad: () async {
               controller.onLoading();
             },
-            child:  CustomScrollView(
+            child: CustomScrollView(
               key: UniqueKey(),
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverHeaderDelegate(
-                      10.w + WalletRecordBalanceWidget.kHeight + 20.w + DateSelectionSection.kHeight + 15.w,
+                      10.w +
+                          WalletRecordBalanceWidget.kHeight +
+                          20.w +
+                          DateSelectionSection.kHeight +
+                          15.w,
                       child: ListView(
-                      children: [
-                        SizedBox(height: 10.w),
-                        WalletRecordBalanceWidget(),
-                        SizedBox(height: 20.w),
-                        GetBuilder<WalletRecordLogic>(
-                          id: 'withdrawDateSelector',
-                          builder: (controller) {
-                            String? dateRange;
-                            if (controller.startDate != null && controller.endDate != null) {
-                              var startText = DateFormat('MM/dd').format(controller.startDate!);
-                              var endText = DateFormat('MM/dd').format(controller.endDate!);
-                              dateRange = startText + " - " + endText;
-                            }
-                            return DateSelectionSection(
-                                dateTypes: controller.userWithdrawState.dateTypes,
-                                selectType: controller.dateType ?? "",
-                                selectDateRange: dateRange,
-                                onTap: (selectType){
-                                  controller.onTapSwitchDate(selectType);
-                                },
-                                onTapSelectTime: (){
-                                  _showTimeWidget(context);
-                                });
-                          },
-                        ),
-                        SizedBox(height: 15.w)
-                      ],
-                    )
-                  ),
+                        children: [
+                          SizedBox(height: 10.w),
+                          WalletRecordBalanceWidget(),
+                          SizedBox(height: 20.w),
+                          GetBuilder<WalletRecordLogic>(
+                            id: 'withdrawDateSelector',
+                            builder: (controller) {
+                              String? dateRange;
+                              if (controller.startDate != null && controller.endDate != null) {
+                                var startText = DateFormat('MM/dd').format(controller.startDate!);
+                                var endText = DateFormat('MM/dd').format(controller.endDate!);
+                                dateRange = startText + " - " + endText;
+                              }
+                              return DateSelectionSection(
+                                  dateTypes: controller.userWithdrawState.dateTypes,
+                                  selectType: controller.dateType ?? "",
+                                  selectDateRange: dateRange,
+                                  onTap: (selectType) {
+                                    controller.onTapSwitchDate(selectType);
+                                  },
+                                  onTapSelectTime: () {
+                                    _showTimeWidget(context);
+                                  });
+                            },
+                          ),
+                          SizedBox(height: 15.w)
+                        ],
+                      )),
                 ),
                 WalletRecordList(isWithDrawRecord: true),
               ],
             ),
-          )
-      ).safeArea(),
+          )).safeArea(),
     );
   }
 
   void _showTimeWidget(BuildContext context) {
-    var startDate =  controller.startDate;
-    var endDate =  controller.endDate;
+    var startDate = controller.startDate;
+    var endDate = controller.endDate;
 
     Widget child = CustomDatePicker(
       startDate: startDate ?? DateTime.now(),
@@ -107,41 +108,38 @@ class WithdrawRecordPage extends StatelessWidget {
     showOverlay(child, buttonPosition.dx, buttonPosition.dy + buttonSize.height, context);
   }
 
-  void showOverlay(Widget child, double left,double top, BuildContext context) {
+  void showOverlay(Widget child, double left, double top, BuildContext context) {
     overlayEntry = OverlayEntry(
-      builder: (context) =>
-          Stack(
-            children: [
-              Positioned.fill(
-                child: GestureDetector(
-                  onTap: () {
-                    // Remove the overlay when tapped outside the image
-                    overlayEntry.remove();
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                  ),
-                ),
+      builder: (context) => Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {
+                // Remove the overlay when tapped outside the image
+                overlayEntry.remove();
+              },
+              child: Container(
+                color: Colors.transparent,
               ),
-              Positioned(
-                left: left,
-                top: top,
-                child: child,
-              ),
-            ],
+            ),
           ),
+          Positioned(
+            left: left,
+            top: top,
+            child: child,
+          ),
+        ],
+      ),
     );
     Overlay.of(context)?.insert(overlayEntry);
   }
 }
 
-
-
 class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
   final double maxHeight;
 
-  CustomSliverHeaderDelegate(this.maxHeight,  {required this.child});
+  CustomSliverHeaderDelegate(this.maxHeight, {required this.child});
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {

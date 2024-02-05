@@ -10,8 +10,8 @@ import 'package:kkguoji/utils/string_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 import 'package:kkguoji/widget/keyboard_dismissable.dart';
 
-class RechargePage extends GetView<RechargeLogic> {
-  const RechargePage({super.key});
+class RechargeSinglePage extends GetView<RechargeLogic> {
+  const RechargeSinglePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +21,6 @@ class RechargePage extends GetView<RechargeLogic> {
       builder: (controller) => Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          leading: Get.arguments != null
-              ? IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Image.asset(
-                    Assets.imagesBackNormal,
-                    width: 20.w,
-                    height: 20.h,
-                  ),
-                )
-              : Container(),
           title: Text(
             "充值",
             style: TextStyle(
@@ -43,7 +33,7 @@ class RechargePage extends GetView<RechargeLogic> {
             Padding(
               padding: EdgeInsets.only(right: 25.w),
               child: Text(
-                StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
+                UserService.to.userMoneyModel?.money ?? "0.00",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,

@@ -7,6 +7,7 @@ import '../../../../../generated/assets.dart';
 import '../../../../../routes/routes.dart';
 import '../../../../../services/user_service.dart';
 import '../../../../../utils/route_util.dart';
+import '../../../../../utils/string_util.dart';
 
 
 class MineWalletBalanceWidget extends StatelessWidget {
@@ -49,7 +50,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
                     //   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
                     // ),
                     TextSpan(
-                      text: UserService.to.userMoneyModel?.money ?? "0.00",
+                      text: StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
                       style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
                     ),
                   ],

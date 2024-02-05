@@ -50,7 +50,7 @@ class StringUtil {
   static String formatAmount(String amount) {
     try {
       double realAmount = double.tryParse(amount) ?? 0;
-      final formatter = NumberFormat('#,###.##', 'en_US');
+      final formatter = NumberFormat('#,##0.00', 'en_US');
       return formatter.format(realAmount);
     } catch (e) {
       return "0.00";

@@ -7,6 +7,7 @@ import 'package:kkguoji/services/user_service.dart';
 import '../../../generated/assets.dart';
 import '../../../routes/routes.dart';
 import '../../../utils/route_util.dart';
+import '../../../utils/string_util.dart';
 
 class KKGamesTopWidget extends StatelessWidget {
   static var kHeight = 47.w;
@@ -62,7 +63,7 @@ class KKGamesTopWidget extends StatelessWidget {
             //   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
             // ),
             TextSpan(
-              text: UserService.to.userMoneyModel?.money ?? "0.00",
+              text: StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,
