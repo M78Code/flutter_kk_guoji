@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,8 @@ class HomeLogic extends GetxController {
   var margeGameList = <List<Datum>>[].obs;
   final globalController = Get.find<UserService>();
   final sqliteService = SqliteService.to;
+  SwiperController swiperController = SwiperController();
+  final RxInt bannerItemCount = 0.obs;
   Map imageMap = {
     "XGLHC": {
       "bg_icon": "assets/images/home_xianggangliuhecai.png",
@@ -123,6 +126,8 @@ class HomeLogic extends GetxController {
     var bannerResult = await HttpRequest.request(HttpConfig.getBannerList, params: bannerParms, method: "get");
     if (bannerResult["code"] == 200) {
       bannerList.value = bannerResult["data"];
+      bannerItemCount.value=bannerList.length;
+      swiperController.startAutoplay();
     }
   }
 

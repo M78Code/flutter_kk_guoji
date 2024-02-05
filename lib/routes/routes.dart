@@ -25,6 +25,7 @@ import 'package:kkguoji/pages/rebate/bindings/detail_binding.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_page.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_records_detail_page.dart';
 import 'package:kkguoji/pages/recharge/recharge_page.dart';
+import 'package:kkguoji/pages/tutorial/binding.dart';
 import 'package:kkguoji/pages/webView/provicy_webView.dart';
 import 'package:kkguoji/pages/webView/webView_page.dart';
 import 'package:kkguoji/pages/withdraw/withdraw_page.dart';
@@ -42,6 +43,7 @@ import '../pages/mine/wallet/wallet_fund_detail/view.dart';
 import '../pages/mine/wallet/wallet_record/view.dart';
 import '../pages/promotion/history/view/history_records_page.dart';
 import '../pages/recharge/recharge_single_page.dart';
+import '../pages/tutorial/view.dart';
 import '../pages/webView/tg_webview.dart';
 import '../pages/withdraw/withdraw_psd_page.dart';
 
@@ -80,6 +82,7 @@ abstract class Routes {
   static const String messagePage = "/messagePage";
   static const String privacyPage = "/privacyPage";
   static const String recordDetail = "/record_detail";
+  static const String tutorialPage = "/tutorialPage";
 
   static final List<GetPage> routePage = [
     GetPage(name: loginPage, page: () => const KKLoginPage()),
@@ -117,6 +120,7 @@ abstract class Routes {
     GetPage(name: messagePage, page: () => const MessagePage()),
     GetPage(name: signRecharge, page: () => const RechargeSinglePage()),
     GetPage(name: recordDetail, page: () => KKRecordDetailPage(), binding: DetailBinding()),
+    GetPage(name: tutorialPage, page: () => TutorialPage(), binding: TutorialBinding()),
   ];
 
   static Widget getPage(String pageName) {

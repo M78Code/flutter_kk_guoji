@@ -35,7 +35,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   num endTime = 0;
   List<String> timeList = ["0", "0", "0", "0", "0", "0"];
   late TextEditingController _numberController;
-  List<JcpBetModel> betList = [];
+  late List<JcpBetModel> betList;
   final userService = Get.find<UserService>();
 
   late DateTime serverTime;
@@ -47,6 +47,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   void initState() {
     // TODO: implement initState
     super.initState();
+    betList = [];
+    print('已选中列表：${JsonUtil.encodeObj(betList)}');
     _numberController = TextEditingController(text: getDefaultAmount());
     periodsNumber = widget.tickInfo.last!.periodsNumber.toString();
     endTime = widget.tickInfo.current?.autoCloseDate ?? 0;

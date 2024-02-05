@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/models/user_info_model.dart';
+import 'package:kkguoji/services/config.dart';
+import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 
 import '../common/api/account_api.dart';
@@ -48,6 +50,11 @@ class UserService extends GetxService {
     UserInfoModel? userInfo = await AccountApi.getUserInfo();
     userInfoModel.value = userInfo;
     isBindEmail = null != userInfo?.email;
+  }
+
+  Future<UserInfoModel?> fetchUserInfoForInit() async {
+    UserInfoModel? userInfo = await AccountApi.getUserInfo();
+    return userInfo;
   }
 
   void logout() async {

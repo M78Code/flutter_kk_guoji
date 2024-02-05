@@ -12,8 +12,7 @@ import '../../home/view/home_page.dart';
 import '../../mine/mine_page.dart';
 
 class KKMainPage extends StatefulWidget {
-  const
-  KKMainPage({super.key});
+  const KKMainPage({super.key});
 
   // const MyHomePage({super.key, required this.title});
 
@@ -62,7 +61,7 @@ class _KKMainPageState extends State<KKMainPage> {
   final controller = Get.find<MainPageLogic>();
   final userService = Get.find<UserService>();
 
-  final List _pages = [KKHomePage(), const KKGamesPage(), const RechargePage(), const ActivityPage(), MinePage()];
+  final List<Widget> _pages = [KKHomePage(), const KKGamesPage(), const RechargePage(), const ActivityPage(), MinePage()];
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +75,14 @@ class _KKMainPageState extends State<KKMainPage> {
       //   // the App.build method, and use it to set our appbar title.
       //   title: Text(widget.title),
       // ),
+      // body: Obx(() {
+      //   return IndexedStack(
+      //     index: controller.currentIndex.value,
+      //     children: _pages,
+      //   );
+      // }),
       body: Obx(() {
-        return _pages[controller.currentIndex.value];
+        return getPageOnSelectedMenu(controller.currentIndex.value);
       }),
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(
@@ -99,5 +104,28 @@ class _KKMainPageState extends State<KKMainPage> {
         );
       }),
     );
+  }
+
+  final homePage = KKHomePage();
+  final gamePage = KKGamesPage();
+  final rechargePage = RechargePage();
+  final activityPage = ActivityPage();
+  final minePage = MinePage();
+
+  Widget getPageOnSelectedMenu(int index) {
+    switch (index) {
+      case 0:
+        return homePage;
+      case 1:
+        return gamePage;
+      case 2:
+        return rechargePage;
+      case 3:
+        return activityPage;
+      case 4:
+        return minePage;
+      default:
+        return homePage;
+    }
   }
 }
