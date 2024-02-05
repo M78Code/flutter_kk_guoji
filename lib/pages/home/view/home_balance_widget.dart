@@ -7,6 +7,7 @@ import 'package:kkguoji/utils/route_util.dart';
 
 import '../../../custom_route_observer.dart';
 import '../../../generated/assets.dart';
+import '../../../utils/string_util.dart';
 
 class KKHomeBalanceWidget extends StatefulWidget{
   const KKHomeBalanceWidget({super.key});
@@ -101,7 +102,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                 children: [
                   Obx(
                         () => Text(
-                          UserService.to.userMoneyModel?.money ?? "0.00",
+                          StringUtil.formatAmount( UserService.to.userMoneyModel?.money ?? "0.00"),
                       style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900, fontFamily: "DINPro-Bold"),
                     ),
                   ),

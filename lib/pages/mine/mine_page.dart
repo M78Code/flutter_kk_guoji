@@ -609,7 +609,7 @@ class MyPurse extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      controller.isHiddenBalance ? "****" : "${userService.userMoneyModel?.money}",
+                      controller.isHiddenBalance ? "****" : StringUtil.formatAmount("${userService.userMoneyModel?.money}"),
                       style: const TextStyle(
                           color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
                     ),
