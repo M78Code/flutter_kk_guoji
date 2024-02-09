@@ -20,7 +20,8 @@ import '../../widget/show_toast.dart';
 GlobalKey _shareImageRepaintBoundaryKey = GlobalKey();
 
 class MinePage extends GetView<MineLogic> {
-  const MinePage({super.key});
+  MinePage({super.key});
+  final userController = Get.find<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +123,7 @@ class MinePage extends GetView<MineLogic> {
           children: [
             Obx(
               () => AvatarWithVip(
-                urlPath: controller.portraitUrl.value,
+                urlPath: userController.userInfoModel.value?.portrait,
               ),
             ),
             const SizedBox(
@@ -132,13 +133,15 @@ class MinePage extends GetView<MineLogic> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  //昵称
-                  '${controller.userInfoModel?.userNick}',
-                  style: const TextStyle(
-                      color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
-                ),
+                Obx((){
+                  return Text(
+                    //昵称
+                    '${userController.userInfoModel.value?.userNick}',
+                    style: const TextStyle(
+                        color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  );
+                }),
                 const SizedBox(height: 5),
                 Row(
                   children: [
@@ -151,15 +154,17 @@ class MinePage extends GetView<MineLogic> {
                     InkWellView(
                         child: Row(
                           children: [
-                            Text(
-                              '${controller.userInfoModel?.uuid}',
-                              style: TextStyle(fontSize: 12.sp, color: Colors.white),
-                            ),
+                            Obx((){
+                              return Text(
+                                '${userController.userInfoModel.value?.uuid}',
+                                style: TextStyle(fontSize: 12.sp, color: Colors.white),
+                              );
+                            }),
                             SizedBox(width: 5.w),
                             Image.asset(Assets.promotionCopy, width: 12.w, height: 12.h),
                           ],
                         ),
-                        onPressed: () => StringUtil.clipText('${controller.userInfoModel?.uuid}')),
+                        onPressed: () => StringUtil.clipText('${userController.userInfoModel.value?.uuid}')),
                   ],
                 ),
               ],
@@ -187,11 +192,11 @@ class MinePage extends GetView<MineLogic> {
                   final data = await Get.toNamed(
                     Routes.personalInfoPage,
                     arguments: {
-                      "nick": controller.userInfoModel?.userNick,
-                      "urlPath": controller.userInfoModel?.portrait,
+                      "nick": userController.userInfoModel.value?.userNick,
+                      "urlPath": userController.userInfoModel.value?.portrait,
                     },
                   );
-                  controller.userInfoModel = data;
+                  userController.userInfoModel = data;
                   controller.portraitUrl.value = (data as UserInfoModel).portrait ?? "";
                 }),
           ],
@@ -535,6 +540,7 @@ class MyPurse extends StatelessWidget {
   MyPurse({super.key});
 
   final userService = Get.find<UserService>();
+  final controller = Get.find<MineLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -600,36 +606,40 @@ class MyPurse extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 0),
-          GetBuilder<MineLogic>(
-            id: 'balance',
-            builder: (controller) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      controller.isHiddenBalance ? "****" : StringUtil.formatAmount("${userService.userMoneyModel?.money}"),
-                      style: const TextStyle(
-                          color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          controller.toggleHiddenBalance();
-                        },
-                        icon: Image.asset(
-                          controller.isHiddenBalance
-                              ? Assets.imagesIconEyeClose
-                              : Assets.imagesIconEyeOpen,
-                          width: 30,
-                          height: 30,
-                          fit: BoxFit.cover,
-                        ))
-                  ],
-                ),
-              );
-            },
-          ),
+          // GetBuilder<MineLogic>(
+          //   id: 'balance',
+          //   builder: (controller) {
+          //
+          //     return ;
+          //   },
+          // ),
+          Obx(() {
+            return Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    controller.isHiddenBalance ? "****" : StringUtil.formatAmount("${userService.userMoneyModel?.money}"),
+                    style: const TextStyle(
+                        color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        controller.toggleHiddenBalance();
+                      },
+                      icon: Image.asset(
+                        controller.isHiddenBalance
+                            ? Assets.imagesIconEyeClose
+                            : Assets.imagesIconEyeOpen,
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.cover,
+                      ))
+                ],
+              ),
+            );
+          }),
           const TopUpWithdrawBackwater(),
         ],
       ),
@@ -810,7 +820,8 @@ class SafeBoxWaitGridView extends StatelessWidget {
 class MyAccountInfo extends StatelessWidget {
   final MineLogic controller;
 
-  const MyAccountInfo({super.key, required this.controller});
+  MyAccountInfo({super.key, required this.controller});
+  final userController = Get.find<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -836,7 +847,7 @@ class MyAccountInfo extends StatelessWidget {
             ),
             onTap: () {
               RouteUtil.pushToView(Routes.myAccountPage,
-                  arguments: {"urlPath": controller.userInfoModel?.portrait});
+                  arguments: {"urlPath": userController.userInfoModel.value?.portrait});
             },
           ),
           const Divider(

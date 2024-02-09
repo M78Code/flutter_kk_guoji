@@ -10,7 +10,7 @@ import '../promotion/model/promotion_model.dart';
 
 class MineLogic extends GetxController {
   final userService = Get.find<UserService>();
-  UserInfoModel? userInfoModel; //用户信息类
+  // UserInfoModel? userInfoModel; //用户信息类
   RxString portraitUrl = "".obs;
   bool isHiddenBalance =
       SqliteService.to.getBool(CacheKey.balanceHidden) ?? true; //默认是隐藏
@@ -20,9 +20,11 @@ class MineLogic extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    userInfoModel = userService.userInfoModel.value;
-    portraitUrl = userInfoModel?.portrait?.obs ?? "".obs;
     super.onInit();
+     // userInfoModel = userService.userInfoModel.value;
+     // portraitUrl = userInfoModel?.portrait?.obs ?? "".obs;
+
+
   }
 
   @override

@@ -50,30 +50,32 @@ class KKGamesTopWidget extends StatelessWidget {
     );
   }
 
-  Row _buildLoginView() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        RichText(
-            text: TextSpan(
-          children: [
-            // TextSpan(
-            //   text: "¥",
-            //   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
-            // ),
-            TextSpan(
-              text: StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        )).marginOnly(right: 14.sp),
-        // Image.asset(Assets.gamesGamesCurrenceCn, width: 33.sp, height: 33.sp,).marginOnly(right: 12.w),
-      ],
-    );
+  Widget _buildLoginView() {
+    return Obx((){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          RichText(
+              text: TextSpan(
+                children: [
+                  // TextSpan(
+                  //   text: "¥",
+                  //   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
+                  // ),
+                  TextSpan(
+                    text: StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )).marginOnly(right: 14.sp),
+          // Image.asset(Assets.gamesGamesCurrenceCn, width: 33.sp, height: 33.sp,).marginOnly(right: 12.w),
+        ],
+      );
+    });
   }
 
   Widget _buildUnLogingView() {

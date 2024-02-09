@@ -38,6 +38,7 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     print('重置页面');
+    super.build(context);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -49,6 +50,7 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
               color: const Color(0xFF171A26),
               child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
+
                   child: Column(
                     children: [
                       Obx(() {

@@ -23,7 +23,7 @@ class KKMainPage extends StatefulWidget {
 }
 
 class _KKMainPageState extends State<KKMainPage> {
-  // int _currentIndex = 0;
+  int _currentIndex = 0;
   final List<BottomNavigationBarItem> _barItems = [
     BottomNavigationBarItem(
         label: "首页",
@@ -61,7 +61,7 @@ class _KKMainPageState extends State<KKMainPage> {
   final controller = Get.find<MainPageLogic>();
   final userService = Get.find<UserService>();
 
-  final List<Widget> _pages = [KKHomePage(), const KKGamesPage(), const RechargePage(), const ActivityPage(), MinePage()];
+  final List<Widget> _pages = [const KKHomePage(), const KKGamesPage(), const RechargePage(), const ActivityPage(), MinePage()];
 
   @override
   Widget build(BuildContext context) {
@@ -75,42 +75,39 @@ class _KKMainPageState extends State<KKMainPage> {
       //   // the App.build method, and use it to set our appbar title.
       //   title: Text(widget.title),
       // ),
-      // body: Obx(() {
-      //   return IndexedStack(
-      //     index: controller.currentIndex.value,
-      //     children: _pages,
-      //   );
-      // }),
-      body: Obx(() {
-        return getPageOnSelectedMenu(controller.currentIndex.value);
-      }),
-      bottomNavigationBar: Obx(() {
-        return BottomNavigationBar(
-          items: _barItems,
-          iconSize: 24,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: controller.currentIndex.value,
-          selectedItemColor: const Color(0xFF5D5FEF),
-          unselectedItemColor: const Color(0xFF687083),
-          onTap: (int index) {
-            if (userService.isLogin == false) {
-              if (index != 0 && index != 1) {
-                RouteUtil.pushToView(Routes.loginPage);
-                return;
-              }
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
+      ),
+      // body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: _barItems,
+        iconSize: 24,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        selectedItemColor: const Color(0xFF5D5FEF),
+        unselectedItemColor: const Color(0xFF687083),
+        onTap: (int index) {
+          if (userService.isLogin == false) {
+            if (index != 0 && index != 1) {
+              RouteUtil.pushToView(Routes.loginPage);
+              return;
             }
-            controller.clickTabBarItem(index);
-          },
-        );
-      }),
+          }
+          // controller.clickTabBarItem(index);
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
     );
   }
 
-  final homePage = KKHomePage();
-  final gamePage = KKGamesPage();
-  final rechargePage = RechargePage();
-  final activityPage = ActivityPage();
-  final minePage = MinePage();
+  final homePage = const KKHomePage();
+  final gamePage = const KKGamesPage();
+  final rechargePage = const RechargePage();
+  final activityPage = const ActivityPage();
+  final minePage =  MinePage();
 
   Widget getPageOnSelectedMenu(int index) {
     switch (index) {
