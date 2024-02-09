@@ -23,7 +23,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
     return Container(
       height: 74.w,
       decoration: BoxDecoration(
-        color: Color(0xFF2E374C).withOpacity(0.5),
+        color: const Color(0xFF2E374C).withOpacity(0.5),
         borderRadius: BorderRadius.all(Radius.circular(12.w)),
       ),
       child:Row(
@@ -35,7 +35,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 '钱包余额',
                 style: TextStyle(
                     color: Colors.white,
@@ -58,7 +58,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
               }),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -21,6 +21,7 @@ class KKRebateLogic extends GetxController {
   final totalMoney = "".obs;
   final bannerList = [].obs;
   final gameList = [].obs;
+  final ticketMap = {}.obs;
   final dateList = ["today", "yesterday", "month", "last_month"];
   final dateTotalCount = 0.obs;
   final dateRecordList = [].obs;
@@ -96,8 +97,16 @@ class KKRebateLogic extends GetxController {
     var result = await HttpRequest.request(HttpConfig.getGameTypeList, method: "post");
     if (result["code"] == 200) {
       List gameInfos = result["data"];
-      getRatio(gameInfos.first["id"]);
-      gameList.value = result["data"];
+      if(gameInfos.isNotEmpty) {
+        getRatio(gameInfos.first["id"]);
+        int index = gameInfos.indexWhere((element) {
+          Map m = element as Map;
+          return m["name"].toString().contains("彩票");
+        });
+        ticketMap.value = gameInfos[index];
+        gameInfos.removeAt(index);
+        gameList.value = gameInfos;
+      }
 
     }
   }
@@ -200,16 +209,14 @@ class KKRebateLogic extends GetxController {
 
   void clickTicketType(String typeStr) {
     tickTypeStr.value = typeStr;
-    List typeList = gameList.value;
-    Map map = typeList.last;
+    Map map = Map.from(ticketMap.value);
+    // Map map = ticketMap.value;
     if(typeStr != "全部") {
-      map["name"] = "彩票-" + typeStr;
+      map["name"] = "彩票-$typeStr";
     }else {
       map["name"] = "彩票";
     }
-    typeList.removeLast();
-    typeList.add(map);
-    gameList.value = typeList;
+    ticketMap.value = map;
   }
 
 

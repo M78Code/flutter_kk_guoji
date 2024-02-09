@@ -588,7 +588,7 @@ class MyPurse extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           const Padding(
-            padding: EdgeInsets.only(left: 25),
+            padding: EdgeInsets.only(left: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -604,7 +604,7 @@ class MyPurse extends StatelessWidget {
             id: 'balance',
             builder: (controller) {
               return Padding(
-                padding: const EdgeInsets.only(left: 25),
+                padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
