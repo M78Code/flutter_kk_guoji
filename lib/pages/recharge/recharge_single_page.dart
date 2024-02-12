@@ -21,6 +21,7 @@ class RechargeSinglePage extends GetView<RechargeLogic> {
       builder: (controller) => Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
           title: Text(
             "充值",
             style: TextStyle(
@@ -65,10 +66,7 @@ class RechargeSinglePage extends GetView<RechargeLogic> {
         children: [
           Text(
             "财务账号:",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500),
+            style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
           ),
           _buildClip(),
           _buildRechargeTip(),
@@ -95,10 +93,7 @@ class RechargeSinglePage extends GetView<RechargeLogic> {
           child: Obx(() {
             return Text(
               controller.tg.value,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500),
+              style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
             );
           }),
         ),
@@ -141,10 +136,7 @@ class RechargeSinglePage extends GetView<RechargeLogic> {
             },
             child: Text(
               "复制",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500),
+              style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500),
             ),
           ),
         )

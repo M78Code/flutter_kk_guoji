@@ -59,7 +59,7 @@ class WithdrawPsdPage extends GetView {
                       return CustomInputField(null, "请输入旧提现密码",
                           radius: 20,
                           hintColor: Colors.white.withOpacity(0.2),
-                          isObscureText: controller.psdObscure1.value,
+                          // isObscureText: controller.psdObscure1.value,
                           keybordType: TextInputType.number,
                           maxLength: 6,
                           // rightWidget: GestureDetector(
