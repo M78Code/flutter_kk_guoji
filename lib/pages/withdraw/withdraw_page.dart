@@ -341,7 +341,7 @@ class WithdrawPage extends GetView<WithdrawLogic> {
             ),
             SizedBox(width: 5.w),
             Text(
-              controller.userInfoModel?.withdrawPwdStatus == 1 ? "如您忘记提现密码，请联系客服处理！" : "为了您的账号安全，请设置提现密码。",
+              controller.userInfoModel?.withdrawPwdStatus == 1 ? "如您忘记提现密码，请联系客服处理。" : "为了您的账号安全，请设置提现密码。",
               style: TextStyle(color: const Color(0xffA6ACC0), fontSize: 12.sp),
             ),
           ],
