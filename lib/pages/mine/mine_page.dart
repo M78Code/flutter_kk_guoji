@@ -21,6 +21,7 @@ GlobalKey _shareImageRepaintBoundaryKey = GlobalKey();
 
 class MinePage extends GetView<MineLogic> {
   MinePage({super.key});
+
   final userController = Get.find<UserService>();
 
   @override
@@ -133,7 +134,7 @@ class MinePage extends GetView<MineLogic> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx((){
+                Obx(() {
                   return Text(
                     //昵称
                     '${userController.userInfoModel.value?.userNick}',
@@ -154,7 +155,7 @@ class MinePage extends GetView<MineLogic> {
                     InkWellView(
                         child: Row(
                           children: [
-                            Obx((){
+                            Obx(() {
                               return Text(
                                 '${userController.userInfoModel.value?.uuid}',
                                 style: TextStyle(fontSize: 12.sp, color: Colors.white),
@@ -164,7 +165,8 @@ class MinePage extends GetView<MineLogic> {
                             Image.asset(Assets.promotionCopy, width: 12.w, height: 12.h),
                           ],
                         ),
-                        onPressed: () => StringUtil.clipText('${userController.userInfoModel.value?.uuid}')),
+                        onPressed: () =>
+                            StringUtil.clipText('${userController.userInfoModel.value?.uuid}')),
                   ],
                 ),
               ],
@@ -536,114 +538,141 @@ class AvatarWithVip extends StatelessWidget {
 }
 
 //我的钱包
-class MyPurse extends StatelessWidget {
+class MyPurse extends GetView<MineLogic> {
   MyPurse({super.key});
 
   final userService = Get.find<UserService>();
-  final controller = Get.find<MineLogic>();
+
+  // final controller = Get.find<MineLogic>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 175,
-      decoration: BoxDecoration(
-        image:
-            const DecorationImage(image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
-        borderRadius: BorderRadius.circular(6),
-        // border: Border.all(width: 1.0, color: Colors.white),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+    return GetBuilder<MineLogic>(
+        id: "balance",
+        builder: (logic) {
+          return Container(
+            height: 175,
+            decoration: BoxDecoration(
+              image: const DecorationImage(
+                  image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
+              borderRadius: BorderRadius.circular(6),
+              // border: Border.all(width: 1.0, color: Colors.white),
+            ),
+            child: Column(
               children: [
-                const Text(
-                  '我的钱包',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                ),
-                GestureDetector(
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
-                        '进入钱包',
-                        style: TextStyle(
-                            color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+                        '我的钱包',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
-                      Image.asset(
-                        Assets.imagesIconArrowsEnter,
-                        width: 16,
-                        height: 16,
+                      GestureDetector(
+                        child: Row(
+                          children: [
+                            const Text(
+                              '进入钱包',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+                            ),
+                            Image.asset(
+                              Assets.imagesIconArrowsEnter,
+                              width: 16,
+                              height: 16,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          RouteUtil.pushToView(Routes.walletPage);
+                        },
                       ),
                     ],
                   ),
-                  onTap: () {
-                    RouteUtil.pushToView(Routes.walletPage);
-                  },
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            margin: const EdgeInsets.only(left: 25, right: 25),
-            child: Image.asset(Assets.imagesIconDottedLine, height: 1.5),
-          ),
-          const SizedBox(height: 5),
-          const Padding(
-            padding: EdgeInsets.only(left: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  '钱包余额',
-                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300),
+                const SizedBox(height: 12),
+                Container(
+                  margin: const EdgeInsets.only(left: 25, right: 25),
+                  child: Image.asset(Assets.imagesIconDottedLine, height: 1.5),
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 0),
-          // GetBuilder<MineLogic>(
-          //   id: 'balance',
-          //   builder: (controller) {
-          //
-          //     return ;
-          //   },
-          // ),
-          Obx(() {
-            return Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    controller.isHiddenBalance ? "****" : StringUtil.formatAmount("${userService.userMoneyModel?.money}"),
-                    style: const TextStyle(
-                        color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                const SizedBox(height: 5),
+                const Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '钱包余额',
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                      onPressed: () {
-                        controller.toggleHiddenBalance();
-                      },
-                      icon: Image.asset(
+                ),
+                const SizedBox(height: 0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
                         controller.isHiddenBalance
-                            ? Assets.imagesIconEyeClose
-                            : Assets.imagesIconEyeOpen,
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.cover,
-                      ))
-                ],
-              ),
-            );
-          }),
-          const TopUpWithdrawBackwater(),
-        ],
-      ),
-    );
+                            ? "****"
+                            : StringUtil.formatAmount("${userService.userMoneyModel?.money}"),
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            controller.toggleHiddenBalance();
+                          },
+                          icon: Image.asset(
+                            controller.isHiddenBalance
+                                ? Assets.imagesIconEyeClose
+                                : Assets.imagesIconEyeOpen,
+                            width: 30,
+                            height: 30,
+                            fit: BoxFit.cover,
+                          ))
+                    ],
+                  ),
+                ),
+                /*Obx(() {
+              return Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      controller.isHiddenBalance ? "****" : StringUtil.formatAmount(
+                          "${userService.userMoneyModel?.money}"),
+                      style: const TextStyle(
+                          color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          controller.toggleHiddenBalance();
+                        },
+                        icon: Image.asset(
+                          controller.isHiddenBalance
+                              ? Assets.imagesIconEyeClose
+                              : Assets.imagesIconEyeOpen,
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.cover,
+                        ))
+                  ],
+                ),
+              );
+            }),*/
+                const TopUpWithdrawBackwater(),
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -821,6 +850,7 @@ class MyAccountInfo extends StatelessWidget {
   final MineLogic controller;
 
   MyAccountInfo({super.key, required this.controller});
+
   final userController = Get.find<UserService>();
 
   @override
