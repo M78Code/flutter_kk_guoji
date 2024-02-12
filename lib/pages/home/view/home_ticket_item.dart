@@ -105,7 +105,6 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
       bucket: PageStorageBucket(),
       child: Container(
         color: const Color(0xFF0F1921),
-
         child: Column(
           children: [
             Container(
