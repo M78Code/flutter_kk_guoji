@@ -196,7 +196,7 @@ class MinePage extends GetView<MineLogic> {
                       "urlPath": userController.userInfoModel.value?.portrait,
                     },
                   );
-                  userController.userInfoModel = data;
+                  userController.userInfoModel.value = data;
                   controller.portraitUrl.value = (data as UserInfoModel).portrait ?? "";
                 }),
           ],

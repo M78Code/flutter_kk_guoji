@@ -40,10 +40,10 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
                   width: 24,
                   height: 21,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                Text(
+                const Text(
                   "热门彩种",
                   style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                 ),
@@ -55,7 +55,7 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
                 gameController.switchIndex(1);
                 gameController.menuOntap(1);
               },
-              child: Row(
+              child: const Row(
                 children: [
                   Text(
                     "查看全部",
@@ -86,6 +86,7 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
                 : ScrollPageView(
               controller: ScrollPageController(),
               delay: const Duration(seconds: 5),
+              checkedIndicatorColor: const Color(0xFF3D35C6),
               children: List.generate(4, (index) => _buildGroupItem(controller.margeGameList[index])),
             ),
           );

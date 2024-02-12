@@ -78,9 +78,17 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
                                     fit: BoxFit.cover,
                                     errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
                                       // Handle the error by displaying a default image or an error icon.
-                                      return Image.asset(
-                                        Assets.homeDefalutBanner, // Replace with your default image asset
-                                        fit: BoxFit.cover,
+                                      return GestureDetector(
+                                        child: Image.asset(
+                                          Assets.homeDefalutBanner, // Replace with your default image asset
+                                          fit: BoxFit.cover,
+                                        ),
+                                        onTap: (){
+                                          String link = bannerInfo["link"].toString();
+                                          if(link.isNotEmpty) {
+                                            RouteUtil.pushToView(Routes.webView, arguments: link);
+                                          }
+                                        },
                                       );
                                     },
                                   );

@@ -104,7 +104,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
     return PageStorage(
       bucket: PageStorageBucket(),
       child: Container(
-        color: Color(0xFF0F1921),
+        color: const Color(0xFF0F1921),
+
         child: Column(
           children: [
             Container(
@@ -112,6 +113,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                 image: DecorationImage(image: AssetImage(widget.bgImageStr), fit: BoxFit.cover),
               ),
               child: Row(
