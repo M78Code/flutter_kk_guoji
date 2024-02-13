@@ -55,30 +55,31 @@ class WithdrawPsdPage extends GetView {
                         fontWeight: FontWeight.w500,
                       ),
                     ).marginOnly(bottom: 10.h),
-                    Obx(() {
-                      return CustomInputField(null, "请输入旧提现密码",
-                          radius: 20,
-                          hintColor: Colors.white.withOpacity(0.2),
-                          // isObscureText: controller.psdObscure1.value,
-                          keybordType: TextInputType.number,
-                          maxLength: 6,
-                          // rightWidget: GestureDetector(
-                          //   child: SizedBox(
-                          //     width: 60,
-                          //     child: Image.asset(
-                          //       controller.psdObscure1.value
-                          //           ? Assets.imagesPasswordOn
-                          //           : Assets.imagesPasswordOff,
-                          //       width: 30,
-                          //       height: 30,
-                          //     ),
-                          //   ),
-                          //   onTap: () {
-                          //     controller.showPassword(controller.psdObscure1);
-                          //   },
-                          // ),
-                          valueChanged: (value) => controller.inputPasswordValue(value, 0));
-                    }),
+                    // Obx(() {
+                    //   return ;
+                    // }),
+                    CustomInputField(null, "请输入旧提现密码",
+                        radius: 20,
+                        hintColor: Colors.white.withOpacity(0.2),
+                        // isObscureText: controller.psdObscure1.value,
+                        keybordType: TextInputType.number,
+                        maxLength: 6,
+                        // rightWidget: GestureDetector(
+                        //   child: SizedBox(
+                        //     width: 60,
+                        //     child: Image.asset(
+                        //       controller.psdObscure1.value
+                        //           ? Assets.imagesPasswordOn
+                        //           : Assets.imagesPasswordOff,
+                        //       width: 30,
+                        //       height: 30,
+                        //     ),
+                        //   ),
+                        //   onTap: () {
+                        //     controller.showPassword(controller.psdObscure1);
+                        //   },
+                        // ),
+                        valueChanged: (value) => controller.inputPasswordValue(value, 0)),
                     SizedBox(height: 20.h)
                   ],
                   Text(

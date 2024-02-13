@@ -267,9 +267,6 @@ class HomeLogic extends GetxController {
           item.current?.autoCloseDate = num.parse(socketModel.autoCloseDate ?? '0');
           item.current?.autoDrawingDate = num.parse(socketModel.autoDrawingDate ?? '0');
           margeData();
-          itemKey.currentState?.setState(() {
-
-          });
         });
       }
       // gameList.refresh();

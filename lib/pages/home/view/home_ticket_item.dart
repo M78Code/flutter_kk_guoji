@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/games_api.dart';
 import 'package:kkguoji/utils/json_util.dart';
@@ -24,7 +22,7 @@ class KKHomeTicketItem extends StatefulWidget {
   final List<Color> ballColors;
   final ParamSingleCallback<String> openGame;
 
-  KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors, this.tickInfo, this.openGame, {Key? key}) : super(key: key);
+  const KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors, this.tickInfo, this.openGame, {Key? key}) : super(key: key);
 
   @override
   State<KKHomeTicketItem> createState() => _KKHomeTicketItemState();
@@ -49,7 +47,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
     super.initState();
 
     betList = [];
-    print('已选中列表：${JsonUtil.encodeObj(betList)}');
+    // print('已选中列表：${JsonUtil.encodeObj(betList)}');
     _numberController = TextEditingController(text: getDefaultAmount());
     periodsNumber = widget.tickInfo.last!.periodsNumber.toString();
     endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
@@ -58,7 +56,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
         // Timer.periodic(const Duration(seconds: 1), (Timer timer) {
         //   startEndTime();
         // });
-        timer = Timer.periodic(Duration(seconds: 1), _updateCountdown);
+        timer = Timer.periodic(const Duration(seconds: 1), _updateCountdown);
       }
     }
     // serverTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000).toInt(), isUtc: true);
@@ -166,7 +164,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                               padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2),
                               child: Text(
                                 getTicketStateString(),
-                                style: TextStyle(color: Colors.white, fontSize: 11),
+                                style: const TextStyle(color: Colors.white, fontSize: 11),
                               ),
                             )),
                       ),
@@ -215,7 +213,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: Color.fromRGBO(255, 255, 255, 0.36),
+                              color: const Color.fromRGBO(255, 255, 255, 0.36),
                             )),
                         width: 48,
                         height: 46,
@@ -275,7 +273,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
               ),
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -315,7 +313,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                                 controller: _numberController,
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                style: TextStyle(color: Colors.white, fontSize: 12),
+                                style: const TextStyle(color: Colors.white, fontSize: 12),
                                 cursorColor: Colors.white,
                                 decoration: const InputDecoration(
                                   border: InputBorder.none, // 设置为 none 去掉下划线
@@ -451,7 +449,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
           Center(
             child: Text(
               numString,
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: const TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
         ],
@@ -465,8 +463,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
       height: 28,
       decoration: ShapeDecoration(
         gradient: LinearGradient(
-          begin: Alignment(0.00, -1.00),
-          end: Alignment(0, 1),
+          begin: const Alignment(0.00, -1.00),
+          end: const Alignment(0, 1),
           colors: [Colors.white, colors[0]],
         ),
         shape: OvalBorder(
@@ -489,7 +487,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
       child: Center(
         child: Text(
           string,
-          style: TextStyle(color: Colors.white, fontSize: 16),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
     );
@@ -526,9 +524,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
       print('xiaoan 赔率选项：$content');
     } else {
       if (widget.tickInfo.lotteryCode == 'JNDEB' || widget.tickInfo.lotteryCode == 'JNDSI' || widget.tickInfo.lotteryCode == 'JNDWU') {
-        content = "${playInfo.playName}: ${maxOdds}";
+        content = "${playInfo.playName}: $maxOdds";
       } else {
-        content = "${playInfo.playName}: ${odds}";
+        content = "${playInfo.playName}: $odds";
       }
     }
     return GestureDetector(

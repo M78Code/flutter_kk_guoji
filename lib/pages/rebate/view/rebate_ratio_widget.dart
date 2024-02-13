@@ -26,7 +26,7 @@ class KKRebateRatioWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(flex: 3,child: Obx(() {
+              Expanded(flex: 7,child: Obx(() {
                 return Row(
                   key: selectedKey,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,7 +35,7 @@ class KKRebateRatioWidget extends StatelessWidget {
                   }).toList(),
                 );
               }),),
-              Expanded(flex: 2,child: Obx(() {
+              Expanded(flex: 6,child: Obx(() {
                 return _buildTicketButton(
                     context, controller.ticketMap, controller.gameList.length);
               }),),

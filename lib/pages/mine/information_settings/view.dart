@@ -30,7 +30,7 @@ class _InformationSettingsPageState extends State<InformationSettingsPage> {
   Widget _buildView() {
     return Scaffold(
       appBar: AppBar(
-        title: Text('信息设置'),
+        title: const Text('信息设置'),
         centerTitle: true,
         leading:  IconButton(
           icon: Image.asset(
@@ -79,7 +79,7 @@ class _InformationSettingsPageState extends State<InformationSettingsPage> {
             margin: const EdgeInsets.only(left: 25, right: 25),
             height: 40,
             decoration: ShapeDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [
                     Color(0xFF3D35C6), // 起始颜色
                     Color(0xFF6C4FE0), // 结束颜色
@@ -89,10 +89,10 @@ class _InformationSettingsPageState extends State<InformationSettingsPage> {
                 ),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
             child: TextButton(
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     '保存',
                     style: TextStyle(color: Colors.white, fontSize: 13),
                   )
@@ -134,10 +134,10 @@ class MyListView extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           MyListItem(imageN: Assets.mineInformationSettingsWechat,title: '微信', defaultText: '您的微信账号', textEditingController: _textEditingController1, text: userInfoModel?.weixin,),
-          MyListItem(imageN: Assets.mineInformationSettingsQQ,title: 'QQ', defaultText: '您的Telegram账号', textEditingController: _textEditingController2, text:  userInfoModel?.qq),
-          MyListItem(imageN: Assets.mineInformationSettingsTelegram,title: 'Telegram', defaultText: '您的Telegram账号', textEditingController: _textEditingController3, text:  userInfoModel?.telegram),
+          MyListItem(imageN: Assets.mineInformationSettingsQQ,title: 'QQ', defaultText: '您的QQ账号', textEditingController: _textEditingController2, text:  userInfoModel?.qq),
+          MyListItem(imageN: Assets.serviceServiceTelegrame,title: 'Telegram', defaultText: '您的Telegram账号', textEditingController: _textEditingController3, text:  userInfoModel?.telegram),
           MyListItem(imageN: Assets.mineInformationSettingsSkype,title: 'Skype', defaultText: '您的Skype账号', textEditingController: _textEditingController4, text:  userInfoModel?.skype),
-          MyListItem(imageN: Assets.mineInformationSettingsWhatsapp,title: 'Whatsapp', defaultText: '您的Whatsapp账号', textEditingController: _textEditingController5, text:  userInfoModel?.whatsapp),
+          MyListItem(imageN: Assets.mineInformationSettingsWhatsapp,title: 'Whatsapp', defaultText: '您的WhatApp账号', textEditingController: _textEditingController5, text:  userInfoModel?.whatsapp),
         ],
       ),
     );

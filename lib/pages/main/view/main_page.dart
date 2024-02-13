@@ -75,31 +75,36 @@ class _KKMainPageState extends State<KKMainPage> {
       //   // the App.build method, and use it to set our appbar title.
       //   title: Text(widget.title),
       // ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: Obx((){
+        return IndexedStack(
+          index: controller.currentIndex.value,
+          children: _pages,
+        );
+      }),
       // body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: _barItems,
-        iconSize: 24,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        selectedItemColor: const Color(0xFF5D5FEF),
-        unselectedItemColor: const Color(0xFF687083),
-        onTap: (int index) {
-          if (userService.isLogin == false) {
-            if (index != 0 && index != 1) {
-              RouteUtil.pushToView(Routes.loginPage);
-              return;
+      bottomNavigationBar: Obx((){
+        return BottomNavigationBar(
+          items: _barItems,
+          iconSize: 24,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: controller.currentIndex.value,
+          selectedItemColor: const Color(0xFF5D5FEF),
+          unselectedItemColor: const Color(0xFF687083),
+          onTap: (int index) {
+            if (userService.isLogin == false) {
+              if (index != 0 && index != 1) {
+                RouteUtil.pushToView(Routes.loginPage);
+                return;
+              }
             }
-          }
-          // controller.clickTabBarItem(index);
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
+            controller.clickTabBarItem(index);
+            // setState(() {
+            //   _currentIndex = index;
+            // });
+          },
+        );
+      })
+
     );
   }
 

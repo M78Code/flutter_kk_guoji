@@ -53,12 +53,12 @@ class RechargePage extends GetView<RechargeLogic> {
             ),
           ],
         ),
-        body: _buildView(),
+        body: _buildView(controller),
       ),
     );
   }
 
-  Widget _buildView() {
+  Widget _buildView(RechargeLogic controller) {
     return Container(
       alignment: Alignment.centerLeft,
       width: double.infinity,

@@ -1,6 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/rebate/logic/logic.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_ratio_widget.dart';
@@ -31,19 +30,19 @@ class KKRebatePage extends StatelessWidget {
                   child: Stack(
                     children: [
                       SizedBox(
-                        height: 250,
+                        height: 240,
                         width: double.infinity,
                         child: Obx(() {
                           return Swiper(
                             autoplayDisableOnInteraction: false,
                             autoplay: true,
-                            itemCount: controller.bannerList.value.length,
+                            itemCount: controller.bannerList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              Map bannerInfo = controller.bannerList.value[index];
+                              Map bannerInfo = controller.bannerList[index];
                               if (bannerInfo.isNotEmpty) {
                                 return Image.network(
                                   bannerInfo["image"]??bannerInfo["h5_image"],
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fill,
                                 );
                               } else {
                                 return Container();

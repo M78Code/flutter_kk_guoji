@@ -44,9 +44,14 @@ class UserService extends GetxService {
   Future<void> fetchUserMoney() async {
     UserMoneyModel? userMoney = await AccountApi.getUserMoney();
     _userMoneyModel.value = userMoney;
+    Get.find<MainPageLogic>().update(["balance"]);
   }
 
   Future<void> fetchUserInfo() async {
+    if(SqliteService.to.getString(CacheKey.apiToken) == null){
+      return;
+    }
+
     UserInfoModel? userInfo = await AccountApi.getUserInfo();
     userInfoModel.value = userInfo;
     isBindEmail = null != userInfo?.email;

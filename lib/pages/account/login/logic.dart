@@ -137,9 +137,9 @@ class LoginLogic extends GetxController {
       ShowToast.showToast("登录成功");
       playSound();
       globalController.isLogin = true;
+      sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
-      sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
 
       if (savePassword.value) {
         sqliteService.setString(CacheKey.accountKey, accountText);

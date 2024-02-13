@@ -12,8 +12,8 @@ class MineLogic extends GetxController {
   final userService = Get.find<UserService>();
   // UserInfoModel? userInfoModel; //用户信息类
   RxString portraitUrl = "".obs;
-  bool isHiddenBalance =
-      SqliteService.to.getBool(CacheKey.balanceHidden) ?? true; //默认是隐藏
+  RxBool isHiddenBalance =
+  (SqliteService.to.getBool(CacheKey.balanceHidden) ?? true).obs; //默认是隐藏
   bool isSharePopViewVisible = false;
   KKPromotionModel? promotionModel;
 
@@ -44,12 +44,15 @@ class MineLogic extends GetxController {
   }
 
   toggleHiddenBalance() {
-    isHiddenBalance = !isHiddenBalance;
-    SqliteService.to.setBool(CacheKey.balanceHidden, isHiddenBalance);
+    isHiddenBalance.value = !isHiddenBalance.value;
+    SqliteService.to.setBool(CacheKey.balanceHidden, isHiddenBalance.value);
     update(['balance']);
   }
 
   fetchAgentTeam() async {
+    if(SqliteService.to.getString(CacheKey.apiToken) == null){
+      return;
+    }
     promotionModel = await AgentApi.getAgentTeam();
   }
 

@@ -305,7 +305,7 @@ class MinePage extends GetView<MineLogic> {
                         child: TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              controller.userService.logout();
+                              userController.logout();
                             },
                             child: const Text(
                               '确定',
@@ -366,7 +366,7 @@ class MinePage extends GetView<MineLogic> {
                   padding: EdgeInsets.all(10.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18.w),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [
                         Color(0xFF2E374C),
                         Color(0xFF181E2F),
@@ -548,136 +548,140 @@ class MyPurse extends GetView<MineLogic> {
 
   final userService = Get.find<UserService>();
 
-  // final controller = Get.find<MineLogic>();
+  final controller = Get.find<MineLogic>();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MineLogic>(
-        id: "balance",
-        builder: (logic) {
-          return Container(
-            height: 175,
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                  image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
-              borderRadius: BorderRadius.circular(6),
-              // border: Border.all(width: 1.0, color: Colors.white),
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        '我的钱包',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                      GestureDetector(
-                        child: Row(
-                          children: [
-                            const Text(
-                              '进入钱包',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
-                            ),
-                            Image.asset(
-                              Assets.imagesIconArrowsEnter,
-                              width: 16,
-                              height: 16,
-                            ),
-                          ],
+    // return GetBuilder<MineLogic>(
+    //     id: "balance",
+    //     builder: (logic) {
+    //       return ;
+    //     });
+
+      return Container(
+        height: 175,
+        decoration: BoxDecoration(
+          image: const DecorationImage(
+              image: AssetImage(Assets.imagesIconMypurseBg), fit: BoxFit.cover),
+          borderRadius: BorderRadius.circular(6),
+          // border: Border.all(width: 1.0, color: Colors.white),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    '我的钱包',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                  GestureDetector(
+                    child: Row(
+                      children: [
+                        const Text(
+                          '进入钱包',
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                         ),
-                        onTap: () {
-                          RouteUtil.pushToView(Routes.walletPage);
-                        },
-                      ),
-                    ],
+                        Image.asset(
+                          Assets.imagesIconArrowsEnter,
+                          width: 16,
+                          height: 16,
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      RouteUtil.pushToView(Routes.walletPage);
+                    },
                   ),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  margin: const EdgeInsets.only(left: 25, right: 25),
-                  child: Image.asset(Assets.imagesIconDottedLine, height: 1.5),
-                ),
-                const SizedBox(height: 5),
-                const Padding(
-                  padding: EdgeInsets.only(left: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        '钱包余额',
-                        style: TextStyle(
-                            color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300),
-                      ),
-                    ],
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              margin: const EdgeInsets.only(left: 25, right: 25),
+              child: Image.asset(Assets.imagesIconDottedLine, height: 1.5),
+            ),
+            const SizedBox(height: 5),
+            const Padding(
+              padding: EdgeInsets.only(left: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    '钱包余额',
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 12, fontWeight: FontWeight.w300),
                   ),
-                ),
-                const SizedBox(height: 0),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        controller.isHiddenBalance
-                            ? "****"
-                            : StringUtil.formatAmount("${userService.userMoneyModel?.money}"),
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            controller.toggleHiddenBalance();
-                          },
-                          icon: Image.asset(
-                            controller.isHiddenBalance
-                                ? Assets.imagesIconEyeClose
-                                : Assets.imagesIconEyeOpen,
-                            width: 30,
-                            height: 30,
-                            fit: BoxFit.cover,
-                          ))
-                    ],
-                  ),
-                ),
-                /*Obx(() {
-              return Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      controller.isHiddenBalance ? "****" : StringUtil.formatAmount(
+                ],
+              ),
+            ),
+            const SizedBox(height: 0),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 15),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         controller.isHiddenBalance
+            //             ? "****"
+            //             : StringUtil.formatAmount("${userService.userMoneyModel?.money}"),
+            //         style: const TextStyle(
+            //             color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
+            //       ),
+            //       IconButton(
+            //           onPressed: () {
+            //             controller.toggleHiddenBalance();
+            //           },
+            //           icon: Image.asset(
+            //             controller.isHiddenBalance
+            //                 ? Assets.imagesIconEyeClose
+            //                 : Assets.imagesIconEyeOpen,
+            //             width: 30,
+            //             height: 30,
+            //             fit: BoxFit.cover,
+            //           ))
+            //     ],
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Obx((){
+                    return Text(
+                      controller.isHiddenBalance.value ? "****" : StringUtil.formatAmount(
                           "${userService.userMoneyModel?.money}"),
                       style: const TextStyle(
                           color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
-                    ),
-                    IconButton(
+                    );
+                  }),
+                  Obx(() {
+                    return IconButton(
                         onPressed: () {
                           controller.toggleHiddenBalance();
                         },
                         icon: Image.asset(
-                          controller.isHiddenBalance
+                          controller.isHiddenBalance.value
                               ? Assets.imagesIconEyeClose
                               : Assets.imagesIconEyeOpen,
                           width: 30,
                           height: 30,
                           fit: BoxFit.cover,
-                        ))
-                  ],
-                ),
-              );
-            }),*/
-                const TopUpWithdrawBackwater(),
-              ],
+                        ));
+                  })
+                ],
+              ),
             ),
-          );
-        });
+            const TopUpWithdrawBackwater(),
+          ],
+        ),
+      );
   }
 }
 
