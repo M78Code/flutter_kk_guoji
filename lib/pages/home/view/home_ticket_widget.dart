@@ -14,6 +14,7 @@ import '../../games/games_logic.dart';
 import '../../main/logic/main_logic.dart';
 import '../logic/logic.dart';
 
+var itemKey = GlobalKey();
 class KKHomeTicketWidget extends GetView<HomeLogic> {
   KKHomeTicketWidget({super.key});
 
@@ -84,6 +85,7 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
             child: controller.margeGameList.isEmpty
                 ? Container()
                 : ScrollPageView(
+                key:itemKey,
               controller: ScrollPageController(),
               delay: const Duration(seconds: 5),
               checkedIndicatorColor: const Color(0xFF3D35C6),
@@ -108,7 +110,7 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
               bgInfo["ball_color"],
               item,
                   (data) => controller.gamesOnTap('JCP', data),
-              key: PageStorageKey<String>('page$index'),
+              // key: GlobalKey(),
             ),
             const SizedBox(
               height: 15,

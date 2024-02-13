@@ -261,33 +261,38 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   }
 
   Widget _buildVipView(){
-    return Container(
-      width: 35,
-      height: 16,
-      // padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
-      decoration: BoxDecoration(
-        color: const Color(0xff687083),
-        borderRadius: BorderRadius.circular(4),
-      ),
-
-      child: Row(
-        mainAxisSize: MainAxisSize.min, //尺寸以适应内容
-        mainAxisAlignment: MainAxisAlignment.center, //水平方向上居中对齐
-        crossAxisAlignment: CrossAxisAlignment.center, //垂直方向上居中对齐
-        children: [
-          Image.asset(
-            Assets.imagesIconVip,
-            width: 15,
-            height: 15,
-          ),
-          const SizedBox(width: 3),
-          const Text(
-            '0',
-            style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
-          )
-        ],
-      ),
+    return Image.asset(
+      "assets/images/vip/VIP${userService.userInfoModel.value?.level ?? 0}.png",
+      width: 40,
+      height: 25,
     );
+    // return Container(
+    //   width: 40,
+    //   height: 30,
+    //   // padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+    //   decoration: BoxDecoration(
+    //     color: const Color(0xff687083),
+    //     borderRadius: BorderRadius.circular(4),
+    //   ),
+    //
+    //   child: Row(
+    //     // mainAxisSize: MainAxisSize.min, //尺寸以适应内容
+    //     mainAxisAlignment: MainAxisAlignment.center, //水平方向上居中对齐
+    //     crossAxisAlignment: CrossAxisAlignment.center, //垂直方向上居中对齐
+    //     children: [
+    //       Image.asset(
+    //         "assets/images/vip/VIP${userService.userInfoModel.value?.level ?? 0}.png",
+    //         width: 40,
+    //         height: 24,
+    //       ),
+    //       // const SizedBox(width: 3),
+    //       // const Text(
+    //       //   '0',
+    //       //   style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
+    //       // )
+    //     ],
+    //   ),
+    // );
   }
 
 }

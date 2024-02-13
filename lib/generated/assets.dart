@@ -277,6 +277,21 @@ class Assets {
   static const String serviceServiceTelegrame = 'assets/images/service/service_Telegrame.png';
   static const String systemIconBack = 'assets/images/system/icon_back.png';
   static const String systemIconShare = 'assets/images/system/icon_share.png';
+  static const String vipVIP0 = 'assets/images/vip/VIP0.png';
+  static const String vipVIP1 = 'assets/images/vip/VIP1.png';
+  static const String vipVIP12 = 'assets/images/vip/VIP12.png';
+  static const String vipVIP13 = 'assets/images/vip/VIP13.png';
+  static const String vipVIP14 = 'assets/images/vip/VIP14.png';
+  static const String vipVIP15 = 'assets/images/vip/VIP15.png';
+  static const String vipVIP16 = 'assets/images/vip/VIP16.png';
+  static const String vipVIP2 = 'assets/images/vip/VIP2.png';
+  static const String vipVIP3 = 'assets/images/vip/VIP3.png';
+  static const String vipVIP4 = 'assets/images/vip/VIP4.png';
+  static const String vipVIP5 = 'assets/images/vip/VIP5.png';
+  static const String vipVIP6 = 'assets/images/vip/VIP6.png';
+  static const String vipVIP7 = 'assets/images/vip/VIP7.png';
+  static const String vipVIP8 = 'assets/images/vip/VIP8.png';
+  static const String vipVIP9 = 'assets/images/vip/VIP9.png';
   static const String withdrawIconCc = 'assets/images/withdraw/icon_cc.png';
 
 }

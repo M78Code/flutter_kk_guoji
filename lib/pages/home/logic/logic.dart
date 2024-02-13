@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/notice_widget.dart';
 import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/model/home/jcp_game_socket_model.dart';
@@ -213,8 +214,8 @@ class HomeLogic extends GetxController {
   }
 
   updateTicketInfo() {
-    ticketInfo.forEach((key, value) {
-      JcpGameSocketModel socketModel = JcpGameSocketModel.fromJson(value);
+    // ticketInfo.forEach((key, value) {
+      JcpGameSocketModel socketModel = JcpGameSocketModel.fromJson(ticketInfo.value.values.first);
       // var itemIndex = margeGameList.indexWhere(
       //   (element) => element.any((p0) => (p0.lotteryCode ?? '') == key),
       // );
@@ -251,7 +252,7 @@ class HomeLogic extends GetxController {
       //   }
       // });
       //  print('xiaoan 首页彩票列表Socket适配 ${JsonUtil.encodeObj(item)}');
-      Datum? item = gameList.firstWhereOrNull((p0) => (p0.lotteryCode ?? '') == key);
+      Datum? item = gameList.firstWhereOrNull((p0) => (p0.lotteryCode ?? '') == ticketInfo.value.keys.first);
       if (item != null) {
         item?.current?.status = 10;
         // DateTime fiveSecondsDuration = DateTime.now().add(Duration(seconds: 5));
@@ -265,10 +266,13 @@ class HomeLogic extends GetxController {
           item.current?.periodsNumber++;
           item.current?.autoCloseDate = num.parse(socketModel.autoCloseDate ?? '0');
           item.current?.autoDrawingDate = num.parse(socketModel.autoDrawingDate ?? '0');
-          print('xiaoan 首页彩票列表Socket适配 ${JsonUtil.encodeObj(item)}');
+          margeData();
+          itemKey.currentState?.setState(() {
+
+          });
         });
       }
-      gameList.refresh();
+      // gameList.refresh();
       // for (int i=0;i<gameList.length;i++) {
       //   if((gameList[i].lotteryCode ?? '') ==key){
       //     gameList[i].current?.status=1;
@@ -290,8 +294,8 @@ class HomeLogic extends GetxController {
       //       break;
       //   }
       // }
-    });
-    gameList.refresh();
+    // });
+    // gameList.refresh();
     // margeGameList.refresh();
   }
 
