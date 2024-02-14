@@ -377,6 +377,8 @@ class HomeLogic extends GetxController {
 
   margeData() {
     margeGameList.clear();
+    gameList.removeWhere((element) => element.play==null);
+    gameList.removeWhere((element) => imageMap[element.lotteryCode]==null);
     for (int i = 0; i < gameList.length; i += 2) {
       // 切片获取每两个对象
       List<Datum> pair = gameList.sublist(i, i + 2);

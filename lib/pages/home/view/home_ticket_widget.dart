@@ -87,7 +87,7 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
               controller: ScrollPageController(),
               delay: const Duration(seconds: 5),
               checkedIndicatorColor: const Color(0xFF3D35C6),
-              children: List.generate(4, (index) => _buildGroupItem(controller.margeGameList[index])),
+              children: List.generate(controller.margeGameList.length, (index) => _buildGroupItem(controller.margeGameList[index])),
             ),
           );
         })
