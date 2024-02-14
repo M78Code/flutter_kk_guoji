@@ -67,4 +67,9 @@ class HttpConfig {
 
   //获取洗码记录
   static const getRecordDetail = "/api/userRebate/getRecordDetail";
+
+  //退出游戏
+  static const gameLogOut = "/api/game/loginOut";
+  //COG退出游戏
+  static const logoutCOG = "/api/game/closeGame";
 }
