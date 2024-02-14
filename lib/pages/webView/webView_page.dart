@@ -28,9 +28,10 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
     }else {
       List args = Get.arguments;
       url = args.first;
-      gameId = args[1];
+      gameId = args[1].toString();
       gameType = args.last;
     }
+
 
     WebViewController controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
