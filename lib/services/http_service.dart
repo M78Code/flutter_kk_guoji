@@ -151,7 +151,9 @@ class RequestInterceptors extends Interceptor {
     print("code = $code");
     // int? statusCode = err.response?.statusCode;
     // int? code = err.response?.data["code"];
-    if (code == 401 || code == 1001) {
+    if(err.type == DioErrorType.connectTimeout) {
+      ShowToast.showToast("已断开网络连接,请检查您的网络连接是否正常!");
+    }if (code == 401 || code == 1001) {
       Get.find<UserService>().logout();
       Get.defaultDialog(
           titlePadding: EdgeInsets.zero,

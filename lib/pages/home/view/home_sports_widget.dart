@@ -33,10 +33,10 @@ class KKHomeSportsWidget extends GetView<HomeLogic> {
                     width: 24,
                     height: 21,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
-                  Text(
+                  const Text(
                     "体育赛事",
                     style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                   ),
@@ -48,7 +48,7 @@ class KKHomeSportsWidget extends GetView<HomeLogic> {
                   gameController.switchIndex(3);
                   gameController.menuOntap(3);
                 },
-                child: Row(
+                child: const Row(
                   children: [
                     Text(
                       "查看全部",
