@@ -359,7 +359,7 @@ class HomeLogic extends GetxController {
 
   void loginGame(Map gameMap) async {
     Map gameInfo = gameMap.values.first;
-    Map<String, dynamic> params = {"game_id": gameInfo["id"]};
+    Map<String, dynamic> params = {"game_id": gameInfo["id"],"platform":"h5"};
     var result = await HttpRequest.request(HttpConfig.loginGame, method: "post", params: params);
     if (result["code"] == 200) {
       RouteUtil.pushToView(Routes.webView, arguments: [result["data"]["url"], gameInfo["id"], gameMap["gamePlatformName"]]);

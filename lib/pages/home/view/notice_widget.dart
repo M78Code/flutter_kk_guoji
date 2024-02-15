@@ -40,7 +40,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                   height: 35,
                   child: IconButton(onPressed: (){
                     Get.back(result: isSelected);
-                  }, icon: const Icon(Icons.close, size: 20,)),
+                  }, icon: const Icon(Icons.close, size: 20, color: Colors.white,)),
                 )
               ],
             ),
