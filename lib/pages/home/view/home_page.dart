@@ -108,7 +108,7 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
                         child: Column(
                           children: [
                             Obx(
-                              () => KKHomeMarqueeWidget(controller.marqueeStr.value),
+                              () => KKHomeMarqueeWidget(controller.marqueeStr.value,controller.winGameList),
                             ),
                             //余额 存款 取款
                             KKHomeBalanceWidget(),

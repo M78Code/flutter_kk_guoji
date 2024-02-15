@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kkguoji/common/models/get_game_win_recent.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/notice_widget.dart';
 import 'package:kkguoji/routes/routes.dart';
@@ -131,6 +132,7 @@ class HomeLogic extends GetxController {
   final RxMap ticketInfo = {}.obs;
   final RxMap noticeInfo = {}.obs;
   final RxMap haveTimeMap = {}.obs;
+  var winGameList = <WinGame> [].obs;
 
   @override
   void onInit() async {
@@ -189,10 +191,11 @@ class HomeLogic extends GetxController {
       updateTicketInfo();
     });
     WebSocketUtil().listenNoticeMessage((msg) {
-      if (msg is Map) {
-        noticeInfo.value = msg;
-        print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(noticeInfo)}');
-      }
+      print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(msg)}');
+      GetGameWinRecent data= GetGameWinRecent.fromJson(msg);
+      winGameList.clear();
+      winGameList.addAll(data.data);
+      print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(winGameList)}');
     });
   }
 
