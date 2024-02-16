@@ -8,6 +8,7 @@ import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/widget/custome_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../services/config_service.dart';
+import '../../services/user_service.dart';
 import '../../utils/route_util.dart';
 
 
@@ -21,13 +22,17 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
 
   String? gameId;
   String? gameType;
+  bool? isGame;
+  final userService = Get.find<UserService>();
 
   @override
   Widget build(BuildContext context) {
     String url = "";
     if(Get.arguments is String) {
       url = Get.arguments;
+      isGame=false;
     }else {
+      isGame=true;
       List args = Get.arguments;
       url = args.first;
       gameId = args[1].toString();
@@ -88,14 +93,13 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    if(Get.arguments is List) {
+    if(isGame ?? false) {
       logoutGame();
       if(gameType == "COG"){
         logoutCOG();
       }
     }
+    super.dispose();
   }
 
   void logoutGame() async{
@@ -109,7 +113,10 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
   void logoutCOG() async{
     if(gameId != null) {
       var result = await HttpRequest.request(
-          HttpConfig.logoutCOG);
+          HttpConfig.logoutCOG, method: "post");
+      if(result['code']==200){
+        userService.fetchUserMoney();
+      }
     }
   }
 
