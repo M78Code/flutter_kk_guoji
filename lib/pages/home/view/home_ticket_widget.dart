@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_item.dart';
+import 'package:kkguoji/pages/home/view/home_ticket_item_new.dart';
 import 'package:scroll_page_view/pager/page_controller.dart';
 import 'package:scroll_page_view/pager/scroll_page_view.dart';
 
@@ -45,7 +46,10 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
                 ),
                 const Text(
                   "热门彩种",
-                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700),
                 ),
               ],
             ),
@@ -83,11 +87,23 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
             width: double.infinity,
             child: controller.margeGameList.isEmpty
                 ? Container()
-                : ScrollPageView(
+                :
+            // Swiper(
+            //         autoplayDisableOnInteraction: false,
+            //         autoplay: false,
+            //         autoplayDelay: 5000,
+            //         itemCount: controller.margeGameList.length,
+            //         itemBuilder: (BuildContext context, int index) {
+            //           return _buildGroupItem(
+            //               controller.margeGameList[index], index);
+            //         },
+            //         pagination: const SwiperPagination(),
+            //       ),
+            ScrollPageView(
               controller: ScrollPageController(),
               delay: const Duration(seconds: 5),
               checkedIndicatorColor: const Color(0xFF3D35C6),
-              children: List.generate(controller.margeGameList.length, (index) => _buildGroupItem(controller.margeGameList[index])),
+              children: List.generate(controller.margeGameList.length, (index) => _buildGroupItem(controller.margeGameList[index],index)),
             ),
           );
         })
@@ -95,7 +111,7 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
     );
   }
 
-  Widget _buildGroupItem(List<Datum> ticketGroup) {
+  Widget _buildGroupItem(List<Datum> ticketGroup, int groupIndex) {
     return Column(
       children: List.generate(ticketGroup.length, (index) {
         Map bgInfo = controller.imageMap[ticketGroup[index].lotteryCode];
@@ -107,9 +123,12 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
               bgInfo["logo_icon"],
               bgInfo["ball_color"],
               item,
-                  (data) => controller.gamesOnTap('JCP', data),
+              (data) => controller.gamesOnTap('JCP', data)
               // key: PageStorageKey<String>("$index"),
             ),
+            // HomeTicketItemNew( bgInfo["bg_icon"],
+            // bgInfo["logo_icon"],
+            // bgInfo["ball_color"],groupIndex,index,(data) => controller.gamesOnTap('JCP', data)),
             const SizedBox(
               height: 15,
             )

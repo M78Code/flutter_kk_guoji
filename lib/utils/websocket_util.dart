@@ -104,7 +104,7 @@ class WebSocketUtil {
           ));
     } else if (msgInfo["event"] == "get_big_win_recent") {
       if (_noticeMsgCallback != null) {
-        _noticeMsgCallback!(msgInfo["data"]);
+        _noticeMsgCallback!(msgInfo);
       }
     } else if (msgInfo["event"] == "get_system_notice") {
       if (_noticeMsgCallback != null) {
