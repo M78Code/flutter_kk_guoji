@@ -34,7 +34,7 @@ class KKRebatePage extends StatelessWidget {
                         height: 240,
                         width: double.infinity,
                         child: Obx(() {
-                          return Swiper(
+                          return controller.bannerList.isEmpty?Container(): Swiper(
                             autoplayDisableOnInteraction: false,
                             // autoplay: true,
                             itemCount: controller.bannerList.length,

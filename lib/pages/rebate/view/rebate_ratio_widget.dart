@@ -278,7 +278,7 @@ class KKRebateRatioWidget extends StatelessWidget {
               const SizedBox(
                 width: 3,
               ),
-              controller.isSelectedGames.value? Image.asset(Assets.rebateTicketSelected, width: 10, height: 10,):Image.asset(Assets.rebateTicketNormal, width: 10, height: 10,)
+              controller.isSelectedGames.value? Image.asset(Assets.rebateTicketSelected, width: 15, height: 15,):Image.asset(Assets.rebateTicketNormal, width: 15, height: 15,)
 
             ],
           )),
