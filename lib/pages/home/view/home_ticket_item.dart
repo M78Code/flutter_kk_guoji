@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/games_api.dart';
 import 'package:kkguoji/utils/json_util.dart';
@@ -25,11 +26,15 @@ class KKHomeTicketItem extends StatefulWidget {
   final Datum tickInfo;
   final List<Color> ballColors;
   final ParamSingleCallback<String> openGame;
+  late final ParamSingleCallback<bool> onUserInteracting;
 
-  const KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors,
-      this.tickInfo, this.openGame,
-      {Key? key})
-      : super(key: key);
+  KKHomeTicketItem({super.key,required this.bgImageStr, required this.logoImageStr,required  this.ballColors,
+    required  this.tickInfo,required  this.openGame,required this.onUserInteracting,});
+
+  // KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors,
+  //     this.tickInfo, this.openGame,this.onUserInteracting,
+  //     {Key? key})
+  //     : super(key: key);
 
   @override
   State<KKHomeTicketItem> createState() => _KKHomeTicketItemState();
@@ -49,6 +54,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   late Timer timer;
   bool isCountdownFinished = false;
   final eventBus = EventBus();
+  FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -90,6 +96,15 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
           }
         }
         setState(() {});
+      }
+    });
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        // 输入框获得焦点时，暂停轮播
+        widget.onUserInteracting(false);
+      } else {
+        // 输入框失去焦点时，恢复轮播
+        widget.onUserInteracting(true);
       }
     });
   }
@@ -357,21 +372,36 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
                             ),
                             Container(
                               width: 35,
-                              height: 24,
+                              height: 26,
                               decoration: BoxDecoration(
                                   color: const Color(0xFF30298B),
                                   borderRadius: BorderRadius.circular(4),
                                   border: Border.all(
                                       color: const Color(0xFF9FC1EA))),
-                              child: TextField(
-                                controller: _numberController,
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 12),
-                                cursorColor: Colors.white,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none, // 设置为 none 去掉下划线
+                              child: Center(
+                                child: TextField(
+                                  focusNode: _focusNode,
+                                  controller: _numberController,
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.number,
+                                  enableInteractiveSelection: false, //禁止复制粘贴
+                                  maxLines: 1,
+                                  inputFormatters: [LengthLimitingTextInputFormatter(8)],
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                  cursorColor: Colors.white,  //光标颜色
+                                  decoration: const InputDecoration(
+                                    // border: InputBorder.none, // 设置为 none 去掉下划线
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    disabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                  ),
                                 ),
                               ),
                             ),
@@ -468,7 +498,6 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
 
   Widget _buildDrawingBall(String number) {
     var split = number.split(',');
-    print("开奖号码： ${JsonUtil.encodeObj(split)}");
     bool isLhc = widget.tickInfo.lotteryCode == "XGLHC";
     if (isLhc) {
       return Row(
@@ -611,6 +640,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
     }
     return GestureDetector(
       onTap: () {
+        widget.onUserInteracting(true);
         if (!isSelect) {
           playInfo.isSelect = true;
           betList.add(JcpBetModel(
@@ -663,6 +693,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
     }
     return GestureDetector(
       onTap: () {
+        widget.onUserInteracting(true);
         if (!isSelect) {
           playInfo.cachePlayList?[0].isSelect = true;
           betList.add(JcpBetModel(
@@ -748,12 +779,14 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   }
 
   void incrementNumber() {
+    widget.onUserInteracting(true);
     int currentValue = int.tryParse(_numberController.text) ?? 0;
     int newValue = currentValue + 1;
     _numberController.text = newValue.toString();
   }
 
   void decrementNumber() {
+    widget.onUserInteracting(true);
     int currentValue = int.tryParse(_numberController.text) ?? 0;
     int newValue = currentValue - 1;
 
@@ -819,4 +852,11 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _numberController.dispose();
+    eventBus.dispose();
+    super.dispose();
+  }
 }

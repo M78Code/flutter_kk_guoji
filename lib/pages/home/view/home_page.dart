@@ -14,6 +14,7 @@ import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/home_top_widget.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:lottie/lottie.dart';
+import 'package:scroll_page_view/pager/scroll_page_view.dart';
 
 import '../../../generated/assets.dart';
 import '../../../routes/routes.dart';
@@ -46,6 +47,7 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
         },
         child: Stack(
           children: [
+            // ScrollPageView(controller: controller),
             Container(
               color: const Color(0xFF171A26),
               child: SingleChildScrollView(

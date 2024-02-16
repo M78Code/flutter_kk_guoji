@@ -68,7 +68,7 @@ class KKHomeMarqueeWidget extends GetView<HomeLogic> {
       ),
     );
   }
-  
+
   Widget _buildRichText(WinGame bean){
     return RichText(text: TextSpan(
       children:[
@@ -81,7 +81,6 @@ class KKHomeMarqueeWidget extends GetView<HomeLogic> {
         TextSpan(text: '元大奖。',style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.8), fontSize: 12)),
       ]
     ),
-
     );
   }
 }
