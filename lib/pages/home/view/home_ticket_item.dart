@@ -851,7 +851,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   @override
   void dispose() {
     _numberController.dispose();
-    eventBus.dispose();
+    // eventBus.dispose();
     super.dispose();
   }
 }

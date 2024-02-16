@@ -21,13 +21,16 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
 
   String? gameId;
   String? gameType;
+  bool? isGame;
 
   @override
   Widget build(BuildContext context) {
     String url = "";
     if(Get.arguments is String) {
       url = Get.arguments;
+      isGame=false;
     }else {
+      isGame=true;
       List args = Get.arguments;
       url = args.first;
       gameId = args[1].toString();
@@ -88,14 +91,13 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    if(Get.arguments is List) {
+    if(isGame ?? false) {
       logoutGame();
       if(gameType == "COG"){
         logoutCOG();
       }
     }
+    super.dispose();
   }
 
   void logoutGame() async{
@@ -109,7 +111,7 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
   void logoutCOG() async{
     if(gameId != null) {
       var result = await HttpRequest.request(
-          HttpConfig.logoutCOG);
+          HttpConfig.logoutCOG, method: "post");
     }
   }
 
