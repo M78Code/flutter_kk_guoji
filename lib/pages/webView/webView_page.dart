@@ -1,5 +1,7 @@
 
+import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/services/config.dart';
 import 'package:kkguoji/services/http_service.dart';
@@ -37,10 +39,50 @@ class _KKWebViewPageState extends State<KKWebViewPage> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..addJavaScriptChannel("flutter", onMessageReceived: (JavaScriptMessage jsMessage) {})
       ..loadRequest(Uri.parse(url));
+    final InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+      crossPlatform: InAppWebViewOptions(
+        useShouldOverrideUrlLoading: true,
+        mediaPlaybackRequiresUserGesture: false,
+        userAgent: FkUserAgent.userAgent!,
+      ),
+
+      /// android 支持HybridComposition
+      // android: AndroidInAppWebViewOptions(
+      //   useHybridComposition: true,
+      // ),
+      // ios: IOSInAppWebViewOptions(
+      //   allowsInlineMediaPlayback: true,
+      // ),
+    );
 
     return Scaffold(
       appBar: const KKCustomAppBar("博赢国际"),
-      body: WebViewWidget(controller: controller),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: Uri.tryParse(url)),
+        initialOptions: InAppWebViewGroupOptions(
+          android: AndroidInAppWebViewOptions(
+              allowContentAccess: true,
+              builtInZoomControls: true,
+              thirdPartyCookiesEnabled: true,
+              allowFileAccess: true,
+              supportMultipleWindows: true
+          ),
+          crossPlatform: InAppWebViewOptions(
+            verticalScrollBarEnabled: true,
+            supportZoom: false,
+            clearCache: true,
+            disableContextMenu: false,
+            cacheEnabled: true,
+            javaScriptEnabled: true,
+            javaScriptCanOpenWindowsAutomatically: true,
+            // disableHorizontalScroll: false,
+            // disableVerticalScroll: false,
+
+            // debuggingEnabled: true,
+            transparentBackground: true,
+          ),
+        ),
+      ),
     );
   }
 
