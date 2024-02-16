@@ -26,6 +26,7 @@ class KKHomeTicketItem extends StatefulWidget {
   final Datum tickInfo;
   final List<Color> ballColors;
   final ParamSingleCallback<String> openGame;
+  ///用户点击行为重置轮播剩余时间为5秒的回调
   late final ParamSingleCallback<bool> onUserInteracting;
 
   KKHomeTicketItem({super.key,required this.bgImageStr, required this.logoImageStr,required  this.ballColors,
@@ -70,16 +71,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
         widget.tickInfo.current!.status == 0) {
       if (endTime * 1000 >
           num.parse('${DateTime.now().millisecondsSinceEpoch}')) {
-        // Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-        //   startEndTime();
-        // });
         timer = Timer.periodic(const Duration(seconds: 1), _updateCountdown);
       }
     }
-    // serverTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000).toInt(), isUtc: true);
-    // timer = Timer.periodic(Duration(seconds: 1), _updateCountdown);
-    // String countdownText = isCountdownFinished ? '00:00:00' : _formatDuration(countdownDuration);
-    // timeList=countdownText.split(':');
     eventBus.stream.listen((event) {
       if (event == '$kChangeMainPageEvent${widget.tickInfo.lotteryCode}') {
         endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
@@ -452,6 +446,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
                               }
                               if (betList.isNotEmpty) {
                                 if (_numberController.text.isNotEmpty) {
+                                  widget.onUserInteracting(true);
                                   betGame();
                                 }
                               } else {
