@@ -27,7 +27,8 @@ class KKHomeTicketItem extends StatefulWidget {
   final List<Color> ballColors;
   final ParamSingleCallback<String> openGame;
   ///用户点击行为重置轮播剩余时间为5秒的回调
-  late final ParamSingleCallback<bool> onUserInteracting;
+  late ParamSingleCallback<bool> onUserInteracting;
+  late ParamSingleCallback<bool> showLoading;
 
   KKHomeTicketItem({super.key,required this.bgImageStr, required this.logoImageStr,required  this.ballColors,
     required  this.tickInfo,required  this.openGame,required this.onUserInteracting,});
@@ -478,6 +479,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   }
 
   betGame() async {
+    widget.showLoading(true);
     betList.forEach((element) {
       element.betAmount = _numberController.text;
     });
@@ -486,8 +488,10 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
     if (baseModel?.code == 200) {
       ShowToast.showToast('下注成功');
       userService.fetchUserMoney();
+      widget.showLoading(false);
     } else {
       ShowToast.showToast(baseModel!.message);
+      widget.showLoading(false);
     }
   }
 
