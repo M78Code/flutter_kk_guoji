@@ -22,7 +22,7 @@ class GamesApi {
   }
 
   static Future<GetGameModel?>? getGameByCompanyCode(String game_company_code, String gameCode) async {
-    var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode,method: "get" ,params: {"company_code":game_company_code});
+    var result = await HttpRequest.request(HttpConfig.getGameByCompanyCode,method: "get" ,params: {"company_code":game_company_code,"platform":"h5"});
     if (result["code"] == 200 && result["data"] != null) {
       if (gameCode.length > 0) {
         return GetGameModel.fromJson(result["data"][gameCode]);
@@ -33,7 +33,7 @@ class GamesApi {
   }
 
   static Future<GameLogin?>? gameLogin(String game_company_code, String game_id) async {
-    var result = await HttpRequest.request(HttpConfig.loginGame, method: "post",params: {"game_company_code":game_company_code, "game_id": game_id, "home_url":""});
+    var result = await HttpRequest.request(HttpConfig.loginGame, method: "post",params: {"game_company_code":game_company_code, "game_id": game_id, "home_url":"","platform":"h5"});
     if (result["code"] == 200 && result["data"] != null ) {
 
       return GameLogin.fromJson(result["data"]);
