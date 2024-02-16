@@ -1,5 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/rebate/logic/logic.dart';
 import 'package:kkguoji/pages/rebate/view/rebate_ratio_widget.dart';
@@ -35,7 +36,7 @@ class KKRebatePage extends StatelessWidget {
                         child: Obx(() {
                           return Swiper(
                             autoplayDisableOnInteraction: false,
-                            autoplay: true,
+                            // autoplay: true,
                             itemCount: controller.bannerList.length,
                             itemBuilder: (BuildContext context, int index) {
                               Map bannerInfo = controller.bannerList[index];
@@ -136,7 +137,20 @@ class KKRebatePage extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                Obx(() => widgets[controller.rebateType.value])
+                Obx((){
+                  return Container(
+                    constraints: const BoxConstraints(minHeight: 400),
+                    // color: Colors.red,
+                    child: widgets[controller.rebateType.value],);
+                })
+
+
+                // Obx(() =>  Container(
+                //   width: double.infinity,
+                //   height: double.infinity,
+                //   color: Colors.red,
+                //   // child: widgets[controller.rebateType.value],)
+                // ))
               ],
             ),
           ),
