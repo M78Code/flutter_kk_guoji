@@ -176,6 +176,7 @@ class HomeLogic extends GetxController {
     var bannerResult = await HttpRequest.request(HttpConfig.getBannerList,
         params: bannerParms, method: "get");
     if (bannerResult["code"] == 200) {
+      print('banner数据：${JsonUtil.encodeObj(bannerList)}');
       bannerList.value = bannerResult["data"];
       bannerItemCount.value = bannerList.length;
       swiperController.startAutoplay();
@@ -317,10 +318,11 @@ class HomeLogic extends GetxController {
     //     }
     //   }
     // });
-    //  print('xiaoan 首页彩票列表Socket适配 ${JsonUtil.encodeObj(item)}');
+
     Datum? item = gameList.firstWhereOrNull(
         (p0) => (p0.lotteryCode ?? '') == ticketInfo.value.keys.first);
     if (item != null) {
+      print('xiaoan 首页彩票列表Socket适配 ${JsonUtil.encodeObj(item)}');
       // item.current?.status = 10;
       // DateTime fiveSecondsDuration = DateTime.now().add(Duration(seconds: 5));
       // item?.current?.autoCloseDate = fiveSecondsDuration.millisecondsSinceEpoch ~/ 1000;
