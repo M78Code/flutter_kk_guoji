@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -88,10 +89,10 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
                                         RouteUtil.pushToView(Routes.webView, arguments: link);
                                       }
                                     },
-                                    child: Image.network(
-                                      bannerInfo["image"],
+                                    child: CachedNetworkImage(
+                                      imageUrl:bannerInfo["image"],
                                       fit: BoxFit.cover,
-                                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                      errorWidget: (context, url, error) {
                                         // Handle the error by displaying a default image or an error icon.
                                         return Image.asset(
                                           Assets.homeDefalutBanner, // Replace with your default image asset

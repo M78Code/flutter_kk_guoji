@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -90,8 +91,8 @@ class KKHomeGamesWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.w),
                         child: Stack(
                           children: [
-                            Image.network(
-                              controller.recommendGameListNew[index].image,
+                            CachedNetworkImage(
+                              imageUrl: controller.recommendGameListNew[index].image,
                               height: _calculateGridViewHeight(context),
                               fit: BoxFit.fill,
                             ),
