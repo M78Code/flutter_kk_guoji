@@ -26,9 +26,9 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     _controller = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       vsync: this,
     );
 
@@ -50,9 +50,11 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   @override
   void didPopNext() {
     ///从子页面回到首页时刷新金额
-    if(userService.isLogin){
-      userService.fetchUserMoney();
-    }
+    // if(userService.isLogin){
+    //   Future.delayed(const Duration(seconds: 4),(){
+    //     userService.fetchUserMoney();
+    //   });
+    // }
     super.didPopNext();
   }
 

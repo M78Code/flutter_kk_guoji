@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/games_api.dart';
 import 'package:kkguoji/utils/json_util.dart';
@@ -10,10 +11,14 @@ import '../../../common/models/jcp_bet_model.dart';
 import '../../../model/home/base_model.dart';
 import '../../../model/home/jcp_game_model.dart';
 import '../../../routes/routes.dart';
+import '../../../services/event_bus_util.dart';
+import '../../../services/event_service.dart';
 import '../../../services/user_service.dart';
 import '../../../utils/function.dart';
 import '../../../utils/route_util.dart';
 import '../../../widget/show_toast.dart';
+
+const kChangeMainPageEvent = 'kChangeMainPageEvent';
 
 class KKHomeTicketItem extends StatefulWidget {
   final String bgImageStr;
@@ -21,14 +26,24 @@ class KKHomeTicketItem extends StatefulWidget {
   final Datum tickInfo;
   final List<Color> ballColors;
   final ParamSingleCallback<String> openGame;
+  ///用户点击行为重置轮播剩余时间为5秒的回调
+  late ParamSingleCallback<bool> onUserInteracting;
+  late ParamSingleCallback<bool> showLoading;
 
-  const KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors, this.tickInfo, this.openGame, {Key? key}) : super(key: key);
+  KKHomeTicketItem({super.key,required this.bgImageStr, required this.logoImageStr,required  this.ballColors,
+    required  this.tickInfo,required  this.openGame,required this.onUserInteracting,});
+
+  // KKHomeTicketItem(this.bgImageStr, this.logoImageStr, this.ballColors,
+  //     this.tickInfo, this.openGame,this.onUserInteracting,
+  //     {Key? key})
+  //     : super(key: key);
 
   @override
   State<KKHomeTicketItem> createState() => _KKHomeTicketItemState();
 }
 
-class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepAliveClientMixin{
+class _KKHomeTicketItemState extends State<KKHomeTicketItem>
+    with AutomaticKeepAliveClientMixin {
   String periodsNumber = "";
   num endTime = 0;
   List<String> timeList = ["0", "0", "0", "0", "0", "0"];
@@ -40,6 +55,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   late Duration countdownDuration;
   late Timer timer;
   bool isCountdownFinished = false;
+  final eventBus = EventBus();
+  FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -51,25 +68,46 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
     _numberController = TextEditingController(text: getDefaultAmount());
     periodsNumber = widget.tickInfo.last!.periodsNumber.toString();
     endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
-    if(!getTicketState()){
-      if (endTime * 1000 > DateTime.now().millisecondsSinceEpoch) {
-        // Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-        //   startEndTime();
-        // });
+    if (widget.tickInfo.current!.status == 10 ||
+        widget.tickInfo.current!.status == 0) {
+      if (endTime * 1000 >
+          num.parse('${DateTime.now().millisecondsSinceEpoch}')) {
         timer = Timer.periodic(const Duration(seconds: 1), _updateCountdown);
       }
     }
-    // serverTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000).toInt(), isUtc: true);
-    // timer = Timer.periodic(Duration(seconds: 1), _updateCountdown);
-    // String countdownText = isCountdownFinished ? '00:00:00' : _formatDuration(countdownDuration);
-    // timeList=countdownText.split(':');
+    eventBus.stream.listen((event) {
+      if (event == '$kChangeMainPageEvent${widget.tickInfo.lotteryCode}') {
+        endTime = widget.tickInfo.current?.autoCloseDate ?? 0;
+        print('$kChangeMainPageEvent${widget.tickInfo.lotteryCode}更新了1');
+        if (widget.tickInfo.current!.status == 10 ||
+            widget.tickInfo.current!.status == 0) {
+          if (endTime * 1000 >
+              num.parse('${DateTime.now().millisecondsSinceEpoch}')) {
+            print('$kChangeMainPageEvent${widget.tickInfo.lotteryCode}更新了2');
+            timer =
+                Timer.periodic(const Duration(seconds: 1), _updateCountdown);
+          }else{
+            print('$kChangeMainPageEvent${widget.tickInfo.lotteryCode}更新了3');
+          }
+        }
+        setState(() {});
+      }
+    });
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        // 输入框获得焦点时，暂停轮播
+        widget.onUserInteracting(false);
+      } else {
+        // 输入框失去焦点时，恢复轮播
+        widget.onUserInteracting(true);
+      }
+    });
   }
 
   void updateCountdownDuration() {
     final now = DateTime.now();
-    countdownDuration = serverTime.isAfter(now)
-        ? serverTime.difference(now)
-        : Duration.zero;
+    countdownDuration =
+        serverTime.isAfter(now) ? serverTime.difference(now) : Duration.zero;
 
     if (countdownDuration == Duration.zero) {
       isCountdownFinished = true;
@@ -79,7 +117,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
 
   void _updateCountdown(Timer timer) {
     startEndTime();
-    if(mounted) {
+    if (mounted) {
       setState(() {});
     }
   }
@@ -110,8 +148,10 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                image: DecorationImage(image: AssetImage(widget.bgImageStr), fit: BoxFit.cover),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                image: DecorationImage(
+                    image: AssetImage(widget.bgImageStr), fit: BoxFit.cover),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -128,7 +168,10 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                     children: [
                       Text(
                         widget.tickInfo.lotteryName.toString(),
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 15),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15),
                       ),
                       const SizedBox(
                         height: 5,
@@ -138,15 +181,19 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                         children: [
                           const TextSpan(
                             text: "第",
-                            style: TextStyle(color: Colors.white, fontSize: 11.0),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 11.0),
                           ),
                           TextSpan(
-                            text: widget.tickInfo.last!.periodsNumber.toString(),
-                            style: const TextStyle(color: Color(0xFFF4B81C), fontSize: 11),
+                            text:
+                                widget.tickInfo.last!.periodsNumber.toString(),
+                            style: const TextStyle(
+                                color: Color(0xFFF4B81C), fontSize: 11),
                           ),
                           const TextSpan(
                             text: "期",
-                            style: TextStyle(color: Colors.white, fontSize: 11.0),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 11.0),
                           ),
                         ],
                       )),
@@ -161,10 +208,12 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                         child: Container(
                             color: const Color(0xFFFF563F),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 3.0, vertical: 2),
                               child: Text(
                                 getTicketStateString(),
-                                style: const TextStyle(color: Colors.white, fontSize: 11),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 11),
                               ),
                             )),
                       ),
@@ -185,7 +234,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                           _buildTimeItem(1),
                           const Text(
                             ":",
-                            style: TextStyle(color: Color(0xFF2F03AB), fontSize: 18),
+                            style: TextStyle(
+                                color: Color(0xFF2F03AB), fontSize: 18),
                           ),
                           _buildTimeItem(2),
                           const SizedBox(
@@ -194,7 +244,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                           _buildTimeItem(3),
                           const Text(
                             ":",
-                            style: TextStyle(color: Color(0xFF2F03AB), fontSize: 18),
+                            style: TextStyle(
+                                color: Color(0xFF2F03AB), fontSize: 18),
                           ),
                           _buildTimeItem(4),
                           const SizedBox(
@@ -220,7 +271,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                         child: const Center(
                           child: Text(
                             "进入\n游戏",
-                            style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12),
+                            style: TextStyle(
+                                color: Color(0xFFFFFFFF), fontSize: 12),
                           ),
                         ),
                       )),
@@ -243,7 +295,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                   ),
                 ),
               ),
-              child: _buildDrawingBall(widget.tickInfo.last?.drawingResult ?? ''),
+              child:
+                  _buildDrawingBall(widget.tickInfo.last?.drawingResult ?? ''),
             ),
             const SizedBox(
               height: 20,
@@ -252,11 +305,16 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: widget.tickInfo.play!.cachePlayList!.isNotEmpty
-                    ? List.generate(widget.tickInfo.play!.cachePlayList!.length, (index) {
-                        return _buildOddsItem(widget.tickInfo.play!.cachePlayList![index]);
+                    ? List.generate(widget.tickInfo.play!.cachePlayList!.length,
+                        (index) {
+                        return _buildOddsItem(
+                            widget.tickInfo.play!.cachePlayList![index]);
                       })
-                    : List.generate(widget.tickInfo.play!.lotteryPlayTypeList!.length, (index) {
-                        return _buildOddsItemNN(widget.tickInfo.play!.lotteryPlayTypeList![index]);
+                    : List.generate(
+                        widget.tickInfo.play!.lotteryPlayTypeList!.length,
+                        (index) {
+                        return _buildOddsItemNN(
+                            widget.tickInfo.play!.lotteryPlayTypeList![index]);
                       })),
             const SizedBox(
               height: 20,
@@ -294,7 +352,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                             SizedBox(
                               width: 30,
                               child: TextButton(
-                                style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+                                style: const ButtonStyle(
+                                    padding: MaterialStatePropertyAll(
+                                        EdgeInsets.zero)),
                                 onPressed: () {
                                   decrementNumber();
                                 },
@@ -307,16 +367,36 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                             ),
                             Container(
                               width: 35,
-                              height: 24,
-                              decoration: BoxDecoration(color: const Color(0xFF30298B), borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xFF9FC1EA))),
-                              child: TextField(
-                                controller: _numberController,
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                style: const TextStyle(color: Colors.white, fontSize: 12),
-                                cursorColor: Colors.white,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none, // 设置为 none 去掉下划线
+                              height: 26,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF30298B),
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                      color: const Color(0xFF9FC1EA))),
+                              child: Center(
+                                child: TextField(
+                                  focusNode: _focusNode,
+                                  controller: _numberController,
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.number,
+                                  enableInteractiveSelection: false, //禁止复制粘贴
+                                  maxLines: 1,
+                                  inputFormatters: [LengthLimitingTextInputFormatter(8)],
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                  cursorColor: Colors.white,  //光标颜色
+                                  decoration: const InputDecoration(
+                                    // border: InputBorder.none, // 设置为 none 去掉下划线
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    disabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+                                    contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                  ),
                                 ),
                               ),
                             ),
@@ -324,7 +404,10 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                               width: 30,
                               height: 31,
                               child: TextButton(
-                                style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero), alignment: Alignment.center),
+                                style: const ButtonStyle(
+                                    padding: MaterialStatePropertyAll(
+                                        EdgeInsets.zero),
+                                    alignment: Alignment.center),
                                 onPressed: () {
                                   incrementNumber();
                                 },
@@ -344,7 +427,17 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                       Container(
                         width: 90,
                         height: 31,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.5), gradient: widget.tickInfo.current!.status == 0 ? const LinearGradient(colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)]) : const LinearGradient(colors: [Color(0xFF686F83), Color(0xFF686F83)])),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.5),
+                            gradient: widget.tickInfo.current!.status == 0
+                                ? const LinearGradient(colors: [
+                                    Color(0xFF3D35C6),
+                                    Color(0xFF6C4FE0)
+                                  ])
+                                : const LinearGradient(colors: [
+                                    Color(0xFF686F83),
+                                    Color(0xFF686F83)
+                                  ])),
                         child: TextButton(
                           onPressed: () {
                             if (widget.tickInfo.current!.status == 0) {
@@ -354,6 +447,7 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                               }
                               if (betList.isNotEmpty) {
                                 if (_numberController.text.isNotEmpty) {
+                                  widget.onUserInteracting(true);
                                   betGame();
                                 }
                               } else {
@@ -361,7 +455,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
                               }
                             }
                           },
-                          style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+                          style: const ButtonStyle(
+                              padding:
+                                  MaterialStatePropertyAll(EdgeInsets.zero)),
                           child: const Text(
                             "快捷投注",
                             style: TextStyle(color: Colors.white, fontSize: 14),
@@ -383,21 +479,24 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   }
 
   betGame() async {
+    widget.showLoading(true);
     betList.forEach((element) {
       element.betAmount = _numberController.text;
     });
-    BaseModel? baseModel = await GamesApi.betGame(betList, widget.tickInfo.lotteryCode ?? '');
+    BaseModel? baseModel =
+        await GamesApi.betGame(betList, widget.tickInfo.lotteryCode ?? '');
     if (baseModel?.code == 200) {
       ShowToast.showToast('下注成功');
       userService.fetchUserMoney();
+      widget.showLoading(false);
     } else {
       ShowToast.showToast(baseModel!.message);
+      widget.showLoading(false);
     }
   }
 
   Widget _buildDrawingBall(String number) {
     var split = number.split(',');
-    print("开奖号码： ${JsonUtil.encodeObj(split)}");
     bool isLhc = widget.tickInfo.lotteryCode == "XGLHC";
     if (isLhc) {
       return Row(
@@ -512,18 +611,27 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
 
   Widget _buildOddsItem(CachePlayList playInfo) {
     String odds = playInfo.odds.toString();
-    odds = odds.contains('.') ? (odds.endsWith('0') ? odds.replaceAll(RegExp(r'\.0*$'), '') : odds) : odds;
+    odds = odds.contains('.')
+        ? (odds.endsWith('0') ? odds.replaceAll(RegExp(r'\.0*$'), '') : odds)
+        : odds;
     String maxOdds = playInfo.maxOdds.toString();
-    maxOdds = maxOdds.contains('.') ? (maxOdds.endsWith('0') ? maxOdds.replaceAll(RegExp(r'\.0*$'), '') : maxOdds) : maxOdds;
+    maxOdds = maxOdds.contains('.')
+        ? (maxOdds.endsWith('0')
+            ? maxOdds.replaceAll(RegExp(r'\.0*$'), '')
+            : maxOdds)
+        : maxOdds;
     bool isPCNN = widget.tickInfo.lotteryCode == "PCNN";
     bool isSelect = playInfo.isSelect ?? false;
     String content = "";
     // print('xiaoan 赔率选项：$isPCNN${widget.tickInfo.lotteryCode}');
     if (isPCNN) {
-      content = "${playInfo.playName}:${playInfo.odds.toString()}-${playInfo.maxOdds.toString()}";
+      content =
+          "${playInfo.playName}:${playInfo.odds.toString()}-${playInfo.maxOdds.toString()}";
       print('xiaoan 赔率选项：$content');
     } else {
-      if (widget.tickInfo.lotteryCode == 'JNDEB' || widget.tickInfo.lotteryCode == 'JNDSI' || widget.tickInfo.lotteryCode == 'JNDWU') {
+      if (widget.tickInfo.lotteryCode == 'JNDEB' ||
+          widget.tickInfo.lotteryCode == 'JNDSI' ||
+          widget.tickInfo.lotteryCode == 'JNDWU') {
         content = "${playInfo.playName}: $maxOdds";
       } else {
         content = "${playInfo.playName}: $odds";
@@ -531,12 +639,20 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
     }
     return GestureDetector(
       onTap: () {
+        widget.onUserInteracting(true);
         if (!isSelect) {
           playInfo.isSelect = true;
-          betList.add(JcpBetModel(lotteryCode: widget.tickInfo.lotteryCode ?? '', playTypeCode: playInfo.playTypeCode ?? '', sonPlayTypeCode: playInfo.sonPlayTypeCode ?? '', playCode: playInfo.playCode ?? '', betContent: playInfo.playCode ?? '', betAmount: _numberController.text));
+          betList.add(JcpBetModel(
+              lotteryCode: widget.tickInfo.lotteryCode ?? '',
+              playTypeCode: playInfo.playTypeCode ?? '',
+              sonPlayTypeCode: playInfo.sonPlayTypeCode ?? '',
+              playCode: playInfo.playCode ?? '',
+              betContent: playInfo.playCode ?? '',
+              betAmount: _numberController.text));
         } else {
           playInfo.isSelect = false;
-          betList.removeWhere((element) => element.playCode == playInfo.playCode);
+          betList
+              .removeWhere((element) => element.playCode == playInfo.playCode);
         }
         setState(() {});
         print('以选中选项：${JsonUtil.encodeObj(betList)}');
@@ -545,7 +661,14 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
         width: 67,
         height: 38,
         margin: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xFF2E374E), border: Border.all(width: 2, color: playInfo.isSelect ?? false ? Color(0xFF755EFF) : Color(0xFF2E374E))),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: const Color(0xFF2E374E),
+            border: Border.all(
+                width: 2,
+                color: playInfo.isSelect ?? false
+                    ? Color(0xFF755EFF)
+                    : Color(0xFF2E374E))),
         child: Center(
           child: Text(
             content,
@@ -561,18 +684,28 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
     bool isPCNN = widget.tickInfo.lotteryCode == "PCNN";
     String content = "";
     if (isPCNN) {
-      content = "${playInfo.cachePlayList?[0].playName}:${playInfo.cachePlayList?[0].odds?.toInt()}-${playInfo.cachePlayList?[0].maxOdds?.toInt()}";
+      content =
+          "${playInfo.cachePlayList?[0].playName}:${playInfo.cachePlayList?[0].odds?.toInt()}-${playInfo.cachePlayList?[0].maxOdds?.toInt()}";
     } else {
-      content = "${playInfo.cachePlayList?[0].playName}: ${playInfo.cachePlayList?[0].odds.toString()}";
+      content =
+          "${playInfo.cachePlayList?[0].playName}: ${playInfo.cachePlayList?[0].odds.toString()}";
     }
     return GestureDetector(
       onTap: () {
+        widget.onUserInteracting(true);
         if (!isSelect) {
           playInfo.cachePlayList?[0].isSelect = true;
-          betList.add(JcpBetModel(lotteryCode: widget.tickInfo.lotteryCode ?? '', playTypeCode: playInfo.cachePlayList?[0].playTypeCode ?? '', sonPlayTypeCode: playInfo.cachePlayList?[0].sonPlayTypeCode ?? '', playCode: playInfo.cachePlayList?[0].playCode ?? '', betContent: playInfo.cachePlayList?[0].playCode ?? '', betAmount: _numberController.text));
+          betList.add(JcpBetModel(
+              lotteryCode: widget.tickInfo.lotteryCode ?? '',
+              playTypeCode: playInfo.cachePlayList?[0].playTypeCode ?? '',
+              sonPlayTypeCode: playInfo.cachePlayList?[0].sonPlayTypeCode ?? '',
+              playCode: playInfo.cachePlayList?[0].playCode ?? '',
+              betContent: playInfo.cachePlayList?[0].playCode ?? '',
+              betAmount: _numberController.text));
         } else {
           playInfo.cachePlayList?[0].isSelect = false;
-          betList.removeWhere((element) => element.playCode == playInfo.cachePlayList?[0].playCode);
+          betList.removeWhere((element) =>
+              element.playCode == playInfo.cachePlayList?[0].playCode);
         }
         setState(() {});
         print('以选中选项：${JsonUtil.encodeObj(betList)}');
@@ -581,7 +714,14 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
         width: 70,
         height: 38,
         margin: const EdgeInsets.symmetric(horizontal: 6),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: const Color(0xFF2E374E), border: Border.all(width: 2, color: playInfo.cachePlayList?[0].isSelect ?? false ? Color(0xFF755EFF) : Color(0xFF2E374E))),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: const Color(0xFF2E374E),
+            border: Border.all(
+                width: 2,
+                color: playInfo.cachePlayList?[0].isSelect ?? false
+                    ? Color(0xFF755EFF)
+                    : Color(0xFF2E374E))),
         child: Center(
           child: Text(
             content,
@@ -596,13 +736,16 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
     DateTime now = DateTime.now();
     int time = now.millisecondsSinceEpoch;
     if (endTime * 1000 > time) {
-      DateTime haveTime = DateTime.fromMillisecondsSinceEpoch((endTime * 1000 - time).toInt(), isUtc: true);
+      DateTime haveTime = DateTime.fromMillisecondsSinceEpoch(
+          (endTime * 1000 - time).toInt(),
+          isUtc: true);
       String timestr = formatDate(haveTime, [HH, nn, ss]);
 
       timeList = timestr.split("");
       // widget.tickInfo.current!.status = 0;
     } else {
       widget.tickInfo.current!.status = 4;
+      timer.cancel();
     }
     // if (mounted) {
     //   setState(() {});
@@ -610,8 +753,12 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   }
 
   bool getTicketState() {
-    print('开奖状态：${widget.tickInfo.lotteryCode} ${widget.tickInfo.current!.status}');
-    if (widget.tickInfo.current!.status == 4 || widget.tickInfo.current!.status == 10|| widget.tickInfo.current!.status == 9|| widget.tickInfo.current!.status == 1) {
+    print(
+        '开奖状态：${widget.tickInfo.lotteryCode} ${widget.tickInfo.current!.status}');
+    if (widget.tickInfo.current!.status == 4 ||
+        widget.tickInfo.current!.status == 10 ||
+        widget.tickInfo.current!.status == 9 ||
+        widget.tickInfo.current!.status == 1) {
       return true;
     } else {
       return false;
@@ -619,7 +766,9 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   }
 
   String getTicketStateString() {
-    if (widget.tickInfo.current!.status == 4|| widget.tickInfo.current!.status == 9|| widget.tickInfo.current!.status == 1) {
+    if (widget.tickInfo.current!.status == 4 ||
+        widget.tickInfo.current!.status == 9 ||
+        widget.tickInfo.current!.status == 1) {
       return '已封盘';
     } else if (widget.tickInfo.current!.status == 10) {
       return '开奖中';
@@ -629,12 +778,14 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   }
 
   void incrementNumber() {
+    widget.onUserInteracting(true);
     int currentValue = int.tryParse(_numberController.text) ?? 0;
     int newValue = currentValue + 1;
     _numberController.text = newValue.toString();
   }
 
   void decrementNumber() {
+    widget.onUserInteracting(true);
     int currentValue = int.tryParse(_numberController.text) ?? 0;
     int newValue = currentValue - 1;
 
@@ -700,4 +851,11 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem> with AutomaticKeepA
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _numberController.dispose();
+    // eventBus.dispose();
+    super.dispose();
+  }
 }

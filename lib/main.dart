@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
               getPages: Routes.routePage,
               initialBinding: mainBinding(),
               home: const KKMainPage(),
-              navigatorObservers: [UserService.to.routeObserver],
+              navigatorObservers: [UserService.to.routeObserver,CustomRouteObserver()],
               builder: (context, child) {
                 return Stack(
                   children: [

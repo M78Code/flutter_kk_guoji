@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:kkguoji/pages/home/view/home_ticket_item.dart';
-import 'package:scroll_page_view/pager/page_controller.dart';
-import 'package:scroll_page_view/pager/scroll_page_view.dart';
+import 'package:kkguoji/pages/home/view/home_ticket_item_new.dart';
 
 import '../../../model/home/jcp_game_model.dart';
 import '../../../utils/json_util.dart';
+import '../../../widget/ScrollPageView/custom_srcoll_page_controller.dart';
+import '../../../widget/ScrollPageView/custom_srcoll_page_view.dart';
 import '../../games/games_logic.dart';
 import '../../main/logic/main_logic.dart';
 import '../logic/logic.dart';
@@ -20,6 +21,8 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
   final controller = Get.find<HomeLogic>();
   final mainController = Get.find<MainPageLogic>();
   final gameController = Get.find<GamesLogic>();
+  GlobalKey<ScrollPageViewState> scrollPageViewKey =
+      GlobalKey<ScrollPageViewState>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,10 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
                 ),
                 const Text(
                   "热门彩种",
-                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700),
                 ),
               ],
             ),
@@ -83,39 +89,56 @@ class KKHomeTicketWidget extends GetView<HomeLogic> {
             width: double.infinity,
             child: controller.margeGameList.isEmpty
                 ? Container()
-                : ScrollPageView(
-              controller: ScrollPageController(),
-              delay: const Duration(seconds: 5),
-              checkedIndicatorColor: const Color(0xFF3D35C6),
-              children: List.generate(4, (index) => _buildGroupItem(controller.margeGameList[index])),
-            ),
+                :
+                // Swiper(
+                //         autoplayDisableOnInteraction: false,
+                //         autoplay: false,
+                //         autoplayDelay: 5000,
+                //         itemCount: controller.margeGameList.length,
+                //         itemBuilder: (BuildContext context, int index) {
+                //           return _buildGroupItem(
+                //               controller.margeGameList[index], index);
+                //         },
+                //         pagination: const SwiperPagination(),
+                //       ),
+                ScrollPageView(
+                    // key: scrollPageViewKey,
+                    controller: ScrollPageController(),
+                    delay:  Duration(seconds: 5),
+                    checkedIndicatorColor: const Color(0xFF3D35C6),
+                    // children: List.generate(
+                    //     controller.margeGameList.length,
+                    //     (index) => _buildGroupItem(
+                    //         controller.margeGameList[index], index)),
+                  ),
           );
         })
       ],
     );
   }
 
-  Widget _buildGroupItem(List<Datum> ticketGroup) {
-    return Column(
-      children: List.generate(ticketGroup.length, (index) {
-        Map bgInfo = controller.imageMap[ticketGroup[index].lotteryCode];
-        Datum item = ticketGroup[index];
-        return Column(
-          children: [
-            KKHomeTicketItem(
-              bgInfo["bg_icon"],
-              bgInfo["logo_icon"],
-              bgInfo["ball_color"],
-              item,
-                  (data) => controller.gamesOnTap('JCP', data),
-              // key: PageStorageKey<String>("$index"),
-            ),
-            const SizedBox(
-              height: 15,
-            )
-          ],
-        );
-      }),
-    );
-  }
+  // Widget _buildGroupItem(List<Datum> ticketGroup, int groupIndex) {
+  //   return Column(
+  //     children: List.generate(ticketGroup.length, (index) {
+  //       Map bgInfo = controller.imageMap[ticketGroup[index].lotteryCode];
+  //       Datum item = ticketGroup[index];
+  //       return Column(
+  //         children: [
+  //           KKHomeTicketItem(
+  //             bgInfo["bg_icon"],
+  //             bgInfo["logo_icon"],
+  //             bgInfo["ball_color"],
+  //             item,
+  //             (data) => controller.gamesOnTap('JCP', data),
+  //             (data) => controller.delay.value=200,
+  //             // key: PageStorageKey<String>("$index"),
+  //           ),
+  //           const SizedBox(
+  //             height: 15,
+  //           )
+  //         ],
+  //       );
+  //     }),
+  //   );
+  // }
 }

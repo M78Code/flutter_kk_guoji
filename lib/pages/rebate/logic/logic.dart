@@ -30,6 +30,7 @@ class KKRebateLogic extends GetxController {
   final selectedDate = "".obs;
 
   final selectedRecordInfo = {}.obs;
+  final isSelectedGames = true.obs;
 
 
   Map allTicketMap= {};
