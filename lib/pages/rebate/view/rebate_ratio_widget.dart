@@ -67,7 +67,7 @@ class KKRebateRatioWidget extends StatelessWidget {
                       width: 70,
                       child: Center(
                         child: Text(
-                          "返回比例",
+                          "返水比例",
                           style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 12),
                         ),
                       )),
@@ -79,11 +79,11 @@ class KKRebateRatioWidget extends StatelessWidget {
                   ? MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
-                  child: ListView.builder(
+                  child: controller.recordRateList.isNotEmpty?ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       KKRecordRateModel model =
-                      controller.recordRateList.value[index];
+                      controller.recordRateList[index];
                       return Container(
                         height: 37,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -117,6 +117,8 @@ class KKRebateRatioWidget extends StatelessWidget {
                       );
                     },
                     itemCount: controller.recordRateList.value.length,
+                  ):Center(
+                    child: Image.asset("assets/images/rebate/nodata.png", width: 200, height: 223,),
                   ))
                   : MediaQuery.removePadding(
                   context: context,
