@@ -2,6 +2,7 @@
 import 'dart:ffi';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/pages/account/register/session.dart';
 import 'package:kkguoji/routes/routes.dart';
@@ -11,6 +12,7 @@ import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/sqlite_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
+import 'package:soundpool/soundpool.dart';
 
 import '../../../services/user_service.dart';
 import '../../../utils/websocket_util.dart';
@@ -286,6 +288,7 @@ class RegisterLogic extends GetxController {
           HttpConfig.registerByAccount, method: "post", params: params);
       if (result["code"] == 200) {
         ShowToast.showToast("注册成功");
+        playSound();
         sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
         globalController.isLogin = true;
         globalController.fetchUserMoney();
@@ -353,5 +356,14 @@ void loginWithTg()  async{
     }
   }
 
+
+  void playSound() async {
+    Soundpool  soundpool = Soundpool(streamType: StreamType.notification);
+    int soundId = await rootBundle.load("assets/audios/welcome.mp3").then((ByteData data){
+      return soundpool.load(data);
+    });
+    // soundpool.setVolume(volume: 1.0);
+    await soundpool.play(soundId);
+  }
 
 }

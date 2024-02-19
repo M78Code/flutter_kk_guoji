@@ -18,6 +18,7 @@ enum SocketStatus {
 }
 
 typedef ListenMessageCallback = void Function(Map msg);
+typedef ListenNoticeCallback = void Function(dynamic);
 
 class WebSocketUtil {
   factory WebSocketUtil() => _getInstance();
@@ -25,12 +26,11 @@ class WebSocketUtil {
   static WebSocketUtil get instance => _getInstance();
 
   static WebSocketUtil? _instance;
-  String connectUrl = "ws://18.167.51.38:9502/web";
 
   WebSocketChannel? _webSocket;
   SocketStatus _socketStatus = SocketStatus.socketStatusClosed;
   ListenMessageCallback? _ticketMsgCallback;
-  ListenMessageCallback? _noticeMsgCallback;
+  ListenNoticeCallback? _noticeMsgCallback;
 
   get socketStatus => _socketStatus;
   final sqliteService = Get.find<SqliteService>();
@@ -38,14 +38,14 @@ class WebSocketUtil {
   WebSocketUtil._initial() {}
 
   void connetSocket() {
-    // if (_webSocket != null) {
-    //   closeSocket();
-    // }
-
+    if (_webSocket != null) {
+      closeSocket();
+    }
+    String connectUrl = "ws://18.167.51.38:9502/web";
     if (sqliteService.getString(CacheKey.apiToken) != null) {
       connectUrl += "?token=Bearer%20${sqliteService.getString(CacheKey.apiToken)!}";
     }
-    _webSocket = IOWebSocketChannel.connect(connectUrl, pingInterval: const Duration(seconds: 5));
+    _webSocket = IOWebSocketChannel.connect(connectUrl, pingInterval: const Duration(seconds: 10));
     _socketStatus = SocketStatus.socketStatusConnected;
     _webSocket?.stream.listen((event) {
       _webSocketReciveMessage(event);
@@ -102,28 +102,27 @@ class WebSocketUtil {
               ),
             ),
           ));
-    }else if(msgInfo["event"] == "get_big_win_recent"){
+    } else if (msgInfo["event"] == "get_big_win_recent") {
       if (_noticeMsgCallback != null) {
-        Map value = msgInfo["data"] as Map;
-        _noticeMsgCallback!(value);
+        _noticeMsgCallback!(msgInfo["data"]);
       }
-    }else if(msgInfo["event"] == "get_system_notice"){
+    } else if (msgInfo["event"] == "get_system_notice") {
       if (_noticeMsgCallback != null) {
-        Map value = msgInfo["data"] as Map;
+        int value = msgInfo["data"];
         _noticeMsgCallback!(value);
       }
     }
   }
 
-
   void _sendMessage() {
-    List list = [{"event":"get_game_bet_recent"},
-      {"event":"get_hks_recent"},
-      {"event":"get_win_recent"},
-      // {"event":"get_big_win_recent"},
-      {"event":"get_user_message"},
-      {"event":"get_system_notice"},
-      {"event":"update_agent_rules"}
+    List list = [
+      {"event": "get_game_bet_recent"},
+      {"event": "get_hks_recent"},
+      {"event": "get_win_recent"},
+      {"event": "get_big_win_recent"},
+      {"event": "get_user_message"},
+      // {"event":"get_system_notice"},
+      // {"event":"update_agent_rules"},
     ];
     list.forEach((element) {
       _webSocket?.sink.add(jsonEncode(element));
@@ -144,7 +143,7 @@ class WebSocketUtil {
     _ticketMsgCallback = tickMsgCallback;
   }
 
-  void listenNoticeMessage(ListenMessageCallback tickMsgCallback) {
+  void listenNoticeMessage(ListenNoticeCallback tickMsgCallback) {
     _noticeMsgCallback = tickMsgCallback;
   }
 

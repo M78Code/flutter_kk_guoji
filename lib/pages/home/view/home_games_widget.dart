@@ -32,8 +32,8 @@ class KKHomeGamesWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/home/huojian.png', width: 24, height: 21,),
-                    SizedBox(width: 5,),
-                    Text("推荐游戏", style: TextStyle(color: Colors.white,
+                    const SizedBox(width: 5,),
+                    const Text("推荐游戏", style: TextStyle(color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w700),),
                   ],
@@ -66,7 +66,7 @@ class KKHomeGamesWidget extends StatelessWidget {
           child: Obx(() {
             return GridView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.recommendGameListNew.length,
                 padding: EdgeInsets.zero,
@@ -96,9 +96,9 @@ class KKHomeGamesWidget extends StatelessWidget {
                                   height: 70,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      begin: Alignment(-0.00, -1.00),
-                                      end: Alignment(0, 1),
-                                      colors: [Colors.black.withOpacity(0), Color(0xCC070B29)],
+                                      begin: const Alignment(-0.00, -1.00),
+                                      end: const Alignment(0, 1),
+                                      colors: [Colors.black.withOpacity(0), const Color(0xCC070B29)],
                                     ),
                                   ),
                                 )),
@@ -111,7 +111,7 @@ class KKHomeGamesWidget extends StatelessWidget {
                                   alignment: Alignment.center,
                                   child: Text(
                                     controller.recommendGameListNew[index].name,
-                                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontFamily: 'PingFang SC',
+                                    style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: 'PingFang SC',
                                       fontWeight: FontWeight.w500,),
                                   )),
                             )

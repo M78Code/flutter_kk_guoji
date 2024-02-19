@@ -7,7 +7,7 @@ import 'package:kkguoji/common/extension/ex_widget.dart';
 import 'package:kkguoji/pages/mine/wallet/wallet_record/widgets/withdraw_record_page.dart';
 
 import '../../../../generated/assets.dart';
-import 'widgets/charge_record_page.dart';
+import 'widgets/recharge_record_page.dart';
 import 'logic.dart';
 
 class WalletRecordPage extends StatelessWidget {
@@ -38,7 +38,7 @@ class WalletRecordPage extends StatelessWidget {
             },
             children: [
               WithdrawRecordPage(),
-              ChargeRecordPage()
+              RechargeRecordPage()
             ],
           ),
         )

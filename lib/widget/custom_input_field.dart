@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kkguoji/generated/assets.dart';
 
-typedef CustomInputCompletionCallBack = void Function(
-    String value, bool isSubmitted);
+typedef CustomInputCompletionCallBack = void Function(String value, bool isSubmitted);
 
 class CustomInputField extends StatefulWidget {
   final String? imageStr;
@@ -28,14 +27,14 @@ class CustomInputField extends StatefulWidget {
     this.valueChanged,
     this.onTap,
     this.rightWidget,
-        this.showStateIcon = false,
+    this.showStateIcon = false,
     this.text = "",
-        this.isOK,
+    this.isOK,
     this.isObscureText = false,
     this.keybordType = TextInputType.text,
     this.maxLength = 24,
     this.radius = 6,
-        this.inputCompletionCallBack,
+    this.inputCompletionCallBack,
     super.key,
   });
 
@@ -57,22 +56,21 @@ class _CustomInputFieldState extends State<CustomInputField> {
     inputText = widget.text;
     _textEditingController = TextEditingController.fromValue(TextEditingValue(text: inputText));
 
-      focusNode.addListener(() {
-        if ((focusNode.hasFocus)) {
-          borderColor = const Color(0xFF5D5FEF);
-        } else {
-          borderColor = const Color(0x1AFFFFFF);
-          if(widget.inputCompletionCallBack != null) {
-            widget.inputCompletionCallBack!(_textEditingController!.text, true);
-          }
+    focusNode.addListener(() {
+      if ((focusNode.hasFocus)) {
+        borderColor = const Color(0xFF5D5FEF);
+      } else {
+        borderColor = const Color(0x1AFFFFFF);
+        if (widget.inputCompletionCallBack != null) {
+          widget.inputCompletionCallBack!(_textEditingController!.text, true);
         }
-        if(widget.isOK != null) {
-          borderColor = widget.isOK! ? Colors.green:Colors.red;
-          // setState(() {});
-        }
-        setState(() {});
-      });
-
+      }
+      if (widget.isOK != null) {
+        borderColor = widget.isOK! ? Colors.green : Colors.red;
+        // setState(() {});
+      }
+      setState(() {});
+    });
   }
 
   @override
@@ -88,8 +86,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
           TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.length));
     }
     _textEditingController!.selection = cursorPos;
-    if(widget.isOK != null) {
-      borderColor = widget.isOK! ? Colors.green:Colors.red;
+    if (widget.isOK != null) {
+      borderColor = widget.isOK! ? Colors.green : Colors.red;
       // setState(() {});
     }
   }
@@ -98,12 +96,12 @@ class _CustomInputFieldState extends State<CustomInputField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0x3D6C7A8F),
-        borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
-        border: Border.all(
-            color: borderColor, width: 1.0,
-        )
-      ),
+          color: const Color(0x3D6C7A8F),
+          borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
+          border: Border.all(
+            color: borderColor,
+            width: 1.0,
+          )),
       height: 42,
       child: Row(
         children: [
@@ -139,9 +137,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
             ),
             cursorColor: Colors.white,
             focusNode: focusNode,
-            onEditingComplete: (){
-
-            },
+            onEditingComplete: () {},
             onChanged: (value) {
               if (widget.valueChanged != null) {
                 inputText = value;
@@ -153,11 +149,16 @@ class _CustomInputFieldState extends State<CustomInputField> {
           Container(
             child: widget.rightWidget != null ? widget.rightWidget! : null,
           ),
-          widget.showStateIcon?Container(
-            padding: const EdgeInsets.only(right: 10),
-            child: Image.asset(widget.isOK! ? Assets.accountFaildOk : Assets.accountFaildErr, width: 24, height: 24,),
-          ):Container()
-
+          widget.showStateIcon
+              ? Container(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Image.asset(
+                    widget.isOK! ? Assets.accountFaildOk : Assets.accountFaildErr,
+                    width: 24,
+                    height: 24,
+                  ),
+                )
+              : Container()
         ],
       ),
     );

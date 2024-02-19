@@ -94,6 +94,9 @@ class SwitchAvatarPage extends GetView<MyAccountLogic> {
             editController: controller.nickController,
             hintText: Get.arguments["nick"],
             hintTextSize: 14.sp,
+            callback: (value) {
+              controller.nickName = value;
+            },
           ).paddingSymmetric(horizontal: 30.h),
         )
       ],

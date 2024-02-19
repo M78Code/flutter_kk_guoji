@@ -9,9 +9,13 @@ import 'package:kkguoji/services/http_service.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/show_toast.dart';
+import 'package:soundpool/soundpool.dart';
 
 import '../../../services/sqlite_service.dart';
 import '../../../utils/websocket_util.dart';
+
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 class LoginLogic extends GetxController {
   final RxBool psdObscure = true.obs;
@@ -131,11 +135,12 @@ class LoginLogic extends GetxController {
     var result = await HttpRequest.request(HttpConfig.login, method: "post", params: params);
     if (result["code"] == 200) {
       ShowToast.showToast("登录成功");
+      playSound();
       globalController.isLogin = true;
+      sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
       globalController.fetchUserMoney();
       globalController.fetchUserInfo();
-      sqliteService.setString(CacheKey.apiToken, result["data"]["token"]);
-      WebSocketUtil().connetSocket();
+
       if (savePassword.value) {
         sqliteService.setString(CacheKey.accountKey, accountText);
         sqliteService.setString(CacheKey.passwordKey, passwordText);
@@ -143,11 +148,21 @@ class LoginLogic extends GetxController {
         sqliteService.remove(CacheKey.accountKey);
         sqliteService.remove(CacheKey.passwordKey);
       }
+      WebSocketUtil().connetSocket();
       Get.find<MainPageLogic>().currentIndex.value = 0;
       RouteUtil.pushToView(Routes.mainPage, offAll: true);
       // RouteUtil.popView();
     } else {
       ShowToast.showToast(result["message"]);
     }
+  }
+
+  void playSound() async {
+    Soundpool  soundpool = Soundpool(streamType: StreamType.notification);
+    int soundId = await rootBundle.load("assets/audios/welcome.mp3").then((ByteData data){
+      return soundpool.load(data);
+    });
+    // soundpool.setVolume(volume: 1.0);
+    await soundpool.play(soundId);
   }
 }

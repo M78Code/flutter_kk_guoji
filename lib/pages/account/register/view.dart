@@ -332,38 +332,38 @@ class _KKRegisterPageState extends State<KKRegisterPage> {
                                         :const Color(0xFFB2B3BD))),),
                               );
                             }),
-                            const SizedBox(height: 25,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 1.0,
-                                  width: 50,
-                                  color: Color.fromRGBO(255, 255, 255, 0.15),
-                                ),
-                                const SizedBox(width: 20,),
-                                const Text("快速登录", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14),),
-                                const SizedBox(width: 20,),
-                                Container(
-                                  height: 1.0,
-                                  width: 50,
-                                  color: const Color.fromRGBO(255, 255, 255, 0.15),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // TextButton(onPressed: (){}, child:Image.asset("assets/images/facebook.png", width: 40, height: 40,) ),
-                                // TextButton(onPressed: (){}, child:Image.asset("assets/images/whatapp.png", width: 40, height: 40,) ),
-                                // TextButton(onPressed: (){}, child:Image.asset("assets/images/gmail.png", width: 40, height: 40,) ),
-                                TextButton(onPressed: (){
-                                  controller.loginWithTg();
-                                }, child:Image.asset("assets/images/telegram.png", width: 40, height: 40,) )
-
-                              ],
-                            ),
+                            // const SizedBox(height: 25,),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //       height: 1.0,
+                            //       width: 50,
+                            //       color: Color.fromRGBO(255, 255, 255, 0.15),
+                            //     ),
+                            //     const SizedBox(width: 20,),
+                            //     const Text("快速登录", style: TextStyle(color: Color(0xFFB2B3BD), fontSize: 14),),
+                            //     const SizedBox(width: 20,),
+                            //     Container(
+                            //       height: 1.0,
+                            //       width: 50,
+                            //       color: const Color.fromRGBO(255, 255, 255, 0.15),
+                            //     ),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 5,),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     // TextButton(onPressed: (){}, child:Image.asset("assets/images/facebook.png", width: 40, height: 40,) ),
+                            //     // TextButton(onPressed: (){}, child:Image.asset("assets/images/whatapp.png", width: 40, height: 40,) ),
+                            //     // TextButton(onPressed: (){}, child:Image.asset("assets/images/gmail.png", width: 40, height: 40,) ),
+                            //     TextButton(onPressed: (){
+                            //       controller.loginWithTg();
+                            //     }, child:Image.asset("assets/images/telegram.png", width: 40, height: 40,) )
+                            //
+                            //   ],
+                            // ),
                             const SizedBox(height: 35,),
                             RichText(text: TextSpan(
                               children: [

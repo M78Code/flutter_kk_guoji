@@ -5,23 +5,11 @@ import 'package:get/get.dart';
 import '../logic.dart';
 
 class RechargeSection extends StatelessWidget {
-
-  List<List<String>> items = [['充值金额', '88,686.00'],['提现金额', '88,686.00'],['我的返水', '88,686.00'],['推广返佣', '88,686.00'],['会员礼金', '88,686.00'],['活动金额', '88,686.00']];
-
-  // 计算 childAspectRatio 的函数
-  double calculateChildAspectRatio(BuildContext context) {
-    double totalWidth = MediaQuery.of(context).size.width - 24.w;
-    double itemWidth = (totalWidth - 20.w) / 3;
-    double childAspectRatio = itemWidth / 64.w;
-    return childAspectRatio;
-  }
-
+  static var kHeight = 64.w;
+  List<List<String>> items = [['充值金额', '0.00'],['提现金额', '0.00'],['我的返水', '0.00'],['推广返佣', '0.00'],['会员礼金', '0.00'],['活动金额', '0.00']];
 
   @override
   Widget build(BuildContext context) {
-    // 获取计算得到的 childAspectRatio
-    double childAspectRatio = calculateChildAspectRatio(context);
-
     return GetBuilder<WalletFundDetailLogic>(
         id: 'userMoneyDetails',
         builder: (controller){
@@ -31,12 +19,12 @@ class RechargeSection extends StatelessWidget {
                 crossAxisCount: 3,
                 crossAxisSpacing: 10.w,
                 mainAxisSpacing: 10.w,
-                childAspectRatio: childAspectRatio, // 使用计算得到的值
+                childAspectRatio: 110/64,
 
               ),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: items.length,
+              itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
 
                 List moneys = [controller.userMoneyDetailsModel?.totalRecharge ?? "",
@@ -63,7 +51,7 @@ class RechargeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.w,
+      height: 64.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.w),
         color: Color(0x1F6A6CB2),

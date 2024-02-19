@@ -7,7 +7,7 @@ import 'package:kkguoji/pages/mine/wallet/wallet_record/logic.dart';
 
 class WalletRecordBalanceWidget extends StatelessWidget {
   WalletRecordBalanceWidget({Key? key}) : super(key: key);
-
+  static var kHeight = 64.w;
   @override
   Widget build(BuildContext context) {
     return _buildView();

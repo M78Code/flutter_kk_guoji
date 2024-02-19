@@ -31,6 +31,7 @@ class MyAccountLogic extends GetxController {
   String confirmPsdText = "";
   String verCodeText = "";
   String codeValue = "";
+  String nickName = "";
 
   final RxList<int> verCodeImageBytes = RxList<int>();
   final nickController = TextEditingController();
@@ -46,6 +47,7 @@ class MyAccountLogic extends GetxController {
     super.onInit();
     getDefaultAvatars();
     userInfoModel = userService.userInfoModel.value;
+    nickName = userInfoModel?.userNick ?? "";
     getVerCode();
     // final saveAvatar = SqliteUtil().getString(CacheKey.defaultAvatar);
     // if (null != saveAvatar) {
@@ -203,7 +205,7 @@ class MyAccountLogic extends GetxController {
   }
 
   void updateNickAndAvatar() async {
-    if (setModifyNice && nickController.text.isEmpty) {
+    if (setModifyNice && nickName.isEmpty) {
       ShowToast.showToast("请设置用户昵称");
       return;
     }
@@ -212,7 +214,7 @@ class MyAccountLogic extends GetxController {
       bool response;
       if (selectedImg.value.startsWith("http")) {
         response = await AccountApi.updateUserInfo({
-          "user_nick": Get.arguments["nick"],
+          "user_nick": nickName,
           "portrait": selectedImg.value,
         });
       } else {
@@ -220,7 +222,7 @@ class MyAccountLogic extends GetxController {
         final compressFile = await ImageUtil.compressAndSaveImage(file);
         final value = await AccountApi.uploadImage(compressFile.path);
         response = await AccountApi.updateUserInfo({
-          "user_nick": Get.arguments["nick"],
+          "user_nick": nickName,
           "portrait": value?.url,
         });
       }

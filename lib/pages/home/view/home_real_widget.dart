@@ -49,8 +49,6 @@ class KKHomeRealWidget extends StatelessWidget {
           },
             pagination: const SwiperPagination(), ),
         )
-
-
       ],
     );
   }
@@ -77,7 +75,7 @@ class KKHomeRealWidget extends StatelessWidget {
         ),
       ),
       onTap: (){
-        controller.openGame();
+        // controller.openGame();
       },
     );
   }

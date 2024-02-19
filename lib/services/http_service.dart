@@ -57,9 +57,10 @@ class HttpService extends GetxService {
       if (responseData is Uint8List) {
       } else if (responseData["code"] == 401) {
         ShowToast.showToast(responseData["message"]);
-        SqliteUtil().remove(CacheKey.apiToken);
-        Get.find<UserService>().isLogin = false;
-        Get.find<UserService>().userInfoModel.value = null;
+        Get.find<UserService>().logout();
+        // SqliteUtil().remove(CacheKey.apiToken);
+        // Get.find<UserService>().isLogin = false;
+        // Get.find<UserService>().userInfoModel.value = null;
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
         return Future.error("");
         // return Future.error(error);
@@ -70,6 +71,7 @@ class HttpService extends GetxService {
       String msg = errResponse?.data["message"] ?? "";
       final code = errResponse?.data["code"];
       if (code == 1001) {
+        Get.find<UserService>().logout();
         RouteUtil.pushToView(Routes.loginPage, offAll: true);
       } else {
         if (msg.isNotEmpty) {
@@ -149,9 +151,10 @@ class RequestInterceptors extends Interceptor {
     print("code = $code");
     // int? statusCode = err.response?.statusCode;
     // int? code = err.response?.data["code"];
-    if (code == 401 || code == 1001) {
-      SqliteUtil().remove(CacheKey.apiToken);
-      UserService.to.isLogin = false;
+    if(err.type == DioErrorType.connectTimeout) {
+      ShowToast.showToast("已断开网络连接,请检查您的网络连接是否正常!");
+    }if (code == 401 || code == 1001) {
+      Get.find<UserService>().logout();
       Get.defaultDialog(
           titlePadding: EdgeInsets.zero,
           title: "",

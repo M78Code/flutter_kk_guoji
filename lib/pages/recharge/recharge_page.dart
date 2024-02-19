@@ -43,7 +43,7 @@ class RechargePage extends GetView<RechargeLogic> {
             Padding(
               padding: EdgeInsets.only(right: 25.w),
               child: Text(
-                UserService.to.userMoneyModel?.money ?? "0.00",
+                StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,
@@ -53,12 +53,12 @@ class RechargePage extends GetView<RechargeLogic> {
             ),
           ],
         ),
-        body: _buildView(),
+        body: _buildView(controller),
       ),
     );
   }
 
-  Widget _buildView() {
+  Widget _buildView(RechargeLogic controller) {
     return Container(
       alignment: Alignment.centerLeft,
       width: double.infinity,

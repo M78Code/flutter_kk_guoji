@@ -32,6 +32,9 @@ class _KKGamesPageState extends State<KKGamesPage> with AutomaticKeepAliveClient
     if (UserService.to.isLogin) {
       UserService.to.fetchUserMoney();
     }
+    if (controller.groupGameDatas.isEmpty) {
+      controller.onRefresh();
+    }
   }
 }
 

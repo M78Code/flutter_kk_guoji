@@ -7,10 +7,12 @@ import '../../../../../generated/assets.dart';
 import '../../../../../routes/routes.dart';
 import '../../../../../services/user_service.dart';
 import '../../../../../utils/route_util.dart';
+import '../../../../../utils/string_util.dart';
 
 
 class MineWalletBalanceWidget extends StatelessWidget {
   MineWalletBalanceWidget({Key? key}) : super(key: key);
+  static var kHeight = 74.w;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
     return Container(
       height: 74.w,
       decoration: BoxDecoration(
-        color: Color(0xFF2E374C).withOpacity(0.5),
+        color: const Color(0xFF2E374C).withOpacity(0.5),
         borderRadius: BorderRadius.all(Radius.circular(12.w)),
       ),
       child:Row(
@@ -33,7 +35,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 '钱包余额',
                 style: TextStyle(
                     color: Colors.white,
@@ -48,7 +50,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
                     //   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12.sp, fontWeight: FontWeight.bold),
                     // ),
                     TextSpan(
-                      text: UserService.to.userMoneyModel?.money ?? "0.00",
+                      text: StringUtil.formatAmount(UserService.to.userMoneyModel?.money ?? "0.00"),
                       style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -56,7 +58,7 @@ class MineWalletBalanceWidget extends StatelessWidget {
               }),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

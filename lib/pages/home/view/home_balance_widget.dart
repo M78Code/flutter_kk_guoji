@@ -5,17 +5,19 @@ import 'package:kkguoji/routes/routes.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:kkguoji/utils/route_util.dart';
 
+import '../../../custom_route_observer.dart';
 import '../../../generated/assets.dart';
+import '../../../utils/string_util.dart';
 
-class KKHomeBalanceWidget extends StatefulWidget {
-  KKHomeBalanceWidget({super.key});
+class KKHomeBalanceWidget extends StatefulWidget{
+  const KKHomeBalanceWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _KKHomeBalanceState();
 
 }
 
-class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerProviderStateMixin{
+class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerProviderStateMixin,WidgetsBindingObserver,RouteAware{
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
   final userService = Get.find<UserService>();
@@ -24,6 +26,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     _controller = AnimationController(
       duration: Duration(seconds: 2),
       vsync: this,
@@ -33,6 +36,30 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
       begin: 0.0,
       end: 720.0,
     ).animate(_controller);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    userService.routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+    if(userService.isLogin){
+      userService.fetchUserMoney();
+    }
+  }
+
+  @override
+  void didPopNext() {
+    ///从子页面回到首页时刷新金额
+    if(userService.isLogin){
+      userService.fetchUserMoney();
+    }
+    super.didPopNext();
+  }
+
+  @override
+  void dispose() {
+    userService.routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override
@@ -64,7 +91,13 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                   onTap: (){
                     RouteUtil.pushToView(Routes.loginPage);
                   },
-                ):Text(userService.userInfoModel.value!.userNick!,style: const TextStyle(color: Colors.white, fontSize: 14),);
+                ):Row(
+                  children: [
+                    Text(userService.userInfoModel.value!.userNick!,style: const TextStyle(color: Colors.white, fontSize: 14),),
+                    SizedBox(width: 4,),
+                    _buildVipView(),
+                  ],
+                );
               }),
               const SizedBox(
                 height: 5,
@@ -75,7 +108,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                 children: [
                   Obx(
                         () => Text(
-                          UserService.to.userMoneyModel?.money ?? "0.00",
+                          StringUtil.formatAmount( UserService.to.userMoneyModel?.money ?? "0.00"),
                       style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900, fontFamily: "DINPro-Bold"),
                     ),
                   ),
@@ -111,30 +144,32 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
               )
             ],
           ),
-          const SizedBox(width: 30),
+          const SizedBox(width: 80),
           Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   GestureDetector(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          Assets.imagesHomeCunkuanIcon,
-                          width: 27,
-                          height: 25,
+                          Assets.homeChongzhi,
+                          width: 31,
+                          height: 26,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 6),
                         const Text(
                           "充值",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         )
                       ],
                     ),
                     onTap: () {
-                      RouteUtil.pushToView(Routes.recharge, arguments: true);
+                      RouteUtil.pushToView(Routes.signRecharge);
+                      // RouteUtil.pushToView(Routes.recharge, arguments: true);
                     },
                   ),
                   GestureDetector(
@@ -142,14 +177,14 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          Assets.imagesHomeQukuanIcon,
-                          width: 27,
-                          height: 25,
+                          Assets.homeTixian,
+                          width: 31,
+                          height: 27,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 5),
                         const Text(
                           "提现",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         )
                       ],
                     ),
@@ -178,15 +213,39 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          Assets.imagesHomeDanzhuIcon,
-                          width: 27,
-                          height: 25,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 29,
+                              height: 25,
+                              decoration: ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment(1.00, 0.00),
+                                  end: Alignment(-1, 0),
+                                  colors: [Color(0xFF3D35C6), Color(0xFF6C4FE0)],
+                                ),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              ),
+                            ),
+                            Image.asset(
+                              Assets.homeZhudanIcon,
+                              width: 15,
+                              height: 15,
+                              fit: BoxFit.contain,
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 10),
+                        // Image.asset(
+                        //   Assets.imagesHomeDanzhuIcon,
+                        //   width: 31,
+                        //   height: 26,
+                        //   fit: BoxFit.contain,
+                        // ),
+                        const SizedBox(height: 7),
                         const Text(
                           "注单",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         )
                       ],
                     ),
@@ -199,6 +258,41 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
         ],
       ),
     );
+  }
+
+  Widget _buildVipView(){
+    return Image.asset(
+      "assets/images/vip/VIP${userService.userInfoModel.value?.level ?? 0}.png",
+      width: 40,
+      height: 25,
+    );
+    // return Container(
+    //   width: 40,
+    //   height: 30,
+    //   // padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+    //   decoration: BoxDecoration(
+    //     color: const Color(0xff687083),
+    //     borderRadius: BorderRadius.circular(4),
+    //   ),
+    //
+    //   child: Row(
+    //     // mainAxisSize: MainAxisSize.min, //尺寸以适应内容
+    //     mainAxisAlignment: MainAxisAlignment.center, //水平方向上居中对齐
+    //     crossAxisAlignment: CrossAxisAlignment.center, //垂直方向上居中对齐
+    //     children: [
+    //       Image.asset(
+    //         "assets/images/vip/VIP${userService.userInfoModel.value?.level ?? 0}.png",
+    //         width: 40,
+    //         height: 24,
+    //       ),
+    //       // const SizedBox(width: 3),
+    //       // const Text(
+    //       //   '0',
+    //       //   style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
+    //       // )
+    //     ],
+    //   ),
+    // );
   }
 
 }

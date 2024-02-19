@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -121,7 +122,7 @@ class GamesItemsWidget extends GetView<GamesLogic> {
             Positioned.fill(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.w),
-                child: Image.network(
+                child: CachedNetworkImage(imageUrl:
                   gameModel.image ?? "", width: 78.w, height: 78.w, fit: BoxFit.cover,
                 ),
               ),
@@ -171,7 +172,7 @@ class GamesItemsWidget extends GetView<GamesLogic> {
         GameModel gameModel = games[index];
         return Stack(
           children: [
-            Positioned.fill(child: Image.network(gameModel.image ?? "", width: 78.w, height: 78.w)),
+            Positioned.fill(child: CachedNetworkImage(imageUrl:gameModel.image ?? "", width: 78.w, height: 78.w)),
             Positioned(
               left: 2,
               right: 2,

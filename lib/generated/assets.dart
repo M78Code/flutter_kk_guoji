@@ -10,6 +10,8 @@ class Assets {
   static const String activityActivity = 'assets/images/activity/activity.png';
   static const String activityActivityDetail = 'assets/images/activity/activity_detail.png';
   static const String activityImgComingSoon = 'assets/images/activity/img_coming_soon.png';
+  static const String assetsUsdt = 'assets/usdt.mp4';
+  static const String audiosWelcome = 'assets/audios/welcome.mp3';
   static const String fontsDINPro = 'assets/fonts/DIN-Pro.otf';
   static const String fontsDINProBold = 'assets/fonts/DINPro-Bold.otf';
   static const String fontsDINProMedium = 'assets/fonts/DINPro-Medium.otf';
@@ -49,8 +51,11 @@ class Assets {
   static const String homeBallGreen = 'assets/images/home/ball_green.png';
   static const String homeBallPurple = 'assets/images/home/ball_purple.png';
   static const String homeBallRed = 'assets/images/home/ball_red.png';
+  static const String homeChongzhi = 'assets/images/home/chongzhi.png';
+  static const String homeDefalutBanner = 'assets/images/home/defalut_banner.png';
   static const String homeFengcaione = 'assets/images/home/fengcaione.png';
   static const String homeFengcaitwo = 'assets/images/home/fengcaitwo.png';
+  static const String homeHg = 'assets/images/home/hg.json';
   static const String homeHomeBjlIcon = 'assets/images/home/home_bjl_icon.png';
   static const String homeHomeJnasscIcon = 'assets/images/home/home_jnassc_icon.png';
   static const String homeHomeJndebIcon = 'assets/images/home/home_jndeb_icon.png';
@@ -69,6 +74,18 @@ class Assets {
   static const String homeHomeZbbjlIcon = 'assets/images/home/home_zbbjl_icon.png';
   static const String homeHotcaizhong = 'assets/images/home/hotcaizhong.png';
   static const String homeHuojian = 'assets/images/home/huojian.png';
+  static const String homeImageJsFour = 'assets/images/home/image_js_four.png';
+  static const String homeImageJsTitleThree = 'assets/images/home/image_js_title_three.png';
+  static const String homeImageTeachFive = 'assets/images/home/image_teach_five.png';
+  static const String homeImageTeachOne = 'assets/images/home/image_teach_one.png';
+  static const String homeImageTeachSeven = 'assets/images/home/image_teach_seven.png';
+  static const String homeImageTeachSix = 'assets/images/home/image_teach_six.png';
+  static const String homeImageTeachThree = 'assets/images/home/image_teach_three.png';
+  static const String homeImageTeachTitleFour = 'assets/images/home/image_teach_title_four.png';
+  static const String homeImageTeachTitleOne = 'assets/images/home/image_teach_title_one.png';
+  static const String homeImageTeachTitleTwo = 'assets/images/home/image_teach_title_two.png';
+  static const String homeImageTeachTwo = 'assets/images/home/image_teach_two.png';
+  static const String homeLoadingImgTg = 'assets/images/home/loading_img_tg.json';
   static const String homeServeFour = 'assets/images/home/serve_four.png';
   static const String homeServeFsc = 'assets/images/home/serve_fsc.png';
   static const String homeServeMga = 'assets/images/home/serve_mga.png';
@@ -77,6 +94,11 @@ class Assets {
   static const String homeServeThree = 'assets/images/home/serve_three.png';
   static const String homeServeTwo = 'assets/images/home/serve_two.png';
   static const String homeSportsaishi = 'assets/images/home/sportsaishi.png';
+  static const String homeTixian = 'assets/images/home/tixian.png';
+  static const String homeTutorialImage = 'assets/images/home/tutorial_image.png';
+  static const String homeTutorialVideo = 'assets/images/home/tutorial_video.png';
+  static const String homeUjc = 'assets/images/home/ujc.gif';
+  static const String homeZhudanIcon = 'assets/images/home/zhudan_icon.png';
   static const String htmlPrivacy = 'assets/html/privacy.html';
   static const String htmlRegisterProtocol = 'assets/html/register_protocol.html';
   static const String imagesAccountIcon = 'assets/images/account_icon.png';
@@ -190,6 +212,7 @@ class Assets {
   static const String imagesTipStar = 'assets/images/tip_star.png';
   static const String imagesVerCode = 'assets/images/ver_code.png';
   static const String imagesWhatapp = 'assets/images/whatapp.png';
+  static const String kkguojiAssetsUsdt = 'assets/usdt.mp4';
   static const String mineBetListDown = 'assets/images/mine/bet_list_down.png';
   static const String mineBetListLose = 'assets/images/mine/bet_list_lose.png';
   static const String mineBetListPreDraw = 'assets/images/mine/bet_list_pre_draw.png';
@@ -245,6 +268,8 @@ class Assets {
   static const String rebateRebateShixunSelected = 'assets/images/rebate/rebate_shixun_selected.png';
   static const String rebateRebateTiyuNormal = 'assets/images/rebate/rebate_tiyu_normal.png';
   static const String rebateRebateTiyuSelected = 'assets/images/rebate/rebate_tiyu_selected.png';
+  static const String rebateTicketNormal = 'assets/images/rebate/ticket_normal.png';
+  static const String rebateTicketSelected = 'assets/images/rebate/ticket_selected.png';
   static const String rechargeCopyBtn = 'assets/images/recharge/copy_btn.png';
   static const String rechargeIconTip = 'assets/images/recharge/icon_tip.png';
   static const String rechargeImgRechargeDefault = 'assets/images/recharge/img_recharge_default.png';
@@ -252,6 +277,21 @@ class Assets {
   static const String serviceServiceTelegrame = 'assets/images/service/service_Telegrame.png';
   static const String systemIconBack = 'assets/images/system/icon_back.png';
   static const String systemIconShare = 'assets/images/system/icon_share.png';
+  static const String vipVIP0 = 'assets/images/vip/VIP0.png';
+  static const String vipVIP1 = 'assets/images/vip/VIP1.png';
+  static const String vipVIP12 = 'assets/images/vip/VIP12.png';
+  static const String vipVIP13 = 'assets/images/vip/VIP13.png';
+  static const String vipVIP14 = 'assets/images/vip/VIP14.png';
+  static const String vipVIP15 = 'assets/images/vip/VIP15.png';
+  static const String vipVIP16 = 'assets/images/vip/VIP16.png';
+  static const String vipVIP2 = 'assets/images/vip/VIP2.png';
+  static const String vipVIP3 = 'assets/images/vip/VIP3.png';
+  static const String vipVIP4 = 'assets/images/vip/VIP4.png';
+  static const String vipVIP5 = 'assets/images/vip/VIP5.png';
+  static const String vipVIP6 = 'assets/images/vip/VIP6.png';
+  static const String vipVIP7 = 'assets/images/vip/VIP7.png';
+  static const String vipVIP8 = 'assets/images/vip/VIP8.png';
+  static const String vipVIP9 = 'assets/images/vip/VIP9.png';
   static const String withdrawIconCc = 'assets/images/withdraw/icon_cc.png';
 
 }

@@ -29,7 +29,7 @@ class WalletFundDetailLogic extends GetxController {
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    initData();
+    _initData();
    }
 
   @override
@@ -38,13 +38,14 @@ class WalletFundDetailLogic extends GetxController {
     super.onClose();
   }
 
-  initData() {
-    fetchUserMoneyDetails();
-    getUserMoneyDetailsSearch(true);
+  _initData() async {
+    await _fetchUserMoneyDetails();
+    await _getUserMoneyDetailsSearch(true);
   }
   onTapSwitchBar(bool isWithdrawCheck) {
     this.isWithdrawCheck = isWithdrawCheck ;
   }
+
   // 资产明细日期切换
   onTapSwitchDate(String dateType) async {
     this.dateType = dateType;
@@ -62,7 +63,7 @@ class WalletFundDetailLogic extends GetxController {
     await onRefresh();
   }
 
-  fetchUserMoneyDetails() async {
+  _fetchUserMoneyDetails() async {
     UserMoneyDetailsModel? userMoneyDetailsModel = await AccountApi.getUserMoneyDetails();
     if (userMoneyDetailsModel != null) {
       this.userMoneyDetailsModel = userMoneyDetailsModel;
@@ -70,7 +71,7 @@ class WalletFundDetailLogic extends GetxController {
     }
   }
 
-  Future<void> getUserMoneyDetailsSearch(bool isrefresh) async {
+  Future<void> _getUserMoneyDetailsSearch(bool isrefresh) async {
     if (isrefresh) {
       page = 1;
     }
@@ -101,25 +102,18 @@ class WalletFundDetailLogic extends GetxController {
   }
 
   Future<void> onRefresh() async{
-    // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
-    await initData();
-    // if failed,use refreshFailed()
-    _refreshController.finishRefresh();
-    _refreshController.resetFooter();
-    if (this.isNoMoreData) {
-      _refreshController.finishLoad(IndicatorResult.noMore);
-    }
-    else {
-      _refreshController.finishLoad();
-    }
+    await _initData();
+    _updateRefresh();
   }
 
   void onLoading() async{
-    // monitor network fetch
-    await getUserMoneyDetailsSearch(false);
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    await _getUserMoneyDetailsSearch(false);
+    _updateRefresh();
+  }
+
+  _updateRefresh() {
     _refreshController.finishRefresh();
+    _refreshController.resetFooter();
     if (this.isNoMoreData) {
       _refreshController.finishLoad(IndicatorResult.noMore);
     }
