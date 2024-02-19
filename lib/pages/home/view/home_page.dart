@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:kkguoji/pages/home/view/home_ticket_widget.dart';
 import 'package:kkguoji/pages/home/view/home_top_widget.dart';
 import 'package:kkguoji/services/user_service.dart';
 import 'package:lottie/lottie.dart';
+import 'package:scroll_page_view/pager/scroll_page_view.dart';
 
 import '../../../generated/assets.dart';
 import '../../../routes/routes.dart';
@@ -28,12 +30,18 @@ class KKHomePage extends StatefulWidget {
 }
 
 /// Page - State with AutomaticKeepAliveClientMixin
-class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMixin {
+class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMixin,RouteAware {
   final controller = Get.find<HomeLogic>();
   final globalController = Get.find<UserService>();
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void didPopNext() {
+    // TODO: implement didPopNext
+    super.didPopNext();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +54,7 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
         },
         child: Stack(
           children: [
+            // ScrollPageView(controller: controller),
             Container(
               color: const Color(0xFF171A26),
               child: SingleChildScrollView(
@@ -73,24 +82,24 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
                                   // } else {
                                   //   return Container();
                                   // }
-                                  return Image.network(
-                                    bannerInfo["image"],
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                      // Handle the error by displaying a default image or an error icon.
-                                      return GestureDetector(
-                                        child: Image.asset(
+                                  return GestureDetector(
+                                    onTap: (){
+                                      String link = bannerInfo["link"].toString();
+                                      if(link.isNotEmpty) {
+                                        RouteUtil.pushToView(Routes.webView, arguments: link);
+                                      }
+                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl:bannerInfo["image"],
+                                      fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) {
+                                        // Handle the error by displaying a default image or an error icon.
+                                        return Image.asset(
                                           Assets.homeDefalutBanner, // Replace with your default image asset
                                           fit: BoxFit.cover,
-                                        ),
-                                        onTap: (){
-                                          String link = bannerInfo["link"].toString();
-                                          if(link.isNotEmpty) {
-                                            RouteUtil.pushToView(Routes.webView, arguments: link);
-                                          }
-                                        },
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   );
                                 },
                                 pagination: controller.bannerItemCount.value==0?null:const SwiperPagination(
@@ -108,7 +117,7 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
                         child: Column(
                           children: [
                             Obx(
-                              () => KKHomeMarqueeWidget(controller.marqueeStr.value),
+                              () => KKHomeMarqueeWidget(controller.marqueeStr.value,controller.winGameList),
                             ),
                             //余额 存款 取款
                             KKHomeBalanceWidget(),

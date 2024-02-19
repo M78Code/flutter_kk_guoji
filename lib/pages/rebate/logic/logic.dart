@@ -30,6 +30,7 @@ class KKRebateLogic extends GetxController {
   final selectedDate = "".obs;
 
   final selectedRecordInfo = {}.obs;
+  final isSelectedGames = true.obs;
 
 
   Map allTicketMap= {};
@@ -156,6 +157,8 @@ class KKRebateLogic extends GetxController {
             modelList.add(KKRecordRateModel.fromJson(element));
           });
           recordRateList.value = modelList;
+        }else {
+          recordRateList.value = [];
         }
       }else {
         if(list.isNotEmpty) {
@@ -169,6 +172,8 @@ class KKRebateLogic extends GetxController {
           List keys = ticketMap.keys.toList();
           keys.insert(0, "全部");
           allTicketKeyList.value = keys;
+        }else {
+          recordRateList.value = [];
         }
       }
     }

@@ -66,7 +66,7 @@ class GamesLogic extends GetxController {
   gamesOnTapFormApi(GameModel gameModel) async {
     GameLogin? gameLogin = await GamesApi.gameLogin(gameModel.gameCompanyCode ?? "", (gameModel.id ?? "").toString());
     if (gameLogin?.url != null) {
-      RouteUtil.pushToView(Routes.webView, arguments: gameLogin?.url ?? "");
+      RouteUtil.pushToView(Routes.webView, arguments: [gameLogin?.url ?? "", gameModel.id, gameModel.gamePlatformName]);
     }
   }
 

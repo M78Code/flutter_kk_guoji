@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:kkguoji/utils/route_util.dart';
 import 'package:kkguoji/widget/inkwell_view.dart';
 import 'package:kkguoji/widget/show_toast.dart';
 
+import '../../games/games_logic.dart';
 import '../logic/logic.dart';
 
 class KKHomeGamesWidget extends StatelessWidget {
@@ -15,6 +17,7 @@ class KKHomeGamesWidget extends StatelessWidget {
   final controller = Get.find<HomeLogic>();
   final mainController = Get.find<MainPageLogic>();
   final _itemRatio = 584 / 441;
+  final gameController = Get.find<GamesLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,11 @@ class KKHomeGamesWidget extends StatelessWidget {
               ],
             ),
             InkWellView(
-              onPressed: () => mainController.clickTabBarItem(1),
+              onPressed: () {
+                mainController.clickTabBarItem(1);
+                gameController.switchIndex(0);
+                gameController.menuOntap(0);
+              },
               child: Row(
                 children: [
                   Text(
@@ -84,8 +91,8 @@ class KKHomeGamesWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.w),
                         child: Stack(
                           children: [
-                            Image.network(
-                              controller.recommendGameListNew[index].image,
+                            CachedNetworkImage(
+                              imageUrl: controller.recommendGameListNew[index].image,
                               height: _calculateGridViewHeight(context),
                               fit: BoxFit.fill,
                             ),

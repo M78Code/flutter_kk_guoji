@@ -63,7 +63,6 @@ class TGWebview extends StatelessWidget {
             transparentBackground: true,
           ),
         ),
-
         onWebViewCreated: (InAppWebViewController controller) {
           _webViewController = controller;
           _webViewController.addJavaScriptHandler(handlerName: "handlerTgAuthCallback", callback: (dynamic){

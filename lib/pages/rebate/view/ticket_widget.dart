@@ -17,11 +17,11 @@ class KKTicketWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xFF222633),
-
+        // color: Colors.red
       ),
       child: Column(
         children: [
-          Container(
+           SizedBox(
             height: 40,
             width: double.infinity,
             child:
@@ -63,14 +63,13 @@ class KKTicketWidget extends StatelessWidget {
               },
             )
           ),
-         const SizedBox(height: 10,),
-          Obx(() {
-            return Expanded(child: MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
+          const SizedBox(height: 10,),
+          Expanded(child: MediaQuery.removePadding(context: context, removeTop: true, child: ListView.builder(
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    if(this.clickTicketType != null) {
-                      this.clickTicketType!(controller.allTicketKeyList.value[index]);
+                    if(clickTicketType != null) {
+                      clickTicketType!(controller.allTicketKeyList.value[index]);
                     }
                   },
                   behavior: HitTestBehavior.opaque,
@@ -91,9 +90,9 @@ class KKTicketWidget extends StatelessWidget {
               },
               itemCount: controller.allTicketKeyList.length,
               shrinkWrap: true,
-            ),));
+            ),)),
 
-          }),
+
         ],
       ),
     );
