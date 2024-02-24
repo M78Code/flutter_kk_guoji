@@ -33,14 +33,23 @@ class KKHomeTopWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(
-              Assets.imagesHomeTopLogo,
-              width: 106.w,
-              height: 33.w,
-            ),
-            Image.asset(
-              Assets.homeAdIcon,
-              height: 22,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  Assets.imagesHomeTopLogo,
+                  width: 106.w,
+                  height: 33.w,
+                ),
+                const SizedBox(width: 5,),
+                SizedBox(
+                  height: 32.w,
+                  child: Image.asset(
+                    Assets.homeZidh,
+                    height: 28.w,
+                  ),
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,

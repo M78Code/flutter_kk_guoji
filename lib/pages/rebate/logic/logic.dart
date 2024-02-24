@@ -7,6 +7,7 @@ import 'package:kkguoji/widget/show_toast.dart';
 
 import '../../../services/http_service.dart';
 import '../../../services/config.dart';
+import '../../../utils/json_util.dart';
 
 class KKRebateLogic extends GetxController {
   //返回类型;
@@ -91,6 +92,7 @@ class KKRebateLogic extends GetxController {
     var bannerResult = await HttpRequest.request(HttpConfig.getBannerList, params: bannerParms);
     if (bannerResult["code"] == 200) {
       bannerList.value = bannerResult["data"];
+      print('返水图片：${JsonUtil.encodeObj(bannerList)}');
     }
   }
 

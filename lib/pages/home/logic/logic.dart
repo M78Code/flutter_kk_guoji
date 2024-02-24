@@ -141,6 +141,7 @@ class HomeLogic extends GetxController {
     getPopupNotice();
     getRecommendGameList();
     getRecommendSportList();
+    getTicketList();
 
     var result =
         await HttpRequest.request(HttpConfig.getMarqueeNotice, method: "get");
@@ -149,26 +150,6 @@ class HomeLogic extends GetxController {
       if (marquees.isNotEmpty) {
         Map m = marquees.first;
         marqueeStr.value = m["content"];
-      }
-    }
-
-    var gameResult =
-        await HttpRequest.request(HttpConfig.getJCPGameList, method: "post");
-    if (gameResult["code"] == 200) {
-      print('xiaoan 首页彩票列表 ${JsonUtil.encodeObj(gameResult['data'])}');
-      JcpGameModel gameModel = JcpGameModel.fromJson(gameResult);
-      List<Datum> gameData = gameModel.data ?? [];
-      if (gameData.isNotEmpty) {
-        List<Datum> newData = gameData.where((element) {
-          String lotteryCode = element.lotteryCode ?? '';
-          return lotteryCode != "HXEB" &&
-              lotteryCode != "QXC" &&
-              lotteryCode != "JNDLHC" &&
-              lotteryCode != "PLS";
-        }).toList();
-        gameList.clear();
-        gameList.addAll(newData);
-        margeData();
       }
     }
 
@@ -193,11 +174,35 @@ class HomeLogic extends GetxController {
     });
     WebSocketUtil().listenNoticeMessage((msg) {
       print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(msg)}');
-      GetGameWinRecent data= GetGameWinRecent.fromJson(msg);
-      winGameList.clear();
-      winGameList.addAll(data.data);
-      print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(winGameList)}');
+      if(msg!=1){
+        GetGameWinRecent data= GetGameWinRecent.fromJson(msg);
+        winGameList.clear();
+        winGameList.addAll(data.data);
+        print('xiaoan 首页跑马灯Socket ${JsonUtil.encodeObj(winGameList)}');
+      }
     });
+  }
+
+  getTicketList() async {
+    var gameResult =
+    await HttpRequest.request(HttpConfig.getJCPGameList, method: "post");
+    if (gameResult["code"] == 200) {
+      print('xiaoan 首页彩票列表 ${JsonUtil.encodeObj(gameResult['data'])}');
+      JcpGameModel gameModel = JcpGameModel.fromJson(gameResult);
+      List<Datum> gameData = gameModel.data ?? [];
+      if (gameData.isNotEmpty) {
+        List<Datum> newData = gameData.where((element) {
+          String lotteryCode = element.lotteryCode ?? '';
+          return lotteryCode != "HXEB" &&
+              lotteryCode != "QXC" &&
+              lotteryCode != "JNDLHC" &&
+              lotteryCode != "PLS";
+        }).toList();
+        gameList.clear();
+        gameList.addAll(newData);
+        margeData();
+      }
+    }
   }
 
   getPopupNotice() async {
@@ -254,6 +259,7 @@ class HomeLogic extends GetxController {
     Map<String, dynamic> params = {"type": "4", 'is_mobile': '1', 'limit': '4'};
     var gameResult = await HttpRequest.request(HttpConfig.getGameList,
         params: params, method: "post");
+    print('xiaoan 首页体育列表 ${JsonUtil.encodeObj(gameResult)}');
     if (gameResult["code"] == 200) {
       RecommendGameModel recommendGameModel =
           RecommendGameModel.fromJson(gameResult);
@@ -327,7 +333,7 @@ class HomeLogic extends GetxController {
       // DateTime fiveSecondsDuration = DateTime.now().add(Duration(seconds: 5));
       // item?.current?.autoCloseDate = fiveSecondsDuration.millisecondsSinceEpoch ~/ 1000;
       // Future.delayed(const Duration(seconds: 5), () {
-        item.current?.status = int.parse(socketModel.status ?? '0');
+        item.current?.status = 0;
         item.isValidity = int.parse(socketModel.isValidity ?? '1');
         item.last?.periodsNumber++;
         item.last?.drawingResult = socketModel.drawingResult;

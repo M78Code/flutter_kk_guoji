@@ -12,6 +12,7 @@ class Assets {
   static const String activityImgComingSoon = 'assets/images/activity/img_coming_soon.png';
   static const String assetsUsdt = 'assets/usdt.mp4';
   static const String audiosWelcome = 'assets/audios/welcome.mp3';
+  static const String flutterProjectAssetsUsdt = 'assets/usdt.mp4';
   static const String fontsDINPro = 'assets/fonts/DIN-Pro.otf';
   static const String fontsDINProBold = 'assets/fonts/DINPro-Bold.otf';
   static const String fontsDINProMedium = 'assets/fonts/DINPro-Medium.otf';
@@ -76,9 +77,9 @@ class Assets {
   static const String homeHuojian = 'assets/images/home/huojian.png';
   static const String homeImageJsFour = 'assets/images/home/image_js_four.png';
   static const String homeImageJsTitleThree = 'assets/images/home/image_js_title_three.png';
+  static const String homeImageTeachEight = 'assets/images/home/image_teach_eight.png';
   static const String homeImageTeachFive = 'assets/images/home/image_teach_five.png';
   static const String homeImageTeachOne = 'assets/images/home/image_teach_one.png';
-  static const String homeImageTeachSeven = 'assets/images/home/image_teach_seven.png';
   static const String homeImageTeachSix = 'assets/images/home/image_teach_six.png';
   static const String homeImageTeachThree = 'assets/images/home/image_teach_three.png';
   static const String homeImageTeachTitleFour = 'assets/images/home/image_teach_title_four.png';
@@ -99,6 +100,7 @@ class Assets {
   static const String homeTutorialVideo = 'assets/images/home/tutorial_video.png';
   static const String homeUjc = 'assets/images/home/ujc.gif';
   static const String homeZhudanIcon = 'assets/images/home/zhudan_icon.png';
+  static const String homeZidh = 'assets/images/home/zidh.gif';
   static const String htmlPrivacy = 'assets/html/privacy.html';
   static const String htmlRegisterProtocol = 'assets/html/register_protocol.html';
   static const String imagesAccountIcon = 'assets/images/account_icon.png';
@@ -212,7 +214,6 @@ class Assets {
   static const String imagesTipStar = 'assets/images/tip_star.png';
   static const String imagesVerCode = 'assets/images/ver_code.png';
   static const String imagesWhatapp = 'assets/images/whatapp.png';
-  static const String kkguojiAssetsUsdt = 'assets/usdt.mp4';
   static const String mineBetListDown = 'assets/images/mine/bet_list_down.png';
   static const String mineBetListLose = 'assets/images/mine/bet_list_lose.png';
   static const String mineBetListPreDraw = 'assets/images/mine/bet_list_pre_draw.png';

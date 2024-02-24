@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kkguoji/common/api/games_api.dart';
 import 'package:kkguoji/utils/json_util.dart';
+import 'package:oktoast/oktoast.dart';
 
 import '../../../common/models/jcp_bet_model.dart';
 import '../../../model/home/base_model.dart';
@@ -28,7 +30,7 @@ class KKHomeTicketItem extends StatefulWidget {
   final ParamSingleCallback<String> openGame;
   ///用户点击行为重置轮播剩余时间为5秒的回调
   late ParamSingleCallback<bool> onUserInteracting;
-  late ParamSingleCallback<bool> showLoading;
+  // late ParamSingleCallback<bool> showLoading;
 
   KKHomeTicketItem({super.key,required this.bgImageStr, required this.logoImageStr,required  this.ballColors,
     required  this.tickInfo,required  this.openGame,required this.onUserInteracting,});
@@ -57,12 +59,22 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   bool isCountdownFinished = false;
   final eventBus = EventBus();
   FocusNode _focusNode = FocusNode();
+  late Connectivity _connectivity;
+  late ConnectivityResult _connectivityResult;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    _connectivity = Connectivity();
+    _connectivityResult = ConnectivityResult.none;
+    _initConnectivity();
+    _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      setState(() {
+        _connectivityResult = result;
+        print('网络状态：${_connectivityResult}');
+      });
+    });
     betList = [];
     // print('已选中列表：${JsonUtil.encodeObj(betList)}');
     _numberController = TextEditingController(text: getDefaultAmount());
@@ -479,7 +491,11 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   }
 
   betGame() async {
-    widget.showLoading(true);
+    if(_connectivityResult==ConnectivityResult.none){
+      ShowToast.showToast('已断开连接，请检查您的网络连接是否正常！');
+      return;
+    }
+    // widget.showLoading(true);
     betList.forEach((element) {
       element.betAmount = _numberController.text;
     });
@@ -488,10 +504,10 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
     if (baseModel?.code == 200) {
       ShowToast.showToast('下注成功');
       userService.fetchUserMoney();
-      widget.showLoading(false);
+      // widget.showLoading(false);
     } else {
       ShowToast.showToast(baseModel!.message);
-      widget.showLoading(false);
+      // widget.showLoading(false);
     }
   }
 
@@ -857,5 +873,17 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
     _numberController.dispose();
     // eventBus.dispose();
     super.dispose();
+  }
+
+  Future<void> _initConnectivity() async {
+    try {
+      var connectivityResult = await _connectivity.checkConnectivity();
+      setState(() {
+        _connectivityResult = connectivityResult;
+        print('网络状态：${_connectivityResult}');
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

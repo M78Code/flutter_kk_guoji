@@ -124,7 +124,7 @@ class MinePage extends GetView<MineLogic> {
           children: [
             Obx(
               () => AvatarWithVip(
-                urlPath: userController.userInfoModel.value?.portrait,
+                urlPath: userController.userInfoModel.value?.portrait ?? '',
               ),
             ),
             const SizedBox(
@@ -194,8 +194,8 @@ class MinePage extends GetView<MineLogic> {
                   final data = await Get.toNamed(
                     Routes.personalInfoPage,
                     arguments: {
-                      "nick": userController.userInfoModel.value?.userNick,
-                      "urlPath": userController.userInfoModel.value?.portrait,
+                      "nick": userController.userInfoModel.value?.userNick ?? '',
+                      "urlPath": userController.userInfoModel.value?.portrait ?? '',
                     },
                   );
                   userController.userInfoModel.value = data;
@@ -886,7 +886,7 @@ class MyAccountInfo extends StatelessWidget {
             ),
             onTap: () {
               RouteUtil.pushToView(Routes.myAccountPage,
-                  arguments: {"urlPath": userController.userInfoModel.value?.portrait});
+                  arguments: {"urlPath": userController.userInfoModel.value?.portrait ?? ''});
             },
           ),
           const Divider(

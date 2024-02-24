@@ -37,7 +37,8 @@ class KKRebatePage extends StatelessWidget {
                           return controller.bannerList.isEmpty?Container(): Swiper(
                             autoplayDisableOnInteraction: false,
                             // autoplay: true,
-                            itemCount: controller.bannerList.length,
+                            physics: controller.bannerList.length>1?null:const NeverScrollableScrollPhysics(),
+                            itemCount: controller.bannerList.length>1?controller.bannerList.length:1,
                             itemBuilder: (BuildContext context, int index) {
                               Map bannerInfo = controller.bannerList[index];
                               if (bannerInfo.isNotEmpty) {

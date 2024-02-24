@@ -8,6 +8,7 @@ import 'package:kkguoji/utils/route_util.dart';
 import '../../../custom_route_observer.dart';
 import '../../../generated/assets.dart';
 import '../../../utils/string_util.dart';
+import '../logic/logic.dart';
 
 class KKHomeBalanceWidget extends StatefulWidget{
   const KKHomeBalanceWidget({super.key});
@@ -21,6 +22,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
   final userService = Get.find<UserService>();
+  final controller = Get.find<HomeLogic>();
 
   @override
   void initState() {
@@ -48,6 +50,16 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // 应用从后台返回到前台时执行的逻辑
+      controller.getTicketList();
+    }
+  }
+
+  @override
   void didPopNext() {
     ///从子页面回到首页时刷新金额
     // if(userService.isLogin){
@@ -55,6 +67,7 @@ class _KKHomeBalanceState extends State<KKHomeBalanceWidget> with SingleTickerPr
     //     userService.fetchUserMoney();
     //   });
     // }
+    controller.getTicketList();
     super.didPopNext();
   }
 

@@ -118,6 +118,7 @@ class ItemLogic extends GetxController {
     betList.forEach((element) {
       element.betAmount = numberController.text;
     });
+
     BaseModel? baseModel =
         await GamesApi.betGame(betList, tickInfo.value.lotteryCode ?? '');
     if (baseModel?.code == 200) {

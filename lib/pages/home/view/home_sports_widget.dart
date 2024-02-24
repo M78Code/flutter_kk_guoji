@@ -72,22 +72,22 @@ class KKHomeSportsWidget extends GetView<HomeLogic> {
           ),
           controller.recommendSportList.isNotEmpty
               ? SizedBox(
-                  height: 380,
+                  height: controller.recommendSportList.length>2?380:190,
                   width: double.infinity,
                   child: Swiper(
                     autoplayDisableOnInteraction: false,
-                    itemCount: 5,
+                    itemCount: 1,
                     itemBuilder: (BuildContext context, int index) {
                       return Obx(() {
                         return Column(
                           children: [
                             Row(
                               children: [
-                                _buildItem(controller.recommendSportList[0].image, controller.recommendSportList[0].name),
+                                controller.recommendSportList.isNotEmpty?_buildItem(controller.recommendSportList[0].image, controller.recommendSportList[0].name):Container(),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                _buildItem(controller.recommendSportList[1].image, controller.recommendSportList[1].name),
+                                controller.recommendSportList.length>1?_buildItem(controller.recommendSportList[1].image, controller.recommendSportList[1].name):Container(),
                               ],
                             ),
                             const SizedBox(
@@ -95,11 +95,11 @@ class KKHomeSportsWidget extends GetView<HomeLogic> {
                             ),
                             Row(
                               children: [
-                                _buildItem(controller.recommendSportList[2].image, controller.recommendSportList[2].name),
+                                controller.recommendSportList.length>2?_buildItem(controller.recommendSportList[2].image, controller.recommendSportList[2].name):Container(),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                _buildItem(controller.recommendSportList[3].image, controller.recommendSportList[3].name),
+                                controller.recommendSportList.length>3?_buildItem(controller.recommendSportList[3].image, controller.recommendSportList[3].name):Container(),
                               ],
                             )
                           ],

@@ -79,7 +79,7 @@ class TutorialImageView extends StatelessWidget {
           const SizedBox(
             height: 34,
           ),
-          Image.asset(Assets.homeImageTeachSeven),
+          Image.asset(Assets.homeImageTeachEight),
           const SizedBox(
             height: 20,
           ),

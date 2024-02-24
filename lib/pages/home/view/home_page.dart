@@ -30,7 +30,7 @@ class KKHomePage extends StatefulWidget {
 }
 
 /// Page - State with AutomaticKeepAliveClientMixin
-class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMixin,RouteAware {
+class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMixin,RouteAware,WidgetsBindingObserver {
   final controller = Get.find<HomeLogic>();
   final globalController = Get.find<UserService>();
 
@@ -38,8 +38,14 @@ class _KKHomeViewState extends State<KKHomePage> with AutomaticKeepAliveClientMi
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
   void didPopNext() {
-    // TODO: implement didPopNext
+    controller.getTicketList();
     super.didPopNext();
   }
 

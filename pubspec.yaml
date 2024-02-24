@@ -67,6 +67,7 @@ dependencies:
   chewie: ^1.7.4 #视频播放插件
   cached_network_image: ^3.3.1
   event_bus: ^2.0.0
+  connectivity: ^3.0.6
   #  amazon_s3_cognito:
 #    git:
 #      url: https://github.com/zhihaozhang/amazon_s3_cognito.git
