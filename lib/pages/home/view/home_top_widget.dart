@@ -42,11 +42,12 @@ class KKHomeTopWidget extends StatelessWidget {
                   height: 33.w,
                 ),
                 const SizedBox(width: 5,),
-                SizedBox(
-                  height: 32.w,
+                Container(
+                  alignment: Alignment.topCenter,
+                  height: 44.w,
                   child: Image.asset(
                     Assets.homeZidh,
-                    height: 28.w,
+                    height: 38.w,
                   ),
                 ),
               ],
