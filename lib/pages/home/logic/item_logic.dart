@@ -69,8 +69,8 @@ class ItemLogic extends GetxController {
   }
 
   bool getTicketState() {
-    print(
-        '开奖状态：${tickInfo.value.lotteryCode} ${tickInfo.value.current!.status}');
+    // print(
+    //     '开奖状态：${tickInfo.value.lotteryCode} ${tickInfo.value.current!.status}');
     if (tickInfo.value.current!.status == 4 ||
         tickInfo.value.current!.status == 10 ||
         tickInfo.value.current!.status == 9 ||

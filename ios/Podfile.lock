@@ -1,6 +1,9 @@
 PODS:
   - audio_session (0.0.1):
     - Flutter
+  - connectivity (0.0.1):
+    - Flutter
+    - Reachability
   - device_info_plus (0.0.1):
     - Flutter
   - fk_user_agent (2.0.0):
@@ -50,6 +53,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - Reachability (3.2)
   - SDWebImage (5.18.8):
     - SDWebImage/Core (= 5.18.8)
   - SDWebImage/Core (5.18.8)
@@ -77,6 +81,7 @@ PODS:
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
+  - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - fk_user_agent (from `.symlinks/plugins/fk_user_agent/ios`)
   - Flutter (from `Flutter`)
@@ -102,6 +107,7 @@ SPEC REPOS:
     - libwebp
     - Mantle
     - OrderedSet
+    - Reachability
     - SDWebImage
     - SDWebImageWebPCoder
     - Toast
@@ -109,6 +115,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   audio_session:
     :path: ".symlinks/plugins/audio_session/ios"
+  connectivity:
+    :path: ".symlinks/plugins/connectivity/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   fk_user_agent:
@@ -150,6 +158,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
+  connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   fk_user_agent: 1f47ec39291e8372b1d692b50084b0d54103c545
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
@@ -165,6 +174,7 @@ SPEC CHECKSUMS:
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: a81bbb3ba4ea5f810f4069c68727cb118467a04a
   SDWebImageWebPCoder: 633b813fca24f1de5e076bcd7f720c038b23892b
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695

@@ -769,8 +769,8 @@ class _KKHomeTicketItemState extends State<KKHomeTicketItem>
   }
 
   bool getTicketState() {
-    print(
-        '开奖状态：${widget.tickInfo.lotteryCode} ${widget.tickInfo.current!.status}');
+    // print(
+    //     '开奖状态：${widget.tickInfo.lotteryCode} ${widget.tickInfo.current!.status}');
     if (widget.tickInfo.current!.status == 4 ||
         widget.tickInfo.current!.status == 10 ||
         widget.tickInfo.current!.status == 9 ||
